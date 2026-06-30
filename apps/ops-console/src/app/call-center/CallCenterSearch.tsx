@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase-browser";
 
 type Lease = {
@@ -16,9 +16,16 @@ type Lease = {
 type Category = { id: string; name: string };
 type Subissue = { id: string; name: string; category_id: string };
 
-export default function CallCenterSearch({ agentId }: { agentId: string }) {
-  const [query, setQuery] = useState("");
+export default function CallCenterSearch({
+  agentId,
+  initialPhone,
+}: {
+  agentId: string;
+  initialPhone?: string;
+}) {
+  const [query, setQuery] = useState(initialPhone ?? "");
   const [results, setResults] = useState<Lease[]>([]);
+  const [searched, setSearched] = useState(false);
   const [selected, setSelected] = useState<Lease | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subissues, setSubissues] = useState<Subissue[]>([]);
@@ -28,16 +35,54 @@ export default function CallCenterSearch({ agentId }: { agentId: string }) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  const runSearch = useCallback(async (term: string) => {
+    if (!term.trim()) return;
+    const supabase = createClient();
+    const isPhone = /^[\d+\s-]+$/.test(term.trim());
+
+    if (isPhone) {
+      // Phone-based lookup — this is what a CTI screen-pop URL (e.g. from
+      // Vocalcom's toolbar) drives: ?phone=<callerNumber> on page load.
+      const { data: profiles } = await supabase
+        .from("user_profiles")
+        .select("id")
+        .ilike("phone", `%${term.trim()}%`);
+      const ids = (profiles ?? []).map((p) => p.id);
+      if (ids.length === 0) {
+        setResults([]);
+        setSearched(true);
+        return;
+      }
+      const { data } = await supabase
+        .from("leases")
+        .select(
+          "id, unit_id, primary_resident_id, tenant_full_name, occupant_count, units(label, property_id, properties(name)), user_profiles(id, full_name, phone)"
+        )
+        .eq("status", "active")
+        .in("primary_resident_id", ids)
+        .limit(10);
+      setResults((data as unknown as Lease[]) ?? []);
+    } else {
+      const { data } = await supabase
+        .from("leases")
+        .select(
+          "id, unit_id, primary_resident_id, tenant_full_name, occupant_count, units(label, property_id, properties(name)), user_profiles(id, full_name, phone)"
+        )
+        .eq("status", "active")
+        .ilike("tenant_full_name", `%${term.trim()}%`)
+        .limit(10);
+      setResults((data as unknown as Lease[]) ?? []);
+    }
+    setSearched(true);
+  }, []);
+
+  useEffect(() => {
+    if (initialPhone) runSearch(initialPhone);
+  }, [initialPhone, runSearch]);
+
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("leases")
-      .select("id, unit_id, primary_resident_id, tenant_full_name, occupant_count, units(label, property_id, properties(name)), user_profiles(id, full_name, phone)")
-      .eq("status", "active")
-      .or(`tenant_full_name.ilike.%${query}%`)
-      .limit(10);
-    setResults((data as unknown as Lease[]) ?? []);
+    await runSearch(query);
   }
 
   async function selectLease(lease: Lease) {
@@ -87,10 +132,15 @@ export default function CallCenterSearch({ agentId }: { agentId: string }) {
 
   return (
     <div className="max-w-2xl">
+      {initialPhone && (
+        <div className="bg-blue-950 border border-blue-700 rounded-lg p-3 mb-4 text-sm">
+          Incoming call from <strong>{initialPhone}</strong> — auto-matched below.
+        </div>
+      )}
       <form onSubmit={handleSearch} className="flex gap-2 mb-6">
         <input
           className="flex-1 bg-[#162335] rounded-lg p-3 text-sm"
-          placeholder="Search by resident name..."
+          placeholder="Search by resident name or phone number..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -114,6 +164,9 @@ export default function CallCenterSearch({ agentId }: { agentId: string }) {
               {r.user_profiles?.phone && <p className="text-xs text-gray-500">{r.user_profiles.phone}</p>}
             </li>
           ))}
+          {searched && results.length === 0 && (
+            <p className="text-gray-500 text-sm">No matching resident found.</p>
+          )}
         </ul>
       )}
 
