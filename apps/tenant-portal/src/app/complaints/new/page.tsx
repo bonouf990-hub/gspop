@@ -69,9 +69,9 @@ export default function NewComplaintPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0B1320] text-white p-6 pb-24">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6 pb-24">
       <h1 className="text-xl font-bold mb-1">Report an Issue</h1>
-      <p className="text-sm text-gray-400 mb-6">Select what's wrong — we'll route it to the right technician.</p>
+      <p className="text-sm text-[var(--muted)] mb-6">Select what's wrong — we'll route it to the right technician.</p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-2 gap-3">
@@ -82,8 +82,8 @@ export default function NewComplaintPage() {
               onClick={() => setCategoryId(cat.id)}
               className={`rounded-2xl p-4 text-center border transition-colors ${
                 categoryId === cat.id
-                  ? "bg-amber-600 border-amber-400"
-                  : "bg-[#162335] border-transparent hover:border-[#2a3b54]"
+                  ? "bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white border-[var(--gold)]"
+                  : "bg-white border border-[var(--hairline)] border-transparent hover:border-[#2a3b54]"
               }`}
             >
               <p className="text-2xl mb-1">{CATEGORY_ICONS[cat.name] ?? "🛠️"}</p>
@@ -91,12 +91,12 @@ export default function NewComplaintPage() {
             </button>
           ))}
           {categories.length === 0 && (
-            <p className="col-span-2 text-gray-500 text-sm">Loading categories…</p>
+            <p className="col-span-2 text-[var(--muted)] text-sm">Loading categories…</p>
           )}
         </div>
 
         <textarea
-          className="w-full bg-[#162335] rounded-lg p-3 h-28"
+          className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3 h-28"
           placeholder="Add a few details (optional)..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -104,7 +104,7 @@ export default function NewComplaintPage() {
 
         <button
           type="button"
-          className="w-full bg-[#1d2940] rounded-lg p-3 text-gray-300"
+          className="w-full bg-[var(--gold-pale)] text-[var(--navy)] rounded-lg p-3 text-[var(--navy)]"
           onClick={() => alert("Photo capture wires to the device camera once deployed.")}
         >
           📷 Attach Photo
@@ -113,7 +113,7 @@ export default function NewComplaintPage() {
         <button
           type="submit"
           disabled={submitting || !categoryId}
-          className="w-full bg-amber-600 rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-lg p-3 font-semibold disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Submit Request"}
         </button>

@@ -42,13 +42,13 @@ export default function InviteGuestPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0B1320] text-white p-6">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
       <h1 className="text-xl font-bold mb-1">Invite Guest</h1>
-      <p className="text-sm text-gray-400 mb-6">Security will let them in within this window.</p>
+      <p className="text-sm text-[var(--muted)] mb-6">Security will let them in within this window.</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
-          className="w-full bg-[#162335] rounded-lg p-3"
+          className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
           placeholder="Guest name"
           value={guestName}
           onChange={(e) => setGuestName(e.target.value)}
@@ -56,10 +56,10 @@ export default function InviteGuestPage() {
         />
 
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Arrives after</label>
+          <label className="text-xs text-[var(--muted)] mb-1 block">Arrives after</label>
           <input
             type="datetime-local"
-            className="w-full bg-[#162335] rounded-lg p-3"
+            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
             value={windowStart}
             onChange={(e) => setWindowStart(e.target.value)}
             required
@@ -67,10 +67,10 @@ export default function InviteGuestPage() {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Until</label>
+          <label className="text-xs text-[var(--muted)] mb-1 block">Until</label>
           <input
             type="datetime-local"
-            className="w-full bg-[#162335] rounded-lg p-3"
+            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
             value={windowEnd}
             onChange={(e) => setWindowEnd(e.target.value)}
             required
@@ -80,7 +80,7 @@ export default function InviteGuestPage() {
         <button
           type="submit"
           disabled={submitting || !guestName}
-          className="w-full bg-amber-600 rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-lg p-3 font-semibold disabled:opacity-40"
         >
           {submitting ? "Inviting..." : "Invite Guest"}
         </button>

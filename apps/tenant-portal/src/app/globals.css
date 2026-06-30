@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0e18;
-  --foreground: #f4efe6;
-  --gold: #c9a227;
-  --gold-soft: #e3c869;
-  --navy-card: #131a2b;
-  --navy-card-2: #1a2238;
-  --hairline: rgba(244, 239, 230, 0.08);
+  --background: #faf8f4;
+  --foreground: #1a2238;
+  --navy: #1a2238;
+  --navy-deep: #0f1626;
+  --gold: #b8902f;
+  --gold-soft: #d4af5a;
+  --gold-pale: #f3e6c8;
+  --card: #ffffff;
+  --muted: #8a8478;
+  --hairline: rgba(26, 34, 56, 0.08);
 }
 
 @theme inline {
@@ -15,7 +18,7 @@
   --color-foreground: var(--foreground);
   --color-gold: var(--gold);
   --color-gold-soft: var(--gold-soft);
-  --color-navy-card: var(--navy-card);
+  --color-navy: var(--navy);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 }
@@ -30,14 +33,20 @@ body {
   font-family: var(--font-display), Georgia, serif;
 }
 
-.glass-card {
-  background: linear-gradient(160deg, rgba(26, 34, 56, 0.85), rgba(19, 26, 43, 0.92));
-  backdrop-filter: blur(16px);
+.elevated-card {
+  background: var(--card);
   border: 1px solid var(--hairline);
+  box-shadow: 0 1px 2px rgba(26, 34, 56, 0.04), 0 8px 24px rgba(26, 34, 56, 0.06);
+}
+
+.glass-card-dark {
+  background: linear-gradient(160deg, rgba(26, 34, 56, 0.9), rgba(15, 22, 38, 0.95));
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .gold-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity: 0.5;
+  opacity: 0.6;
 }

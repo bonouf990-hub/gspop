@@ -29,19 +29,19 @@ export default async function RentPage() {
   const invoices = await getMyInvoices();
 
   return (
-    <main className="min-h-screen bg-[#0B1320] text-white p-6">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
       <h1 className="text-xl font-bold mb-4">Rent & Payments</h1>
       <ul className="space-y-3">
         {invoices.map((i) => (
-          <li key={i.id} className="bg-[#162335] rounded-xl p-4 flex justify-between">
+          <li key={i.id} className="bg-white border border-[var(--hairline)] rounded-xl p-4 flex justify-between">
             <div>
               <p className="font-medium">{i.amount}</p>
-              <p className="text-sm text-gray-400">Due {i.dueDate}</p>
+              <p className="text-sm text-[var(--muted)]">Due {i.dueDate}</p>
             </div>
             <p className={`font-medium ${statusColor(i.status)}`}>{i.status}</p>
           </li>
         ))}
-        {invoices.length === 0 && <p className="text-gray-500">No invoices yet.</p>}
+        {invoices.length === 0 && <p className="text-[var(--muted)]">No invoices yet.</p>}
       </ul>
     </main>
   );

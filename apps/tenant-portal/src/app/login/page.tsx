@@ -27,27 +27,27 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+    <main className="min-h-screen flex flex-col bg-[var(--background)]">
       <div
-        className="absolute inset-0"
-        style={{ background: "radial-gradient(circle at 50% 0%, #1a2845 0%, #0A0E18 65%)" }}
-      />
-      <form onSubmit={handleSubmit} className="relative w-full max-w-sm">
-        <div className="text-center mb-10">
-          <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold-soft)] mb-2">
+        className="h-56 w-full flex items-end p-8 rounded-b-[32px]"
+        style={{ background: "radial-gradient(circle at 25% 15%, #2b3a5e 0%, #0F1626 75%)" }}
+      >
+        <div>
+          <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold-soft)] font-medium mb-2">
             Golden Sands Residences
           </p>
-          <h1 className="font-display text-3xl font-semibold">Welcome Home</h1>
-          <div className="gold-divider w-20 mx-auto mt-4" />
+          <h1 className="font-display text-white text-3xl font-semibold">Welcome Home</h1>
         </div>
+      </div>
 
-        <div className="glass-card rounded-2xl p-6 space-y-4 shadow-2xl shadow-black/40">
+      <form onSubmit={handleSubmit} className="flex-1 px-6 -mt-6">
+        <div className="elevated-card rounded-2xl p-6 space-y-4">
           <div>
-            <label className="text-[10px] tracking-[0.15em] uppercase text-[#8B94A8] mb-1.5 block">
+            <label className="text-[10px] tracking-[0.15em] uppercase text-[var(--muted)] mb-1.5 block">
               Email
             </label>
             <input
-              className="w-full bg-[#0A0E18] border border-[var(--hairline)] rounded-xl p-3 text-sm focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#FAF8F4] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)] focus:border-[var(--gold)] outline-none transition-colors"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -55,22 +55,22 @@ export default function LoginPage() {
             />
           </div>
           <div>
-            <label className="text-[10px] tracking-[0.15em] uppercase text-[#8B94A8] mb-1.5 block">
+            <label className="text-[10px] tracking-[0.15em] uppercase text-[var(--muted)] mb-1.5 block">
               Password
             </label>
             <input
-              className="w-full bg-[#0A0E18] border border-[var(--hairline)] rounded-xl p-3 text-sm focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#FAF8F4] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)] focus:border-[var(--gold)] outline-none transition-colors"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          {error && <p className="text-red-400 text-xs">{error}</p>}
+          {error && <p className="text-red-500 text-xs">{error}</p>}
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0A0E18] rounded-xl p-3 font-semibold text-sm disabled:opacity-50 transition-opacity"
+            className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3 font-semibold text-sm disabled:opacity-50 transition-opacity"
           >
             {submitting ? "Signing in..." : "Sign In"}
           </button>

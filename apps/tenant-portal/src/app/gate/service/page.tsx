@@ -46,9 +46,9 @@ export default function NotifyServicePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0B1320] text-white p-6">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
       <h1 className="text-xl font-bold mb-1">Notify Service</h1>
-      <p className="text-sm text-gray-400 mb-6">Let security know a provider is expected.</p>
+      <p className="text-sm text-[var(--muted)] mb-6">Let security know a provider is expected.</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-2">
@@ -58,7 +58,7 @@ export default function NotifyServicePage() {
               type="button"
               onClick={() => setProvider(p)}
               className={`rounded-xl p-3 text-sm font-medium border ${
-                provider === p ? "bg-amber-600 border-amber-400" : "bg-[#162335] border-transparent"
+                provider === p ? "bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white border-[var(--gold)]" : "bg-white border border-[var(--hairline)] border-transparent"
               }`}
             >
               {p}
@@ -67,10 +67,10 @@ export default function NotifyServicePage() {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Expected after</label>
+          <label className="text-xs text-[var(--muted)] mb-1 block">Expected after</label>
           <input
             type="datetime-local"
-            className="w-full bg-[#162335] rounded-lg p-3"
+            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
             value={windowStart}
             onChange={(e) => setWindowStart(e.target.value)}
             required
@@ -78,10 +78,10 @@ export default function NotifyServicePage() {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Until</label>
+          <label className="text-xs text-[var(--muted)] mb-1 block">Until</label>
           <input
             type="datetime-local"
-            className="w-full bg-[#162335] rounded-lg p-3"
+            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
             value={windowEnd}
             onChange={(e) => setWindowEnd(e.target.value)}
             required
@@ -91,7 +91,7 @@ export default function NotifyServicePage() {
         <button
           type="submit"
           disabled={submitting || !provider}
-          className="w-full bg-amber-600 rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-lg p-3 font-semibold disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Notify Service"}
         </button>

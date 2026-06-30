@@ -2,39 +2,36 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Home, KeyRound, ClipboardList, CreditCard } from "lucide-react";
 
 const NAV_ITEMS = [
-  { href: "/", label: "Home", icon: "⌂" },
-  { href: "/gate", label: "Gate", icon: "⚿" },
-  { href: "/complaints", label: "Requests", icon: "▤" },
-  { href: "/rent", label: "Rent", icon: "◈" },
+  { href: "/", label: "Home", Icon: Home },
+  { href: "/gate", label: "Gate", Icon: KeyRound },
+  { href: "/complaints", label: "Requests", Icon: ClipboardList },
+  { href: "/rent", label: "Rent", Icon: CreditCard },
 ];
 
 export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-30 px-4 pb-4 pt-2">
-      <div className="glass-card mx-auto max-w-md rounded-2xl shadow-2xl shadow-black/40 flex items-center justify-around py-2">
-        {NAV_ITEMS.map((item) => {
-          const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href);
+    <nav className="fixed bottom-0 left-0 right-0 z-30 px-4 pb-5 pt-2">
+      <div className="elevated-card mx-auto max-w-md rounded-[28px] flex items-center justify-around py-2.5">
+        {NAV_ITEMS.map(({ href, label, Icon }) => {
+          const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-colors"
-            >
-              <span
-                className={`text-lg leading-none ${active ? "text-[var(--gold)]" : "text-[#8B94A8]"}`}
-              >
-                {item.icon}
-              </span>
+            <Link key={href} href={href} className="flex flex-col items-center gap-1 px-4 py-1">
+              <Icon
+                size={20}
+                strokeWidth={active ? 2.4 : 1.8}
+                className={active ? "text-[var(--gold)]" : "text-[#9A9486]"}
+              />
               <span
                 className={`text-[10px] tracking-wide ${
-                  active ? "text-[var(--gold-soft)] font-medium" : "text-[#6B7488]"
+                  active ? "text-[var(--navy)] font-semibold" : "text-[#9A9486]"
                 }`}
               >
-                {item.label}
+                {label}
               </span>
             </Link>
           );

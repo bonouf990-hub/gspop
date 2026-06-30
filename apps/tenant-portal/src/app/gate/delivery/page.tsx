@@ -50,9 +50,9 @@ export default function AllowDeliveryPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0B1320] text-white p-6">
+    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
       <h1 className="text-xl font-bold mb-1">Allow Delivery</h1>
-      <p className="text-sm text-gray-400 mb-6">Select the courier and a delivery window.</p>
+      <p className="text-sm text-[var(--muted)] mb-6">Select the courier and a delivery window.</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-3 gap-2">
@@ -62,7 +62,7 @@ export default function AllowDeliveryPage() {
               type="button"
               onClick={() => setBrand(b)}
               className={`rounded-xl p-3 text-sm font-medium border ${
-                brand === b ? "bg-amber-600 border-amber-400" : "bg-[#162335] border-transparent"
+                brand === b ? "bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white border-[var(--gold)]" : "bg-white border border-[var(--hairline)] border-transparent"
               }`}
             >
               {b}
@@ -71,10 +71,10 @@ export default function AllowDeliveryPage() {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Expected after</label>
+          <label className="text-xs text-[var(--muted)] mb-1 block">Expected after</label>
           <input
             type="datetime-local"
-            className="w-full bg-[#162335] rounded-lg p-3"
+            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
             value={windowStart}
             onChange={(e) => setWindowStart(e.target.value)}
             required
@@ -82,17 +82,17 @@ export default function AllowDeliveryPage() {
         </div>
 
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Until</label>
+          <label className="text-xs text-[var(--muted)] mb-1 block">Until</label>
           <input
             type="datetime-local"
-            className="w-full bg-[#162335] rounded-lg p-3"
+            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
             value={windowEnd}
             onChange={(e) => setWindowEnd(e.target.value)}
             required
           />
         </div>
 
-        <label className="flex items-center justify-between bg-[#162335] rounded-lg p-3">
+        <label className="flex items-center justify-between bg-white border border-[var(--hairline)] rounded-lg p-3">
           <span className="text-sm">Leave with security if I'm not home</span>
           <input
             type="checkbox"
@@ -105,7 +105,7 @@ export default function AllowDeliveryPage() {
         <button
           type="submit"
           disabled={submitting || !brand}
-          className="w-full bg-amber-600 rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-lg p-3 font-semibold disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Allow Delivery"}
         </button>
