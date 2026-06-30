@@ -6,12 +6,9 @@ import {
   type Lease,
   type RentInvoice,
   type Unit,
-  type UnitPhoto,
 } from "@gspop/shared";
+import BottomNav from "@/components/BottomNav";
 
-// RLS on `leases` and `rent_invoices` already restricts a resident to their
-// own rows — this query is identical for every tenant, the database enforces
-// "you only see your own apartment," not app code.
 async function getMyApartment() {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -53,11 +50,10 @@ async function getMyApartment() {
 }
 
 const QUICK_ACTIONS = [
-  { href: "/gate", icon: "🚪", label: "Gate" },
-  { href: "/complaints/new", icon: "🛠️", label: "Report an Issue" },
-  { href: "/complaints", icon: "📋", label: "My Requests" },
-  { href: "/rent", icon: "💳", label: "Rent & Payments" },
-  { href: "/notices", icon: "📣", label: "Building Notices" },
+  { href: "/gate", icon: "⚿", label: "Gate" },
+  { href: "/complaints/new", icon: "✦", label: "Report an Issue" },
+  { href: "/complaints", icon: "▤", label: "My Requests" },
+  { href: "/notices", icon: "♫", label: "Notices" },
 ];
 
 export default async function HomePage() {
@@ -65,7 +61,7 @@ export default async function HomePage() {
 
   if (!data) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-6 bg-[#0B1320] text-white">
+      <main className="min-h-screen flex items-center justify-center p-6 bg-[#0A0E18] text-[#F4EFE6]">
         <p className="text-gray-500 text-center">No active lease found for your account.</p>
       </main>
     );
@@ -75,87 +71,112 @@ export default async function HomePage() {
   const rentDue = nextInvoice && (nextInvoice.status === "pending" || nextInvoice.status === "overdue");
 
   return (
-    <main className="min-h-screen bg-[#0B1320] text-white pb-24">
-      {/* Hero: real apartment photo when available, otherwise a warm gradient */}
+    <main className="min-h-screen pb-32">
+      {/* Hero */}
       <div
-        className="relative h-56 w-full bg-cover bg-center"
+        className="relative h-72 w-full bg-cover bg-center"
         style={{
           backgroundImage: photoUrl
-            ? `linear-gradient(to top, rgba(11,19,32,0.95), rgba(11,19,32,0.15)), url(${photoUrl})`
-            : "linear-gradient(135deg, #1d3a63 0%, #0B1320 100%)",
+            ? `linear-gradient(to top, #0A0E18 0%, rgba(10,14,24,0.25) 60%, rgba(10,14,24,0.05) 100%), url(${photoUrl})`
+            : "radial-gradient(circle at 30% 20%, #2a3a5c 0%, #0A0E18 70%)",
         }}
       >
-        {!photoUrl && (
-          <div className="absolute inset-0 flex items-center justify-center opacity-20 text-8xl">🏢</div>
-        )}
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <p className="text-sm text-blue-200">Welcome home</p>
-          <h1 className="text-3xl font-bold tracking-tight">{unit?.label ?? "Your Apartment"}</h1>
+        <div className="absolute inset-0 flex flex-col justify-between p-6">
+          <div className="flex justify-between items-start">
+            <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--gold-soft)]">
+              Golden Sands Residences
+            </span>
+          </div>
+          <div>
+            <p className="text-xs tracking-[0.2em] uppercase text-[#B9C0D0] mb-1">Welcome home</p>
+            <h1 className="font-display text-4xl font-semibold tracking-tight">{unit?.label ?? "—"}</h1>
+            <div className="gold-divider w-16 mt-3" />
+          </div>
         </div>
       </div>
 
-      <div className="px-4 -mt-2 relative z-10">
+      <div className="px-5 -mt-8 relative z-10 space-y-5">
         {rentDue && (
           <Link
             href="/rent"
-            className={`mb-4 flex items-center justify-between rounded-2xl p-4 shadow-lg ${
-              nextInvoice!.status === "overdue" ? "bg-red-600" : "bg-amber-600"
-            }`}
+            className="glass-card rounded-2xl p-5 flex items-center justify-between shadow-xl shadow-black/30"
           >
             <div>
-              <p className="font-semibold">
-                {nextInvoice!.status === "overdue" ? "Rent overdue" : "Rent due"}
+              <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold-soft)] mb-1">
+                {nextInvoice!.status === "overdue" ? "Payment Overdue" : "Payment Due"}
               </p>
-              <p className="text-sm opacity-90">
-                {nextInvoice!.amount} AED due {nextInvoice!.dueDate}
-              </p>
+              <p className="font-display text-2xl">{nextInvoice!.amount} AED</p>
+              <p className="text-xs text-[#8B94A8] mt-0.5">by {nextInvoice!.dueDate}</p>
             </div>
-            <span className="text-2xl">→</span>
+            <span className="text-[var(--gold)] text-xl">→</span>
           </Link>
         )}
 
-        <div className="grid grid-cols-2 gap-3">
-          {QUICK_ACTIONS.map((action) => (
-            <Link
-              key={action.href}
-              href={action.href}
-              className="bg-[#162335] rounded-2xl p-5 text-center hover:bg-[#1c2c45] transition-colors"
-            >
-              <p className="text-3xl mb-2">{action.icon}</p>
-              <p className="font-medium text-sm">{action.label}</p>
-            </Link>
-          ))}
+        <div>
+          <div className="grid grid-cols-4 gap-3">
+            {QUICK_ACTIONS.map((action) => (
+              <Link key={action.href} href={action.href} className="flex flex-col items-center gap-2">
+                <span className="w-14 h-14 rounded-full glass-card flex items-center justify-center text-xl text-[var(--gold)]">
+                  {action.icon}
+                </span>
+                <span className="text-[10px] text-center text-[#B9C0D0] leading-tight">{action.label}</span>
+              </Link>
+            ))}
+          </div>
         </div>
 
-        <section className="mt-6 bg-[#162335] rounded-2xl p-5">
-          <h2 className="font-semibold mb-4">My Apartment</h2>
-          <div className="grid grid-cols-3 gap-3 mb-4 text-center">
-            <div className="bg-[#0B1320] rounded-xl p-3">
-              <p className="text-lg font-bold">{unit?.bedrooms ?? "—"}</p>
-              <p className="text-xs text-gray-400">Bedrooms</p>
+        <section className="glass-card rounded-2xl p-6">
+          <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold-soft)] mb-4">
+            Residence Details
+          </p>
+          <div className="grid grid-cols-3 gap-3 mb-5">
+            <div className="text-center">
+              <p className="font-display text-2xl">{unit?.bedrooms ?? "—"}</p>
+              <p className="text-[10px] text-[#8B94A8] uppercase tracking-wide mt-1">Bedrooms</p>
             </div>
-            <div className="bg-[#0B1320] rounded-xl p-3">
-              <p className="text-lg font-bold">{unit?.bathrooms ?? "—"}</p>
-              <p className="text-xs text-gray-400">Bathrooms</p>
+            <div className="text-center border-x border-[var(--hairline)]">
+              <p className="font-display text-2xl">{unit?.bathrooms ?? "—"}</p>
+              <p className="text-[10px] text-[#8B94A8] uppercase tracking-wide mt-1">Bathrooms</p>
             </div>
-            <div className="bg-[#0B1320] rounded-xl p-3">
-              <p className="text-lg font-bold">{unit?.sizeSqm ?? "—"}</p>
-              <p className="text-xs text-gray-400">sqm</p>
+            <div className="text-center">
+              <p className="font-display text-2xl">{unit?.sizeSqm ?? "—"}</p>
+              <p className="text-[10px] text-[#8B94A8] uppercase tracking-wide mt-1">Sq. Meters</p>
             </div>
           </div>
-          <p className="text-sm text-gray-300">Occupants: {lease.occupantCount}</p>
-          <p className="text-sm text-gray-300 mt-1">Parking: {lease.parkingSpaceLabel ?? "Not assigned"}</p>
-          <p className="text-sm text-gray-400 mt-4 mb-2">Equipment</p>
-          <ul className="space-y-1">
-            {assets.map((a) => (
-              <li key={a.id} className="text-sm text-gray-300 flex items-center gap-2">
-                <span className="text-gray-500">•</span> {a.name}
-              </li>
-            ))}
-            {assets.length === 0 && <li className="text-sm text-gray-500">None registered</li>}
-          </ul>
+
+          <div className="gold-divider mb-4" />
+
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span className="text-[#8B94A8]">Occupants</span>
+              <span>{lease.occupantCount}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-[#8B94A8]">Parking</span>
+              <span>{lease.parkingSpaceLabel ?? "Not assigned"}</span>
+            </div>
+          </div>
+
+          {assets.length > 0 && (
+            <>
+              <div className="gold-divider my-4" />
+              <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold-soft)] mb-3">
+                In-Residence Equipment
+              </p>
+              <ul className="space-y-2">
+                {assets.map((a) => (
+                  <li key={a.id} className="flex items-center gap-2 text-sm text-[#D8DCE6]">
+                    <span className="w-1 h-1 rounded-full bg-[var(--gold)]" />
+                    {a.name}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </section>
       </div>
+
+      <BottomNav />
     </main>
   );
 }

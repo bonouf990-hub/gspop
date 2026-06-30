@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0e18;
+  --foreground: #f4efe6;
+  --gold: #c9a227;
+  --gold-soft: #e3c869;
+  --navy-card: #131a2b;
+  --navy-card-2: #1a2238;
+  --hairline: rgba(244, 239, 230, 0.08);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-navy-card: var(--navy-card);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.glass-card {
+  background: linear-gradient(160deg, rgba(26, 34, 56, 0.85), rgba(19, 26, 43, 0.92));
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--hairline);
+}
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.5;
 }
