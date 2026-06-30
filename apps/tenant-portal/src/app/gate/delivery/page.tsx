@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 import { getResidentContext } from "@/lib/residentContext";
 
@@ -50,62 +52,96 @@ export default function AllowDeliveryPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
-      <h1 className="text-xl font-bold mb-1">Allow Delivery</h1>
-      <p className="text-sm text-[var(--muted)] mb-6">Select the courier and a delivery window.</p>
+    <main className="min-h-screen bg-[var(--background)] pb-10">
+      <div className="px-6 pt-10 pb-6">
+        <Link href="/gate" className="inline-flex items-center text-[var(--muted)] text-sm mb-4">
+          <ChevronLeft size={16} /> Gate
+        </Link>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
+          Pre-Authorize
+        </p>
+        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Allow Delivery</h1>
+        <p className="text-sm text-[var(--muted)] mt-1">Select the courier and a delivery window.</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-3 gap-2">
-          {DELIVERY_BRANDS.map((b) => (
+      <form onSubmit={handleSubmit} className="px-5 space-y-5">
+        <div className="elevated-card rounded-2xl p-5">
+          <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-4">
+            Courier
+          </p>
+          <div className="grid grid-cols-2 gap-2.5">
+            {DELIVERY_BRANDS.map((b) => (
+              <button
+                key={b}
+                type="button"
+                onClick={() => setBrand(b)}
+                className={`flex items-center gap-2.5 rounded-xl p-3 text-sm font-medium border transition-colors ${
+                  brand === b
+                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#8a6a1f]"
+                    : "bg-[var(--background)] border-[var(--hairline)] text-[var(--navy)]"
+                }`}
+              >
+                <span
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-semibold ${
+                    brand === b ? "bg-[var(--gold)] text-white" : "bg-white text-[var(--muted)]"
+                  }`}
+                >
+                  {b[0]}
+                </span>
+                {b}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="elevated-card rounded-2xl p-5 space-y-4">
+          <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold">
+            Delivery Window
+          </p>
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Expected after</label>
+            <input
+              type="datetime-local"
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              value={windowStart}
+              onChange={(e) => setWindowStart(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Until</label>
+            <input
+              type="datetime-local"
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              value={windowEnd}
+              onChange={(e) => setWindowEnd(e.target.value)}
+              required
+            />
+          </div>
+          <label className="flex items-center justify-between pt-1 cursor-pointer">
+            <span className="text-sm text-[var(--navy)]">Leave with security if I'm not home</span>
             <button
-              key={b}
               type="button"
-              onClick={() => setBrand(b)}
-              className={`rounded-xl p-3 text-sm font-medium border ${
-                brand === b ? "bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white border-[var(--gold)]" : "bg-white border border-[var(--hairline)] border-transparent"
+              role="switch"
+              aria-checked={leaveWithSecurity}
+              onClick={() => setLeaveWithSecurity((v) => !v)}
+              className={`w-11 h-6 rounded-full relative transition-colors ${
+                leaveWithSecurity ? "bg-[var(--gold)]" : "bg-[var(--hairline)]"
               }`}
             >
-              {b}
+              <span
+                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                  leaveWithSecurity ? "translate-x-[22px]" : "translate-x-0.5"
+                }`}
+              />
             </button>
-          ))}
+          </label>
         </div>
-
-        <div>
-          <label className="text-xs text-[var(--muted)] mb-1 block">Expected after</label>
-          <input
-            type="datetime-local"
-            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
-            value={windowStart}
-            onChange={(e) => setWindowStart(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label className="text-xs text-[var(--muted)] mb-1 block">Until</label>
-          <input
-            type="datetime-local"
-            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
-            value={windowEnd}
-            onChange={(e) => setWindowEnd(e.target.value)}
-            required
-          />
-        </div>
-
-        <label className="flex items-center justify-between bg-white border border-[var(--hairline)] rounded-lg p-3">
-          <span className="text-sm">Leave with security if I'm not home</span>
-          <input
-            type="checkbox"
-            checked={leaveWithSecurity}
-            onChange={(e) => setLeaveWithSecurity(e.target.checked)}
-            className="w-5 h-5"
-          />
-        </label>
 
         <button
           type="submit"
           disabled={submitting || !brand}
-          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Allow Delivery"}
         </button>

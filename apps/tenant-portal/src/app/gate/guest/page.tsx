@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ChevronLeft, IdCard } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 import { getResidentContext } from "@/lib/residentContext";
 
@@ -14,6 +16,8 @@ function nowLocalInputValue(offsetMinutes = 0) {
 export default function InviteGuestPage() {
   const router = useRouter();
   const [guestName, setGuestName] = useState("");
+  const [emiratesId, setEmiratesId] = useState("");
+  const [idPhotoCaptured, setIdPhotoCaptured] = useState(false);
   const [windowStart, setWindowStart] = useState(nowLocalInputValue());
   const [windowEnd, setWindowEnd] = useState(nowLocalInputValue(8 * 60));
   const [submitting, setSubmitting] = useState(false);
@@ -24,63 +28,120 @@ export default function InviteGuestPage() {
     const supabase = createClient();
     const ctx = await getResidentContext();
 
-    await supabase.from("visitors").insert({
-      tenant_id: ctx.tenantId,
-      property_id: ctx.propertyId,
-      unit_id: ctx.unitId,
-      full_name: guestName,
-      purpose: "guest",
-      host_resident_id: ctx.residentId,
-      hosted_by_approved: true,
-      expected_window_start: new Date(windowStart).toISOString(),
-      expected_window_end: new Date(windowEnd).toISOString(),
-      status: "invited",
-    });
+    const { data: visitor } = await supabase
+      .from("visitors")
+      .insert({
+        tenant_id: ctx.tenantId,
+        property_id: ctx.propertyId,
+        unit_id: ctx.unitId,
+        full_name: guestName,
+        purpose: "guest",
+        host_resident_id: ctx.residentId,
+        hosted_by_approved: true,
+        emirates_id_number: emiratesId || null,
+        expected_window_start: new Date(windowStart).toISOString(),
+        expected_window_end: new Date(windowEnd).toISOString(),
+        status: "invited",
+      })
+      .select("id")
+      .single();
+
+    // Alert every security guard on this tenant so the pre-authorized guest
+    // shows up on their landing page before arrival.
+    if (visitor) {
+      const { data: guards } = await supabase
+        .from("user_profiles")
+        .select("id")
+        .eq("tenant_id", ctx.tenantId)
+        .eq("role", "security");
+      if (guards && guards.length > 0) {
+        await supabase.from("notifications").insert(
+          guards.map((g) => ({
+            recipient_id: g.id,
+            type: "visitor_invited",
+            entity_type: "visitor",
+            entity_id: visitor.id,
+            message: `${guestName} pre-authorized for unit visit`,
+          }))
+        );
+      }
+    }
 
     setSubmitting(false);
     router.push("/gate");
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
-      <h1 className="text-xl font-bold mb-1">Invite Guest</h1>
-      <p className="text-sm text-[var(--muted)] mb-6">Security will let them in within this window.</p>
+    <main className="min-h-screen bg-[var(--background)] pb-10">
+      <div className="px-6 pt-10 pb-6">
+        <Link href="/gate" className="inline-flex items-center text-[var(--muted)] text-sm mb-4">
+          <ChevronLeft size={16} /> Gate
+        </Link>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
+          Pre-Authorize
+        </p>
+        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Invite Guest</h1>
+        <p className="text-sm text-[var(--muted)] mt-1">Security will let them in within this window.</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
-          placeholder="Guest name"
-          value={guestName}
-          onChange={(e) => setGuestName(e.target.value)}
-          required
-        />
-
-        <div>
-          <label className="text-xs text-[var(--muted)] mb-1 block">Arrives after</label>
-          <input
-            type="datetime-local"
-            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
-            value={windowStart}
-            onChange={(e) => setWindowStart(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label className="text-xs text-[var(--muted)] mb-1 block">Until</label>
-          <input
-            type="datetime-local"
-            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
-            value={windowEnd}
-            onChange={(e) => setWindowEnd(e.target.value)}
-            required
-          />
+      <form onSubmit={handleSubmit} className="px-5 space-y-5">
+        <div className="elevated-card rounded-2xl p-5 space-y-4">
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Guest name</label>
+            <input
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              placeholder="Full name"
+              value={guestName}
+              onChange={(e) => setGuestName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Emirates ID (optional)</label>
+            <input
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              placeholder="784-XXXX-XXXXXXX-X"
+              value={emiratesId}
+              onChange={(e) => setEmiratesId(e.target.value)}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => setIdPhotoCaptured(true)}
+            className={`w-full flex items-center justify-center gap-2 rounded-xl p-3 text-sm font-medium border ${
+              idPhotoCaptured
+                ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#8a6a1f]"
+                : "bg-[var(--background)] border-[var(--hairline)] text-[var(--navy)]"
+            }`}
+          >
+            <IdCard size={16} /> {idPhotoCaptured ? "ID photo captured" : "Capture ID photo"}
+          </button>
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Arrives after</label>
+            <input
+              type="datetime-local"
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              value={windowStart}
+              onChange={(e) => setWindowStart(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Until</label>
+            <input
+              type="datetime-local"
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              value={windowEnd}
+              onChange={(e) => setWindowEnd(e.target.value)}
+              required
+            />
+          </div>
         </div>
 
         <button
           type="submit"
           disabled={submitting || !guestName}
-          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
         >
           {submitting ? "Inviting..." : "Invite Guest"}
         </button>

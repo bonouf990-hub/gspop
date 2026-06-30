@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type RentInvoice } from "@gspop/shared";
+import BottomNav from "@/components/BottomNav";
+import { CreditCard } from "lucide-react";
 
 async function getMyInvoices(): Promise<RentInvoice[]> {
   const supabase = await createClient();
@@ -19,30 +21,53 @@ async function getMyInvoices(): Promise<RentInvoice[]> {
   return camelCaseKeys<RentInvoice[]>(data ?? []);
 }
 
-function statusColor(status: RentInvoice["status"]) {
-  if (status === "overdue") return "text-red-400";
-  if (status === "pending") return "text-amber-400";
-  return "text-green-400";
-}
+const STATUS_STYLE: Record<string, string> = {
+  overdue: "bg-[#FBE6E6] text-[#B23B3B]",
+  pending: "bg-[var(--gold-pale)] text-[#8a6a1f]",
+  paid: "bg-[#E3F2E8] text-[#1F7A45]",
+  waived: "bg-[#F1EFE8] text-[var(--muted)]",
+};
 
 export default async function RentPage() {
   const invoices = await getMyInvoices();
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
-      <h1 className="text-xl font-bold mb-4">Rent & Payments</h1>
-      <ul className="space-y-3">
-        {invoices.map((i) => (
-          <li key={i.id} className="bg-white border border-[var(--hairline)] rounded-xl p-4 flex justify-between">
-            <div>
-              <p className="font-medium">{i.amount}</p>
-              <p className="text-sm text-[var(--muted)]">Due {i.dueDate}</p>
-            </div>
-            <p className={`font-medium ${statusColor(i.status)}`}>{i.status}</p>
-          </li>
-        ))}
-        {invoices.length === 0 && <p className="text-[var(--muted)]">No invoices yet.</p>}
-      </ul>
+    <main className="min-h-screen bg-[var(--background)] pb-32">
+      <div className="px-6 pt-10 pb-6">
+        <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
+          Account
+        </p>
+        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Rent & Payments</h1>
+      </div>
+
+      <div className="px-5">
+        <section className="elevated-card rounded-2xl p-5">
+          <ul className="space-y-3">
+            {invoices.map((i) => (
+              <li
+                key={i.id}
+                className="flex items-center justify-between pb-3 border-b border-[var(--hairline)] last:border-0 last:pb-0"
+              >
+                <div>
+                  <p className="font-display text-lg text-[var(--navy)]">{i.amount} AED</p>
+                  <p className="text-xs text-[var(--muted)] mt-0.5">Due {i.dueDate}</p>
+                </div>
+                <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[i.status]}`}>
+                  {i.status}
+                </span>
+              </li>
+            ))}
+            {invoices.length === 0 && (
+              <div className="text-center py-8">
+                <CreditCard size={28} className="mx-auto mb-2 text-[var(--gold)]" strokeWidth={1.5} />
+                <p className="text-[var(--muted)] text-sm">No invoices yet.</p>
+              </div>
+            )}
+          </ul>
+        </section>
+      </div>
+
+      <BottomNav />
     </main>
   );
 }

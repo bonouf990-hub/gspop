@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 import { getResidentContext } from "@/lib/residentContext";
 
@@ -46,52 +48,78 @@ export default function NotifyServicePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--navy)] p-6">
-      <h1 className="text-xl font-bold mb-1">Notify Service</h1>
-      <p className="text-sm text-[var(--muted)] mb-6">Let security know a provider is expected.</p>
+    <main className="min-h-screen bg-[var(--background)] pb-10">
+      <div className="px-6 pt-10 pb-6">
+        <Link href="/gate" className="inline-flex items-center text-[var(--muted)] text-sm mb-4">
+          <ChevronLeft size={16} /> Gate
+        </Link>
+        <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
+          Pre-Authorize
+        </p>
+        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Notify Service</h1>
+        <p className="text-sm text-[var(--muted)] mt-1">Let security know a provider is expected.</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-2">
-          {SERVICE_PROVIDERS.map((p) => (
-            <button
-              key={p}
-              type="button"
-              onClick={() => setProvider(p)}
-              className={`rounded-xl p-3 text-sm font-medium border ${
-                provider === p ? "bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white border-[var(--gold)]" : "bg-white border border-[var(--hairline)] border-transparent"
-              }`}
-            >
-              {p}
-            </button>
-          ))}
+      <form onSubmit={handleSubmit} className="px-5 space-y-5">
+        <div className="elevated-card rounded-2xl p-5">
+          <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-4">
+            Provider
+          </p>
+          <div className="grid grid-cols-2 gap-2.5">
+            {SERVICE_PROVIDERS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setProvider(p)}
+                className={`flex items-center gap-2.5 rounded-xl p-3 text-sm font-medium border transition-colors ${
+                  provider === p
+                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#8a6a1f]"
+                    : "bg-[var(--background)] border-[var(--hairline)] text-[var(--navy)]"
+                }`}
+              >
+                <span
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-semibold ${
+                    provider === p ? "bg-[var(--gold)] text-white" : "bg-white text-[var(--muted)]"
+                  }`}
+                >
+                  {p[0]}
+                </span>
+                {p}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div>
-          <label className="text-xs text-[var(--muted)] mb-1 block">Expected after</label>
-          <input
-            type="datetime-local"
-            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
-            value={windowStart}
-            onChange={(e) => setWindowStart(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label className="text-xs text-[var(--muted)] mb-1 block">Until</label>
-          <input
-            type="datetime-local"
-            className="w-full bg-white border border-[var(--hairline)] rounded-lg p-3"
-            value={windowEnd}
-            onChange={(e) => setWindowEnd(e.target.value)}
-            required
-          />
+        <div className="elevated-card rounded-2xl p-5 space-y-4">
+          <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold">
+            Expected Window
+          </p>
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Expected after</label>
+            <input
+              type="datetime-local"
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              value={windowStart}
+              onChange={(e) => setWindowStart(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="text-xs text-[var(--muted)] mb-1.5 block">Until</label>
+            <input
+              type="datetime-local"
+              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              value={windowEnd}
+              onChange={(e) => setWindowEnd(e.target.value)}
+              required
+            />
+          </div>
         </div>
 
         <button
           type="submit"
           disabled={submitting || !provider}
-          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Notify Service"}
         </button>

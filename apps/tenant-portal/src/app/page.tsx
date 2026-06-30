@@ -75,27 +75,41 @@ export default async function HomePage() {
     <main className="min-h-screen pb-32 bg-[var(--background)]">
       {/* Dark hero, transitions into light body below */}
       <div
-        className="relative h-64 w-full bg-cover bg-center rounded-b-[32px] overflow-hidden"
+        className="relative h-[300px] w-full bg-cover bg-center overflow-hidden"
         style={{
           backgroundImage: photoUrl
-            ? `linear-gradient(180deg, rgba(15,22,38,0.55) 0%, rgba(15,22,38,0.85) 100%), url(${photoUrl})`
-            : "radial-gradient(circle at 25% 15%, #2b3a5e 0%, #0F1626 75%)",
+            ? `linear-gradient(180deg, rgba(15,22,38,0.5) 0%, rgba(15,22,38,0.92) 100%), url(${photoUrl})`
+            : "radial-gradient(ellipse 140% 100% at 20% -10%, #3a4d78 0%, #1a2440 45%, #0B1020 100%)",
         }}
       >
-        <div className="absolute inset-0 flex flex-col justify-between p-6">
+        {!photoUrl && (
+          <svg
+            className="absolute bottom-0 left-0 w-full opacity-[0.18]"
+            height="90"
+            viewBox="0 0 375 90"
+            preserveAspectRatio="none"
+          >
+            <path
+              fill="#F4EFE6"
+              d="M0 90V55l20-10V40l15-5V20l25-8V8l30 4V0l25 6v10l20-4v14l30-6v12l25-2v10l30-4v8l30-6v10l30-2v18l30-4v18l40-2v18H0Z"
+            />
+          </svg>
+        )}
+        <div className="absolute inset-0 flex flex-col justify-between p-6 pb-10">
           <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold-soft)] font-medium">
             Golden Sands Residences
           </span>
           <div>
-            <p className="text-xs tracking-[0.2em] uppercase text-white/60 mb-1">Welcome home</p>
-            <h1 className="font-display text-white text-4xl font-semibold tracking-tight">
+            <p className="text-xs tracking-[0.2em] uppercase text-white/55 mb-1.5">Welcome home</p>
+            <h1 className="font-display text-white text-[2.75rem] leading-[1.05] font-semibold tracking-tight">
               {unit?.label ?? "—"}
             </h1>
+            <div className="h-px w-14 mt-3 bg-gradient-to-r from-[var(--gold-soft)] to-transparent" />
           </div>
         </div>
       </div>
 
-      <div className="px-5 -mt-10 relative z-10 space-y-5">
+      <div className="px-5 -mt-6 relative z-10 space-y-5">
         {rentDue && (
           <Link
             href="/rent"

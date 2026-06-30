@@ -258,6 +258,14 @@ export interface ComplaintCategory {
   sortOrder: number;
 }
 
+export interface ComplaintSubissue {
+  id: string;
+  categoryId: string;
+  name: string;
+  sortOrder: number;
+  active: boolean;
+}
+
 export interface UnitPhoto {
   id: string;
   unitId: string;
@@ -326,6 +334,7 @@ export interface Visitor {
   brandName: string | null;
   leaveWithSecurity: boolean;
   status: VisitorStatus;
+  emiratesIdNumber: string | null;
 }
 
 // ── Access / key control ────────────────────────────────────────────────
