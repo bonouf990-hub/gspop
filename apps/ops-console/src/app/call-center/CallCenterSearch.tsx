@@ -3,14 +3,16 @@
 import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase-browser";
 
-type Lease = {
-  id: string;
+type LookupResult = {
+  lease_id: string;
   unit_id: string;
   primary_resident_id: string | null;
   tenant_full_name: string;
   occupant_count: number;
-  units: { label: string; property_id: string; properties: { name: string } } | null;
-  user_profiles: { id: string; full_name: string; phone: string | null } | null;
+  unit_label: string;
+  property_id: string;
+  property_name: string;
+  phone: string | null;
 };
 
 type Category = { id: string; name: string };
@@ -42,9 +44,9 @@ export default function CallCenterSearch({
   initialPhone?: string;
 }) {
   const [query, setQuery] = useState(initialPhone ?? "");
-  const [results, setResults] = useState<Lease[]>([]);
+  const [results, setResults] = useState<LookupResult[]>([]);
   const [searched, setSearched] = useState(false);
-  const [selected, setSelected] = useState<Lease | null>(null);
+  const [selected, setSelected] = useState<LookupResult | null>(null);
   const [history, setHistory] = useState<ComplaintHistoryItem[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subissues, setSubissues] = useState<Subissue[]>([]);
@@ -54,44 +56,15 @@ export default function CallCenterSearch({
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  // Uses the call_center_lookup() database function — a narrow, audited
+  // path that returns only name/unit/phone, never the full resident
+  // profile or financial data. Direct table access for these roles is
+  // blocked at the database level regardless of what this UI does.
   const runSearch = useCallback(async (term: string) => {
     if (!term.trim()) return;
     const supabase = createClient();
-    const isPhone = /^[\d+\s-]+$/.test(term.trim());
-
-    if (isPhone) {
-      // Phone-based lookup — this is what a CTI screen-pop URL (e.g. from
-      // Vocalcom's toolbar) drives: ?phone=<callerNumber> on page load.
-      const { data: profiles } = await supabase
-        .from("user_profiles")
-        .select("id")
-        .ilike("phone", `%${term.trim()}%`);
-      const ids = (profiles ?? []).map((p) => p.id);
-      if (ids.length === 0) {
-        setResults([]);
-        setSearched(true);
-        return;
-      }
-      const { data } = await supabase
-        .from("leases")
-        .select(
-          "id, unit_id, primary_resident_id, tenant_full_name, occupant_count, units(label, property_id, properties(name)), user_profiles(id, full_name, phone)"
-        )
-        .eq("status", "active")
-        .in("primary_resident_id", ids)
-        .limit(10);
-      setResults((data as unknown as Lease[]) ?? []);
-    } else {
-      const { data } = await supabase
-        .from("leases")
-        .select(
-          "id, unit_id, primary_resident_id, tenant_full_name, occupant_count, units(label, property_id, properties(name)), user_profiles(id, full_name, phone)"
-        )
-        .eq("status", "active")
-        .ilike("tenant_full_name", `%${term.trim()}%`)
-        .limit(10);
-      setResults((data as unknown as Lease[]) ?? []);
-    }
+    const { data } = await supabase.rpc("call_center_lookup", { search_term: term.trim() });
+    setResults((data as LookupResult[]) ?? []);
     setSearched(true);
   }, []);
 
@@ -104,7 +77,7 @@ export default function CallCenterSearch({
     await runSearch(query);
   }
 
-  async function selectLease(lease: Lease) {
+  async function selectLease(lease: LookupResult) {
     setSelected(lease);
     setSubmitted(false);
     setCategoryId(null);
@@ -146,11 +119,17 @@ export default function CallCenterSearch({
     const category = categories.find((c) => c.id === categoryId);
     const subissue = subissues.find((s) => s.id === subissueId);
 
+    const { data: property } = await supabase
+      .from("properties")
+      .select("tenant_id")
+      .eq("id", selected.property_id)
+      .single();
+
     await supabase.from("complaints").insert({
-      tenant_id: (await supabase.from("properties").select("tenant_id").eq("id", selected.units?.property_id).single()).data?.tenant_id,
-      property_id: selected.units?.property_id,
+      tenant_id: property?.tenant_id,
+      property_id: selected.property_id,
       unit_id: selected.unit_id,
-      resident_id: selected.primary_resident_id ?? selected.user_profiles?.id,
+      resident_id: selected.primary_resident_id,
       category_id: categoryId,
       title: `${category?.name} — ${subissue?.name}`,
       description: description || `Logged by call center agent on behalf of ${selected.tenant_full_name}`,
@@ -186,15 +165,15 @@ export default function CallCenterSearch({
         <ul className="space-y-2">
           {results.map((r) => (
             <li
-              key={r.id}
+              key={r.lease_id}
               onClick={() => selectLease(r)}
               className="border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-blue-500"
             >
               <p className="font-medium">{r.tenant_full_name}</p>
               <p className="text-sm text-gray-400">
-                {r.units?.properties?.name} — Unit {r.units?.label} · {r.occupant_count} occupants
+                {r.property_name} — Unit {r.unit_label} · {r.occupant_count} occupants
               </p>
-              {r.user_profiles?.phone && <p className="text-xs text-gray-500">{r.user_profiles.phone}</p>}
+              {r.phone && <p className="text-xs text-gray-500">{r.phone}</p>}
             </li>
           ))}
           {searched && results.length === 0 && (
@@ -209,7 +188,7 @@ export default function CallCenterSearch({
             <div>
               <p className="font-semibold text-lg">{selected.tenant_full_name}</p>
               <p className="text-sm text-gray-400">
-                {selected.units?.properties?.name} — Unit {selected.units?.label}
+                {selected.property_name} — Unit {selected.unit_label}
               </p>
             </div>
             <button onClick={() => setSelected(null)} className="text-xs text-gray-400">
