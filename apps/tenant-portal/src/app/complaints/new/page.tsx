@@ -82,7 +82,7 @@ export default function NewComplaintPage() {
               onClick={() => setCategoryId(cat.id)}
               className={`rounded-2xl p-4 text-center border transition-colors ${
                 categoryId === cat.id
-                  ? "bg-blue-600 border-blue-400"
+                  ? "bg-amber-600 border-amber-400"
                   : "bg-[#162335] border-transparent hover:border-[#2a3b54]"
               }`}
             >
@@ -113,7 +113,7 @@ export default function NewComplaintPage() {
         <button
           type="submit"
           disabled={submitting || !categoryId}
-          className="w-full bg-blue-600 rounded-lg p-3 font-semibold disabled:opacity-40"
+          className="w-full bg-amber-600 rounded-lg p-3 font-semibold disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Submit Request"}
         </button>

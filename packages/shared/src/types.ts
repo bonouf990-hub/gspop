@@ -305,6 +305,7 @@ export interface AppNotification {
 
 // ── Visitor management ────────────────────────────────────────────────
 export type VisitorPurpose = "guest" | "delivery" | "contractor" | "vendor" | "inspection" | "other";
+export type VisitorStatus = "invited" | "checked_in" | "checked_out" | "declined" | "expired";
 
 export interface Visitor {
   id: string;
@@ -320,6 +321,11 @@ export interface Visitor {
   checkedInBy: string | null;
   checkedOutAt: string | null;
   vehiclePlate: string | null;
+  expectedWindowStart: string | null;
+  expectedWindowEnd: string | null;
+  brandName: string | null;
+  leaveWithSecurity: boolean;
+  status: VisitorStatus;
 }
 
 // ── Access / key control ────────────────────────────────────────────────

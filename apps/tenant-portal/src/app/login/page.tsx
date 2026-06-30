@@ -50,7 +50,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="w-full bg-blue-600 rounded-lg p-3 font-semibold disabled:opacity-50"
+          className="w-full bg-amber-600 rounded-lg p-3 font-semibold disabled:opacity-50"
         >
           {submitting ? "Signing in..." : "Sign In"}
         </button>

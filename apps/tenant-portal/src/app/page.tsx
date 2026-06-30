@@ -53,6 +53,7 @@ async function getMyApartment() {
 }
 
 const QUICK_ACTIONS = [
+  { href: "/gate", icon: "🚪", label: "Gate" },
   { href: "/complaints/new", icon: "🛠️", label: "Report an Issue" },
   { href: "/complaints", icon: "📋", label: "My Requests" },
   { href: "/rent", icon: "💳", label: "Rent & Payments" },
