@@ -1,0 +1,192 @@
+"use client";
+
+import { useState } from "react";
+import { createClient } from "@/lib/supabase-browser";
+
+type Lease = {
+  id: string;
+  unit_id: string;
+  primary_resident_id: string | null;
+  tenant_full_name: string;
+  occupant_count: number;
+  units: { label: string; property_id: string; properties: { name: string } } | null;
+  user_profiles: { id: string; full_name: string; phone: string | null } | null;
+};
+
+type Category = { id: string; name: string };
+type Subissue = { id: string; name: string; category_id: string };
+
+export default function CallCenterSearch({ agentId }: { agentId: string }) {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Lease[]>([]);
+  const [selected, setSelected] = useState<Lease | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [subissues, setSubissues] = useState<Subissue[]>([]);
+  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [subissueId, setSubissueId] = useState<string | null>(null);
+  const [description, setDescription] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("leases")
+      .select("id, unit_id, primary_resident_id, tenant_full_name, occupant_count, units(label, property_id, properties(name)), user_profiles(id, full_name, phone)")
+      .eq("status", "active")
+      .or(`tenant_full_name.ilike.%${query}%`)
+      .limit(10);
+    setResults((data as unknown as Lease[]) ?? []);
+  }
+
+  async function selectLease(lease: Lease) {
+    setSelected(lease);
+    setSubmitted(false);
+    const supabase = createClient();
+    const { data } = await supabase.from("complaint_categories").select("id, name").eq("active", true).order("sort_order");
+    setCategories(data ?? []);
+  }
+
+  async function selectCategory(id: string) {
+    setCategoryId(id);
+    setSubissueId(null);
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("complaint_subissues")
+      .select("id, name, category_id")
+      .eq("category_id", id)
+      .eq("active", true)
+      .order("sort_order");
+    setSubissues(data ?? []);
+  }
+
+  async function handleLogComplaint() {
+    if (!selected || !categoryId || !subissueId) return;
+    setSubmitting(true);
+    const supabase = createClient();
+    const category = categories.find((c) => c.id === categoryId);
+    const subissue = subissues.find((s) => s.id === subissueId);
+
+    await supabase.from("complaints").insert({
+      tenant_id: (await supabase.from("properties").select("tenant_id").eq("id", selected.units?.property_id).single()).data?.tenant_id,
+      property_id: selected.units?.property_id,
+      unit_id: selected.unit_id,
+      resident_id: selected.primary_resident_id ?? selected.user_profiles?.id,
+      category_id: categoryId,
+      title: `${category?.name} — ${subissue?.name}`,
+      description: description || `Logged by call center agent on behalf of ${selected.tenant_full_name}`,
+      status: "submitted",
+      source: "call_center",
+      logged_by: agentId,
+    });
+
+    setSubmitting(false);
+    setSubmitted(true);
+  }
+
+  return (
+    <div className="max-w-2xl">
+      <form onSubmit={handleSearch} className="flex gap-2 mb-6">
+        <input
+          className="flex-1 bg-[#162335] rounded-lg p-3 text-sm"
+          placeholder="Search by resident name..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button type="submit" className="bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium">
+          Search
+        </button>
+      </form>
+
+      {!selected && (
+        <ul className="space-y-2">
+          {results.map((r) => (
+            <li
+              key={r.id}
+              onClick={() => selectLease(r)}
+              className="border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-blue-500"
+            >
+              <p className="font-medium">{r.tenant_full_name}</p>
+              <p className="text-sm text-gray-400">
+                {r.units?.properties?.name} — Unit {r.units?.label} · {r.occupant_count} occupants
+              </p>
+              {r.user_profiles?.phone && <p className="text-xs text-gray-500">{r.user_profiles.phone}</p>}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {selected && (
+        <div className="border border-gray-700 rounded-lg p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="font-semibold text-lg">{selected.tenant_full_name}</p>
+              <p className="text-sm text-gray-400">
+                {selected.units?.properties?.name} — Unit {selected.units?.label}
+              </p>
+            </div>
+            <button onClick={() => setSelected(null)} className="text-xs text-gray-400">
+              Change caller
+            </button>
+          </div>
+
+          {submitted ? (
+            <p className="text-green-400 text-sm">Complaint logged and routed to maintenance.</p>
+          ) : (
+            <>
+              <p className="text-xs text-gray-400 mb-2">Category</p>
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                {categories.map((c) => (
+                  <button
+                    key={c.id}
+                    onClick={() => selectCategory(c.id)}
+                    className={`text-sm p-2.5 rounded-lg border text-left ${
+                      categoryId === c.id ? "bg-blue-600 border-blue-400" : "bg-[#162335] border-gray-700"
+                    }`}
+                  >
+                    {c.name}
+                  </button>
+                ))}
+              </div>
+
+              {categoryId && (
+                <>
+                  <p className="text-xs text-gray-400 mb-2">Issue</p>
+                  <div className="flex flex-col gap-2 mb-4">
+                    {subissues.map((s) => (
+                      <button
+                        key={s.id}
+                        onClick={() => setSubissueId(s.id)}
+                        className={`text-sm p-2.5 rounded-lg border text-left ${
+                          subissueId === s.id ? "bg-blue-600 border-blue-400" : "bg-[#162335] border-gray-700"
+                        }`}
+                      >
+                        {s.name}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              <textarea
+                className="w-full bg-[#162335] rounded-lg p-3 text-sm mb-4 h-20"
+                placeholder="Notes from the call (optional)..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+
+              <button
+                onClick={handleLogComplaint}
+                disabled={!subissueId || submitting}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50"
+              >
+                {submitting ? "Logging..." : "Log Complaint & Route to Maintenance"}
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
