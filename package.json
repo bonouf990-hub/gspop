@@ -1,0 +1,18 @@
+{
+  "name": "gspop",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/ops-console",
+    "apps/tenant-portal",
+    "apps/mobile",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev:ops": "npm run dev -w apps/ops-console",
+    "dev:tenant": "npm run dev -w apps/tenant-portal",
+    "dev:mobile": "npm run start -w apps/mobile",
+    "build:ops": "npm run build -w apps/ops-console",
+    "build:tenant": "npm run build -w apps/tenant-portal"
+  }
+}
