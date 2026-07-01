@@ -10,6 +10,7 @@ type InventoryRow = {
   unit_of_measure: string | null;
   quantity_on_hand: number;
   reorder_threshold: number;
+  unit_cost: number | null;
   property_id: string | null;
   updated_at: string;
 };
@@ -21,7 +22,7 @@ async function getPageData() {
   const [{ data: items }, { data: properties }] = await Promise.all([
     supabase
       .from("inventory_items")
-      .select("id, sku, name, unit_of_measure, quantity_on_hand, reorder_threshold, property_id, updated_at")
+      .select("id, sku, name, unit_of_measure, quantity_on_hand, reorder_threshold, unit_cost, property_id, updated_at")
       .order("name"),
     supabase.from("properties").select("id, name").order("name"),
   ]);
@@ -89,6 +90,7 @@ export default async function InventoryPage() {
             <th className="py-2 font-medium">Property</th>
             <th className="py-2 font-medium text-right">On Hand</th>
             <th className="py-2 font-medium">Unit</th>
+            <th className="py-2 font-medium text-right">Unit Cost</th>
             <th className="py-2 font-medium text-right">Reorder At</th>
             <th className="py-2 font-medium">Last Updated</th>
             <th className="py-2 font-medium">Actions</th>
@@ -108,6 +110,9 @@ export default async function InventoryPage() {
                   {Number(i.quantity_on_hand)}
                 </td>
                 <td className="py-2 text-[#6b6454]">{i.unit_of_measure ?? "—"}</td>
+                <td className="py-2 text-right text-[#d4af5a]">
+                  {i.unit_cost && Number(i.unit_cost) > 0 ? `AED ${Number(i.unit_cost).toLocaleString()}` : "—"}
+                </td>
                 <td className="py-2 text-right text-[#6b6454]">
                   {i.reorder_threshold > 0 ? Number(i.reorder_threshold) : "—"}
                 </td>
@@ -122,7 +127,7 @@ export default async function InventoryPage() {
           })}
           {items.length === 0 && (
             <tr>
-              <td className="py-4 text-[#6b6454]" colSpan={8}>
+              <td className="py-4 text-[#6b6454]" colSpan={9}>
                 No inventory items yet.
               </td>
             </tr>

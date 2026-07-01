@@ -27,11 +27,13 @@ export default function StoreRequestActions({
   currentStatus,
   inventoryItemId,
   quantity,
+  unitCost,
 }: {
   requestId: string;
   currentStatus: string;
   inventoryItemId: string;
   quantity: number;
+  unitCost: number;
 }) {
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
@@ -45,19 +47,24 @@ export default function StoreRequestActions({
     const { data: userData } = await supabase.auth.getUser();
 
     const update: Record<string, unknown> = { status: nextStatus };
-    if (nextStatus === "delivered" || nextStatus === "collected") {
+    const isFulfillment = nextStatus === "delivered" || nextStatus === "collected";
+    if (isFulfillment) {
       update.fulfilled_by = userData.user?.id;
       update.fulfilled_at = new Date().toISOString();
+      update.unit_cost = unitCost;
+      update.total_cost = unitCost * quantity;
     }
 
     await supabase.from("parts_requests").update(update).eq("id", requestId);
 
-    if ((nextStatus === "delivered" || nextStatus === "collected") && inventoryItemId) {
+    if (isFulfillment && inventoryItemId) {
       await supabase.from("inventory_movements").insert({
         inventory_item_id: inventoryItemId,
         moved_by: userData.user?.id,
         movement_type: "issue",
         quantity: -quantity,
+        unit_cost: unitCost,
+        total_cost: unitCost * quantity,
         reason: `Parts request ${requestId.slice(0, 8)} fulfilled`,
       });
     }

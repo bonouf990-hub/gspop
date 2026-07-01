@@ -6,12 +6,14 @@ type PartsRequestRow = {
   id: string;
   work_order_id: string | null;
   quantity: number;
+  unit_cost: number | null;
+  total_cost: number | null;
   status: string;
   delivery_method: string;
   delivery_location: string | null;
   notes: string | null;
   created_at: string;
-  inventory_item: { id: string; name: string; sku: string | null; quantity_on_hand: number; unit_of_measure: string | null } | null;
+  inventory_item: { id: string; name: string; sku: string | null; quantity_on_hand: number; unit_of_measure: string | null; unit_cost: number | null } | null;
   requester: { full_name: string } | null;
   work_order: { title: string; properties: { name: string } | null; units: { label: string } | null } | null;
 };
@@ -22,6 +24,7 @@ type ApartmentPart = {
   item_name: string;
   item_sku: string | null;
   total_qty: number;
+  total_cost: number;
   last_issued: string;
   request_count: number;
 };
@@ -31,8 +34,8 @@ async function getStoreData() {
   const { data } = await supabase
     .from("parts_requests")
     .select(
-      `id, work_order_id, quantity, status, delivery_method, delivery_location, notes, created_at,
-       inventory_item:inventory_items(id, name, sku, quantity_on_hand, unit_of_measure),
+      `id, work_order_id, quantity, unit_cost, total_cost, status, delivery_method, delivery_location, notes, created_at,
+       inventory_item:inventory_items(id, name, sku, quantity_on_hand, unit_of_measure, unit_cost),
        requester:user_profiles!parts_requests_requested_by_fkey(full_name),
        work_order:work_orders(title, properties(name), units(label))`
     )
@@ -49,13 +52,15 @@ async function getStoreData() {
     const wo = r.work_order as { title: string; properties: { name: string } | null; units: { label: string } | null } | null;
     const property = wo?.properties as { name: string } | null;
     const unit = wo?.units as { label: string } | null;
-    const item = r.inventory_item as { name: string; sku: string | null } | null;
+    const item = r.inventory_item as { name: string; sku: string | null; unit_cost: number | null } | null;
     if (!property || !item) continue;
 
+    const lineCost = r.total_cost ? Number(r.total_cost) : Number(r.quantity) * Number(item.unit_cost ?? 0);
     const key = `${property.name}||${unit?.label ?? ""}||${item.name}`;
     const existing = apartmentMap.get(key);
     if (existing) {
       existing.total_qty += Number(r.quantity);
+      existing.total_cost += lineCost;
       existing.request_count++;
       if (r.created_at > existing.last_issued) existing.last_issued = r.created_at;
     } else {
@@ -65,6 +70,7 @@ async function getStoreData() {
         item_name: item.name,
         item_sku: item.sku ?? null,
         total_qty: Number(r.quantity),
+        total_cost: lineCost,
         last_issued: r.created_at,
         request_count: 1,
       });
@@ -108,11 +114,13 @@ export default async function StorePage() {
         ) : (
           <div className="space-y-3">
             {pending.map((r) => {
-              const item = r.inventory_item as { id: string; name: string; sku: string | null; quantity_on_hand: number; unit_of_measure: string | null } | null;
+              const item = r.inventory_item as { id: string; name: string; sku: string | null; quantity_on_hand: number; unit_of_measure: string | null; unit_cost: number | null } | null;
               const requester = r.requester as { full_name: string } | null;
               const wo = r.work_order as { title: string; properties: { name: string } | null; units: { label: string } | null } | null;
               const property = wo?.properties as { name: string } | null;
               const unit = wo?.units as { label: string } | null;
+              const itemCost = Number(item?.unit_cost ?? 0);
+              const lineCost = itemCost * Number(r.quantity);
 
               return (
                 <div key={r.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
@@ -125,9 +133,16 @@ export default async function StorePage() {
                         </span>
                       </p>
                       {item?.sku && <p className="text-xs text-[#6b6454]">SKU: {item.sku}</p>}
-                      <p className="text-sm text-[#a0977e] mt-1">
-                        In stock: {item ? Number(item.quantity_on_hand) : "?"} {item?.unit_of_measure ?? ""}
-                      </p>
+                      <div className="flex gap-4 mt-1">
+                        <p className="text-sm text-[#a0977e]">
+                          In stock: {item ? Number(item.quantity_on_hand) : "?"} {item?.unit_of_measure ?? ""}
+                        </p>
+                        {itemCost > 0 && (
+                          <p className="text-sm text-[#d4af5a]">
+                            Unit: AED {itemCost.toLocaleString()} · Total: AED {lineCost.toLocaleString()}
+                          </p>
+                        )}
+                      </div>
                     </div>
                     <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[r.status] ?? ""}`}>
                       {r.status.replace(/_/g, " ")}
@@ -170,7 +185,7 @@ export default async function StorePage() {
                     <p className="text-sm text-[#6b6454] mb-3">Note: {r.notes}</p>
                   )}
 
-                  <StoreRequestActions requestId={r.id} currentStatus={r.status} inventoryItemId={item?.id ?? ""} quantity={Number(r.quantity)} />
+                  <StoreRequestActions requestId={r.id} currentStatus={r.status} inventoryItemId={item?.id ?? ""} quantity={Number(r.quantity)} unitCost={itemCost} />
                 </div>
               );
             })}
@@ -191,6 +206,7 @@ export default async function StorePage() {
                 <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                   <th className="py-2 font-medium">Item</th>
                   <th className="py-2 font-medium">Qty</th>
+                  <th className="py-2 font-medium text-right">Cost</th>
                   <th className="py-2 font-medium">Building / Apartment</th>
                   <th className="py-2 font-medium">Work Order</th>
                   <th className="py-2 font-medium">Requester</th>
@@ -206,6 +222,7 @@ export default async function StorePage() {
                   const wo = r.work_order as { title: string; properties: { name: string } | null; units: { label: string } | null } | null;
                   const property = wo?.properties as { name: string } | null;
                   const unit = wo?.units as { label: string } | null;
+                  const cost = r.total_cost ? Number(r.total_cost) : null;
                   return (
                     <tr key={r.id} className="border-b border-[rgba(184,144,47,0.08)]">
                       <td className="py-2">
@@ -213,6 +230,13 @@ export default async function StorePage() {
                         {item?.sku && <span className="text-[#6b6454] text-[10px] ml-1">({item.sku})</span>}
                       </td>
                       <td className="py-2 font-medium">{Number(r.quantity)}</td>
+                      <td className="py-2 text-right">
+                        {cost !== null ? (
+                          <span className="text-[#d4af5a] font-medium">AED {cost.toLocaleString()}</span>
+                        ) : (
+                          <span className="text-[#6b6454]">—</span>
+                        )}
+                      </td>
                       <td className="py-2">
                         <span className="font-medium">{property?.name ?? "—"}</span>
                         {unit && <span className="text-[#d4af5a] ml-1">· {unit.label}</span>}
@@ -261,6 +285,7 @@ export default async function StorePage() {
                   <th className="py-2 font-medium">Apartment</th>
                   <th className="py-2 font-medium">Part</th>
                   <th className="py-2 font-medium text-right">Total Qty</th>
+                  <th className="py-2 font-medium text-right">Total Cost</th>
                   <th className="py-2 font-medium text-right">Times Issued</th>
                   <th className="py-2 font-medium">Last Issued</th>
                 </tr>
@@ -281,6 +306,9 @@ export default async function StorePage() {
                       {ap.item_sku && <span className="text-[#6b6454] text-[10px] ml-1">({ap.item_sku})</span>}
                     </td>
                     <td className="py-2 text-right text-[#d4af5a] font-bold">{ap.total_qty}</td>
+                    <td className="py-2 text-right text-[#d4af5a] font-medium">
+                      {ap.total_cost > 0 ? `AED ${ap.total_cost.toLocaleString()}` : "—"}
+                    </td>
                     <td className="py-2 text-right text-[#a0977e]">{ap.request_count}</td>
                     <td className="py-2 text-[#6b6454]">{new Date(ap.last_issued).toLocaleDateString()}</td>
                   </tr>

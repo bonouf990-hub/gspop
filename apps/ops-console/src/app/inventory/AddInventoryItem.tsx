@@ -15,6 +15,7 @@ export default function AddInventoryItem({ properties }: { properties: Property[
     unitOfMeasure: "",
     quantityOnHand: "",
     reorderThreshold: "",
+    unitCost: "",
     propertyId: "",
   });
   const [submitting, setSubmitting] = useState(false);
@@ -40,6 +41,7 @@ export default function AddInventoryItem({ properties }: { properties: Property[
       unit_of_measure: form.unitOfMeasure || null,
       quantity_on_hand: form.quantityOnHand ? Number(form.quantityOnHand) : 0,
       reorder_threshold: form.reorderThreshold ? Number(form.reorderThreshold) : 0,
+      unit_cost: form.unitCost ? Number(form.unitCost) : 0,
       property_id: form.propertyId || null,
     });
 
@@ -47,7 +49,7 @@ export default function AddInventoryItem({ properties }: { properties: Property[
     if (insErr) return setError(insErr.message);
 
     setOpen(false);
-    setForm({ name: "", sku: "", unitOfMeasure: "", quantityOnHand: "", reorderThreshold: "", propertyId: "" });
+    setForm({ name: "", sku: "", unitOfMeasure: "", quantityOnHand: "", reorderThreshold: "", unitCost: "", propertyId: "" });
     router.refresh();
   }
 
@@ -86,6 +88,13 @@ export default function AddInventoryItem({ properties }: { properties: Property[
           <input className={input} type="number" value={form.reorderThreshold}
             onChange={(e) => setForm({ ...form, reorderThreshold: e.target.value })} />
         </div>
+      </div>
+
+      <div>
+        <label className="text-xs text-[#a0977e] mb-1 block">Unit Cost (AED)</label>
+        <input className={input} type="number" step="0.01" min="0" placeholder="Cost per unit"
+          value={form.unitCost}
+          onChange={(e) => setForm({ ...form, unitCost: e.target.value })} />
       </div>
 
       <div>
