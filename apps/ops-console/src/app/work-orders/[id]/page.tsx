@@ -129,6 +129,17 @@ async function getVendors() {
   return (data ?? []) as { id: string; name: string; category: string | null }[];
 }
 
+async function getLinkedComplaint(workOrderId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("complaints")
+    .select("id, category, sub_issue, status, created_at")
+    .eq("work_order_id", workOrderId)
+    .limit(1)
+    .single();
+  return data as { id: string; category: string; sub_issue: string | null; status: string; created_at: string } | null;
+}
+
 async function getCheckins(workOrderId: string) {
   const supabase = await createClient();
   const { data } = await supabase
@@ -153,11 +164,12 @@ export default async function WorkOrderDetailPage({
   ]);
 
   const propertyId = wo?.property_id as string | null;
-  const [partsRequests, inventoryItems, purchaseOrders, vendors] = await Promise.all([
+  const [partsRequests, inventoryItems, purchaseOrders, vendors, linkedComplaint] = await Promise.all([
     getPartsRequests(id),
     propertyId ? getInventoryItems(propertyId) : Promise.resolve([]),
     getWorkOrderPOs(id),
     getVendors(),
+    getLinkedComplaint(id),
   ]);
 
   if (!wo) {
@@ -224,6 +236,29 @@ export default async function WorkOrderDetailPage({
           <span>{new Date(wo.created_at as string).toLocaleString()}</span>
         </div>
       </section>
+
+      {linkedComplaint && (
+        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Originating Complaint</h2>
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <p className="font-medium capitalize">
+                {linkedComplaint.category?.replace(/_/g, " ")}
+                {linkedComplaint.sub_issue && ` — ${linkedComplaint.sub_issue.replace(/_/g, " ")}`}
+              </p>
+              <p className="text-[10px] text-[#6b6454]">
+                Reported: {new Date(linkedComplaint.created_at).toLocaleDateString()} · Status: {linkedComplaint.status}
+              </p>
+            </div>
+            <Link
+              href={`/complaints/${linkedComplaint.id}`}
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+            >
+              View Complaint
+            </Link>
+          </div>
+        </section>
+      )}
 
       {asset && (
         <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
