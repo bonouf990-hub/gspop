@@ -32,9 +32,11 @@ export default function NotificationsPage() {
   useEffect(() => {
     (async () => {
       const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
       const { data } = await supabase
         .from("notifications")
         .select("*")
+        .eq("recipient_id", user?.id ?? "")
         .order("created_at", { ascending: false })
         .limit(50);
       const list = camelCaseKeys<AppNotification[]>(data ?? []);

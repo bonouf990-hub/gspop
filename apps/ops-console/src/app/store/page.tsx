@@ -31,7 +31,18 @@ type ApartmentPart = {
 
 async function getStoreData() {
   const supabase = await createClient();
-  const { data } = await supabase
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData.user?.id;
+  const { data: profile } = await supabase
+    .from("user_profiles")
+    .select("role")
+    .eq("id", userId ?? "")
+    .single();
+
+  const role = profile?.role ?? "";
+  const isTechnician = role === "technician";
+
+  let query = supabase
     .from("parts_requests")
     .select(
       `id, work_order_id, quantity, unit_cost, total_cost, status, delivery_method, delivery_location, notes, created_at,
@@ -41,6 +52,12 @@ async function getStoreData() {
     )
     .order("created_at", { ascending: false })
     .limit(200);
+
+  if (isTechnician && userId) {
+    query = query.eq("requested_by", userId);
+  }
+
+  const { data } = await query;
 
   const all = (data ?? []) as unknown as PartsRequestRow[];
   const pending = all.filter((r) => ["requested", "approved", "picking", "delivering"].includes(r.status));

@@ -16,14 +16,32 @@ type WorkOrderRow = {
 
 async function getPageData() {
   const supabase = await createClient();
+
+  const { data: userData } = await supabase.auth.getUser();
+  const userId = userData.user?.id;
+  const { data: profile } = await supabase
+    .from("user_profiles")
+    .select("role")
+    .eq("id", userId ?? "")
+    .single();
+
+  const role = profile?.role ?? "";
+  const isTechnician = role === "technician";
+
+  let woQuery = supabase
+    .from("work_orders")
+    .select(
+      "id, title, type, priority, status, created_at, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
+    )
+    .order("created_at", { ascending: false });
+
+  if (isTechnician && userId) {
+    woQuery = woQuery.or(`assigned_to.eq.${userId},assigned_technician_id.eq.${userId}`);
+  }
+
   const [{ data: workOrders }, { data: properties }, { data: units }, { data: technicians }] =
     await Promise.all([
-      supabase
-        .from("work_orders")
-        .select(
-          "id, title, type, priority, status, created_at, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
-        )
-        .order("created_at", { ascending: false }),
+      woQuery,
       supabase.from("properties").select("id, name").order("name"),
       supabase.from("units").select("id, label, property_id").order("label"),
       supabase
@@ -36,6 +54,7 @@ async function getPageData() {
     properties: (properties ?? []) as { id: string; name: string }[],
     units: (units ?? []) as { id: string; label: string; property_id: string }[],
     technicians: (technicians ?? []) as { id: string; full_name: string; trade: string | null }[],
+    role,
   };
 }
 
@@ -56,7 +75,8 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default async function WorkOrdersPage() {
-  const { workOrders, properties, units, technicians } = await getPageData();
+  const { workOrders, properties, units, technicians, role } = await getPageData();
+  const isTechnician = role === "technician";
 
   return (
     <main className="p-8">
@@ -65,9 +85,11 @@ export default async function WorkOrdersPage() {
           <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">Work Orders</h1>
+          <h1 className="text-2xl font-extrabold mt-1">
+            {isTechnician ? "My Work Orders" : "Work Orders"}
+          </h1>
         </div>
-        <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />
+        {!isTechnician && <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />}
       </div>
 
       <table className="w-full text-sm border-collapse">
