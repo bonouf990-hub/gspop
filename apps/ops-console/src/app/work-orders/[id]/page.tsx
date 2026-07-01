@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import AssignTechnicianControl from "./AssignTechnicianControl";
 import WorkOrderStatusControl from "./WorkOrderStatusControl";
+import RequestParts from "./RequestParts";
 
 async function getWorkOrder(id: string) {
   const supabase = await createClient();
@@ -64,6 +65,41 @@ async function getPhotos(workOrderId: string) {
   return { before, after };
 }
 
+type PartsRequestRow = {
+  id: string;
+  quantity: number;
+  status: string;
+  delivery_method: string;
+  notes: string | null;
+  created_at: string;
+  inventory_item: { name: string; sku: string | null; unit_of_measure: string | null } | null;
+  requester: { full_name: string } | null;
+};
+
+async function getPartsRequests(workOrderId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("parts_requests")
+    .select(
+      `id, quantity, status, delivery_method, notes, created_at,
+       inventory_item:inventory_items(name, sku, unit_of_measure),
+       requester:user_profiles!parts_requests_requested_by_fkey(full_name)`
+    )
+    .eq("work_order_id", workOrderId)
+    .order("created_at", { ascending: false });
+  return (data ?? []) as unknown as PartsRequestRow[];
+}
+
+async function getInventoryItems(propertyId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("inventory_items")
+    .select("id, name, sku, quantity_on_hand, unit_of_measure")
+    .or(`property_id.eq.${propertyId},property_id.is.null`)
+    .order("name");
+  return (data ?? []) as { id: string; name: string; sku: string | null; quantity_on_hand: number; unit_of_measure: string | null }[];
+}
+
 async function getCheckins(workOrderId: string) {
   const supabase = await createClient();
   const { data } = await supabase
@@ -85,6 +121,12 @@ export default async function WorkOrderDetailPage({
     getTechnicians(),
     getPhotos(id),
     getCheckins(id),
+  ]);
+
+  const propertyId = wo?.property_id as string | null;
+  const [partsRequests, inventoryItems] = await Promise.all([
+    getPartsRequests(id),
+    propertyId ? getInventoryItems(propertyId) : Promise.resolve([]),
   ]);
 
   if (!wo) {
@@ -167,6 +209,60 @@ export default async function WorkOrderDetailPage({
           </div>
         </section>
       )}
+
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+            Parts Requests ({partsRequests.length})
+          </h2>
+          {propertyId && !["closed", "cancelled"].includes(wo.status as string) && (
+            <RequestParts
+              workOrderId={id}
+              propertyId={propertyId}
+              items={inventoryItems}
+            />
+          )}
+        </div>
+        {partsRequests.length === 0 ? (
+          <p className="text-sm text-[#6b6454]">No parts requested for this work order.</p>
+        ) : (
+          <div className="space-y-2">
+            {partsRequests.map((pr) => {
+              const item = pr.inventory_item as { name: string; sku: string | null; unit_of_measure: string | null } | null;
+              const requester = pr.requester as { full_name: string } | null;
+              const statusStyle: Record<string, string> = {
+                requested: "bg-amber-900 text-amber-300",
+                approved: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+                picking: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+                delivering: "bg-amber-900 text-amber-300",
+                delivered: "bg-green-900 text-green-300",
+                collected: "bg-green-900 text-green-300",
+                rejected: "bg-red-900 text-red-300",
+              };
+              return (
+                <div key={pr.id} className="bg-[#0f1626] rounded-lg px-3 py-2 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium">
+                      {item?.name ?? "Item"}
+                      {item?.sku && <span className="text-[#6b6454] ml-1">({item.sku})</span>}
+                      <span className="text-[#d4af5a] ml-2">
+                        x{pr.quantity} {item?.unit_of_measure ?? ""}
+                      </span>
+                    </p>
+                    <p className="text-[10px] text-[#6b6454]">
+                      {requester?.full_name ?? "—"} · {pr.delivery_method} · {new Date(pr.created_at).toLocaleDateString()}
+                      {pr.notes && ` · ${pr.notes}`}
+                    </p>
+                  </div>
+                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${statusStyle[pr.status] ?? ""}`}>
+                    {pr.status}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
 
       {(photos.before.length > 0 || photos.after.length > 0) && (
         <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">

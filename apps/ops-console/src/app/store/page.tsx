@@ -4,6 +4,7 @@ import StoreRequestActions from "./StoreRequestActions";
 
 type PartsRequestRow = {
   id: string;
+  work_order_id: string | null;
   quantity: number;
   status: string;
   delivery_method: string;
@@ -20,7 +21,7 @@ async function getStoreData() {
   const { data } = await supabase
     .from("parts_requests")
     .select(
-      `id, quantity, status, delivery_method, delivery_location, notes, created_at,
+      `id, work_order_id, quantity, status, delivery_method, delivery_location, notes, created_at,
        inventory_item:inventory_items(id, name, sku, quantity_on_hand, unit_of_measure),
        requester:user_profiles!parts_requests_requested_by_fkey(full_name),
        work_order:work_orders(title, properties(name), units(label))`
@@ -98,7 +99,13 @@ export default async function StorePage() {
                     </div>
                     <div>
                       <span className="text-[#6b6454]">Work order:</span>{" "}
-                      <span className="text-[#f0ece4]">{wo?.title ?? "—"}</span>
+                      {r.work_order_id ? (
+                        <Link href={`/work-orders/${r.work_order_id}`} className="text-[#d4af5a] hover:text-[#b8902f]">
+                          {wo?.title ?? "View"}
+                        </Link>
+                      ) : (
+                        <span className="text-[#f0ece4]">{wo?.title ?? "—"}</span>
+                      )}
                     </div>
                     <div>
                       <span className="text-[#6b6454]">Location:</span>{" "}
