@@ -14,6 +14,7 @@ import * as Location from "expo-location";
 import * as ImagePicker from "expo-image-picker";
 import type { WorkOrder } from "@gspop/shared";
 import { supabase } from "../lib/supabase";
+import { BASE, COLORS, SHADOWS } from "../theme";
 
 type Props = {
   route: { params: { workOrderId: string } };
@@ -231,8 +232,8 @@ export default function JobDetailScreen({ route, navigation }: Props) {
   function formatElapsed(seconds: number) {
     const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
     const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
-    const s = String(seconds % 60).padStart(2, "0");
-    return `${h}:${m}:${s}`;
+    const sec = String(seconds % 60).padStart(2, "0");
+    return `${h}:${m}:${sec}`;
   }
 
   const isCompleted = job?.status === "completed_by_technician" ||
@@ -241,115 +242,156 @@ export default function JobDetailScreen({ route, navigation }: Props) {
     job?.status === "closed";
 
   if (!job) {
-    return <ActivityIndicator style={styles.center} size="large" color="#2F6FED" />;
+    return <ActivityIndicator style={st.center} size="large" color={COLORS.gold} />;
   }
 
+  const prio = priorityMeta(job.priority);
+  const stat = statusMeta(job.status);
+
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.headerCard}>
-        <View style={styles.headerRow}>
-          <View style={[styles.priorityBadge, priorityColor(job.priority)]}>
-            <Text style={styles.priorityText}>{job.priority.toUpperCase()}</Text>
+    <ScrollView style={st.screen} contentContainerStyle={{ paddingBottom: 40 }}>
+      <View style={st.headerCard}>
+        <View style={st.badgeRow}>
+          <View style={[st.badge, { backgroundColor: prio.bg }]}>
+            <Text style={[st.badgeText, { color: prio.color }]}>{job.priority.toUpperCase()}</Text>
           </View>
-          <View style={[styles.statusBadge, statusColor(job.status)]}>
-            <Text style={styles.statusText}>{job.status.replace(/_/g, " ")}</Text>
+          <View style={[st.badge, { backgroundColor: stat.bg }]}>
+            <Text style={[st.badgeText, { color: stat.color }]}>{job.status.replace(/_/g, " ")}</Text>
           </View>
         </View>
-        <Text style={styles.title}>{job.title}</Text>
-        <Text style={styles.description}>{job.description}</Text>
+        <Text style={st.title}>{job.title}</Text>
+        {job.description ? <Text style={st.description}>{job.description}</Text> : null}
+        <View style={st.goldBar} />
       </View>
 
       {context && (context.propertyName || context.unitLabel || context.assetName) && (
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Location & Equipment</Text>
-          {context.propertyName && (
-            <InfoRow label="Property" value={context.propertyName} />
-          )}
-          {context.unitLabel && (
-            <InfoRow label="Unit" value={context.unitLabel} />
-          )}
-          {context.assetName && (
-            <InfoRow label="Asset" value={context.assetName} />
-          )}
-          {context.assetCategory && (
-            <InfoRow label="Category" value={context.assetCategory} />
-          )}
+        <View style={BASE.card}>
+          <Text style={BASE.goldLabel}>LOCATION & EQUIPMENT</Text>
+          {context.propertyName && <InfoRow label="Property" value={context.propertyName} />}
+          {context.unitLabel && <InfoRow label="Unit" value={context.unitLabel} />}
+          {context.assetName && <InfoRow label="Asset" value={context.assetName} />}
+          {context.assetCategory && <InfoRow label="Category" value={context.assetCategory} last />}
         </View>
       )}
 
       {!isCompleted && (
         <>
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>1. Before Photos</Text>
+          <View style={BASE.card}>
+            <View style={st.stepHeader}>
+              <View style={st.stepNumber}>
+                <Text style={st.stepNumberText}>1</Text>
+              </View>
+              <Text style={BASE.goldLabel}>BEFORE PHOTOS</Text>
+            </View>
             {beforePhotos.length > 0 && (
-              <View style={styles.photoGrid}>
+              <View style={st.photoGrid}>
                 {beforePhotos.map((uri, i) => (
-                  <Image key={i} source={{ uri }} style={styles.thumbnail} />
+                  <View key={i} style={st.thumbnailWrap}>
+                    <Image source={{ uri }} style={st.thumbnail} />
+                  </View>
                 ))}
               </View>
             )}
             {!checkedIn && (
-              <TouchableOpacity style={styles.photoButton} onPress={() => capturePhoto("before")}>
-                <Text style={styles.photoButtonText}>
-                  {beforePhotos.length > 0 ? "+ Add Another" : "Take Before Photo"}
+              <TouchableOpacity style={st.photoButton} onPress={() => capturePhoto("before")} activeOpacity={0.7}>
+                <Text style={st.photoIcon}>📷</Text>
+                <Text style={st.photoButtonText}>
+                  {beforePhotos.length > 0 ? "Add Another Photo" : "Take Before Photo"}
                 </Text>
               </TouchableOpacity>
             )}
-          </View>
-
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>2. GPS Check-In</Text>
-            <TouchableOpacity
-              style={[styles.button, (checkedIn || saving) && styles.buttonDisabled]}
-              disabled={checkedIn || saving}
-              onPress={handleCheckIn}
-            >
-              <Text style={styles.buttonText}>
-                {checkedIn ? "Checked In" : saving ? "Checking in…" : "Check In"}
-              </Text>
-            </TouchableOpacity>
-            {checkedIn && (
-              <Text style={styles.timer}>{formatElapsed(elapsedSeconds)}</Text>
+            {beforePhotos.length > 0 && !checkedIn && (
+              <Text style={st.photoCount}>{beforePhotos.length} photo{beforePhotos.length !== 1 ? "s" : ""} captured</Text>
             )}
           </View>
 
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>3. After Photos</Text>
+          <View style={BASE.card}>
+            <View style={st.stepHeader}>
+              <View style={[st.stepNumber, checkedIn && st.stepComplete]}>
+                <Text style={st.stepNumberText}>{checkedIn ? "✓" : "2"}</Text>
+              </View>
+              <Text style={BASE.goldLabel}>GPS CHECK-IN</Text>
+            </View>
+            {!checkedIn ? (
+              <TouchableOpacity
+                style={[st.goldButton, saving && st.buttonDisabled]}
+                disabled={saving}
+                onPress={handleCheckIn}
+                activeOpacity={0.8}
+              >
+                <Text style={st.goldButtonText}>
+                  {saving ? "Checking in…" : "Check In at Location"}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={st.timerContainer}>
+                <View style={st.timerRing}>
+                  <Text style={st.timerText}>{formatElapsed(elapsedSeconds)}</Text>
+                </View>
+                <Text style={st.timerLabel}>Time on Site</Text>
+              </View>
+            )}
+          </View>
+
+          <View style={BASE.card}>
+            <View style={st.stepHeader}>
+              <View style={st.stepNumber}>
+                <Text style={st.stepNumberText}>3</Text>
+              </View>
+              <Text style={BASE.goldLabel}>AFTER PHOTOS</Text>
+            </View>
             {afterPhotos.length > 0 && (
-              <View style={styles.photoGrid}>
+              <View style={st.photoGrid}>
                 {afterPhotos.map((uri, i) => (
-                  <Image key={i} source={{ uri }} style={styles.thumbnail} />
+                  <View key={i} style={st.thumbnailWrap}>
+                    <Image source={{ uri }} style={st.thumbnail} />
+                  </View>
                 ))}
               </View>
             )}
             {checkedIn && (
-              <TouchableOpacity style={styles.photoButton} onPress={() => capturePhoto("after")}>
-                <Text style={styles.photoButtonText}>
-                  {afterPhotos.length > 0 ? "+ Add Another" : "Take After Photo"}
+              <TouchableOpacity style={st.photoButton} onPress={() => capturePhoto("after")} activeOpacity={0.7}>
+                <Text style={st.photoIcon}>📷</Text>
+                <Text style={st.photoButtonText}>
+                  {afterPhotos.length > 0 ? "Add Another Photo" : "Take After Photo"}
                 </Text>
               </TouchableOpacity>
+            )}
+            {afterPhotos.length > 0 && (
+              <Text style={st.photoCount}>{afterPhotos.length} photo{afterPhotos.length !== 1 ? "s" : ""} captured</Text>
+            )}
+            {!checkedIn && (
+              <View style={st.lockedOverlay}>
+                <Text style={st.lockedText}>Check in first to take after photos</Text>
+              </View>
             )}
           </View>
 
           {checkedIn && (
-            <View style={styles.card}>
-              <Text style={styles.cardTitle}>4. Complete Job</Text>
+            <View style={BASE.card}>
+              <View style={st.stepHeader}>
+                <View style={st.stepNumber}>
+                  <Text style={st.stepNumberText}>4</Text>
+                </View>
+                <Text style={BASE.goldLabel}>COMPLETE JOB</Text>
+              </View>
               <TextInput
-                style={styles.notesInput}
+                style={st.notesInput}
                 placeholder="Completion notes (optional)"
-                placeholderTextColor="#6B7D99"
+                placeholderTextColor={COLORS.textMuted}
                 multiline
                 numberOfLines={3}
                 value={completionNotes}
                 onChangeText={setCompletionNotes}
               />
               <TouchableOpacity
-                style={[styles.completeButton, saving && styles.buttonDisabled]}
+                style={[st.completeButton, saving && st.buttonDisabled]}
                 disabled={saving}
                 onPress={handleCheckOut}
+                activeOpacity={0.8}
               >
-                <Text style={styles.buttonText}>
-                  {saving ? "Completing…" : "Check Out & Mark Complete"}
+                <Text style={st.completeButtonText}>
+                  {saving ? "Completing…" : "Check Out & Complete"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -358,120 +400,222 @@ export default function JobDetailScreen({ route, navigation }: Props) {
       )}
 
       {isCompleted && (
-        <View style={styles.card}>
-          <Text style={styles.completedLabel}>Job Completed</Text>
+        <View style={BASE.card}>
+          <View style={st.completedBanner}>
+            <View style={st.completedIcon}>
+              <Text style={st.completedIconText}>✓</Text>
+            </View>
+            <Text style={st.completedLabel}>Job Completed</Text>
+          </View>
           {beforePhotos.length > 0 && (
             <>
-              <Text style={styles.cardTitle}>Before Photos</Text>
-              <View style={styles.photoGrid}>
+              <Text style={BASE.goldLabel}>BEFORE PHOTOS</Text>
+              <View style={st.photoGrid}>
                 {beforePhotos.map((uri, i) => (
-                  <Image key={i} source={{ uri }} style={styles.thumbnail} />
+                  <View key={i} style={st.thumbnailWrap}>
+                    <Image source={{ uri }} style={st.thumbnail} />
+                  </View>
                 ))}
               </View>
             </>
           )}
           {afterPhotos.length > 0 && (
             <>
-              <Text style={[styles.cardTitle, { marginTop: 12 }]}>After Photos</Text>
-              <View style={styles.photoGrid}>
+              <View style={[BASE.divider, { marginVertical: 14 }]} />
+              <Text style={BASE.goldLabel}>AFTER PHOTOS</Text>
+              <View style={st.photoGrid}>
                 {afterPhotos.map((uri, i) => (
-                  <Image key={i} source={{ uri }} style={styles.thumbnail} />
+                  <View key={i} style={st.thumbnailWrap}>
+                    <Image source={{ uri }} style={st.thumbnail} />
+                  </View>
                 ))}
               </View>
             </>
           )}
         </View>
       )}
-
-      <View style={{ height: 40 }} />
     </ScrollView>
   );
 }
 
-function InfoRow({ label, value }: { label: string; value: string }) {
+function InfoRow({ label, value, last }: { label: string; value: string; last?: boolean }) {
   return (
-    <View style={styles.infoRow}>
-      <Text style={styles.infoLabel}>{label}</Text>
-      <Text style={styles.infoValue}>{value}</Text>
+    <View style={[st.infoRow, !last && st.infoRowBorder]}>
+      <Text style={st.infoLabel}>{label}</Text>
+      <Text style={st.infoValue}>{value}</Text>
     </View>
   );
 }
 
-function priorityColor(p: string) {
+function priorityMeta(p: string) {
   switch (p) {
-    case "emergency": return { backgroundColor: "#7F1D1D" };
-    case "high": return { backgroundColor: "#92400E" };
-    case "medium": return { backgroundColor: "#1E3A5F" };
-    default: return { backgroundColor: "#1C3829" };
+    case "emergency": return { color: "#e74c3c", bg: "rgba(231,76,60,0.12)" };
+    case "high": return { color: "#f39c12", bg: "rgba(243,156,18,0.12)" };
+    case "medium": return { color: "#5dade2", bg: "rgba(93,173,226,0.12)" };
+    default: return { color: "#7f8c8d", bg: "rgba(127,140,141,0.12)" };
   }
 }
 
-function statusColor(s: string) {
-  if (s === "in_progress") return { backgroundColor: "#1E3A5F" };
-  if (s.startsWith("completed") || s === "closed") return { backgroundColor: "#1C3829" };
-  return { backgroundColor: "#2D2D3F" };
+function statusMeta(s: string) {
+  if (s === "in_progress") return { color: "#f39c12", bg: "rgba(243,156,18,0.12)" };
+  if (s === "assigned") return { color: "#5dade2", bg: "rgba(93,173,226,0.12)" };
+  if (s === "paused") return { color: "#e67e22", bg: "rgba(230,126,34,0.12)" };
+  if (s.includes("completed") || s === "closed") return { color: "#27ae60", bg: "rgba(39,174,96,0.12)" };
+  return { color: "#7f8c8d", bg: "rgba(127,140,141,0.12)" };
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0B1320", padding: 16 },
-  center: { flex: 1, justifyContent: "center" },
-  headerCard: { backgroundColor: "#162335", borderRadius: 12, padding: 16, marginBottom: 12 },
-  headerRow: { flexDirection: "row", gap: 8, marginBottom: 10 },
-  priorityBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 },
-  priorityText: { color: "#fff", fontSize: 11, fontWeight: "700" },
-  statusBadge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 },
-  statusText: { color: "#fff", fontSize: 11, fontWeight: "600", textTransform: "capitalize" },
-  title: { color: "#fff", fontSize: 20, fontWeight: "700" },
-  description: { color: "#8FA3BF", marginTop: 6, fontSize: 14, lineHeight: 20 },
-  card: { backgroundColor: "#162335", borderRadius: 12, padding: 16, marginBottom: 12 },
-  cardTitle: { color: "#fff", fontWeight: "700", fontSize: 15, marginBottom: 10 },
+const st = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: COLORS.background, paddingHorizontal: 16, paddingTop: 8 },
+  center: { flex: 1, justifyContent: "center", backgroundColor: COLORS.background },
+
+  headerCard: {
+    backgroundColor: COLORS.surface,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: COLORS.hairline,
+    ...SHADOWS.card,
+  },
+  badgeRow: { flexDirection: "row", gap: 8, marginBottom: 12 },
+  badge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8 },
+  badgeText: { fontSize: 9, fontWeight: "800", letterSpacing: 1, textTransform: "uppercase" },
+  title: { color: COLORS.textPrimary, fontSize: 20, fontWeight: "800", lineHeight: 26, letterSpacing: 0.3 },
+  description: { color: COLORS.textSecondary, marginTop: 8, fontSize: 14, lineHeight: 21 },
+  goldBar: { width: 32, height: 2, backgroundColor: COLORS.gold, marginTop: 16, borderRadius: 1 },
+
+  stepHeader: { flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 14 },
+  stepNumber: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: COLORS.goldPale,
+    borderWidth: 1,
+    borderColor: COLORS.gold,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  stepComplete: { backgroundColor: COLORS.successBg, borderColor: COLORS.success },
+  stepNumberText: { color: COLORS.gold, fontSize: 11, fontWeight: "800" },
+
   infoRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#243349",
+    alignItems: "center",
+    paddingVertical: 10,
   },
-  infoLabel: { color: "#8FA3BF", fontSize: 13 },
-  infoValue: { color: "#fff", fontSize: 13, flexShrink: 1, textAlign: "right" },
-  photoGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 10 },
-  thumbnail: { width: 80, height: 80, borderRadius: 8, backgroundColor: "#243349" },
-  photoButton: {
+  infoRowBorder: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: COLORS.hairline,
+  },
+  infoLabel: { color: COLORS.textSecondary, fontSize: 13 },
+  infoValue: { color: COLORS.textPrimary, fontSize: 13, fontWeight: "500", flexShrink: 1, textAlign: "right" },
+
+  photoGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginBottom: 12 },
+  thumbnailWrap: {
+    borderRadius: 12,
+    overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#2F6FED",
+    borderColor: COLORS.hairline,
+  },
+  thumbnail: { width: 80, height: 80, backgroundColor: COLORS.surfaceElevated },
+
+  photoButton: {
+    borderWidth: 1.5,
+    borderColor: COLORS.gold,
     borderStyle: "dashed",
-    borderRadius: 8,
-    padding: 12,
+    borderRadius: 14,
+    padding: 16,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 8,
+  },
+  photoIcon: { fontSize: 16 },
+  photoButtonText: { color: COLORS.gold, fontWeight: "700", fontSize: 14, letterSpacing: 0.3 },
+  photoCount: { color: COLORS.textMuted, fontSize: 11, marginTop: 6, letterSpacing: 0.5, fontWeight: "500" },
+
+  goldButton: {
+    backgroundColor: COLORS.gold,
+    borderRadius: 14,
+    padding: 16,
+    alignItems: "center",
+    ...SHADOWS.elevated,
+  },
+  goldButtonText: { color: COLORS.background, fontWeight: "800", fontSize: 15, letterSpacing: 0.5 },
+  buttonDisabled: { opacity: 0.5 },
+
+  timerContainer: { alignItems: "center", paddingVertical: 8 },
+  timerRing: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    borderWidth: 3,
+    borderColor: COLORS.gold,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: COLORS.goldPale,
+  },
+  timerText: {
+    color: COLORS.textPrimary,
+    fontSize: 32,
+    fontWeight: "800",
+    fontVariant: ["tabular-nums"],
+    letterSpacing: 1,
+  },
+  timerLabel: {
+    color: COLORS.textSecondary,
+    fontSize: 11,
+    fontWeight: "600",
+    letterSpacing: 2,
+    textTransform: "uppercase",
+    marginTop: 10,
+  },
+
+  lockedOverlay: {
+    paddingVertical: 12,
     alignItems: "center",
   },
-  photoButtonText: { color: "#2F6FED", fontWeight: "600" },
-  button: { backgroundColor: "#2F6FED", borderRadius: 8, padding: 14, alignItems: "center" },
-  buttonDisabled: { opacity: 0.4 },
-  buttonText: { color: "#fff", fontWeight: "700", fontSize: 15 },
-  timer: { color: "#8FA3BF", marginTop: 10, fontSize: 28, textAlign: "center", fontVariant: ["tabular-nums"] },
+  lockedText: { color: COLORS.textMuted, fontSize: 12, fontStyle: "italic" },
+
   notesInput: {
-    backgroundColor: "#0B1320",
-    color: "#fff",
-    borderRadius: 8,
-    padding: 12,
+    backgroundColor: COLORS.background,
+    color: COLORS.textPrimary,
+    borderRadius: 14,
+    padding: 14,
     fontSize: 14,
-    marginBottom: 12,
+    marginBottom: 14,
     textAlignVertical: "top",
-    minHeight: 80,
+    minHeight: 90,
     borderWidth: 1,
-    borderColor: "#243349",
+    borderColor: COLORS.hairline,
   },
   completeButton: {
-    backgroundColor: "#16A34A",
-    borderRadius: 8,
-    padding: 14,
+    backgroundColor: COLORS.success,
+    borderRadius: 14,
+    padding: 16,
     alignItems: "center",
+    ...SHADOWS.elevated,
   },
+  completeButtonText: { color: "#fff", fontWeight: "800", fontSize: 15, letterSpacing: 0.5 },
+
+  completedBanner: { alignItems: "center", marginBottom: 18 },
+  completedIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: COLORS.successBg,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: COLORS.success,
+  },
+  completedIconText: { color: COLORS.success, fontSize: 24, fontWeight: "800" },
   completedLabel: {
-    color: "#4ADE80",
+    color: COLORS.success,
     fontSize: 18,
-    fontWeight: "700",
-    textAlign: "center",
-    marginBottom: 16,
+    fontWeight: "800",
+    letterSpacing: 0.5,
   },
 });

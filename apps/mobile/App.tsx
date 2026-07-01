@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { supabase } from "./src/lib/supabase";
+import { COLORS } from "./src/theme";
 import LoginScreen from "./src/screens/LoginScreen";
 import JobListScreen from "./src/screens/JobListScreen";
 import JobDetailScreen from "./src/screens/JobDetailScreen";
@@ -34,8 +35,8 @@ export default function App() {
 
   if (authed === null) {
     return (
-      <View style={{ flex: 1, backgroundColor: "#0B1320", justifyContent: "center" }}>
-        <ActivityIndicator size="large" color="#2F6FED" />
+      <View style={{ flex: 1, backgroundColor: COLORS.background, justifyContent: "center" }}>
+        <ActivityIndicator size="large" color={COLORS.gold} />
       </View>
     );
   }
@@ -54,9 +55,10 @@ export default function App() {
       <Stack.Navigator
         initialRouteName="JobList"
         screenOptions={{
-          headerStyle: { backgroundColor: "#0B1320" },
-          headerTintColor: "#fff",
-          headerTitleStyle: { fontWeight: "600" },
+          headerStyle: { backgroundColor: COLORS.background },
+          headerTintColor: COLORS.gold,
+          headerTitleStyle: { fontWeight: "700", color: COLORS.textPrimary },
+          headerShadowVisible: false,
         }}
       >
         <Stack.Screen
@@ -65,9 +67,13 @@ export default function App() {
           options={({ navigation }) => ({
             title: "My Jobs",
             headerRight: () => (
-              <View style={{ marginRight: 4 }}>
-                <ProfileButton onPress={() => navigation.navigate("Profile")} />
-              </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Profile")}
+                activeOpacity={0.7}
+                style={{ marginRight: 4 }}
+              >
+                <ProfileButton />
+              </TouchableOpacity>
             ),
           })}
         />
@@ -81,51 +87,38 @@ export default function App() {
   );
 }
 
-function ProfileButton({ onPress }: { onPress: () => void }) {
+function ProfileButton() {
   return (
     <View
       style={{
-        width: 32,
-        height: 32,
-        borderRadius: 16,
-        backgroundColor: "#2F6FED",
+        width: 34,
+        height: 34,
+        borderRadius: 17,
+        borderWidth: 1.5,
+        borderColor: COLORS.gold,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: COLORS.goldPale,
       }}
     >
       <View
-        style={{ position: "absolute", width: "100%", height: "100%" }}
-      >
-        <View
-          style={{
-            width: 32,
-            height: 32,
-            borderRadius: 16,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-          onTouchEnd={onPress}
-        >
-          <View
-            style={{
-              width: 12,
-              height: 12,
-              borderRadius: 6,
-              backgroundColor: "#fff",
-              marginBottom: 1,
-            }}
-          />
-          <View
-            style={{
-              width: 20,
-              height: 8,
-              borderTopLeftRadius: 10,
-              borderTopRightRadius: 10,
-              backgroundColor: "#fff",
-            }}
-          />
-        </View>
-      </View>
+        style={{
+          width: 11,
+          height: 11,
+          borderRadius: 5.5,
+          backgroundColor: COLORS.gold,
+          marginBottom: 1,
+        }}
+      />
+      <View
+        style={{
+          width: 18,
+          height: 7,
+          borderTopLeftRadius: 9,
+          borderTopRightRadius: 9,
+          backgroundColor: COLORS.gold,
+        }}
+      />
     </View>
   );
 }

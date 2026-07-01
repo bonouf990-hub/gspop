@@ -11,10 +11,9 @@ import {
   View,
 } from "react-native";
 import { supabase } from "../lib/supabase";
+import { COLORS, SHADOWS } from "../theme";
 
-type Props = {
-  onLogin: () => void;
-};
+type Props = { onLogin: () => void };
 
 export default function LoginScreen({ onLogin }: Props) {
   const [email, setEmail] = useState("");
@@ -41,80 +40,161 @@ export default function LoginScreen({ onLogin }: Props) {
 
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={s.container}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <View style={styles.inner}>
-        <Text style={styles.brand}>GSPOP</Text>
-        <Text style={styles.subtitle}>Technician</Text>
+      <View style={s.inner}>
+        <View style={s.logoContainer}>
+          <View style={s.logoRing}>
+            <Text style={s.logoIcon}>GS</Text>
+          </View>
+        </View>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#6B7D99"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#6B7D99"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
+        <Text style={s.brand}>GOLDEN SANDS</Text>
+        <Text style={s.subtitle}>Operations Portal</Text>
+        <View style={s.goldBar} />
 
-        <TouchableOpacity
-          style={[styles.button, loading && styles.buttonDisabled]}
-          disabled={loading}
-          onPress={handleLogin}
-        >
-          {loading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Sign In</Text>
-          )}
-        </TouchableOpacity>
+        <View style={s.formCard}>
+          <Text style={s.formLabel}>SIGN IN</Text>
+
+          <View style={s.inputGroup}>
+            <Text style={s.inputLabel}>Email</Text>
+            <TextInput
+              style={s.input}
+              placeholder="your.name@gspop.com"
+              placeholderTextColor={COLORS.textMuted}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={setEmail}
+            />
+          </View>
+
+          <View style={s.inputGroup}>
+            <Text style={s.inputLabel}>Password</Text>
+            <TextInput
+              style={s.input}
+              placeholder="Enter password"
+              placeholderTextColor={COLORS.textMuted}
+              secureTextEntry
+              value={password}
+              onChangeText={setPassword}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={[s.button, loading && s.buttonDisabled]}
+            disabled={loading}
+            onPress={handleLogin}
+            activeOpacity={0.8}
+          >
+            {loading ? (
+              <ActivityIndicator color={COLORS.background} />
+            ) : (
+              <Text style={s.buttonText}>Sign In</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+
+        <Text style={s.footer}>Golden Sands Property Operations</Text>
       </View>
     </KeyboardAvoidingView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0B1320", justifyContent: "center" },
-  inner: { paddingHorizontal: 32 },
-  brand: {
-    color: "#fff",
-    fontSize: 32,
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: COLORS.background, justifyContent: "center" },
+  inner: { paddingHorizontal: 28 },
+  logoContainer: { alignItems: "center", marginBottom: 20 },
+  logoRing: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 2,
+    borderColor: COLORS.gold,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(184,144,47,0.08)",
+  },
+  logoIcon: {
+    color: COLORS.gold,
+    fontSize: 26,
     fontWeight: "800",
-    textAlign: "center",
     letterSpacing: 2,
   },
-  subtitle: {
-    color: "#8FA3BF",
-    fontSize: 16,
+  brand: {
+    color: COLORS.textPrimary,
+    fontSize: 24,
+    fontWeight: "800",
     textAlign: "center",
-    marginBottom: 40,
+    letterSpacing: 4,
+  },
+  subtitle: {
+    color: COLORS.textSecondary,
+    fontSize: 13,
+    textAlign: "center",
+    letterSpacing: 2,
+    textTransform: "uppercase",
+    marginTop: 4,
+  },
+  goldBar: {
+    width: 48,
+    height: 2,
+    backgroundColor: COLORS.gold,
+    alignSelf: "center",
+    marginTop: 16,
+    marginBottom: 28,
+    borderRadius: 1,
+  },
+  formCard: {
+    backgroundColor: COLORS.surface,
+    borderRadius: 20,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: COLORS.hairline,
+    ...SHADOWS.card,
+  },
+  formLabel: {
+    fontSize: 10,
+    letterSpacing: 2,
+    color: COLORS.gold,
+    fontWeight: "700",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  inputGroup: { marginBottom: 16 },
+  inputLabel: {
+    color: COLORS.textSecondary,
+    fontSize: 11,
+    fontWeight: "600",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    marginBottom: 6,
   },
   input: {
-    backgroundColor: "#162335",
-    color: "#fff",
-    borderRadius: 10,
+    backgroundColor: COLORS.background,
+    color: COLORS.textPrimary,
+    borderRadius: 12,
     padding: 14,
-    fontSize: 16,
-    marginBottom: 12,
+    fontSize: 15,
     borderWidth: 1,
-    borderColor: "#243349",
+    borderColor: COLORS.hairline,
   },
   button: {
-    backgroundColor: "#2F6FED",
-    borderRadius: 10,
-    padding: 14,
+    backgroundColor: COLORS.gold,
+    borderRadius: 12,
+    padding: 16,
     alignItems: "center",
-    marginTop: 8,
+    marginTop: 4,
+    ...SHADOWS.elevated,
   },
   buttonDisabled: { opacity: 0.6 },
-  buttonText: { color: "#fff", fontWeight: "700", fontSize: 16 },
+  buttonText: { color: COLORS.background, fontWeight: "800", fontSize: 15, letterSpacing: 1 },
+  footer: {
+    color: COLORS.textMuted,
+    fontSize: 11,
+    textAlign: "center",
+    marginTop: 32,
+    letterSpacing: 1,
+  },
 });

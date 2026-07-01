@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { supabase } from "../lib/supabase";
+import { COLORS, SHADOWS } from "../theme";
 
 type Props = {
   navigation: { navigate: (screen: string, params: { workOrderId: string }) => void };
@@ -38,7 +39,6 @@ export default function JobListScreen({ navigation }: Props) {
   const loadJobs = useCallback(async () => {
     const { data: userData } = await supabase.auth.getUser();
     const technicianId = userData.user?.id;
-
     const statuses = tab === "active" ? ACTIVE_STATUSES : COMPLETED_STATUSES;
     const { data } = await supabase
       .from("work_orders")
@@ -47,7 +47,6 @@ export default function JobListScreen({ navigation }: Props) {
       .in("status", statuses)
       .order("priority", { ascending: false })
       .order("created_at", { ascending: false });
-
     setJobs((data ?? []) as unknown as JobRow[]);
     setLoading(false);
   }, [tab]);
@@ -64,16 +63,17 @@ export default function JobListScreen({ navigation }: Props) {
   }, [loadJobs]);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.tabRow}>
+    <View style={s.screen}>
+      <View style={s.tabRow}>
         {TABS.map((t) => (
           <TouchableOpacity
             key={t}
-            style={[styles.tab, tab === t && styles.tabActive]}
+            style={[s.tab, tab === t && s.tabActive]}
             onPress={() => setTab(t)}
+            activeOpacity={0.7}
           >
-            <Text style={[styles.tabText, tab === t && styles.tabTextActive]}>
-              {t === "active" ? "Active" : "Completed"}
+            <Text style={[s.tabText, tab === t && s.tabTextActive]}>
+              {t === "active" ? "Active Jobs" : "Completed"}
             </Text>
           </TouchableOpacity>
         ))}
@@ -82,38 +82,62 @@ export default function JobListScreen({ navigation }: Props) {
       <FlatList
         data={jobs}
         keyExtractor={(item) => item.id}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 24 }}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#2F6FED" />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={COLORS.gold} />
         }
         renderItem={({ item }) => {
           const property = item.properties as { name: string } | null;
           const unit = item.units as { label: string } | null;
+          const prio = priorityMeta(item.priority);
+          const stat = statusMeta(item.status);
           return (
             <TouchableOpacity
-              style={styles.card}
+              style={s.card}
               onPress={() => navigation.navigate("JobDetail", { workOrderId: item.id })}
+              activeOpacity={0.7}
             >
-              <View style={styles.cardHeader}>
-                <View style={[styles.priorityDot, dotColor(item.priority)]} />
-                <Text style={styles.cardTitle} numberOfLines={1}>
-                  {item.title}
-                </Text>
-              </View>
-              <Text style={styles.cardLocation} numberOfLines={1}>
-                {[property?.name, unit?.label].filter(Boolean).join(" · ") || "—"}
-              </Text>
-              <View style={styles.cardFooter}>
-                <Text style={styles.cardType}>{item.type}</Text>
-                <Text style={styles.cardStatus}>{item.status.replace(/_/g, " ")}</Text>
+              <View style={s.cardTop}>
+                <View style={[s.priorityStrip, { backgroundColor: prio.color }]} />
+                <View style={s.cardContent}>
+                  <View style={s.badgeRow}>
+                    <View style={[s.badge, { backgroundColor: prio.bg }]}>
+                      <Text style={[s.badgeText, { color: prio.color }]}>{item.priority.toUpperCase()}</Text>
+                    </View>
+                    <View style={[s.badge, { backgroundColor: stat.bg }]}>
+                      <Text style={[s.badgeText, { color: stat.color }]}>{item.status.replace(/_/g, " ")}</Text>
+                    </View>
+                  </View>
+                  <Text style={s.cardTitle} numberOfLines={2}>{item.title}</Text>
+                  <View style={s.cardMeta}>
+                    <Text style={s.metaLocation} numberOfLines={1}>
+                      {[property?.name, unit?.label].filter(Boolean).join("  ·  ") || "—"}
+                    </Text>
+                  </View>
+                  <View style={s.cardBottom}>
+                    <Text style={s.typeLabel}>{item.type}</Text>
+                    <Text style={s.chevron}>›</Text>
+                  </View>
+                </View>
               </View>
             </TouchableOpacity>
           );
         }}
         ListEmptyComponent={
           loading ? null : (
-            <Text style={styles.empty}>
-              {tab === "active" ? "No active jobs." : "No completed jobs yet."}
-            </Text>
+            <View style={s.emptyContainer}>
+              <View style={s.emptyIcon}>
+                <Text style={s.emptyIconText}>{tab === "active" ? "✓" : "—"}</Text>
+              </View>
+              <Text style={s.emptyTitle}>
+                {tab === "active" ? "All Clear" : "No History"}
+              </Text>
+              <Text style={s.emptyDesc}>
+                {tab === "active"
+                  ? "No active jobs assigned right now."
+                  : "Completed jobs will appear here."}
+              </Text>
+            </View>
           )
         }
       />
@@ -121,46 +145,86 @@ export default function JobListScreen({ navigation }: Props) {
   );
 }
 
-function dotColor(priority: string) {
-  switch (priority) {
-    case "emergency": return { backgroundColor: "#EF4444" };
-    case "high": return { backgroundColor: "#F59E0B" };
-    case "medium": return { backgroundColor: "#3B82F6" };
-    default: return { backgroundColor: "#6B7280" };
+function priorityMeta(p: string) {
+  switch (p) {
+    case "emergency": return { color: "#e74c3c", bg: "rgba(231,76,60,0.12)" };
+    case "high": return { color: "#f39c12", bg: "rgba(243,156,18,0.12)" };
+    case "medium": return { color: "#5dade2", bg: "rgba(93,173,226,0.12)" };
+    default: return { color: "#7f8c8d", bg: "rgba(127,140,141,0.12)" };
   }
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#0B1320" },
+function statusMeta(s: string) {
+  if (s === "in_progress") return { color: "#f39c12", bg: "rgba(243,156,18,0.12)" };
+  if (s === "assigned") return { color: "#5dade2", bg: "rgba(93,173,226,0.12)" };
+  if (s === "paused") return { color: "#e67e22", bg: "rgba(230,126,34,0.12)" };
+  if (s.includes("completed") || s === "closed") return { color: "#27ae60", bg: "rgba(39,174,96,0.12)" };
+  return { color: "#7f8c8d", bg: "rgba(127,140,141,0.12)" };
+}
+
+const s = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: COLORS.background },
   tabRow: {
     flexDirection: "row",
     paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 4,
-    gap: 8,
+    paddingTop: 10,
+    paddingBottom: 10,
+    gap: 10,
   },
   tab: {
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    backgroundColor: "#162335",
+    paddingVertical: 8,
+    paddingHorizontal: 20,
+    borderRadius: 24,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.hairline,
   },
-  tabActive: { backgroundColor: "#2F6FED" },
-  tabText: { color: "#8FA3BF", fontSize: 13, fontWeight: "600" },
-  tabTextActive: { color: "#fff" },
+  tabActive: {
+    backgroundColor: COLORS.gold,
+    borderColor: COLORS.gold,
+  },
+  tabText: { color: COLORS.textSecondary, fontSize: 13, fontWeight: "600", letterSpacing: 0.5 },
+  tabTextActive: { color: COLORS.background, fontWeight: "700" },
   card: {
-    backgroundColor: "#162335",
-    borderRadius: 12,
-    padding: 16,
-    marginHorizontal: 16,
-    marginBottom: 10,
+    backgroundColor: COLORS.surface,
+    borderRadius: 16,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: COLORS.hairline,
+    overflow: "hidden",
+    ...SHADOWS.card,
   },
-  cardHeader: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 4 },
-  priorityDot: { width: 10, height: 10, borderRadius: 5 },
-  cardTitle: { color: "#fff", fontSize: 16, fontWeight: "600", flex: 1 },
-  cardLocation: { color: "#8FA3BF", fontSize: 13, marginBottom: 8 },
-  cardFooter: { flexDirection: "row", justifyContent: "space-between" },
-  cardType: { color: "#6B7D99", fontSize: 12, textTransform: "capitalize" },
-  cardStatus: { color: "#8FA3BF", fontSize: 12, textTransform: "capitalize" },
-  empty: { color: "#8FA3BF", textAlign: "center", marginTop: 40, fontSize: 14 },
+  cardTop: { flexDirection: "row" },
+  priorityStrip: { width: 4, borderTopLeftRadius: 16, borderBottomLeftRadius: 16 },
+  cardContent: { flex: 1, padding: 16 },
+  badgeRow: { flexDirection: "row", gap: 8, marginBottom: 8 },
+  badge: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 6 },
+  badgeText: { fontSize: 9, fontWeight: "800", letterSpacing: 1, textTransform: "uppercase" },
+  cardTitle: { color: COLORS.textPrimary, fontSize: 16, fontWeight: "700", lineHeight: 22 },
+  cardMeta: { marginTop: 6 },
+  metaLocation: { color: COLORS.textSecondary, fontSize: 12, letterSpacing: 0.3 },
+  cardBottom: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 10,
+    paddingTop: 10,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: COLORS.hairline,
+  },
+  typeLabel: { color: COLORS.textMuted, fontSize: 11, textTransform: "uppercase", letterSpacing: 1, fontWeight: "600" },
+  chevron: { color: COLORS.gold, fontSize: 22, fontWeight: "300" },
+  emptyContainer: { alignItems: "center", marginTop: 60, paddingHorizontal: 40 },
+  emptyIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: COLORS.goldPale,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  emptyIconText: { color: COLORS.gold, fontSize: 24 },
+  emptyTitle: { color: COLORS.textPrimary, fontSize: 18, fontWeight: "700", marginBottom: 6 },
+  emptyDesc: { color: COLORS.textSecondary, fontSize: 13, textAlign: "center", lineHeight: 19 },
 });
