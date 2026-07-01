@@ -50,6 +50,8 @@ async function getCommandCenterData() {
     { data: tenders },
     { data: pendingPOs },
     { data: allPOs },
+    { data: maintenanceSchedules },
+    { data: unpaidInvoices },
   ] = await Promise.all([
     supabase.from("properties").select("id, name"),
     supabase.from("work_orders").select("id, property_id, status, created_at, assigned_technician_id, type"),
@@ -65,6 +67,14 @@ async function getCommandCenterData() {
     supabase.from("tenders").select("id, title, status, submission_deadline, site_visit_date").in("status", ["published", "site_visit", "submissions_open", "closed", "evaluating"]),
     supabase.from("purchase_orders").select("id, amount, urgency").eq("status", "pending"),
     supabase.from("purchase_orders").select("id, amount, status, created_at"),
+    supabase
+      .from("maintenance_schedules")
+      .select("id, next_due_date, is_active, frequency")
+      .eq("is_active", true),
+    supabase
+      .from("invoices")
+      .select("id, total_amount, status, due_date")
+      .in("status", ["received", "verified", "approved"]),
   ]);
 
   const propertiesById = new Map(((propList ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name]));
@@ -193,6 +203,15 @@ async function getCommandCenterData() {
     return { ...t, daysToDeadline };
   });
 
+  const scheduleList = (maintenanceSchedules ?? []) as { id: string; next_due_date: string; is_active: boolean; frequency: string }[];
+  const todayStr = now.toISOString().slice(0, 10);
+  const overdueSchedules = scheduleList.filter((s) => s.next_due_date <= todayStr);
+  const activeScheduleCount = scheduleList.length;
+
+  const invoiceList = (unpaidInvoices ?? []) as { id: string; total_amount: number; status: string; due_date: string | null }[];
+  const unpaidTotal = invoiceList.reduce((s, i) => s + Number(i.total_amount), 0);
+  const overdueInvoices = invoiceList.filter((i) => i.due_date && i.due_date < todayStr);
+
   return {
     propertySummaries,
     vendorProjects,
@@ -209,6 +228,11 @@ async function getCommandCenterData() {
     criticalPOs,
     monthSpend,
     totalApprovedSpend,
+    activeScheduleCount,
+    overdueSchedules: overdueSchedules.length,
+    unpaidInvoiceCount: invoiceList.length,
+    unpaidTotal,
+    overdueInvoiceCount: overdueInvoices.length,
   };
 }
 
@@ -229,6 +253,11 @@ export default async function CommandCenterPage() {
     criticalPOs,
     monthSpend,
     totalApprovedSpend,
+    activeScheduleCount,
+    overdueSchedules,
+    unpaidInvoiceCount,
+    unpaidTotal,
+    overdueInvoiceCount,
   } = await getCommandCenterData();
 
   const kpis = [
@@ -241,6 +270,8 @@ export default async function CommandCenterPage() {
     { label: "Active Tenders", value: activeTenders.length, color: activeTenders.length > 0 ? "text-[#d4af5a]" : "text-[#6b6454]" },
     { label: "Pending POs", value: pendingPOCount, color: criticalPOs > 0 ? "text-red-400" : pendingPOCount > 5 ? "text-amber-400" : "text-[#d4af5a]" },
     { label: "Low Stock Items", value: lowStockItems.length, color: lowStockItems.length > 0 ? "text-amber-400" : "text-green-400" },
+    { label: "PM Schedules", value: activeScheduleCount, color: overdueSchedules > 0 ? "text-red-400" : "text-green-400" },
+    { label: "Unpaid Invoices", value: unpaidInvoiceCount, color: overdueInvoiceCount > 0 ? "text-red-400" : "text-[#d4af5a]" },
   ];
 
   return (
@@ -258,7 +289,7 @@ export default async function CommandCenterPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-3 mb-8">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-11 gap-3 mb-8">
         {kpis.map((k) => (
           <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
             <p className={`text-3xl font-extrabold ${k.color}`}>{k.value}</p>
@@ -489,6 +520,9 @@ export default async function CommandCenterPage() {
           { href: "/tenders", label: "Tenders" },
           { href: "/complaints", label: "Complaints" },
           { href: "/purchasing", label: "Purchase Orders" },
+          { href: "/maintenance", label: "Maintenance" },
+          { href: "/invoices", label: "Invoices" },
+          { href: "/activity-log", label: "Activity Log" },
           { href: "/operations-monitor", label: "Operations Monitor" },
         ].map((link) => (
           <Link

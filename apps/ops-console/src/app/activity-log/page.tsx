@@ -1,0 +1,181 @@
+import Link from "next/link";
+import { createClient } from "@/lib/supabase-server";
+
+type ActivityRow = {
+  id: string;
+  user_name: string | null;
+  action: string;
+  entity_type: string;
+  entity_id: string | null;
+  entity_label: string | null;
+  details: Record<string, unknown> | null;
+  created_at: string;
+  user: { full_name: string } | null;
+};
+
+const ENTITY_LINKS: Record<string, string> = {
+  work_order: "/work-orders",
+  complaint: "/complaints",
+  purchase_order: "/purchasing",
+  tender: "/tenders",
+  invoice: "/invoices",
+  maintenance_schedule: "/maintenance",
+  visitor: "/visitors",
+  booking: "/bookings",
+};
+
+const ACTION_STYLE: Record<string, string> = {
+  created: "text-green-400",
+  updated: "text-[#d4af5a]",
+  deleted: "text-red-400",
+  approved: "text-green-300",
+  rejected: "text-red-300",
+  escalated: "text-amber-400",
+  completed: "text-green-400",
+  assigned: "text-blue-400",
+  verified: "text-green-300",
+  paid: "text-[#b8902f]",
+  disputed: "text-red-400",
+};
+
+const ENTITY_STYLE: Record<string, string> = {
+  work_order: "bg-blue-900/40 text-blue-300",
+  complaint: "bg-red-900/40 text-red-300",
+  purchase_order: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+  tender: "bg-purple-900/40 text-purple-300",
+  invoice: "bg-green-900/40 text-green-300",
+  maintenance_schedule: "bg-cyan-900/40 text-cyan-300",
+  visitor: "bg-[#213052] text-[#a0977e]",
+  booking: "bg-amber-900/40 text-amber-300",
+  user: "bg-[#213052] text-[#a0977e]",
+};
+
+async function getPageData() {
+  const supabase = await createClient();
+  const { data: logs } = await supabase
+    .from("activity_log")
+    .select(
+      `id, user_name, action, entity_type, entity_id, entity_label, details, created_at,
+       user:user_profiles(full_name)`
+    )
+    .order("created_at", { ascending: false })
+    .limit(500);
+
+  return { logs: (logs ?? []) as unknown as ActivityRow[] };
+}
+
+export default async function ActivityLogPage() {
+  const { logs } = await getPageData();
+
+  const grouped = new Map<string, ActivityRow[]>();
+  for (const log of logs) {
+    const day = new Date(log.created_at).toLocaleDateString("en-AE", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    if (!grouped.has(day)) grouped.set(day, []);
+    grouped.get(day)!.push(log);
+  }
+
+  return (
+    <main className="p-8 max-w-4xl mx-auto">
+      <div className="mb-6">
+        <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          ← Dashboard
+        </Link>
+        <h1 className="text-2xl font-extrabold mt-1">Activity Log</h1>
+        <p className="text-[#a0977e] text-sm mt-1">
+          Complete audit trail of all operations across the platform.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <p className="text-2xl font-extrabold text-[#d4af5a]">{logs.length}</p>
+          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Total Events</p>
+        </div>
+        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <p className="text-2xl font-extrabold text-green-400">
+            {logs.filter((l) => l.action === "created").length}
+          </p>
+          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Created</p>
+        </div>
+        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <p className="text-2xl font-extrabold text-[#d4af5a]">
+            {logs.filter((l) => l.action === "updated").length}
+          </p>
+          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Updated</p>
+        </div>
+        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <p className="text-2xl font-extrabold text-blue-400">
+            {new Set(logs.map((l) => l.user_name ?? l.user?.full_name)).size}
+          </p>
+          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active Users</p>
+        </div>
+      </div>
+
+      {logs.length === 0 ? (
+        <div className="text-center py-12 text-[#6b6454]">
+          <p className="text-lg">No activity recorded yet.</p>
+          <p className="text-sm mt-1">Events will appear here as your team uses the platform.</p>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {[...grouped.entries()].map(([day, dayLogs]) => (
+            <section key={day}>
+              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 sticky top-0 bg-[#0f1626] py-2 z-10">
+                {day} ({dayLogs.length})
+              </h2>
+              <div className="space-y-1">
+                {dayLogs.map((log) => {
+                  const userName = log.user?.full_name ?? log.user_name ?? "System";
+                  const link = log.entity_id && ENTITY_LINKS[log.entity_type]
+                    ? `${ENTITY_LINKS[log.entity_type]}/${log.entity_id}`
+                    : null;
+                  return (
+                    <div
+                      key={log.id}
+                      className="border border-[rgba(184,144,47,0.08)] rounded-lg p-3 flex items-start gap-3 hover:bg-[#1a2640]"
+                    >
+                      <div className="text-[10px] text-[#6b6454] w-16 shrink-0 pt-0.5">
+                        {new Date(log.created_at).toLocaleTimeString("en-AE", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm">
+                          <span className="font-medium">{userName}</span>{" "}
+                          <span className={ACTION_STYLE[log.action] ?? "text-[#a0977e]"}>{log.action}</span>{" "}
+                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${ENTITY_STYLE[log.entity_type] ?? "bg-[#213052] text-[#a0977e]"}`}>
+                            {log.entity_type.replace(/_/g, " ")}
+                          </span>{" "}
+                          {link ? (
+                            <Link href={link} className="text-[#d4af5a] hover:underline">
+                              {log.entity_label ?? log.entity_id?.slice(0, 8)}
+                            </Link>
+                          ) : (
+                            <span className="text-[#a0977e]">{log.entity_label ?? ""}</span>
+                          )}
+                        </p>
+                        {log.details && Object.keys(log.details).length > 0 && (
+                          <p className="text-[10px] text-[#6b6454] mt-0.5 truncate">
+                            {Object.entries(log.details)
+                              .map(([k, v]) => `${k}: ${String(v)}`)
+                              .join(" · ")}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
+    </main>
+  );
+}
