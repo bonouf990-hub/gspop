@@ -23,23 +23,47 @@ const TRADE_ICONS: Record<string, string> = {
   general: "🛠️",
 };
 
+type BudgetActual = {
+  budget_id: string;
+  property_id: string;
+  category: string;
+  fiscal_year: number;
+  fiscal_month: number;
+  budgeted_amount: number;
+  actual_amount: number;
+};
+
 async function getMonitorData() {
   const supabase = await createClient();
-  const [{ data: caseCounts }, { data: utilization }, { data: technicians }] = await Promise.all([
-    supabase.from("trade_case_counts").select("*"),
-    supabase.from("trade_technician_utilization").select("*"),
-    supabase.from("technician_current_status").select("*").order("trade"),
-  ]);
+  const now = new Date();
+  const [{ data: caseCounts }, { data: utilization }, { data: technicians }, { data: budgets }, { data: properties }] =
+    await Promise.all([
+      supabase.from("trade_case_counts").select("*"),
+      supabase.from("trade_technician_utilization").select("*"),
+      supabase.from("technician_current_status").select("*").order("trade"),
+      supabase
+        .from("budget_actuals")
+        .select("*")
+        .eq("fiscal_year", now.getFullYear())
+        .eq("fiscal_month", now.getMonth() + 1),
+      supabase.from("properties").select("id, name"),
+    ]);
+
+  const propertiesById = new Map(
+    ((properties ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name])
+  );
 
   return {
     caseCounts: camelCaseKeys<TradeCaseCounts[]>(caseCounts ?? []),
     utilization: camelCaseKeys<TradeTechnicianUtilization[]>(utilization ?? []),
     technicians: camelCaseKeys<TechnicianCurrentStatus[]>(technicians ?? []),
+    budgets: (budgets ?? []) as BudgetActual[],
+    propertiesById,
   };
 }
 
 export default async function OperationsMonitorPage() {
-  const { caseCounts, utilization, technicians } = await getMonitorData();
+  const { caseCounts, utilization, technicians, budgets, propertiesById } = await getMonitorData();
 
   const trades = Array.from(
     new Set([...caseCounts.map((c) => c.trade), ...utilization.map((u) => u.trade)])
@@ -96,6 +120,54 @@ export default async function OperationsMonitorPage() {
         })}
         {trades.length === 0 && <p className="text-[#6b6454]">No technicians or work orders yet.</p>}
       </div>
+
+      {budgets.length > 0 && (
+        <>
+          <h2 className="text-lg font-bold mb-3">Budget vs Actual — This Month</h2>
+          <table className="w-full text-sm border-collapse mb-10">
+            <thead>
+              <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
+                <th className="py-2">Property</th>
+                <th className="py-2">Category</th>
+                <th className="py-2 text-right">Budget (AED)</th>
+                <th className="py-2 text-right">Actual (AED)</th>
+                <th className="py-2 text-right">Remaining</th>
+                <th className="py-2">Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {budgets.map((b) => {
+                const budgeted = Number(b.budgeted_amount);
+                const actual = Number(b.actual_amount);
+                const remaining = budgeted - actual;
+                const pct = budgeted > 0 ? Math.round((actual / budgeted) * 100) : 0;
+                return (
+                  <tr key={b.budget_id} className="border-b border-[rgba(184,144,47,0.08)]">
+                    <td className="py-2">{propertiesById.get(b.property_id) ?? "—"}</td>
+                    <td className="py-2 capitalize">{b.category}</td>
+                    <td className="py-2 text-right text-[#a0977e]">{budgeted.toLocaleString()}</td>
+                    <td className="py-2 text-right font-medium">{actual.toLocaleString()}</td>
+                    <td className={`py-2 text-right font-medium ${remaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                      {remaining.toLocaleString()}
+                    </td>
+                    <td className="py-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-20 bg-[#213052] rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${pct > 100 ? "bg-red-500" : pct > 80 ? "bg-amber-500" : "bg-green-500"}`}
+                            style={{ width: `${Math.min(pct, 100)}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-[#6b6454]">{pct}%</span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      )}
 
       <h2 className="text-lg font-bold mb-3">Technician Status</h2>
       <table className="w-full text-sm border-collapse">
