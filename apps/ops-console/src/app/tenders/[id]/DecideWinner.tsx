@@ -62,6 +62,8 @@ export default function DecideWinner({
         amount: winner.proposed_amount,
         description: `Tender: ${tenderTitle} — awarded to ${winner.vendor_name} (${currency} ${Number(winner.proposed_amount).toLocaleString()})`,
         status: "pending",
+        tender_id: tenderId,
+        urgency: "normal",
       });
     }
 

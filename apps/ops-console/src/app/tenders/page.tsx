@@ -144,6 +144,7 @@ export default async function TendersPage() {
                 <th className="py-2 font-medium">Submissions</th>
                 <th className="py-2 font-medium">Status</th>
                 <th className="py-2 font-medium">Date</th>
+                <th className="py-2 font-medium"></th>
               </tr>
             </thead>
             <tbody>
@@ -164,6 +165,16 @@ export default async function TendersPage() {
                     </span>
                   </td>
                   <td className="py-2 text-[#6b6454]">{new Date(t.created_at).toLocaleDateString()}</td>
+                  <td className="py-2">
+                    {t.status === "decided" && (
+                      <Link
+                        href={`/tenders/${t.id}/report`}
+                        className="text-xs font-bold px-2 py-1 rounded bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+                      >
+                        Report
+                      </Link>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

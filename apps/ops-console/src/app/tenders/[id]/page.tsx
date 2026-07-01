@@ -201,6 +201,14 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
             {tender.status}
           </span>
           <TenderActions tenderId={tender.id} currentStatus={tender.status} />
+          {["evaluating", "decided"].includes(tender.status) && submissions.some((s) => s.ai_score !== null) && (
+            <Link
+              href={`/tenders/${tender.id}/report`}
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+            >
+              View Report
+            </Link>
+          )}
         </div>
       </div>
 

@@ -48,6 +48,7 @@ async function getCommandCenterData() {
     { data: partsRequests },
     { data: complaints },
     { data: tenders },
+    { data: pendingPOs },
   ] = await Promise.all([
     supabase.from("properties").select("id, name"),
     supabase.from("work_orders").select("id, property_id, status, created_at, assigned_technician_id, type"),
@@ -61,6 +62,7 @@ async function getCommandCenterData() {
     supabase.from("parts_requests").select("id, status").in("status", ["requested", "approved", "picking", "delivering"]),
     supabase.from("complaints").select("id, status").in("status", ["submitted", "acknowledged"]),
     supabase.from("tenders").select("id, title, status, submission_deadline, site_visit_date").in("status", ["published", "site_visit", "submissions_open", "closed", "evaluating"]),
+    supabase.from("purchase_orders").select("id, amount, urgency").eq("status", "pending"),
   ]);
 
   const propertiesById = new Map(((propList ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name]));
@@ -158,6 +160,11 @@ async function getCommandCenterData() {
   const activeProjects = vendorProjects.filter((v) => v.status === "active");
   const overdueProjects = vendorProjects.filter((v) => v.is_overdue);
 
+  const pendingPOList = (pendingPOs ?? []) as { id: string; amount: number; urgency: string | null }[];
+  const pendingPOCount = pendingPOList.length;
+  const pendingPOTotal = pendingPOList.reduce((s, o) => s + Number(o.amount), 0);
+  const criticalPOs = pendingPOList.filter((o) => o.urgency === "critical" || o.urgency === "urgent").length;
+
   const activeTenders = ((tenders ?? []) as {
     id: string;
     title: string;
@@ -181,6 +188,9 @@ async function getCommandCenterData() {
     activeProjects,
     overdueProjects,
     activeTenders,
+    pendingPOCount,
+    pendingPOTotal,
+    criticalPOs,
   };
 }
 
@@ -196,6 +206,9 @@ export default async function CommandCenterPage() {
     activeProjects,
     overdueProjects,
     activeTenders,
+    pendingPOCount,
+    pendingPOTotal,
+    criticalPOs,
   } = await getCommandCenterData();
 
   const kpis = [
@@ -206,6 +219,7 @@ export default async function CommandCenterPage() {
     { label: "Active Projects", value: activeProjects.length, color: "text-[#d4af5a]" },
     { label: "Overdue Projects", value: overdueProjects.length, color: overdueProjects.length > 0 ? "text-red-400" : "text-green-400" },
     { label: "Active Tenders", value: activeTenders.length, color: activeTenders.length > 0 ? "text-[#d4af5a]" : "text-[#6b6454]" },
+    { label: "Pending POs", value: pendingPOCount, color: criticalPOs > 0 ? "text-red-400" : pendingPOCount > 5 ? "text-amber-400" : "text-[#d4af5a]" },
     { label: "Low Stock Items", value: lowStockItems.length, color: lowStockItems.length > 0 ? "text-amber-400" : "text-green-400" },
   ];
 
@@ -224,7 +238,7 @@ export default async function CommandCenterPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-8">
+      <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-3 mb-8">
         {kpis.map((k) => (
           <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
             <p className={`text-3xl font-extrabold ${k.color}`}>{k.value}</p>
@@ -367,6 +381,25 @@ export default async function CommandCenterPage() {
               );
             })}
           </div>
+        </section>
+      )}
+
+      {pendingPOCount > 0 && (
+        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              Pending Purchase Orders ({pendingPOCount})
+            </h2>
+            <Link href="/purchasing" className="text-xs text-[#b8902f] hover:text-[#d4af5a]">
+              Open Purchasing →
+            </Link>
+          </div>
+          <p className="text-sm text-[#a0977e]">
+            <span className="text-[#d4af5a] font-bold">AED {pendingPOTotal.toLocaleString()}</span> awaiting approval
+            {criticalPOs > 0 && (
+              <span className="text-red-400 ml-2">({criticalPOs} urgent/critical)</span>
+            )}
+          </p>
         </section>
       )}
 
