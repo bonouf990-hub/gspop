@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import CreateStaffForm from "./CreateStaffForm";
+import EditSalary from "./EditSalary";
 
 const ROLE_DESCRIPTIONS: Record<string, string> = {
   tenant_admin: "Full access across all properties, billing, and team management.",
@@ -35,7 +36,7 @@ export default async function TeamManagementPage() {
   const [{ data: staff }, { data: properties }, { data: assignments }] = await Promise.all([
     supabase
       .from("user_profiles")
-      .select("id, full_name, role, trade, department, job_title, phone, reports_to_id")
+      .select("id, full_name, role, trade, department, job_title, phone, reports_to_id, monthly_salary, hourly_rate")
       .order("role"),
     supabase.from("properties").select("id, name"),
     supabase.from("property_assignments").select("user_id, property_id"),
@@ -88,9 +89,11 @@ export default async function TeamManagementPage() {
             <th className="py-2">Role</th>
             <th className="py-2">Trade</th>
             <th className="py-2">Phone</th>
-            <th className="py-2">Department</th>
+            <th className="py-2 text-right">Monthly Salary</th>
+            <th className="py-2 text-right">Hourly Rate</th>
             <th className="py-2">Reports To</th>
             <th className="py-2">Buildings</th>
+            <th className="py-2"></th>
           </tr>
         </thead>
         <tbody>
@@ -100,11 +103,23 @@ export default async function TeamManagementPage() {
               <td className="py-2 capitalize">{s.role.replace(/_/g, " ")}</td>
               <td className="py-2 text-[#a0977e] capitalize">{s.trade ?? "—"}</td>
               <td className="py-2 text-[#a0977e]">{s.phone ?? "—"}</td>
-              <td className="py-2 text-[#a0977e]">{s.department ?? "—"}</td>
+              <td className="py-2 text-right text-[#d4af5a]">
+                {s.monthly_salary ? `AED ${Number(s.monthly_salary).toLocaleString()}` : "—"}
+              </td>
+              <td className="py-2 text-right text-[#d4af5a]">
+                {s.hourly_rate ? `AED ${Number(s.hourly_rate).toLocaleString()}` : "—"}
+              </td>
               <td className="py-2 text-[#a0977e]">
                 {s.reports_to_id ? staffById.get(s.reports_to_id)?.full_name ?? "—" : "—"}
               </td>
               <td className="py-2 text-[#a0977e]">{(propertiesByUser.get(s.id) ?? []).join(", ") || "All"}</td>
+              <td className="py-2">
+                <EditSalary
+                  userId={s.id}
+                  currentSalary={s.monthly_salary ? Number(s.monthly_salary) : null}
+                  currentHourlyRate={s.hourly_rate ? Number(s.hourly_rate) : null}
+                />
+              </td>
             </tr>
           ))}
         </tbody>

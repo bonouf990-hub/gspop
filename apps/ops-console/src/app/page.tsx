@@ -20,6 +20,7 @@ const CARDS: Card[] = [
   { href: "/invoices", title: "Invoices & Payments", desc: "Track contractor invoices, verify against POs, record payments." },
   { href: "/activity-log", title: "Activity Log", desc: "Full audit trail of all operations across the platform." },
   { href: "/notifications", title: "Notifications", desc: "Alerts and updates for your team." },
+  { href: "/reports/maintenance-costs", title: "Maintenance Cost Report", desc: "Per-building and apartment cost breakdown: parts, labor, external." },
   { href: "/command-center", title: "GM Command Center", desc: "Live ops overview: jobs, contractors, inventory alerts." },
   { href: "/call-center", title: "Call Center", desc: "Identify callers and log complaints on their behalf." },
   { href: "/operations-monitor", title: "Operations Monitor", desc: "Trade utilization and workload signals." },

@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase-browser";
 type Props = {
   id: string;
   currentStatus: string;
+  startedAt: string | null;
 };
 
 const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: string }[]> = {
@@ -79,7 +80,7 @@ const STATUS_STYLE: Record<string, string> = {
   cancelled: "bg-red-900/20 text-red-400",
 };
 
-export default function WorkOrderStatusControl({ id, currentStatus }: Props) {
+export default function WorkOrderStatusControl({ id, currentStatus, startedAt }: Props) {
   const router = useRouter();
   const [acting, setActing] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -101,7 +102,19 @@ export default function WorkOrderStatusControl({ id, currentStatus }: Props) {
     setError(null);
     const supabase = createClient();
 
-    const update: Record<string, unknown> = { status: nextStatus, updated_at: new Date().toISOString() };
+    const now = new Date().toISOString();
+    const update: Record<string, unknown> = { status: nextStatus, updated_at: now };
+
+    if (nextStatus === "in_progress" && !startedAt) {
+      update.started_at = now;
+    }
+    if (nextStatus === "completed_by_technician") {
+      update.completed_at = now;
+      if (startedAt) {
+        const hours = (Date.now() - new Date(startedAt).getTime()) / 3_600_000;
+        update.hours_worked = Math.round(hours * 100) / 100;
+      }
+    }
 
     const { error: err } = await supabase
       .from("work_orders")

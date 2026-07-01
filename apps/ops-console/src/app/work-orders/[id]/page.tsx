@@ -201,7 +201,7 @@ export default async function WorkOrderDetailPage({
 
       <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
         <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Status</h2>
-        <WorkOrderStatusControl id={id} currentStatus={wo.status as string} />
+        <WorkOrderStatusControl id={id} currentStatus={wo.status as string} startedAt={(wo.started_at as string | null) ?? null} />
       </section>
 
       <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
@@ -232,6 +232,12 @@ export default async function WorkOrderDetailPage({
           <span>{wo.estimated_cost ? `AED ${wo.estimated_cost}` : "—"}</span>
           <span className="text-[#a0977e]">Actual cost</span>
           <span>{wo.actual_cost ? `AED ${wo.actual_cost}` : "—"}</span>
+          <span className="text-[#a0977e]">Started</span>
+          <span>{wo.started_at ? new Date(wo.started_at as string).toLocaleString() : "—"}</span>
+          <span className="text-[#a0977e]">Completed</span>
+          <span>{wo.completed_at ? new Date(wo.completed_at as string).toLocaleString() : "—"}</span>
+          <span className="text-[#a0977e]">Hours worked</span>
+          <span>{wo.hours_worked ? `${Number(wo.hours_worked).toFixed(1)}h` : "—"}</span>
           <span className="text-[#a0977e]">Created</span>
           <span>{new Date(wo.created_at as string).toLocaleString()}</span>
         </div>
