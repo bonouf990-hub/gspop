@@ -49,6 +49,7 @@ async function getCommandCenterData() {
     { data: complaints },
     { data: tenders },
     { data: pendingPOs },
+    { data: allPOs },
   ] = await Promise.all([
     supabase.from("properties").select("id, name"),
     supabase.from("work_orders").select("id, property_id, status, created_at, assigned_technician_id, type"),
@@ -63,6 +64,7 @@ async function getCommandCenterData() {
     supabase.from("complaints").select("id, status").in("status", ["submitted", "acknowledged"]),
     supabase.from("tenders").select("id, title, status, submission_deadline, site_visit_date").in("status", ["published", "site_visit", "submissions_open", "closed", "evaluating"]),
     supabase.from("purchase_orders").select("id, amount, urgency").eq("status", "pending"),
+    supabase.from("purchase_orders").select("id, amount, status, created_at"),
   ]);
 
   const propertiesById = new Map(((propList ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name]));
@@ -165,6 +167,20 @@ async function getCommandCenterData() {
   const pendingPOTotal = pendingPOList.reduce((s, o) => s + Number(o.amount), 0);
   const criticalPOs = pendingPOList.filter((o) => o.urgency === "critical" || o.urgency === "urgent").length;
 
+  const allPOList = (allPOs ?? []) as { id: string; amount: number; status: string; created_at: string }[];
+  const thisMonth = now.getMonth();
+  const thisYear = now.getFullYear();
+  const monthPOs = allPOList.filter((po) => {
+    const d = new Date(po.created_at);
+    return d.getMonth() === thisMonth && d.getFullYear() === thisYear;
+  });
+  const monthSpend = monthPOs
+    .filter((po) => ["approved", "fulfilled"].includes(po.status))
+    .reduce((s, po) => s + Number(po.amount), 0);
+  const totalApprovedSpend = allPOList
+    .filter((po) => ["approved", "fulfilled"].includes(po.status))
+    .reduce((s, po) => s + Number(po.amount), 0);
+
   const activeTenders = ((tenders ?? []) as {
     id: string;
     title: string;
@@ -191,6 +207,8 @@ async function getCommandCenterData() {
     pendingPOCount,
     pendingPOTotal,
     criticalPOs,
+    monthSpend,
+    totalApprovedSpend,
   };
 }
 
@@ -209,6 +227,8 @@ export default async function CommandCenterPage() {
     pendingPOCount,
     pendingPOTotal,
     criticalPOs,
+    monthSpend,
+    totalApprovedSpend,
   } = await getCommandCenterData();
 
   const kpis = [
@@ -245,6 +265,38 @@ export default async function CommandCenterPage() {
             <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
+      </div>
+
+      <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+            Financial Summary
+          </h2>
+          <Link href="/purchasing" className="text-xs text-[#b8902f] hover:text-[#d4af5a]">
+            View All POs →
+          </Link>
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <p className="text-xs text-[#a0977e]">This Month Approved</p>
+            <p className="text-xl font-extrabold text-[#d4af5a]">
+              AED {monthSpend.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-[#a0977e]">Total Approved Spend</p>
+            <p className="text-xl font-extrabold text-[#d4af5a]">
+              AED {totalApprovedSpend.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-[#a0977e]">Awaiting Approval</p>
+            <p className="text-xl font-extrabold text-amber-400">
+              AED {pendingPOTotal.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+            </p>
+            <p className="text-[10px] text-[#6b6454]">{pendingPOCount} order{pendingPOCount !== 1 ? "s" : ""}</p>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
