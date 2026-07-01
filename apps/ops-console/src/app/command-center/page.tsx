@@ -312,9 +312,14 @@ export default async function CommandCenterPage() {
 
       {lowStockItems.length > 0 && (
         <section className="border border-amber-700 bg-amber-950/30 rounded-xl p-5 mb-8">
-          <h2 className="text-xs font-bold text-amber-400 tracking-[0.15em] uppercase mb-3">
-            Low Stock Alerts ({lowStockItems.length})
-          </h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-xs font-bold text-amber-400 tracking-[0.15em] uppercase">
+              Low Stock Alerts ({lowStockItems.length})
+            </h2>
+            <Link href="/inventory/reports" className="text-xs text-amber-400 hover:text-amber-300">
+              View Monthly Report →
+            </Link>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {lowStockItems.map((i, idx) => (
               <div key={idx} className="bg-[#0f1626] rounded-lg px-3 py-2 flex justify-between text-sm">
@@ -329,6 +334,27 @@ export default async function CommandCenterPage() {
           </div>
         </section>
       )}
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        {[
+          { href: "/work-orders", label: "Work Orders" },
+          { href: "/store", label: "Store & Dispatch" },
+          { href: "/vendors", label: "Vendors & Contracts" },
+          { href: "/inventory/reports", label: "Inventory Report" },
+          { href: "/complaints", label: "Complaints" },
+          { href: "/purchasing", label: "Purchase Orders" },
+          { href: "/operations-monitor", label: "Operations Monitor" },
+          { href: "/staff-dashboard", label: "Staff Dashboard" },
+        ].map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-3 text-center text-sm font-medium hover:border-[#b8902f] transition-colors"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </div>
     </main>
   );
 }
