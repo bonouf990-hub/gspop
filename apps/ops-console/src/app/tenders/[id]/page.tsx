@@ -86,7 +86,7 @@ async function getTenderData(id: string) {
       .select(
         `id, title, description, scope_of_work, budget_estimate, currency,
          submission_deadline, status, created_at, decided_vendor_id, decided_reason,
-         site_visit_required, site_visit_date, site_visit_location, site_visit_notes,
+         property_id, site_visit_required, site_visit_date, site_visit_location, site_visit_notes,
          property:properties(name),
          creator:user_profiles!tenders_created_by_fkey(full_name)`
       )
@@ -320,11 +320,15 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
         <div className="mb-8">
           <DecideWinner
             tenderId={tender.id}
+            tenderTitle={tender.title}
+            propertyId={(tender as unknown as { property_id?: string }).property_id ?? null}
+            currency={tender.currency}
             submissions={submissions.map((s) => ({
               id: s.id,
               vendor_name: s.vendor_name,
               vendor_id: null,
               ai_score: s.ai_score,
+              proposed_amount: s.proposed_amount,
             }))}
           />
         </div>

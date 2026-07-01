@@ -47,6 +47,7 @@ async function getCommandCenterData() {
     { data: propList },
     { data: partsRequests },
     { data: complaints },
+    { data: tenders },
   ] = await Promise.all([
     supabase.from("properties").select("id, name"),
     supabase.from("work_orders").select("id, property_id, status, created_at, assigned_technician_id, type"),
@@ -59,6 +60,7 @@ async function getCommandCenterData() {
     supabase.from("properties").select("id, name"),
     supabase.from("parts_requests").select("id, status").in("status", ["requested", "approved", "picking", "delivering"]),
     supabase.from("complaints").select("id, status").in("status", ["submitted", "acknowledged"]),
+    supabase.from("tenders").select("id, title, status, submission_deadline, site_visit_date").in("status", ["published", "site_visit", "submissions_open", "closed", "evaluating"]),
   ]);
 
   const propertiesById = new Map(((propList ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name]));
@@ -156,6 +158,18 @@ async function getCommandCenterData() {
   const activeProjects = vendorProjects.filter((v) => v.status === "active");
   const overdueProjects = vendorProjects.filter((v) => v.is_overdue);
 
+  const activeTenders = ((tenders ?? []) as {
+    id: string;
+    title: string;
+    status: string;
+    submission_deadline: string;
+    site_visit_date: string | null;
+  }[]).map((t) => {
+    const deadline = new Date(t.submission_deadline);
+    const daysToDeadline = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    return { ...t, daysToDeadline };
+  });
+
   return {
     propertySummaries,
     vendorProjects,
@@ -166,6 +180,7 @@ async function getCommandCenterData() {
     openComplaints,
     activeProjects,
     overdueProjects,
+    activeTenders,
   };
 }
 
@@ -180,6 +195,7 @@ export default async function CommandCenterPage() {
     openComplaints,
     activeProjects,
     overdueProjects,
+    activeTenders,
   } = await getCommandCenterData();
 
   const kpis = [
@@ -189,6 +205,7 @@ export default async function CommandCenterPage() {
     { label: "Parts Requests", value: pendingPartsRequests, color: "text-[#d4af5a]" },
     { label: "Active Projects", value: activeProjects.length, color: "text-[#d4af5a]" },
     { label: "Overdue Projects", value: overdueProjects.length, color: overdueProjects.length > 0 ? "text-red-400" : "text-green-400" },
+    { label: "Active Tenders", value: activeTenders.length, color: activeTenders.length > 0 ? "text-[#d4af5a]" : "text-[#6b6454]" },
     { label: "Low Stock Items", value: lowStockItems.length, color: lowStockItems.length > 0 ? "text-amber-400" : "text-green-400" },
   ];
 
@@ -207,7 +224,7 @@ export default async function CommandCenterPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 mb-8">
         {kpis.map((k) => (
           <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
             <p className={`text-3xl font-extrabold ${k.color}`}>{k.value}</p>
@@ -310,6 +327,49 @@ export default async function CommandCenterPage() {
         </section>
       </div>
 
+      {activeTenders.length > 0 && (
+        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              Active Tenders ({activeTenders.length})
+            </h2>
+            <Link href="/tenders" className="text-xs text-[#b8902f] hover:text-[#d4af5a]">
+              Manage Tenders →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {activeTenders.map((t) => {
+              const statusLabel: Record<string, string> = {
+                published: "Published",
+                site_visit: "Site Visit",
+                submissions_open: "Accepting Bids",
+                closed: "Closed",
+                evaluating: "Under Evaluation",
+              };
+              return (
+                <Link
+                  key={t.id}
+                  href={`/tenders/${t.id}`}
+                  className="bg-[#0f1626] rounded-lg px-3 py-2.5 border border-[rgba(184,144,47,0.08)] hover:border-[#b8902f] transition-colors"
+                >
+                  <p className="text-sm font-medium">{t.title}</p>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-[10px] text-[#a0977e]">{statusLabel[t.status] ?? t.status}</span>
+                    {t.daysToDeadline >= 0 ? (
+                      <span className={`text-xs font-bold ${t.daysToDeadline <= 3 ? "text-amber-400" : "text-[#d4af5a]"}`}>
+                        {t.daysToDeadline}d left
+                      </span>
+                    ) : (
+                      <span className="text-xs text-[#6b6454]">Deadline passed</span>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {lowStockItems.length > 0 && (
         <section className="border border-amber-700 bg-amber-950/30 rounded-xl p-5 mb-8">
           <div className="flex items-center justify-between mb-3">
@@ -341,10 +401,10 @@ export default async function CommandCenterPage() {
           { href: "/store", label: "Store & Dispatch" },
           { href: "/vendors", label: "Vendors & Contracts" },
           { href: "/inventory/reports", label: "Inventory Report" },
+          { href: "/tenders", label: "Tenders" },
           { href: "/complaints", label: "Complaints" },
           { href: "/purchasing", label: "Purchase Orders" },
           { href: "/operations-monitor", label: "Operations Monitor" },
-          { href: "/staff-dashboard", label: "Staff Dashboard" },
         ].map((link) => (
           <Link
             key={link.href}
