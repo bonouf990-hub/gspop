@@ -10,6 +10,7 @@ const CARDS: Card[] = [
   { href: "/compliance", title: "Compliance", desc: "Document expiry and regulatory tracking." },
   { href: "/visitors", title: "Visitor Log", desc: "Gate activity and pre-authorized visitors." },
   { href: "/security", title: "Security Console", desc: "Live gate queue: check visitors in and out." },
+  { href: "/bookings", title: "Bookings", desc: "Common-area reservations: gym, pool, function rooms." },
   { href: "/call-center", title: "Call Center", desc: "Identify callers and log complaints on their behalf." },
   { href: "/operations-monitor", title: "Operations Monitor", desc: "Trade utilization and workload signals." },
   { href: "/staff-dashboard", title: "Staff Dashboard", desc: "Per-technician KPIs and throughput." },
