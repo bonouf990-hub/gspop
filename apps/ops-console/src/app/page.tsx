@@ -13,6 +13,7 @@ const CARDS: Card[] = [
   { href: "/bookings", title: "Bookings", desc: "Common-area reservations: gym, pool, function rooms." },
   { href: "/inventory", title: "Inventory & Store", desc: "Stock levels, reorder alerts, and movement tracking." },
   { href: "/purchasing", title: "Purchasing", desc: "Purchase orders, vendor selection, and fulfillment." },
+  { href: "/tenders", title: "Tender Management", desc: "Create RFPs, receive vendor bids, AI-scored evaluation." },
   { href: "/vendors", title: "Vendors & Contracts", desc: "Manage suppliers, ratings, and service contracts." },
   { href: "/store", title: "Store & Dispatch", desc: "Pick, pack, and deliver parts requests from technicians." },
   { href: "/command-center", title: "GM Command Center", desc: "Live ops overview: jobs, contractors, inventory alerts." },
