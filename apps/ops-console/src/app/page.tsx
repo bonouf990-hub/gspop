@@ -26,6 +26,7 @@ const CARDS: Card[] = [
   { href: "/staff-dashboard", title: "Staff Dashboard", desc: "Per-technician KPIs and throughput." },
   { href: "/admin/residents", title: "Residents & Leases", desc: "Onboard residents, rent schedules, documents.", adminOnly: true },
   { href: "/admin/notices", title: "Building Notices", desc: "Post announcements to residents.", adminOnly: true },
+  { href: "/admin/workflows", title: "Workflow Configuration", desc: "Control permissions, approval chains, and task routing.", adminOnly: true },
   { href: "/admin/team", title: "Team Management", desc: "Create staff, roles, reporting lines.", adminOnly: true },
 ];
 
