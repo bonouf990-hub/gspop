@@ -52,7 +52,15 @@ export default async function InventoryPage() {
             Track stock levels, record movements, and flag items below reorder threshold.
           </p>
         </div>
-        <AddInventoryItem properties={properties} />
+        <div className="flex gap-2">
+          <Link
+            href="/inventory/reports"
+            className="text-xs font-bold px-4 py-2 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"
+          >
+            Monthly Report
+          </Link>
+          <AddInventoryItem properties={properties} />
+        </div>
       </div>
 
       {lowStock.length > 0 && (
