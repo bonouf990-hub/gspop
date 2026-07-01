@@ -16,17 +16,22 @@ export default function RequestParts({
   workOrderId,
   propertyId,
   items,
+  propertyName,
+  unitLabel,
 }: {
   workOrderId: string;
   propertyId: string;
   items: InventoryItem[];
+  propertyName: string;
+  unitLabel: string;
 }) {
+  const defaultLocation = [propertyName, unitLabel].filter(Boolean).join(", ");
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [itemId, setItemId] = useState("");
   const [quantity, setQuantity] = useState("1");
   const [deliveryMethod, setDeliveryMethod] = useState("deliver");
-  const [deliveryLocation, setDeliveryLocation] = useState("");
+  const [deliveryLocation, setDeliveryLocation] = useState(defaultLocation);
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -16,6 +16,16 @@ type PartsRequestRow = {
   work_order: { title: string; properties: { name: string } | null; units: { label: string } | null } | null;
 };
 
+type ApartmentPart = {
+  property_name: string;
+  unit_label: string | null;
+  item_name: string;
+  item_sku: string | null;
+  total_qty: number;
+  last_issued: string;
+  request_count: number;
+};
+
 async function getStoreData() {
   const supabase = await createClient();
   const { data } = await supabase
@@ -27,13 +37,45 @@ async function getStoreData() {
        work_order:work_orders(title, properties(name), units(label))`
     )
     .order("created_at", { ascending: false })
-    .limit(100);
+    .limit(200);
 
   const all = (data ?? []) as unknown as PartsRequestRow[];
   const pending = all.filter((r) => ["requested", "approved", "picking", "delivering"].includes(r.status));
   const completed = all.filter((r) => ["delivered", "collected", "rejected"].includes(r.status));
 
-  return { pending, completed };
+  const fulfilled = all.filter((r) => ["delivered", "collected"].includes(r.status));
+  const apartmentMap = new Map<string, ApartmentPart>();
+  for (const r of fulfilled) {
+    const wo = r.work_order as { title: string; properties: { name: string } | null; units: { label: string } | null } | null;
+    const property = wo?.properties as { name: string } | null;
+    const unit = wo?.units as { label: string } | null;
+    const item = r.inventory_item as { name: string; sku: string | null } | null;
+    if (!property || !item) continue;
+
+    const key = `${property.name}||${unit?.label ?? ""}||${item.name}`;
+    const existing = apartmentMap.get(key);
+    if (existing) {
+      existing.total_qty += Number(r.quantity);
+      existing.request_count++;
+      if (r.created_at > existing.last_issued) existing.last_issued = r.created_at;
+    } else {
+      apartmentMap.set(key, {
+        property_name: property.name,
+        unit_label: unit?.label ?? null,
+        item_name: item.name,
+        item_sku: item.sku ?? null,
+        total_qty: Number(r.quantity),
+        last_issued: r.created_at,
+        request_count: 1,
+      });
+    }
+  }
+
+  const apartmentParts = [...apartmentMap.values()].sort((a, b) =>
+    a.property_name.localeCompare(b.property_name) || (a.unit_label ?? "").localeCompare(b.unit_label ?? "")
+  );
+
+  return { pending, completed, apartmentParts };
 }
 
 const STATUS_STYLE: Record<string, string> = {
@@ -47,7 +89,7 @@ const STATUS_STYLE: Record<string, string> = {
 };
 
 export default async function StorePage() {
-  const { pending, completed } = await getStoreData();
+  const { pending, completed, apartmentParts } = await getStoreData();
 
   return (
     <main className="p-8">
@@ -136,47 +178,116 @@ export default async function StorePage() {
         )}
       </section>
 
-      <section>
+      <section className="mb-8">
         <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
           Completed ({completed.length})
         </h2>
         {completed.length === 0 ? (
           <p className="text-[#6b6454] text-sm">No completed requests yet.</p>
         ) : (
-          <table className="w-full text-sm border-collapse">
-            <thead>
-              <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-                <th className="py-2 font-medium">Item</th>
-                <th className="py-2 font-medium">Qty</th>
-                <th className="py-2 font-medium">Requester</th>
-                <th className="py-2 font-medium">Method</th>
-                <th className="py-2 font-medium">Status</th>
-                <th className="py-2 font-medium">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {completed.map((r) => {
-                const item = r.inventory_item as { name: string } | null;
-                const requester = r.requester as { full_name: string } | null;
-                return (
-                  <tr key={r.id} className="border-b border-[rgba(184,144,47,0.08)]">
-                    <td className="py-2">{item?.name ?? "—"}</td>
-                    <td className="py-2">{Number(r.quantity)}</td>
-                    <td className="py-2 text-[#a0977e]">{requester?.full_name ?? "—"}</td>
-                    <td className="py-2 text-[#a0977e]">
-                      {r.delivery_method === "deliver" ? "Deliver" : "Pickup"}
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse min-w-[900px]">
+              <thead>
+                <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
+                  <th className="py-2 font-medium">Item</th>
+                  <th className="py-2 font-medium">Qty</th>
+                  <th className="py-2 font-medium">Building / Apartment</th>
+                  <th className="py-2 font-medium">Work Order</th>
+                  <th className="py-2 font-medium">Requester</th>
+                  <th className="py-2 font-medium">Method</th>
+                  <th className="py-2 font-medium">Status</th>
+                  <th className="py-2 font-medium">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {completed.map((r) => {
+                  const item = r.inventory_item as { name: string; sku: string | null } | null;
+                  const requester = r.requester as { full_name: string } | null;
+                  const wo = r.work_order as { title: string; properties: { name: string } | null; units: { label: string } | null } | null;
+                  const property = wo?.properties as { name: string } | null;
+                  const unit = wo?.units as { label: string } | null;
+                  return (
+                    <tr key={r.id} className="border-b border-[rgba(184,144,47,0.08)]">
+                      <td className="py-2">
+                        {item?.name ?? "—"}
+                        {item?.sku && <span className="text-[#6b6454] text-[10px] ml-1">({item.sku})</span>}
+                      </td>
+                      <td className="py-2 font-medium">{Number(r.quantity)}</td>
+                      <td className="py-2">
+                        <span className="font-medium">{property?.name ?? "—"}</span>
+                        {unit && <span className="text-[#d4af5a] ml-1">· {unit.label}</span>}
+                      </td>
+                      <td className="py-2">
+                        {r.work_order_id ? (
+                          <Link href={`/work-orders/${r.work_order_id}`} className="text-[#d4af5a] hover:underline text-xs">
+                            {wo?.title ?? "View"}
+                          </Link>
+                        ) : "—"}
+                      </td>
+                      <td className="py-2 text-[#a0977e]">{requester?.full_name ?? "—"}</td>
+                      <td className="py-2 text-[#a0977e]">
+                        {r.delivery_method === "deliver" ? "Deliver" : "Pickup"}
+                      </td>
+                      <td className="py-2">
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[r.status] ?? ""}`}>
+                          {r.status}
+                        </span>
+                      </td>
+                      <td className="py-2 text-[#6b6454]">{new Date(r.created_at).toLocaleDateString()}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section>
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          Parts Issued by Building & Apartment
+        </h2>
+        <p className="text-xs text-[#a0977e] mb-3">
+          Complete record of all parts delivered to each apartment — track what was issued, when, and how many times.
+        </p>
+        {apartmentParts.length === 0 ? (
+          <p className="text-[#6b6454] text-sm">No parts issued yet.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse min-w-[800px]">
+              <thead>
+                <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
+                  <th className="py-2 font-medium">Building</th>
+                  <th className="py-2 font-medium">Apartment</th>
+                  <th className="py-2 font-medium">Part</th>
+                  <th className="py-2 font-medium text-right">Total Qty</th>
+                  <th className="py-2 font-medium text-right">Times Issued</th>
+                  <th className="py-2 font-medium">Last Issued</th>
+                </tr>
+              </thead>
+              <tbody>
+                {apartmentParts.map((ap, i) => (
+                  <tr key={i} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
+                    <td className="py-2 font-medium">{ap.property_name}</td>
+                    <td className="py-2">
+                      {ap.unit_label ? (
+                        <span className="text-[#d4af5a] font-medium">{ap.unit_label}</span>
+                      ) : (
+                        <span className="text-[#6b6454]">Common Area</span>
+                      )}
                     </td>
                     <td className="py-2">
-                      <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[r.status] ?? ""}`}>
-                        {r.status}
-                      </span>
+                      {ap.item_name}
+                      {ap.item_sku && <span className="text-[#6b6454] text-[10px] ml-1">({ap.item_sku})</span>}
                     </td>
-                    <td className="py-2 text-[#6b6454]">{new Date(r.created_at).toLocaleDateString()}</td>
+                    <td className="py-2 text-right text-[#d4af5a] font-bold">{ap.total_qty}</td>
+                    <td className="py-2 text-right text-[#a0977e]">{ap.request_count}</td>
+                    <td className="py-2 text-[#6b6454]">{new Date(ap.last_issued).toLocaleDateString()}</td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </section>
     </main>

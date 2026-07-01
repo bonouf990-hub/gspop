@@ -286,6 +286,8 @@ export default async function WorkOrderDetailPage({
               workOrderId={id}
               propertyId={propertyId}
               items={inventoryItems}
+              propertyName={property?.name ?? ""}
+              unitLabel={unit?.label ?? ""}
             />
           )}
         </div>
