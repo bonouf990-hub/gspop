@@ -1,7 +1,8 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type Complaint } from "@gspop/shared";
 import BottomNav from "@/components/BottomNav";
-import { ClipboardList } from "lucide-react";
+import { ClipboardList, ChevronRight } from "lucide-react";
 
 const STATUS_STYLE: Record<string, string> = {
   submitted: "bg-[var(--gold-pale)] text-[#8a6a1f]",
@@ -40,19 +41,24 @@ export default async function MyComplaintsPage() {
         <section className="elevated-card rounded-2xl p-5">
           <ul className="space-y-3">
             {complaints.map((c) => (
-              <li
-                key={c.id}
-                className="flex items-center justify-between pb-3 border-b border-[var(--hairline)] last:border-0 last:pb-0"
-              >
-                <div>
-                  <p className="text-sm font-medium text-[var(--navy)]">{c.title}</p>
-                  <p className="text-xs text-[var(--muted)] mt-0.5">
-                    {new Date(c.submittedAt).toLocaleDateString()}
-                  </p>
-                </div>
-                <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[c.status]}`}>
-                  {c.status.replace(/_/g, " ")}
-                </span>
+              <li key={c.id} className="border-b border-[var(--hairline)] last:border-0">
+                <Link
+                  href={`/complaints/${c.id}`}
+                  className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
+                >
+                  <div>
+                    <p className="text-sm font-medium text-[var(--navy)]">{c.title}</p>
+                    <p className="text-xs text-[var(--muted)] mt-0.5">
+                      {new Date(c.submittedAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[c.status]}`}>
+                      {c.status.replace(/_/g, " ")}
+                    </span>
+                    <ChevronRight size={16} className="text-[var(--hairline)]" />
+                  </div>
+                </Link>
               </li>
             ))}
             {complaints.length === 0 && (
