@@ -37,11 +37,13 @@ type AssignmentRow = {
 
 async function getPageData() {
   const supabase = await createClient();
-  const [{ data: vendors }, { data: contracts }, { data: assignments }, { data: properties }] = await Promise.all([
+  const [{ data: vendors }, { data: contracts }, { data: assignments }, { data: properties }, { data: tenderWins }, { data: posByVendor }] = await Promise.all([
     supabase.from("vendors").select("id, name, category, rating, created_at").order("name"),
     supabase.from("contracts").select("id, vendor_id, title, sla_hours, start_date, end_date, value").order("end_date", { ascending: false }),
     supabase.from("vendor_assignments").select("id, vendor_id, property_id, project_name, scope, start_date, expected_end_date, actual_end_date, status, sla_days").order("start_date", { ascending: false }),
     supabase.from("properties").select("id, name"),
+    supabase.from("tenders").select("id, title, decided_vendor_id, decided_at").not("decided_vendor_id", "is", null),
+    supabase.from("purchase_orders").select("id, vendor_id, amount, status").not("vendor_id", "is", null),
   ]);
 
   const contractsByVendor = new Map<string, ContractRow[]>();
@@ -60,17 +62,37 @@ async function getPageData() {
 
   const propertiesById = new Map(((properties ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name]));
 
+  const tenderWinsByVendor = new Map<string, number>();
+  ((tenderWins ?? []) as { id: string; decided_vendor_id: string }[]).forEach((t) => {
+    tenderWinsByVendor.set(t.decided_vendor_id, (tenderWinsByVendor.get(t.decided_vendor_id) ?? 0) + 1);
+  });
+
+  const poSpendByVendor = new Map<string, { total: number; fulfilled: number; count: number }>();
+  ((posByVendor ?? []) as { id: string; vendor_id: string; amount: number; status: string }[]).forEach((po) => {
+    const current = poSpendByVendor.get(po.vendor_id) ?? { total: 0, fulfilled: 0, count: 0 };
+    if (["approved", "fulfilled"].includes(po.status)) {
+      current.total += Number(po.amount);
+      current.count++;
+    }
+    if (po.status === "fulfilled") {
+      current.fulfilled += Number(po.amount);
+    }
+    poSpendByVendor.set(po.vendor_id, current);
+  });
+
   return {
     vendors: (vendors ?? []) as VendorRow[],
     properties: (properties ?? []) as { id: string; name: string }[],
     contractsByVendor,
     assignmentsByVendor,
     propertiesById,
+    tenderWinsByVendor,
+    poSpendByVendor,
   };
 }
 
 export default async function VendorsPage() {
-  const { vendors, properties, contractsByVendor, assignmentsByVendor, propertiesById } = await getPageData();
+  const { vendors, properties, contractsByVendor, assignmentsByVendor, propertiesById, tenderWinsByVendor, poSpendByVendor } = await getPageData();
 
   return (
     <main className="p-8">
@@ -122,6 +144,56 @@ export default async function VendorsPage() {
                   {contracts.length} contract{contracts.length !== 1 ? "s" : ""}
                 </span>
               </div>
+
+              {(() => {
+                const completedAssignments = assignments.filter((a) => a.status === "completed");
+                const overdueCompleted = completedAssignments.filter((a) => {
+                  if (!a.expected_end_date || !a.actual_end_date) return false;
+                  return new Date(a.actual_end_date) > new Date(a.expected_end_date);
+                });
+                const tenderWins = tenderWinsByVendor.get(v.id) ?? 0;
+                const poData = poSpendByVendor.get(v.id);
+                const hasMetrics = completedAssignments.length > 0 || tenderWins > 0 || poData;
+
+                if (!hasMetrics) return null;
+
+                const onTimeRate = completedAssignments.length > 0
+                  ? Math.round(((completedAssignments.length - overdueCompleted.length) / completedAssignments.length) * 100)
+                  : null;
+
+                return (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                    {completedAssignments.length > 0 && (
+                      <div className="bg-[#0f1626] rounded-lg px-3 py-2 text-center">
+                        <p className="text-lg font-extrabold text-green-400">{completedAssignments.length}</p>
+                        <p className="text-[10px] text-[#6b6454] uppercase">Completed</p>
+                      </div>
+                    )}
+                    {onTimeRate !== null && (
+                      <div className="bg-[#0f1626] rounded-lg px-3 py-2 text-center">
+                        <p className={`text-lg font-extrabold ${onTimeRate >= 80 ? "text-green-400" : onTimeRate >= 60 ? "text-amber-400" : "text-red-400"}`}>
+                          {onTimeRate}%
+                        </p>
+                        <p className="text-[10px] text-[#6b6454] uppercase">On-Time</p>
+                      </div>
+                    )}
+                    {tenderWins > 0 && (
+                      <div className="bg-[#0f1626] rounded-lg px-3 py-2 text-center">
+                        <p className="text-lg font-extrabold text-[#d4af5a]">{tenderWins}</p>
+                        <p className="text-[10px] text-[#6b6454] uppercase">Tender Wins</p>
+                      </div>
+                    )}
+                    {poData && poData.total > 0 && (
+                      <div className="bg-[#0f1626] rounded-lg px-3 py-2 text-center">
+                        <p className="text-lg font-extrabold text-[#d4af5a]">
+                          {(poData.total / 1000).toFixed(0)}K
+                        </p>
+                        <p className="text-[10px] text-[#6b6454] uppercase">PO Value (AED)</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
 
               {activeContracts.length > 0 && (
                 <div className="space-y-1.5">
