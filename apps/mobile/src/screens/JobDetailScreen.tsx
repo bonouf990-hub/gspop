@@ -15,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 import type { WorkOrder } from "@gspop/shared";
 import { supabase } from "../lib/supabase";
 import { BASE, COLORS, SHADOWS } from "../theme";
+import PartsRequest from "../components/PartsRequest";
 
 type Props = {
   route: { params: { workOrderId: string } };
@@ -332,6 +333,10 @@ export default function JobDetailScreen({ route, navigation }: Props) {
               </View>
             )}
           </View>
+
+          {checkedIn && job.tenantId && (
+            <PartsRequest workOrderId={workOrderId} tenantId={job.tenantId} />
+          )}
 
           <View style={BASE.card}>
             <View style={st.stepHeader}>

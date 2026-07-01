@@ -14,6 +14,8 @@ const CARDS: Card[] = [
   { href: "/inventory", title: "Inventory & Store", desc: "Stock levels, reorder alerts, and movement tracking." },
   { href: "/purchasing", title: "Purchasing", desc: "Purchase orders, vendor selection, and fulfillment." },
   { href: "/vendors", title: "Vendors & Contracts", desc: "Manage suppliers, ratings, and service contracts." },
+  { href: "/store", title: "Store & Dispatch", desc: "Pick, pack, and deliver parts requests from technicians." },
+  { href: "/command-center", title: "GM Command Center", desc: "Live ops overview: jobs, contractors, inventory alerts." },
   { href: "/call-center", title: "Call Center", desc: "Identify callers and log complaints on their behalf." },
   { href: "/operations-monitor", title: "Operations Monitor", desc: "Trade utilization and workload signals." },
   { href: "/staff-dashboard", title: "Staff Dashboard", desc: "Per-technician KPIs and throughput." },
