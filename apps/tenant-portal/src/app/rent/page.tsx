@@ -1,24 +1,28 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
-import { camelCaseKeys, type RentInvoice } from "@gspop/shared";
+import { camelCaseKeys, type Lease, type RentInvoice } from "@gspop/shared";
 import BottomNav from "@/components/BottomNav";
-import { CreditCard } from "lucide-react";
+import { CreditCard, ChevronRight } from "lucide-react";
 
-async function getMyInvoices(): Promise<RentInvoice[]> {
+async function getRent(): Promise<{ lease: Lease | null; invoices: RentInvoice[] }> {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
-  const { data: lease } = await supabase
+  const { data: leaseRow } = await supabase
     .from("leases")
-    .select("id")
+    .select("*")
     .eq("primary_resident_id", userData.user?.id)
     .eq("status", "active")
     .single();
-  if (!lease) return [];
+  if (!leaseRow) return { lease: null, invoices: [] };
   const { data } = await supabase
     .from("rent_invoices")
     .select("*")
-    .eq("lease_id", lease.id)
+    .eq("lease_id", leaseRow.id)
     .order("due_date", { ascending: false });
-  return camelCaseKeys<RentInvoice[]>(data ?? []);
+  return {
+    lease: camelCaseKeys<Lease>(leaseRow),
+    invoices: camelCaseKeys<RentInvoice[]>(data ?? []),
+  };
 }
 
 const STATUS_STYLE: Record<string, string> = {
@@ -28,8 +32,22 @@ const STATUS_STYLE: Record<string, string> = {
   waived: "bg-[#F1EFE8] text-[var(--muted)]",
 };
 
+const STATUS_LABEL: Record<string, string> = {
+  overdue: "Overdue",
+  pending: "Upcoming",
+  paid: "Cleared",
+  waived: "Waived",
+};
+
+const DEPOSIT_LABEL: Record<string, string> = {
+  held: "Held",
+  partially_refunded: "Partially refunded",
+  refunded: "Refunded",
+  forfeited: "Forfeited",
+};
+
 export default async function RentPage() {
-  const invoices = await getMyInvoices();
+  const { lease, invoices } = await getRent();
 
   return (
     <main className="min-h-screen bg-[var(--background)] pb-32">
@@ -40,27 +58,87 @@ export default async function RentPage() {
         <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Rent & Payments</h1>
       </div>
 
-      <div className="px-5">
-        <section className="elevated-card rounded-2xl p-5">
-          <ul className="space-y-3">
-            {invoices.map((i) => (
-              <li
-                key={i.id}
-                className="flex items-center justify-between pb-3 border-b border-[var(--hairline)] last:border-0 last:pb-0"
-              >
-                <div>
-                  <p className="font-display text-lg text-[var(--navy)]">{i.amount} AED</p>
-                  <p className="text-xs text-[var(--muted)] mt-0.5">Due {i.dueDate}</p>
-                </div>
-                <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[i.status]}`}>
-                  {i.status}
+      <div className="px-5 space-y-5">
+        {/* Lease terms */}
+        {lease && (
+          <section className="elevated-card rounded-2xl p-6">
+            <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-4">
+              Your Tenancy
+            </p>
+            <div className="space-y-2.5 text-sm">
+              <div className="flex justify-between">
+                <span className="text-[var(--muted)]">Rent</span>
+                <span className="text-[var(--navy)] font-medium">
+                  {lease.rentAmount != null ? `${lease.rentAmount} AED` : "—"}
+                  {lease.rentFrequency ? ` / ${lease.rentFrequency}` : ""}
                 </span>
-              </li>
-            ))}
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[var(--muted)]">Security deposit</span>
+                <span className="text-[var(--navy)] font-medium">
+                  {lease.depositAmount != null ? `${lease.depositAmount} AED` : "—"}
+                  <span className="text-[var(--muted)] font-normal">
+                    {" "}({DEPOSIT_LABEL[lease.depositStatus] ?? lease.depositStatus})
+                  </span>
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-[var(--muted)]">Lease period</span>
+                <span className="text-[var(--navy)] font-medium">
+                  {lease.startDate}
+                  {lease.endDate ? ` – ${lease.endDate}` : ""}
+                </span>
+              </div>
+            </div>
+            <p className="text-[11px] text-[var(--muted)] mt-4 leading-relaxed">
+              Rent is collected by the post-dated cheques held under your tenancy contract. Each
+              row below is one cheque in the schedule; it shows as <span className="font-medium">Cleared</span> once
+              the cheque is deposited.
+            </p>
+          </section>
+        )}
+
+        {/* Cheque schedule */}
+        <section className="elevated-card rounded-2xl p-5">
+          <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-3 px-1">
+            Payment Schedule
+          </p>
+          <ul className="space-y-1">
+            {invoices.map((i) => {
+              const cleared = i.status === "paid";
+              const row = (
+                <div className="flex items-center justify-between py-3">
+                  <div>
+                    <p className="font-display text-lg text-[var(--navy)]">{i.amount} AED</p>
+                    <p className="text-xs text-[var(--muted)] mt-0.5">
+                      Due {i.dueDate}
+                      {i.chequeNumber ? ` · Cheque ${i.chequeNumber}` : ""}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[i.status]}`}>
+                      {STATUS_LABEL[i.status] ?? i.status}
+                    </span>
+                    {cleared && <ChevronRight size={16} className="text-[var(--hairline)]" />}
+                  </div>
+                </div>
+              );
+              return (
+                <li key={i.id} className="border-b border-[var(--hairline)] last:border-0">
+                  {cleared ? (
+                    <Link href={`/rent/${i.id}`} className="block first:pt-0">
+                      {row}
+                    </Link>
+                  ) : (
+                    row
+                  )}
+                </li>
+              );
+            })}
             {invoices.length === 0 && (
               <div className="text-center py-8">
                 <CreditCard size={28} className="mx-auto mb-2 text-[var(--gold)]" strokeWidth={1.5} />
-                <p className="text-[var(--muted)] text-sm">No invoices yet.</p>
+                <p className="text-[var(--muted)] text-sm">No payment schedule yet.</p>
               </div>
             )}
           </ul>

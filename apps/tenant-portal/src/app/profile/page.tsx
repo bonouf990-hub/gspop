@@ -2,9 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
 import BottomNav from "@/components/BottomNav";
-import { Camera, User, LogOut, Check } from "lucide-react";
+import { Camera, User, LogOut, Check, FileText, ChevronRight } from "lucide-react";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -243,6 +244,20 @@ export default function ProfilePage() {
             )}
           </button>
         </form>
+
+        <Link
+          href="/documents"
+          className="elevated-card rounded-2xl p-4 flex items-center gap-3"
+        >
+          <span className="w-10 h-10 shrink-0 rounded-full bg-[var(--gold-pale)] text-[var(--gold)] flex items-center justify-center">
+            <FileText size={18} strokeWidth={1.8} />
+          </span>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-[var(--navy)]">My Documents</p>
+            <p className="text-xs text-[var(--muted)]">Tenancy contract, Ejari, receipts</p>
+          </div>
+          <ChevronRight size={18} className="text-[var(--hairline)]" />
+        </Link>
 
         <button
           type="button"
