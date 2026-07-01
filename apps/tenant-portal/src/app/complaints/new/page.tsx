@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, Snowflake, Lightbulb, Flame, Lock, Droplets, Wifi, Bug, Sparkles, Volume2, FileQuestion, Camera } from "lucide-react";
+import { ChevronLeft, Snowflake, Lightbulb, Flame, Lock, Droplets, Wifi, Bug, Sparkles, Volume2, FileQuestion, Camera, X } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 import { camelCaseKeys, type ComplaintCategory, type ComplaintSubissue } from "@gspop/shared";
 
@@ -27,7 +27,38 @@ export default function NewComplaintPage() {
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [subissueId, setSubissueId] = useState<string | null>(null);
   const [description, setDescription] = useState("");
+  const [photos, setPhotos] = useState<{ file: File; url: string }[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const MAX_PHOTOS = 5;
+
+  function addPhotos(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    setPhotos((prev) => {
+      const room = MAX_PHOTOS - prev.length;
+      const next = files.slice(0, room).map((file) => ({ file, url: URL.createObjectURL(file) }));
+      return [...prev, ...next];
+    });
+    // Allow re-selecting the same file after removing it.
+    e.target.value = "";
+  }
+
+  function removePhoto(index: number) {
+    setPhotos((prev) => {
+      URL.revokeObjectURL(prev[index].url);
+      return prev.filter((_, i) => i !== index);
+    });
+  }
+
+  useEffect(() => {
+    // Revoke any outstanding preview URLs when leaving the screen.
+    return () => setPhotos((prev) => {
+      prev.forEach((p) => URL.revokeObjectURL(p.url));
+      return prev;
+    });
+  }, []);
 
   useEffect(() => {
     const supabase = createClient();
@@ -67,6 +98,7 @@ export default function NewComplaintPage() {
     e.preventDefault();
     if (!selectedCategory || !selectedSubissue) return;
     setSubmitting(true);
+    setError(null);
     const supabase = createClient();
     const { data: userData } = await supabase.auth.getUser();
     const { data: lease } = await supabase
@@ -78,19 +110,46 @@ export default function NewComplaintPage() {
 
     const unit = lease?.units as unknown as { property_id: string } | null;
 
-    await supabase.from("complaints").insert({
-      tenant_id: (lease?.units as unknown as { properties: { tenant_id: string } })?.properties
-        ?.tenant_id,
-      property_id: unit?.property_id,
-      resident_id: userData.user?.id,
-      unit_id: lease?.unit_id,
-      category_id: selectedCategory.id,
-      subissue_id: selectedSubissue.id,
-      title: `${selectedCategory.name} — ${selectedSubissue.name}`,
-      description,
-      priority: selectedCategory.defaultPriority,
-      status: "submitted",
-    });
+    const { data: complaint, error: insertError } = await supabase
+      .from("complaints")
+      .insert({
+        tenant_id: (lease?.units as unknown as { properties: { tenant_id: string } })?.properties
+          ?.tenant_id,
+        property_id: unit?.property_id,
+        resident_id: userData.user?.id,
+        unit_id: lease?.unit_id,
+        category_id: selectedCategory.id,
+        subissue_id: selectedSubissue.id,
+        title: `${selectedCategory.name} — ${selectedSubissue.name}`,
+        description,
+        priority: selectedCategory.defaultPriority,
+        status: "submitted",
+      })
+      .select("id")
+      .single();
+
+    if (insertError || !complaint) {
+      setSubmitting(false);
+      setError("Could not submit your request. Please try again.");
+      return;
+    }
+
+    // Upload each attached photo, then record it against the complaint. The complaint
+    // is submitted even if a photo upload fails — the resident isn't blocked by a bad photo.
+    for (const { file } of photos) {
+      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const path = `${complaint.id}/${crypto.randomUUID()}.${ext}`;
+      const { error: uploadError } = await supabase.storage
+        .from("complaint-photos")
+        .upload(path, file, { contentType: file.type || "image/jpeg" });
+      if (!uploadError) {
+        await supabase.from("complaint_photos").insert({
+          complaint_id: complaint.id,
+          storage_path: path,
+        });
+      }
+    }
+
     setSubmitting(false);
     router.push("/complaints");
   }
@@ -175,14 +234,54 @@ export default function NewComplaintPage() {
               onChange={(e) => setDescription(e.target.value)}
               required={isOther}
             />
+            {photos.length > 0 && (
+              <div className="grid grid-cols-3 gap-2.5">
+                {photos.map((p, i) => (
+                  <div key={p.url} className="relative aspect-square">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={p.url}
+                      alt={`Attachment ${i + 1}`}
+                      className="w-full h-full object-cover rounded-xl border border-[var(--hairline)]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removePhoto(i)}
+                      aria-label="Remove photo"
+                      className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-[var(--navy)] text-white flex items-center justify-center shadow"
+                    >
+                      <X size={13} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              capture="environment"
+              className="hidden"
+              onChange={addPhotos}
+            />
             <button
               type="button"
-              className="w-full flex items-center justify-center gap-2 bg-[var(--background)] border border-[var(--hairline)] text-[var(--navy)] rounded-xl p-3 text-sm font-medium"
-              onClick={() => alert("Photo capture wires to the device camera once deployed.")}
+              disabled={photos.length >= MAX_PHOTOS}
+              className="w-full flex items-center justify-center gap-2 bg-[var(--background)] border border-[var(--hairline)] text-[var(--navy)] rounded-xl p-3 text-sm font-medium disabled:opacity-40"
+              onClick={() => fileInputRef.current?.click()}
             >
-              <Camera size={16} /> Attach Photo
+              <Camera size={16} />
+              {photos.length === 0
+                ? "Attach Photo"
+                : photos.length >= MAX_PHOTOS
+                  ? `Maximum ${MAX_PHOTOS} photos`
+                  : `Add Another (${photos.length}/${MAX_PHOTOS})`}
             </button>
           </div>
+
+          {error && <p className="text-red-500 text-xs text-center">{error}</p>}
 
           <button
             type="submit"
