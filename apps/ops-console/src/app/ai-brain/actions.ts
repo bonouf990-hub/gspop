@@ -3,6 +3,71 @@
 import { createClient } from "@/lib/supabase-server";
 import { askAI } from "@/lib/ai-service";
 
+// ─── User Context ─────────────────────────────────────────────────────────────
+
+export async function getUserContext() {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return null;
+
+  const { data: profile } = await supabase
+    .from("user_profiles")
+    .select("id, full_name, role, tenant_id")
+    .eq("id", userData.user.id)
+    .single();
+
+  if (!profile) return null;
+  return {
+    id: profile.id as string,
+    name: profile.full_name as string,
+    role: profile.role as string,
+    tenantId: profile.tenant_id as string,
+  };
+}
+
+// ─── Create Work Order from Triage ────────────────────────────────────────────
+
+export async function createWorkOrderFromTriage(params: {
+  title: string;
+  description: string;
+  propertyId: string;
+  type: string;
+  priority: string;
+  technicianId: string;
+  estimatedCost: number | null;
+}) {
+  const supabase = await createClient();
+  const ctx = await getUserContext();
+  if (!ctx) return { error: "Not authenticated" };
+
+  const { error } = await supabase.from("work_orders").insert({
+    tenant_id: ctx.tenantId,
+    property_id: params.propertyId,
+    type: params.type,
+    priority: params.priority,
+    title: params.title,
+    description: params.description,
+    created_by: ctx.id,
+    status: params.technicianId ? "assigned" : "draft",
+    assigned_to: params.technicianId || null,
+    estimated_cost: params.estimatedCost,
+  });
+
+  if (error) return { error: error.message };
+  return { success: true };
+}
+
+// ─── Get Properties List ──────────────────────────────────────────────────────
+
+export async function getProperties() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("properties")
+    .select("id, name")
+    .order("name");
+  return (data ?? []) as { id: string; name: string }[];
+}
+
 // ─── 1. Smart Work Order Triage ───────────────────────────────────────────────
 
 export async function triageWorkOrder(description: string) {
@@ -223,6 +288,23 @@ Today: ${new Date().toISOString().slice(0, 10)}`;
 
 export async function queryData(question: string) {
   const supabase = await createClient();
+  const ctx = await getUserContext();
+  const role = ctx?.role ?? "unknown";
+
+  const isTechnician = role === "technician";
+  const isManagement = ["super_admin", "tenant_admin", "property_manager"].includes(role);
+
+  let woQuery = supabase
+    .from("work_orders")
+    .select(
+      "id, title, type, priority, status, parts_cost, hours_worked, external_cost, created_at, property:properties(name), assigned_tech:user_profiles!work_orders_assigned_to_fkey(full_name, hourly_rate)"
+    )
+    .order("created_at", { ascending: false })
+    .limit(300);
+
+  if (isTechnician && ctx) {
+    woQuery = woQuery.eq("assigned_to", ctx.id);
+  }
 
   const [
     { data: properties },
@@ -234,27 +316,25 @@ export async function queryData(question: string) {
     { data: budgets },
   ] = await Promise.all([
     supabase.from("properties").select("id, name").order("name"),
-    supabase
-      .from("work_orders")
-      .select(
-        "id, title, type, priority, status, parts_cost, hours_worked, external_cost, created_at, property:properties(name), assigned_tech:user_profiles!work_orders_assigned_to_fkey(full_name, hourly_rate)"
-      )
-      .order("created_at", { ascending: false })
-      .limit(300),
-    supabase
-      .from("invoices")
-      .select(
-        "id, invoice_number, amount, total_amount, status, invoice_date, vendor:vendors(name)"
-      )
-      .order("created_at", { ascending: false })
-      .limit(200),
-    supabase
-      .from("purchase_orders")
-      .select(
-        "id, description, amount, status, vendor:vendors(name), property:properties(name)"
-      )
-      .order("created_at", { ascending: false })
-      .limit(200),
+    woQuery,
+    isManagement
+      ? supabase
+          .from("invoices")
+          .select(
+            "id, invoice_number, amount, total_amount, status, invoice_date, vendor:vendors(name)"
+          )
+          .order("created_at", { ascending: false })
+          .limit(200)
+      : Promise.resolve({ data: [] }),
+    isManagement
+      ? supabase
+          .from("purchase_orders")
+          .select(
+            "id, description, amount, status, vendor:vendors(name), property:properties(name)"
+          )
+          .order("created_at", { ascending: false })
+          .limit(200)
+      : Promise.resolve({ data: [] }),
     supabase
       .from("user_profiles")
       .select("id, full_name, role, trade, monthly_salary, hourly_rate")
@@ -265,14 +345,23 @@ export async function queryData(question: string) {
       .select("id, name, category, rating")
       .order("name")
       .limit(100),
-    supabase
-      .from("building_budgets")
-      .select("property_id, fiscal_year, total_budget, property:properties(name)")
-      .order("fiscal_year", { ascending: false }),
+    isManagement
+      ? supabase
+          .from("building_budgets")
+          .select("property_id, fiscal_year, total_budget, property:properties(name)")
+          .order("fiscal_year", { ascending: false })
+      : Promise.resolve({ data: [] }),
   ]);
 
+  const roleContext =
+    role === "technician"
+      ? "The user is a technician. They can only see their own assigned work orders. Do not reveal financial data (invoices, POs, budgets)."
+      : role === "supervisor"
+        ? "The user is a supervisor. They can see work orders and team data. Financial details like invoices and budgets are limited."
+        : `The user is a ${role.replace(/_/g, " ")} with full access to all operational and financial data.`;
+
   const system = `You are the AI Brain of GSPOP, a UAE property management platform. You answer questions about the platform's operational data.
-You have access to all current data from work orders, invoices, purchase orders, technicians, vendors, budgets, and properties.
+${roleContext}
 Currency is AED (UAE Dirhams).
 
 Respond in a clear, structured format. Use numbers and facts from the data. If you need to calculate totals, do so.
@@ -283,11 +372,11 @@ Format your response with markdown for readability. Use tables when comparing da
 DATA CONTEXT:
 Properties: ${JSON.stringify(properties ?? [])}
 Work Orders (${(workOrders ?? []).length} recent): ${JSON.stringify(workOrders ?? [])}
-Invoices (${(invoices ?? []).length} recent): ${JSON.stringify(invoices ?? [])}
-Purchase Orders (${(pos ?? []).length} recent): ${JSON.stringify(pos ?? [])}
+${isManagement ? `Invoices (${(invoices ?? []).length} recent): ${JSON.stringify(invoices ?? [])}` : ""}
+${isManagement ? `Purchase Orders (${(pos ?? []).length} recent): ${JSON.stringify(pos ?? [])}` : ""}
 Technicians & Supervisors: ${JSON.stringify(technicians ?? [])}
 Vendors: ${JSON.stringify(vendors ?? [])}
-Budgets: ${JSON.stringify(budgets ?? [])}
+${isManagement ? `Budgets: ${JSON.stringify(budgets ?? [])}` : ""}
 Today: ${new Date().toISOString().slice(0, 10)}`;
 
   return await askAI(system, user, 2048);

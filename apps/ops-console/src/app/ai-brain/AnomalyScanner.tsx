@@ -97,7 +97,12 @@ export default function AnomalyScanner() {
                         Records: {a.affected_records.join(", ")}
                       </p>
                     )}
-                    <p className="text-xs text-[#d4af5a] mt-1">Action: {a.recommendation}</p>
+                    <div className="flex items-center justify-between mt-2">
+                      <p className="text-xs text-[#d4af5a]">Action: {a.recommendation}</p>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-[rgba(184,144,47,0.12)] text-[#b8902f] font-bold whitespace-nowrap">
+                        {a.category === "hours" ? "Supervisor" : a.severity === "critical" ? "Admin" : "Property Manager"}
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>

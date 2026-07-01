@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { triageWorkOrder } from "./actions";
+import { useState, useEffect } from "react";
+import { triageWorkOrder, createWorkOrderFromTriage, getProperties } from "./actions";
 
 type TriageResult = {
   suggested_priority: string;
@@ -12,6 +12,8 @@ type TriageResult = {
   similar_past_jobs: string[];
 };
 
+type Property = { id: string; name: string };
+
 const PRIORITY_STYLE: Record<string, string> = {
   low: "bg-[#213052] text-[#a0977e]",
   medium: "bg-amber-900 text-amber-300",
@@ -19,17 +21,30 @@ const PRIORITY_STYLE: Record<string, string> = {
   critical: "bg-red-900 text-red-300",
 };
 
-export default function SmartTriage() {
+export default function SmartTriage({ userRole }: { userRole: string }) {
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<TriageResult | null>(null);
   const [error, setError] = useState("");
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [selectedProperty, setSelectedProperty] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [created, setCreated] = useState(false);
+
+  const canCreate = ["super_admin", "tenant_admin", "property_manager", "supervisor", "call_center"].includes(userRole);
+
+  useEffect(() => {
+    if (canCreate) {
+      getProperties().then(setProperties);
+    }
+  }, [canCreate]);
 
   async function handleTriage() {
     if (!description.trim()) return;
     setLoading(true);
     setError("");
     setResult(null);
+    setCreated(false);
     try {
       const raw = await triageWorkOrder(description);
       const parsed = JSON.parse(raw);
@@ -38,6 +53,31 @@ export default function SmartTriage() {
       setError(e instanceof Error ? e.message : "AI analysis failed");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleCreateWO() {
+    if (!result || !selectedProperty) return;
+    setCreating(true);
+    try {
+      const res = await createWorkOrderFromTriage({
+        title: description.slice(0, 100),
+        description,
+        propertyId: selectedProperty,
+        type: result.suggested_type,
+        priority: result.suggested_priority,
+        technicianId: result.suggested_technician?.id ?? "",
+        estimatedCost: result.estimated_cost?.total_estimate ?? null,
+      });
+      if (res.error) {
+        setError(res.error);
+      } else {
+        setCreated(true);
+      }
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to create work order");
+    } finally {
+      setCreating(false);
     }
   }
 
@@ -105,6 +145,48 @@ export default function SmartTriage() {
                   <li key={i}>{j}</li>
                 ))}
               </ul>
+            </div>
+          )}
+
+          {canCreate && !created && (
+            <div className="bg-[rgba(184,144,47,0.08)] border border-[#b8902f] rounded-lg p-4">
+              <p className="text-xs text-[#b8902f] uppercase tracking-wider font-bold mb-2">
+                Create Work Order from AI Recommendation
+              </p>
+              <div className="flex items-center gap-3">
+                <select
+                  value={selectedProperty}
+                  onChange={(e) => setSelectedProperty(e.target.value)}
+                  className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm flex-1"
+                >
+                  <option value="">Select Property…</option>
+                  {properties.map((p) => (
+                    <option key={p.id} value={p.id}>{p.name}</option>
+                  ))}
+                </select>
+                <button
+                  onClick={handleCreateWO}
+                  disabled={creating || !selectedProperty}
+                  className="px-4 py-2 rounded-lg bg-green-700 text-white text-sm font-bold hover:bg-green-600 disabled:opacity-50 whitespace-nowrap"
+                >
+                  {creating ? "Creating…" : "Create Work Order"}
+                </button>
+              </div>
+              <p className="text-[10px] text-[#6b6454] mt-2">
+                Will create with: {result.suggested_type?.replace(/_/g, " ")} · {result.suggested_priority} priority
+                {result.suggested_technician && ` · Assigned to ${result.suggested_technician.name}`}
+              </p>
+            </div>
+          )}
+
+          {created && (
+            <div className="bg-green-950/30 border border-green-500/30 rounded-lg p-3">
+              <p className="text-sm text-green-400 font-bold">
+                Work order created successfully from AI recommendation.
+              </p>
+              <p className="text-xs text-[#a0977e] mt-1">
+                Assigned to {result.suggested_technician?.name ?? "draft"} · View it in Work Orders.
+              </p>
             </div>
           )}
         </div>

@@ -18,7 +18,7 @@ const EXAMPLE_QUESTIONS = [
   "How many open work orders are critical priority?",
 ];
 
-export default function AIChat() {
+export default function AIChat({ userRole }: { userRole: string }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
