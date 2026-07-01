@@ -21,6 +21,7 @@ const CARDS: Card[] = [
   { href: "/activity-log", title: "Activity Log", desc: "Full audit trail of all operations across the platform." },
   { href: "/notifications", title: "Notifications", desc: "Alerts and updates for your team." },
   { href: "/reports/maintenance-costs", title: "Maintenance Cost Report", desc: "Per-building and apartment cost breakdown: parts, labor, external." },
+  { href: "/reports/budgets", title: "Building Budgets", desc: "Annual maintenance budget per building — track spent vs remaining." },
   { href: "/command-center", title: "GM Command Center", desc: "Live ops overview: jobs, contractors, inventory alerts." },
   { href: "/call-center", title: "Call Center", desc: "Identify callers and log complaints on their behalf." },
   { href: "/operations-monitor", title: "Operations Monitor", desc: "Trade utilization and workload signals." },

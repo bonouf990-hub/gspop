@@ -279,8 +279,16 @@ export default async function MaintenanceCostReport() {
             Complete cost breakdown per building and apartment — parts, labor, and external work.
           </p>
         </div>
-        <div className="text-xs text-[#6b6454]">
-          Generated: {new Date().toLocaleString()}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/reports/budgets"
+            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"
+          >
+            Budget Tracker
+          </Link>
+          <span className="text-xs text-[#6b6454]">
+            Generated: {new Date().toLocaleString()}
+          </span>
         </div>
       </div>
 
