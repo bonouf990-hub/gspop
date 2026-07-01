@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import CreateStaffForm from "./CreateStaffForm";
 
@@ -34,7 +35,7 @@ export default async function TeamManagementPage() {
   const [{ data: staff }, { data: properties }, { data: assignments }] = await Promise.all([
     supabase
       .from("user_profiles")
-      .select("id, full_name, role, department, job_title, reports_to_id")
+      .select("id, full_name, role, trade, department, job_title, phone, reports_to_id")
       .order("role"),
     supabase.from("properties").select("id, name"),
     supabase.from("property_assignments").select("user_id, property_id"),
@@ -55,7 +56,8 @@ export default async function TeamManagementPage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-2">Team Management</h1>
+      <Link href="/" className="text-sm text-gray-400 hover:text-white">← Dashboard</Link>
+      <h1 className="text-2xl font-bold mt-1 mb-2">Team Management</h1>
       <p className="text-gray-500 mb-6">
         Create staff logins, assign roles, reporting lines, and which buildings they cover.
       </p>
@@ -84,6 +86,8 @@ export default async function TeamManagementPage() {
           <tr className="text-left border-b border-gray-700">
             <th className="py-2">Name</th>
             <th className="py-2">Role</th>
+            <th className="py-2">Trade</th>
+            <th className="py-2">Phone</th>
             <th className="py-2">Department</th>
             <th className="py-2">Reports To</th>
             <th className="py-2">Buildings</th>
@@ -94,6 +98,8 @@ export default async function TeamManagementPage() {
             <tr key={s.id} className="border-b border-gray-800">
               <td className="py-2">{s.full_name}</td>
               <td className="py-2 capitalize">{s.role.replace(/_/g, " ")}</td>
+              <td className="py-2 text-gray-400 capitalize">{s.trade ?? "—"}</td>
+              <td className="py-2 text-gray-400">{s.phone ?? "—"}</td>
               <td className="py-2 text-gray-400">{s.department ?? "—"}</td>
               <td className="py-2 text-gray-400">
                 {s.reports_to_id ? staffById.get(s.reports_to_id)?.full_name ?? "—" : "—"}

@@ -1,44 +1,107 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
-import { camelCaseKeys, type WorkOrder } from "@gspop/shared";
 
-async function getWorkOrders(): Promise<WorkOrder[]> {
+type WorkOrderRow = {
+  id: string;
+  title: string;
+  type: string;
+  priority: string;
+  status: string;
+  created_at: string;
+  properties: { name: string } | null;
+  units: { label: string } | null;
+  technician: { full_name: string } | null;
+};
+
+async function getWorkOrders(): Promise<WorkOrderRow[]> {
   const supabase = await createClient();
   const { data } = await supabase
     .from("work_orders")
-    .select("*")
+    .select(
+      "id, title, type, priority, status, created_at, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
+    )
     .order("created_at", { ascending: false });
-  return camelCaseKeys<WorkOrder[]>(data ?? []);
+  return (data ?? []) as unknown as WorkOrderRow[];
 }
+
+const PRIORITY_COLORS: Record<string, string> = {
+  emergency: "bg-red-900/60 text-red-300",
+  high: "bg-amber-900/50 text-amber-300",
+  medium: "bg-blue-900/40 text-blue-300",
+  low: "bg-gray-800 text-gray-400",
+};
+
+const STATUS_COLORS: Record<string, string> = {
+  assigned: "text-blue-400",
+  in_progress: "text-yellow-400",
+  completed_by_technician: "text-green-400",
+  verified_by_supervisor: "text-green-300",
+  closed: "text-gray-500",
+  cancelled: "text-gray-600",
+};
 
 export default async function WorkOrdersPage() {
   const workOrders = await getWorkOrders();
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Work Orders</h1>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <Link href="/" className="text-sm text-gray-400 hover:text-white">
+            ← Dashboard
+          </Link>
+          <h1 className="text-2xl font-bold mt-1">Work Orders</h1>
+        </div>
+      </div>
+
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
-            <th className="py-2">Title</th>
-            <th className="py-2">Type</th>
-            <th className="py-2">Priority</th>
-            <th className="py-2">Status</th>
-            <th className="py-2">Technician</th>
+          <tr className="text-left border-b border-gray-700 text-gray-400">
+            <th className="py-2 font-medium">Title</th>
+            <th className="py-2 font-medium">Property / Unit</th>
+            <th className="py-2 font-medium">Type</th>
+            <th className="py-2 font-medium">Priority</th>
+            <th className="py-2 font-medium">Status</th>
+            <th className="py-2 font-medium">Technician</th>
+            <th className="py-2 font-medium">Created</th>
           </tr>
         </thead>
         <tbody>
-          {workOrders.map((wo) => (
-            <tr key={wo.id} className="border-b border-gray-800">
-              <td className="py-2">{wo.title}</td>
-              <td className="py-2">{wo.type}</td>
-              <td className="py-2">{wo.priority}</td>
-              <td className="py-2">{wo.status.replace(/_/g, " ")}</td>
-              <td className="py-2">{wo.assignedTechnicianId ?? "Unassigned"}</td>
-            </tr>
-          ))}
+          {workOrders.map((wo) => {
+            const prop = wo.properties as { name: string } | null;
+            const unit = wo.units as { label: string } | null;
+            const tech = wo.technician as { full_name: string } | null;
+            return (
+              <tr key={wo.id} className="border-b border-gray-800 hover:bg-[#1a2d44]">
+                <td className="py-2">
+                  <Link href={`/work-orders/${wo.id}`} className="text-blue-400 hover:underline">
+                    {wo.title}
+                  </Link>
+                </td>
+                <td className="py-2 text-gray-400">
+                  {[prop?.name, unit?.label].filter(Boolean).join(" · ") || "—"}
+                </td>
+                <td className="py-2 capitalize">{wo.type}</td>
+                <td className="py-2">
+                  <span
+                    className={`text-xs font-medium px-2 py-0.5 rounded ${PRIORITY_COLORS[wo.priority] ?? ""}`}
+                  >
+                    {wo.priority.toUpperCase()}
+                  </span>
+                </td>
+                <td className={`py-2 capitalize ${STATUS_COLORS[wo.status] ?? ""}`}>
+                  {wo.status.replace(/_/g, " ")}
+                </td>
+                <td className="py-2">{tech?.full_name ?? "Unassigned"}</td>
+                <td className="py-2 text-gray-500">
+                  {new Date(wo.created_at).toLocaleDateString()}
+                </td>
+              </tr>
+            );
+          })}
           {workOrders.length === 0 && (
             <tr>
-              <td className="py-4 text-gray-500" colSpan={5}>
+              <td className="py-4 text-gray-500" colSpan={7}>
                 No work orders yet.
               </td>
             </tr>

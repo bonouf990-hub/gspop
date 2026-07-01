@@ -28,10 +28,13 @@ export default function CreateStaffForm({
     email: "",
     password: "",
     fullName: "",
+    phone: "",
     role: "technician",
+    trade: "general",
     department: "",
     jobTitle: "",
     reportsToId: "",
+    spendLimit: "",
   });
   const [propertyIds, setPropertyIds] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -48,7 +51,13 @@ export default function CreateStaffForm({
     const res = await fetch("/api/admin/create-staff", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, reportsToId: form.reportsToId || null, propertyIds }),
+      body: JSON.stringify({
+        ...form,
+        trade: form.role === "technician" ? form.trade : null,
+        reportsToId: form.reportsToId || null,
+        spendLimit: form.spendLimit ? Number(form.spendLimit) : null,
+        propertyIds,
+      }),
     });
     const result = await res.json();
     setSubmitting(false);
@@ -57,7 +66,7 @@ export default function CreateStaffForm({
       return;
     }
     setOpen(false);
-    setForm({ email: "", password: "", fullName: "", role: "technician", department: "", jobTitle: "", reportsToId: "" });
+    setForm({ email: "", password: "", fullName: "", phone: "", role: "technician", trade: "general", department: "", jobTitle: "", reportsToId: "", spendLimit: "" });
     setPropertyIds([]);
     router.refresh();
   }
@@ -82,6 +91,12 @@ export default function CreateStaffForm({
         value={form.fullName}
         onChange={(e) => setForm({ ...form, fullName: e.target.value })}
         required
+      />
+      <input
+        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
+        placeholder="Phone"
+        value={form.phone}
+        onChange={(e) => setForm({ ...form, phone: e.target.value })}
       />
       <input
         className="w-full bg-[#162335] rounded-lg p-2 text-sm"
@@ -111,6 +126,26 @@ export default function CreateStaffForm({
           </option>
         ))}
       </select>
+      {form.role === "technician" && (
+        <select
+          className="w-full bg-[#162335] rounded-lg p-2 text-sm"
+          value={form.trade}
+          onChange={(e) => setForm({ ...form, trade: e.target.value })}
+        >
+          {["general", "hvac", "plumbing", "carpentry", "electrical"].map((t) => (
+            <option key={t} value={t}>
+              {t.charAt(0).toUpperCase() + t.slice(1)}
+            </option>
+          ))}
+        </select>
+      )}
+      <input
+        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
+        placeholder="Spend limit (AED)"
+        type="number"
+        value={form.spendLimit}
+        onChange={(e) => setForm({ ...form, spendLimit: e.target.value })}
+      />
       <input
         className="w-full bg-[#162335] rounded-lg p-2 text-sm"
         placeholder="Department (e.g. Maintenance, Front Desk)"

@@ -20,14 +20,17 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { email, password, fullName, role, department, jobTitle, reportsToId, propertyIds } = body as {
+  const { email, password, fullName, phone, role, trade, department, jobTitle, reportsToId, spendLimit, propertyIds } = body as {
     email: string;
     password: string;
     fullName: string;
+    phone?: string;
     role: string;
+    trade?: string | null;
     department?: string;
     jobTitle?: string;
     reportsToId?: string | null;
+    spendLimit?: number | null;
     propertyIds?: string[];
   };
 
@@ -52,9 +55,12 @@ export async function POST(request: Request) {
     tenant_id: callerProfile.tenant_id,
     full_name: fullName,
     role,
+    phone: phone ?? null,
+    trade: trade ?? null,
     department: department ?? null,
     job_title: jobTitle ?? null,
     reports_to_id: reportsToId ?? null,
+    spend_limit: spendLimit ?? null,
   });
 
   if (profileError) {
