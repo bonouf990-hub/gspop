@@ -6,14 +6,10 @@ import { createClient } from "@/lib/supabase-browser";
 
 export default function DecideWinner({
   tenderId,
-  tenderTitle,
-  propertyId,
   currency,
   submissions,
 }: {
   tenderId: string;
-  tenderTitle: string;
-  propertyId: string | null;
   currency: string;
   submissions: {
     id: string;
@@ -32,7 +28,6 @@ export default function DecideWinner({
     setSaving(true);
     const supabase = createClient();
     const winner = submissions.find((s) => s.id === winnerId);
-    const { data: userData } = await supabase.auth.getUser();
 
     await supabase
       .from("tender_submissions")
@@ -54,19 +49,6 @@ export default function DecideWinner({
       })
       .eq("id", tenderId);
 
-    if (winner && propertyId) {
-      await supabase.from("purchase_orders").insert({
-        property_id: propertyId,
-        vendor_id: winner.vendor_id ?? null,
-        requested_by: userData.user?.id,
-        amount: winner.proposed_amount,
-        description: `Tender: ${tenderTitle} — awarded to ${winner.vendor_name} (${currency} ${Number(winner.proposed_amount).toLocaleString()})`,
-        status: "pending",
-        tender_id: tenderId,
-        urgency: "normal",
-      });
-    }
-
     setSaving(false);
     router.refresh();
   }
@@ -77,7 +59,7 @@ export default function DecideWinner({
         Select Tender Winner
       </h3>
       <p className="text-xs text-[#a0977e] mb-3">
-        Confirming a winner will auto-create a purchase order for the purchasing department to process.
+        Confirming a winner will notify the purchasing department to issue a purchase order.
       </p>
       <div className="flex gap-2 items-center">
         <select
@@ -99,7 +81,7 @@ export default function DecideWinner({
           disabled={saving || !winnerId}
           className="text-xs font-bold px-4 py-2 rounded-lg bg-green-800 text-green-200 disabled:opacity-50"
         >
-          {saving ? "Deciding…" : "Confirm Winner & Create PO"}
+          {saving ? "Deciding…" : "Confirm Winner"}
         </button>
       </div>
     </div>

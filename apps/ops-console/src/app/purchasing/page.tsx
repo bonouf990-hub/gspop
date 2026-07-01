@@ -24,9 +24,19 @@ type PORow = {
 type Property = { id: string; name: string };
 type Vendor = { id: string; name: string; category: string | null };
 
+type DecidedTender = {
+  id: string;
+  title: string;
+  currency: string;
+  decided_at: string;
+  decided_vendor: { id: string; name: string } | null;
+  property: { id: string; name: string } | null;
+  winning_amount: number | null;
+};
+
 async function getPageData() {
   const supabase = await createClient();
-  const [{ data: orders }, { data: properties }, { data: vendors }] = await Promise.all([
+  const [{ data: orders }, { data: properties }, { data: vendors }, { data: decidedTenders }] = await Promise.all([
     supabase
       .from("purchase_orders")
       .select(
@@ -36,12 +46,40 @@ async function getPageData() {
       .limit(200),
     supabase.from("properties").select("id, name").order("name"),
     supabase.from("vendors").select("id, name, category").order("name"),
+    supabase
+      .from("tenders")
+      .select(
+        `id, title, currency, decided_at,
+         decided_vendor:vendors!tenders_decided_vendor_id_fkey(id, name),
+         property:properties(id, name)`
+      )
+      .eq("status", "decided"),
   ]);
 
+  const ordersList = (orders ?? []) as unknown as PORow[];
+  const tenderIdsWithPO = new Set(ordersList.filter((o) => o.tender_id).map((o) => o.tender_id));
+
+  const tendersNeedingPO = ((decidedTenders ?? []) as unknown as DecidedTender[]).filter(
+    (t) => !tenderIdsWithPO.has(t.id)
+  );
+
+  // fetch winning amounts
+  for (const t of tendersNeedingPO) {
+    const { data: winnerSub } = await supabase
+      .from("tender_submissions")
+      .select("proposed_amount")
+      .eq("tender_id", t.id)
+      .eq("status", "winner")
+      .limit(1)
+      .single();
+    t.winning_amount = winnerSub ? Number(winnerSub.proposed_amount) : null;
+  }
+
   return {
-    orders: (orders ?? []) as unknown as PORow[],
+    orders: ordersList,
     properties: (properties ?? []) as Property[],
     vendors: (vendors ?? []) as Vendor[],
+    tendersNeedingPO,
   };
 }
 
@@ -59,7 +97,7 @@ const URGENCY_STYLE: Record<string, string> = {
 };
 
 export default async function PurchasingPage() {
-  const { orders, properties, vendors } = await getPageData();
+  const { orders, properties, vendors, tendersNeedingPO } = await getPageData();
 
   const pending = orders.filter((o) => o.status === "pending");
   const approved = orders.filter((o) => o.status === "approved");
@@ -107,6 +145,50 @@ export default async function PurchasingPage() {
           </div>
         ))}
       </div>
+
+      {tendersNeedingPO.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+            Decided Tenders — PO Required ({tendersNeedingPO.length})
+          </h2>
+          <div className="space-y-2">
+            {tendersNeedingPO.map((t) => {
+              const vendor = t.decided_vendor as { id: string; name: string } | null;
+              const prop = t.property as { id: string; name: string } | null;
+              return (
+                <div
+                  key={t.id}
+                  className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 flex items-center justify-between"
+                >
+                  <div>
+                    <p className="font-medium">
+                      {t.title}
+                      {t.winning_amount !== null && (
+                        <span className="text-[#d4af5a] ml-2 font-bold">
+                          {t.currency} {t.winning_amount.toLocaleString()}
+                        </span>
+                      )}
+                    </p>
+                    <p className="text-sm text-[#a0977e]">
+                      Winner: {vendor?.name ?? "—"}
+                      {prop && ` · ${prop.name}`}
+                      {t.decided_at && ` · Decided ${new Date(t.decided_at).toLocaleDateString()}`}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Link
+                      href={`/tenders/${t.id}`}
+                      className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+                    >
+                      View Tender
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {pending.length > 0 && (
         <section className="mb-8">

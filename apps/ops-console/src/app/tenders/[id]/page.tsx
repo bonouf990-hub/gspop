@@ -328,8 +328,6 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
         <div className="mb-8">
           <DecideWinner
             tenderId={tender.id}
-            tenderTitle={tender.title}
-            propertyId={(tender as unknown as { property_id?: string }).property_id ?? null}
             currency={tender.currency}
             submissions={submissions.map((s) => ({
               id: s.id,
