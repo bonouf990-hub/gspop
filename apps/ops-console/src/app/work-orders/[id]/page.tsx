@@ -368,7 +368,7 @@ export default async function WorkOrderDetailPage({
               return (
                 <Link
                   key={po.id}
-                  href="/purchasing"
+                  href={`/purchasing/${po.id}`}
                   className="block bg-[#0f1626] rounded-lg px-3 py-2 hover:bg-[#213052]"
                 >
                   <div className="flex items-center justify-between">

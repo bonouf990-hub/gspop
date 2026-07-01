@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import { requireManagementRole } from "@/lib/check-permission";
 import ApprovalDecision from "./ApprovalDecision";
 
 type ApprovalRow = {
@@ -70,6 +71,11 @@ async function getApprovals() {
 }
 
 export default async function ApprovalsPage() {
+  const auth = await requireManagementRole();
+  if (!auth.allowed) {
+    return <main className="p-8"><p className="text-[#6b6454]">You don&apos;t have access to Approvals.</p></main>;
+  }
+
   const { pending, recent, entityMap } = await getApprovals();
 
   function renderRow(a: ApprovalRow) {

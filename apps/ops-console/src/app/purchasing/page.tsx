@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import { requireManagementRole } from "@/lib/check-permission";
 import CreatePurchaseOrder from "./CreatePurchaseOrder";
 import PurchaseOrderActions from "./PurchaseOrderActions";
 
@@ -97,6 +98,11 @@ const URGENCY_STYLE: Record<string, string> = {
 };
 
 export default async function PurchasingPage() {
+  const auth = await requireManagementRole();
+  if (!auth.allowed) {
+    return <main className="p-8"><p className="text-[#6b6454]">You don&apos;t have access to Purchasing.</p></main>;
+  }
+
   const { orders, properties, vendors, tendersNeedingPO } = await getPageData();
 
   const pending = orders.filter((o) => o.status === "pending");
@@ -218,9 +224,9 @@ export default async function PurchasingPage() {
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="font-medium">
+                      <Link href={`/purchasing/${o.id}`} className="font-medium hover:text-[#d4af5a]">
                         {o.description ?? "Purchase Order"}
-                      </p>
+                      </Link>
                       <span className="text-[#d4af5a] font-bold">
                         AED {Number(o.amount).toLocaleString()}
                       </span>
@@ -288,7 +294,9 @@ export default async function PurchasingPage() {
                 return (
                   <tr key={o.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
                     <td className="py-2">
-                      <p className="font-medium">{o.description ?? "—"}</p>
+                      <Link href={`/purchasing/${o.id}`} className="font-medium hover:text-[#d4af5a]">
+                        {o.description ?? "—"}
+                      </Link>
                       {o.notes && <p className="text-[10px] text-[#6b6454]">{o.notes}</p>}
                     </td>
                     <td className="py-2">

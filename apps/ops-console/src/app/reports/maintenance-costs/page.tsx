@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import { requireManagementRole } from "@/lib/check-permission";
 
 type WORow = {
   id: string;
@@ -256,6 +257,11 @@ function fmtHrs(n: number) {
 }
 
 export default async function MaintenanceCostReport() {
+  const auth = await requireManagementRole();
+  if (!auth.allowed) {
+    return <main className="p-8"><p className="text-[#6b6454]">You don&apos;t have access to this report.</p></main>;
+  }
+
   const { buildingList, techData, grandTotals } = await getReportData();
 
   const kpis = [

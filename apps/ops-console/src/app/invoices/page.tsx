@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import { requireManagementRole } from "@/lib/check-permission";
 import CreateInvoice from "./CreateInvoice";
 import InvoiceActions from "./InvoiceActions";
 
@@ -65,6 +66,11 @@ const STATUS_STYLE: Record<string, string> = {
 };
 
 export default async function InvoicesPage() {
+  const auth = await requireManagementRole();
+  if (!auth.allowed) {
+    return <main className="p-8"><p className="text-[#6b6454]">You don&apos;t have access to Invoices.</p></main>;
+  }
+
   const { invoices, vendors, openPOs } = await getPageData();
 
   const received = invoices.filter((i) => i.status === "received");

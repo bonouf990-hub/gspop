@@ -1,5 +1,22 @@
 import { createClient } from "./supabase-server";
 
+const MANAGEMENT_ROLES = ["super_admin", "tenant_admin", "property_manager", "supervisor"];
+
+export async function requireManagementRole(): Promise<{ allowed: true; role: string } | { allowed: false }> {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return { allowed: false };
+
+  const { data: profile } = await supabase
+    .from("user_profiles")
+    .select("role")
+    .eq("id", userData.user.id)
+    .single();
+
+  if (!profile || !MANAGEMENT_ROLES.includes(profile.role)) return { allowed: false };
+  return { allowed: true, role: profile.role };
+}
+
 type PermissionResult = {
   allowed: boolean;
   requiresApproval: boolean;

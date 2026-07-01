@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import { requireManagementRole } from "@/lib/check-permission";
 import SetBudget from "./SetBudget";
 
 type BudgetRow = {
@@ -173,6 +174,11 @@ export default async function BudgetTrackingPage({
 }: {
   searchParams: Promise<{ year?: string }>;
 }) {
+  const auth = await requireManagementRole();
+  if (!auth.allowed) {
+    return <main className="p-8"><p className="text-[#6b6454]">You don&apos;t have access to this report.</p></main>;
+  }
+
   const sp = await searchParams;
   const currentYear = new Date().getFullYear();
   const year = sp.year ? parseInt(sp.year, 10) : currentYear;
