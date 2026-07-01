@@ -15,11 +15,18 @@ export default function SubmissionForm({
   tenderId,
   requirements,
   currency,
+  siteVisitRequired = false,
+  attendedVendorEmails = [],
 }: {
   tenderId: string;
   requirements: Requirement[];
   currency: string;
+  siteVisitRequired?: boolean;
+  attendedVendorEmails?: string[];
 }) {
+  const [verified, setVerified] = useState(!siteVisitRequired);
+  const [verifyEmail, setVerifyEmail] = useState("");
+  const [verifyError, setVerifyError] = useState("");
   const [vendorName, setVendorName] = useState("");
   const [vendorEmail, setVendorEmail] = useState("");
   const [vendorPhone, setVendorPhone] = useState("");
@@ -80,6 +87,54 @@ export default function SubmissionForm({
 
     setSubmitting(false);
     setSubmitted(true);
+  }
+
+  function handleVerify() {
+    if (!verifyEmail) return;
+    if (attendedVendorEmails.includes(verifyEmail.toLowerCase().trim())) {
+      setVerified(true);
+      setVendorEmail(verifyEmail.trim());
+      setVerifyError("");
+    } else {
+      setVerifyError(
+        "This email was not found in the site visit attendance list. Only vendors who attended the mandatory site inspection can submit a tender."
+      );
+    }
+  }
+
+  if (!verified) {
+    return (
+      <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-6">
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          Verify Site Visit Attendance
+        </h2>
+        <p className="text-sm text-[#a0977e] mb-4">
+          Enter the email address you used when registering for the site visit to proceed.
+        </p>
+        {verifyError && (
+          <div className="bg-red-950/30 border border-red-500/30 rounded-lg px-3 py-2 mb-3">
+            <p className="text-xs text-red-400">{verifyError}</p>
+          </div>
+        )}
+        <div className="flex gap-2">
+          <input
+            type="email"
+            placeholder="Email used for site visit registration"
+            value={verifyEmail}
+            onChange={(e) => setVerifyEmail(e.target.value)}
+            className="flex-1 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+            onKeyDown={(e) => e.key === "Enter" && handleVerify()}
+          />
+          <button
+            onClick={handleVerify}
+            disabled={!verifyEmail}
+            className="text-sm font-bold px-4 py-2.5 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+          >
+            Verify
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (submitted) {

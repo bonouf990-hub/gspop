@@ -52,6 +52,8 @@ async function getPageData() {
 const STATUS_STYLE: Record<string, string> = {
   draft: "bg-[rgba(184,144,47,0.12)] text-[#6b6454]",
   published: "bg-green-900 text-green-300",
+  site_visit: "bg-amber-900 text-amber-300",
+  submissions_open: "bg-green-900 text-green-300",
   closed: "bg-amber-900 text-amber-300",
   evaluating: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
   decided: "bg-green-900 text-green-300",
@@ -61,7 +63,7 @@ const STATUS_STYLE: Record<string, string> = {
 export default async function TendersPage() {
   const { tenders, properties } = await getPageData();
 
-  const active = tenders.filter((t) => ["draft", "published", "closed", "evaluating"].includes(t.status));
+  const active = tenders.filter((t) => ["draft", "published", "site_visit", "submissions_open", "closed", "evaluating"].includes(t.status));
   const decided = tenders.filter((t) => ["decided", "cancelled"].includes(t.status));
 
   return (

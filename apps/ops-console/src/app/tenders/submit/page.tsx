@@ -10,7 +10,14 @@ type TenderInfo = {
   currency: string;
   submission_deadline: string;
   status: string;
+  site_visit_required: boolean;
   property: { name: string } | null;
+};
+
+type AttendedVendor = {
+  id: string;
+  vendor_name: string;
+  vendor_email: string;
 };
 
 type RequirementInfo = {
@@ -33,10 +40,10 @@ async function getTenderByToken(token: string) {
 
   if (!tokenRow) return null;
 
-  const [{ data: tender }, { data: requirements }] = await Promise.all([
+  const [{ data: tender }, { data: requirements }, { data: attendedVendors }] = await Promise.all([
     supabase
       .from("tenders")
-      .select("id, title, description, scope_of_work, budget_estimate, currency, submission_deadline, status, property:properties(name)")
+      .select("id, title, description, scope_of_work, budget_estimate, currency, submission_deadline, status, site_visit_required, property:properties(name)")
       .eq("id", tokenRow.tender_id)
       .single(),
     supabase
@@ -44,6 +51,11 @@ async function getTenderByToken(token: string) {
       .select("id, category, title, description, is_mandatory, weight")
       .eq("tender_id", tokenRow.tender_id)
       .order("sort_order"),
+    supabase
+      .from("tender_site_visit_registrations")
+      .select("id, vendor_name, vendor_email")
+      .eq("tender_id", tokenRow.tender_id)
+      .eq("attended", true),
   ]);
 
   if (!tender) return null;
@@ -51,6 +63,7 @@ async function getTenderByToken(token: string) {
   return {
     tender: tender as unknown as TenderInfo,
     requirements: (requirements ?? []) as RequirementInfo[],
+    attendedVendors: (attendedVendors ?? []) as AttendedVendor[],
   };
 }
 
@@ -95,12 +108,12 @@ export default async function TenderSubmitPage({
     );
   }
 
-  const { tender, requirements } = data;
+  const { tender, requirements, attendedVendors } = data;
   const deadline = new Date(tender.submission_deadline);
   const isPast = deadline < new Date();
-  const isClosed = tender.status !== "published";
+  const acceptingSubmissions = ["published", "submissions_open"].includes(tender.status);
 
-  if (isClosed || isPast) {
+  if (!acceptingSubmissions || isPast) {
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
@@ -112,6 +125,21 @@ export default async function TenderSubmitPage({
               : "This tender is no longer accepting submissions."}
           </p>
           <p className="text-xs text-[#6b6454] mt-4">Deadline was: {deadline.toLocaleString()}</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (tender.site_visit_required && attendedVendors.length === 0) {
+    return (
+      <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
+        <div className="text-center max-w-md">
+          <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-2">GSPOP Tendering Portal</p>
+          <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
+          <p className="text-[#a0977e] mt-2">
+            This tender requires a mandatory site visit before submission. No vendors have been marked as attended yet.
+            Please contact the procurement team.
+          </p>
         </div>
       </main>
     );
@@ -164,7 +192,23 @@ export default async function TenderSubmitPage({
           </section>
         )}
 
-        <SubmissionForm tenderId={tender.id} requirements={requirements} currency={tender.currency} />
+        {tender.site_visit_required && attendedVendors.length > 0 && (
+          <section className="border border-amber-700 bg-amber-950/30 rounded-xl p-4 mb-6">
+            <p className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Site Visit Required</p>
+            <p className="text-sm text-amber-200">
+              Only vendors who attended the mandatory site visit can submit. You will need
+              to verify your email to confirm your attendance before the form appears.
+            </p>
+          </section>
+        )}
+
+        <SubmissionForm
+          tenderId={tender.id}
+          requirements={requirements}
+          currency={tender.currency}
+          siteVisitRequired={tender.site_visit_required}
+          attendedVendorEmails={attendedVendors.map((v) => v.vendor_email.toLowerCase())}
+        />
       </div>
     </main>
   );

@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase-server";
 import TenderActions from "./TenderActions";
 import AnalyzeTender from "./AnalyzeTender";
 import DecideWinner from "./DecideWinner";
+import SiteVisitManager from "./SiteVisitManager";
 
 type Requirement = {
   id: string;
@@ -55,19 +56,37 @@ type Tender = {
   created_at: string;
   decided_vendor_id: string | null;
   decided_reason: string | null;
+  site_visit_required: boolean;
+  site_visit_date: string | null;
+  site_visit_location: string | null;
+  site_visit_notes: string | null;
   property: { name: string } | null;
   creator: { full_name: string } | null;
+};
+
+type SiteVisitRegistration = {
+  id: string;
+  vendor_name: string;
+  vendor_email: string;
+  vendor_phone: string | null;
+  company_registration: string | null;
+  representative_name: string;
+  representative_role: string | null;
+  attended: boolean;
+  attendance_notes: string | null;
+  registered_at: string;
 };
 
 async function getTenderData(id: string) {
   const supabase = await createClient();
 
-  const [{ data: tender }, { data: requirements }, { data: submissions }, { data: tokens }] = await Promise.all([
+  const [{ data: tender }, { data: requirements }, { data: submissions }, { data: tokens }, { data: siteVisitRegs }] = await Promise.all([
     supabase
       .from("tenders")
       .select(
         `id, title, description, scope_of_work, budget_estimate, currency,
          submission_deadline, status, created_at, decided_vendor_id, decided_reason,
+         site_visit_required, site_visit_date, site_visit_location, site_visit_notes,
          property:properties(name),
          creator:user_profiles!tenders_created_by_fkey(full_name)`
       )
@@ -93,6 +112,11 @@ async function getTenderData(id: string) {
       .select("token")
       .eq("tender_id", id)
       .limit(1),
+    supabase
+      .from("tender_site_visit_registrations")
+      .select("id, vendor_name, vendor_email, vendor_phone, company_registration, representative_name, representative_role, attended, attendance_notes, registered_at")
+      .eq("tender_id", id)
+      .order("registered_at"),
   ]);
 
   if (!tender) return null;
@@ -119,12 +143,15 @@ async function getTenderData(id: string) {
     requirements: (requirements ?? []) as Requirement[],
     submissions: subs,
     accessToken: (tokens as { token: string }[] | null)?.[0]?.token ?? null,
+    siteVisitRegistrations: (siteVisitRegs ?? []) as SiteVisitRegistration[],
   };
 }
 
 const STATUS_STYLE: Record<string, string> = {
   draft: "bg-[rgba(184,144,47,0.12)] text-[#6b6454]",
   published: "bg-green-900 text-green-300",
+  site_visit: "bg-amber-900 text-amber-300",
+  submissions_open: "bg-green-900 text-green-300",
   closed: "bg-amber-900 text-amber-300",
   evaluating: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
   decided: "bg-green-900 text-green-300",
@@ -151,7 +178,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
   const data = await getTenderData(id);
   if (!data) return notFound();
 
-  const { tender, requirements, submissions, accessToken } = data;
+  const { tender, requirements, submissions, accessToken, siteVisitRegistrations } = data;
   const deadline = new Date(tender.submission_deadline);
   const isPast = deadline < new Date();
 
@@ -202,16 +229,55 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
         </div>
       </div>
 
-      {accessToken && tender.status === "published" && (
+      {accessToken && ["published", "site_visit"].includes(tender.status) && tender.site_visit_required && (
+        <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 mb-8">
+          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+            Site Visit Registration Link
+          </h3>
+          <p className="text-sm text-[#a0977e] mb-1">
+            Share this link with vendors to register for the mandatory site inspection:
+          </p>
+          <code className="text-sm text-[#d4af5a] bg-[#0f1626] px-3 py-1.5 rounded block">
+            /tenders/register?token={accessToken}
+          </code>
+        </div>
+      )}
+
+      {accessToken && ["submissions_open", "published"].includes(tender.status) && !tender.site_visit_required && (
         <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 mb-8">
           <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
             Vendor Submission Portal Link
           </h3>
           <p className="text-sm text-[#a0977e] mb-1">Share this link with vendors to submit their bids:</p>
           <code className="text-sm text-[#d4af5a] bg-[#0f1626] px-3 py-1.5 rounded block">
-            {typeof window !== "undefined" ? window.location.origin : ""}/tenders/submit?token={accessToken}
+            /tenders/submit?token={accessToken}
           </code>
         </div>
+      )}
+
+      {accessToken && tender.status === "submissions_open" && tender.site_visit_required && (
+        <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 mb-8">
+          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+            Vendor Submission Portal Link
+          </h3>
+          <p className="text-sm text-[#a0977e] mb-1">
+            Only vendors who attended the site visit can submit. Share this link:
+          </p>
+          <code className="text-sm text-[#d4af5a] bg-[#0f1626] px-3 py-1.5 rounded block">
+            /tenders/submit?token={accessToken}
+          </code>
+        </div>
+      )}
+
+      {tender.site_visit_required && ["site_visit", "submissions_open", "closed", "evaluating", "decided"].includes(tender.status) && (
+        <SiteVisitManager
+          tenderId={tender.id}
+          tenderStatus={tender.status}
+          siteVisitDate={tender.site_visit_date}
+          siteVisitLocation={tender.site_visit_location}
+          siteVisitNotes={tender.site_visit_notes}
+          registrations={siteVisitRegistrations}
+        />
       )}
 
       {requirements.length > 0 && (

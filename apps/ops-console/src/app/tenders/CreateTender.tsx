@@ -19,6 +19,10 @@ export default function CreateTender({
   const [propertyId, setPropertyId] = useState("");
   const [budgetEstimate, setBudgetEstimate] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [siteVisitRequired, setSiteVisitRequired] = useState(true);
+  const [siteVisitDate, setSiteVisitDate] = useState("");
+  const [siteVisitLocation, setSiteVisitLocation] = useState("");
+  const [siteVisitNotes, setSiteVisitNotes] = useState("");
 
   const [requirements, setRequirements] = useState<
     { category: string; title: string; description: string; isMandatory: boolean; weight: number }[]
@@ -58,6 +62,10 @@ export default function CreateTender({
         submission_deadline: new Date(deadline).toISOString(),
         status: "draft",
         created_by: userData.user?.id,
+        site_visit_required: siteVisitRequired,
+        site_visit_date: siteVisitDate ? new Date(siteVisitDate).toISOString() : null,
+        site_visit_location: siteVisitLocation || null,
+        site_visit_notes: siteVisitNotes || null,
       })
       .select("id")
       .single();
@@ -156,6 +164,48 @@ export default function CreateTender({
               className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
             />
           </div>
+        </div>
+
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs font-bold text-[#a0977e] uppercase tracking-wider">Site Visit</p>
+            <label className="flex items-center gap-2 text-xs text-[#a0977e]">
+              <input
+                type="checkbox"
+                checked={siteVisitRequired}
+                onChange={(e) => setSiteVisitRequired(e.target.checked)}
+              />
+              Mandatory before submission
+            </label>
+          </div>
+          {siteVisitRequired && (
+            <div className="bg-[#0f1626] rounded-lg p-3 border border-[rgba(184,144,47,0.08)] space-y-2">
+              <p className="text-xs text-[#6b6454]">
+                Vendors must attend a site inspection before they can submit their tender.
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="datetime-local"
+                  value={siteVisitDate}
+                  onChange={(e) => setSiteVisitDate(e.target.value)}
+                  placeholder="Site Visit Date & Time"
+                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm"
+                />
+                <input
+                  placeholder="Meeting point / location"
+                  value={siteVisitLocation}
+                  onChange={(e) => setSiteVisitLocation(e.target.value)}
+                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm"
+                />
+              </div>
+              <input
+                placeholder="Additional instructions (PPE required, parking info, etc.)"
+                value={siteVisitNotes}
+                onChange={(e) => setSiteVisitNotes(e.target.value)}
+                className="w-full bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm"
+              />
+            </div>
+          )}
         </div>
 
         <div className="mb-4">
