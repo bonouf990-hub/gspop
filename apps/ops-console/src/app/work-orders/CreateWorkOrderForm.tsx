@@ -171,8 +171,9 @@ export default function CreateWorkOrderForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Estimated Cost (AED)</label>
-        <input className={input} type="number" placeholder="0.00" value={form.estimatedCost}
+        <label className="text-xs text-[#a0977e] mb-1 block">Estimated Cost (AED) — optional, for external work only</label>
+        <input className={input} type="number" placeholder="Leave empty for internal jobs"
+          value={form.estimatedCost}
           onChange={(e) => setForm({ ...form, estimatedCost: e.target.value })} />
       </div>
 
