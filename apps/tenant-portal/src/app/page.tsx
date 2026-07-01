@@ -8,7 +8,7 @@ import {
   type Unit,
 } from "@gspop/shared";
 import BottomNav from "@/components/BottomNav";
-import { KeyRound, Wrench, ClipboardList, Megaphone, ArrowRight, BedDouble, Bath, Ruler, User } from "lucide-react";
+import { KeyRound, Wrench, ClipboardList, Megaphone, ArrowRight, BedDouble, Bath, Ruler, User, Bell } from "lucide-react";
 
 async function getMyApartment() {
   const supabase = await createClient();
@@ -24,8 +24,14 @@ async function getMyApartment() {
 
   if (!lease) return null;
 
-  const [{ data: unit }, { data: assets }, { data: invoices }, { data: photos }, { data: profile }] =
-    await Promise.all([
+  const [
+    { data: unit },
+    { data: assets },
+    { data: invoices },
+    { data: photos },
+    { data: profile },
+    { count: unreadCount },
+  ] = await Promise.all([
       supabase.from("units").select("*").eq("id", lease.unit_id).single(),
       supabase.from("assets").select("*").eq("unit_id", lease.unit_id),
       supabase
@@ -36,6 +42,10 @@ async function getMyApartment() {
         .limit(1),
       supabase.from("unit_photos").select("*").eq("unit_id", lease.unit_id).order("is_primary", { ascending: false }),
       supabase.from("user_profiles").select("avatar_path").eq("id", residentId).single(),
+      supabase
+        .from("notifications")
+        .select("id", { count: "exact", head: true })
+        .is("read_at", null),
     ]);
 
   const primaryPhoto = photos?.[0] as { storage_path: string } | undefined;
@@ -55,6 +65,7 @@ async function getMyApartment() {
     nextInvoice: invoices?.[0] ? camelCaseKeys<RentInvoice>(invoices[0]) : null,
     photoUrl,
     avatarUrl,
+    unreadCount: unreadCount ?? 0,
   };
 }
 
@@ -76,7 +87,7 @@ export default async function HomePage() {
     );
   }
 
-  const { lease, unit, assets, nextInvoice, photoUrl, avatarUrl } = data;
+  const { lease, unit, assets, nextInvoice, photoUrl, avatarUrl, unreadCount } = data;
   const rentDue = nextInvoice && (nextInvoice.status === "pending" || nextInvoice.status === "overdue");
 
   return (
@@ -108,18 +119,32 @@ export default async function HomePage() {
             <span className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold-soft)] font-medium">
               Golden Sands Residences
             </span>
-            <Link
-              href="/profile"
-              aria-label="My profile"
-              className="w-10 h-10 rounded-full overflow-hidden bg-white/10 ring-1 ring-white/25 flex items-center justify-center backdrop-blur-sm"
-            >
-              {avatarUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={avatarUrl} alt="My profile" className="w-full h-full object-cover" />
-              ) : (
-                <User size={18} className="text-white/85" strokeWidth={1.8} />
-              )}
-            </Link>
+            <div className="flex items-center gap-2.5">
+              <Link
+                href="/notifications"
+                aria-label="Notifications"
+                className="relative w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/25 flex items-center justify-center backdrop-blur-sm"
+              >
+                <Bell size={18} className="text-white/85" strokeWidth={1.8} />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[var(--gold)] text-white text-[10px] font-semibold flex items-center justify-center ring-2 ring-[#0B1020]">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
+                )}
+              </Link>
+              <Link
+                href="/profile"
+                aria-label="My profile"
+                className="w-10 h-10 rounded-full overflow-hidden bg-white/10 ring-1 ring-white/25 flex items-center justify-center backdrop-blur-sm"
+              >
+                {avatarUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={avatarUrl} alt="My profile" className="w-full h-full object-cover" />
+                ) : (
+                  <User size={18} className="text-white/85" strokeWidth={1.8} />
+                )}
+              </Link>
+            </div>
           </div>
           <div>
             <p className="text-xs tracking-[0.2em] uppercase text-white/55 mb-1.5">Welcome home</p>
