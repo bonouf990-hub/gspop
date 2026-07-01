@@ -9,6 +9,9 @@ type WorkOrderRow = {
   priority: string;
   status: string;
   created_at: string;
+  visit_source: string | null;
+  preferred_visit_date: string | null;
+  preferred_visit_time: string | null;
   properties: { name: string } | null;
   units: { label: string } | null;
   technician: { full_name: string } | null;
@@ -31,7 +34,7 @@ async function getPageData() {
   let woQuery = supabase
     .from("work_orders")
     .select(
-      "id, title, type, priority, status, created_at, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
+      "id, title, type, priority, status, created_at, visit_source, preferred_visit_date, preferred_visit_time, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
     )
     .order("created_at", { ascending: false });
 
@@ -115,6 +118,17 @@ export default async function WorkOrdersPage() {
                   <Link href={`/work-orders/${wo.id}`} className="text-[#d4af5a] hover:underline">
                     {wo.title}
                   </Link>
+                  {wo.visit_source === "resident_booking" && (
+                    <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-900/50 text-blue-300">
+                      VISIT REQUEST
+                    </span>
+                  )}
+                  {wo.preferred_visit_date && (
+                    <p className="text-[10px] text-[#a0977e] mt-0.5">
+                      Preferred: {new Date(wo.preferred_visit_date).toLocaleDateString()}
+                      {wo.preferred_visit_time && ` · ${wo.preferred_visit_time}`}
+                    </p>
+                  )}
                 </td>
                 <td className="py-2 text-[#a0977e]">
                   {[prop?.name, unit?.label].filter(Boolean).join(" · ") || "—"}

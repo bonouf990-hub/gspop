@@ -240,6 +240,16 @@ export default async function WorkOrderDetailPage({
           <span>{wo.hours_worked ? `${Number(wo.hours_worked).toFixed(1)}h` : "—"}</span>
           <span className="text-[#a0977e]">Created</span>
           <span>{new Date(wo.created_at as string).toLocaleString()}</span>
+          {wo.visit_source === "resident_booking" && (
+            <>
+              <span className="text-[#a0977e]">Source</span>
+              <span className="text-blue-400 font-medium">Resident Visit Request</span>
+              <span className="text-[#a0977e]">Preferred date</span>
+              <span>{wo.preferred_visit_date ? new Date(wo.preferred_visit_date as string).toLocaleDateString() : "—"}</span>
+              <span className="text-[#a0977e]">Preferred time</span>
+              <span className="capitalize">{(wo.preferred_visit_time as string) ?? "—"}</span>
+            </>
+          )}
         </div>
       </section>
 

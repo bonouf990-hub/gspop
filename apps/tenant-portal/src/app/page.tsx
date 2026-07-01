@@ -8,7 +8,7 @@ import {
   type Unit,
 } from "@gspop/shared";
 import BottomNav from "@/components/BottomNav";
-import { KeyRound, Wrench, ClipboardList, Megaphone, ArrowRight, BedDouble, Bath, Ruler, User, Bell, CalendarDays } from "lucide-react";
+import { KeyRound, Wrench, ClipboardList, Megaphone, ArrowRight, BedDouble, Bath, Ruler, User, Bell, CalendarDays, HardHat } from "lucide-react";
 
 async function getMyApartment() {
   const supabase = await createClient();
@@ -72,6 +72,7 @@ async function getMyApartment() {
 const QUICK_ACTIONS = [
   { href: "/gate", Icon: KeyRound, label: "Gate" },
   { href: "/complaints/new", Icon: Wrench, label: "Report Issue" },
+  { href: "/book-visit", Icon: HardHat, label: "Book Visit" },
   { href: "/bookings", Icon: CalendarDays, label: "Bookings" },
   { href: "/notices", Icon: Megaphone, label: "Notices" },
 ];
