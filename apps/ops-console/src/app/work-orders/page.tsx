@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import CreateWorkOrderForm from "./CreateWorkOrderForm";
 
 type WorkOrderRow = {
   id: string;
@@ -13,15 +14,29 @@ type WorkOrderRow = {
   technician: { full_name: string } | null;
 };
 
-async function getWorkOrders(): Promise<WorkOrderRow[]> {
+async function getPageData() {
   const supabase = await createClient();
-  const { data } = await supabase
-    .from("work_orders")
-    .select(
-      "id, title, type, priority, status, created_at, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
-    )
-    .order("created_at", { ascending: false });
-  return (data ?? []) as unknown as WorkOrderRow[];
+  const [{ data: workOrders }, { data: properties }, { data: units }, { data: technicians }] =
+    await Promise.all([
+      supabase
+        .from("work_orders")
+        .select(
+          "id, title, type, priority, status, created_at, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
+        )
+        .order("created_at", { ascending: false }),
+      supabase.from("properties").select("id, name").order("name"),
+      supabase.from("units").select("id, label, property_id").order("label"),
+      supabase
+        .from("user_profiles")
+        .select("id, full_name, trade")
+        .eq("role", "technician"),
+    ]);
+  return {
+    workOrders: (workOrders ?? []) as unknown as WorkOrderRow[],
+    properties: (properties ?? []) as { id: string; name: string }[],
+    units: (units ?? []) as { id: string; label: string; property_id: string }[],
+    technicians: (technicians ?? []) as { id: string; full_name: string; trade: string | null }[],
+  };
 }
 
 const PRIORITY_COLORS: Record<string, string> = {
@@ -41,7 +56,7 @@ const STATUS_COLORS: Record<string, string> = {
 };
 
 export default async function WorkOrdersPage() {
-  const workOrders = await getWorkOrders();
+  const { workOrders, properties, units, technicians } = await getPageData();
 
   return (
     <main className="p-8">
@@ -52,6 +67,7 @@ export default async function WorkOrdersPage() {
           </Link>
           <h1 className="text-2xl font-extrabold mt-1">Work Orders</h1>
         </div>
+        <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />
       </div>
 
       <table className="w-full text-sm border-collapse">

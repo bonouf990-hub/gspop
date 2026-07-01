@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type ComplaintContext } from "@gspop/shared";
 import ComplaintStatusControl from "./ComplaintStatusControl";
+import ConvertToWorkOrder from "./ConvertToWorkOrder";
 
 async function getComplaintContext(id: string): Promise<ComplaintContext | null> {
   const supabase = await createClient();
@@ -17,7 +18,7 @@ async function getComplaintExtras(id: string) {
   const supabase = await createClient();
   const { data: complaint } = await supabase
     .from("complaints")
-    .select("status")
+    .select("status, property_id, unit_id, tenant_id, work_order_id")
     .eq("id", id)
     .single();
 
@@ -34,7 +35,21 @@ async function getComplaintExtras(id: string) {
     photoUrls = (signed ?? []).map((s) => s.signedUrl).filter(Boolean) as string[];
   }
 
-  return { status: (complaint as { status: string } | null)?.status ?? "submitted", photoUrls };
+  const { data: technicians } = await supabase
+    .from("user_profiles")
+    .select("id, full_name, trade")
+    .eq("role", "technician");
+
+  const c = complaint as { status: string; property_id: string; unit_id: string | null; tenant_id: string; work_order_id: string | null } | null;
+  return {
+    status: c?.status ?? "submitted",
+    propertyId: c?.property_id ?? "",
+    unitId: c?.unit_id ?? null,
+    tenantId: c?.tenant_id ?? "",
+    workOrderId: c?.work_order_id ?? null,
+    photoUrls,
+    technicians: (technicians ?? []) as { id: string; full_name: string; trade: string | null }[],
+  };
 }
 
 export default async function ComplaintDetailPage({
@@ -53,7 +68,8 @@ export default async function ComplaintDetailPage({
     );
   }
 
-  const { status, photoUrls } = await getComplaintExtras(id);
+  const { status, propertyId, unitId, tenantId, workOrderId, photoUrls, technicians } =
+    await getComplaintExtras(id);
 
   return (
     <main className="p-8 max-w-2xl">
@@ -64,6 +80,20 @@ export default async function ComplaintDetailPage({
       <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
         <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Status</h2>
         <ComplaintStatusControl id={id} currentStatus={status} />
+      </section>
+
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Work Order</h2>
+        <ConvertToWorkOrder
+          complaintId={id}
+          propertyId={propertyId}
+          unitId={unitId}
+          tenantId={tenantId}
+          title={context.title}
+          description={context.description}
+          technicians={technicians}
+          existingWorkOrderId={workOrderId}
+        />
       </section>
 
       {photoUrls.length > 0 && (
