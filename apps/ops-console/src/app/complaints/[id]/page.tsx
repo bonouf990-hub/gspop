@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type ComplaintContext } from "@gspop/shared";
+import ComplaintStatusControl from "./ComplaintStatusControl";
 
 async function getComplaintContext(id: string): Promise<ComplaintContext | null> {
   const supabase = await createClient();
@@ -9,6 +10,30 @@ async function getComplaintContext(id: string): Promise<ComplaintContext | null>
     .eq("complaint_id", id)
     .single();
   return data ? camelCaseKeys<ComplaintContext>(data) : null;
+}
+
+async function getComplaintExtras(id: string) {
+  const supabase = await createClient();
+  const { data: complaint } = await supabase
+    .from("complaints")
+    .select("status")
+    .eq("id", id)
+    .single();
+
+  const { data: photoRows } = await supabase
+    .from("complaint_photos")
+    .select("storage_path")
+    .eq("complaint_id", id)
+    .order("uploaded_at", { ascending: true });
+
+  const paths = (photoRows ?? []).map((p) => p.storage_path as string);
+  let photoUrls: string[] = [];
+  if (paths.length > 0) {
+    const { data: signed } = await supabase.storage.from("complaint-photos").createSignedUrls(paths, 3600);
+    photoUrls = (signed ?? []).map((s) => s.signedUrl).filter(Boolean) as string[];
+  }
+
+  return { status: (complaint as { status: string } | null)?.status ?? "submitted", photoUrls };
 }
 
 export default async function ComplaintDetailPage({
@@ -27,10 +52,31 @@ export default async function ComplaintDetailPage({
     );
   }
 
+  const { status, photoUrls } = await getComplaintExtras(id);
+
   return (
     <main className="p-8 max-w-2xl">
       <h1 className="text-2xl font-bold mb-2">{context.title}</h1>
       <p className="text-gray-400 mb-6">{context.description}</p>
+
+      <section className="border border-gray-700 rounded-lg p-4 mb-4">
+        <h2 className="font-semibold mb-3">Status</h2>
+        <ComplaintStatusControl id={id} currentStatus={status} />
+      </section>
+
+      {photoUrls.length > 0 && (
+        <section className="border border-gray-700 rounded-lg p-4 mb-4">
+          <h2 className="font-semibold mb-3">Resident Photos</h2>
+          <div className="grid grid-cols-3 gap-2">
+            {photoUrls.map((url, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <a key={i} href={url} target="_blank" rel="noopener noreferrer">
+                <img src={url} alt={`Attachment ${i + 1}`} className="aspect-square w-full object-cover rounded-lg border border-gray-700" />
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="border border-gray-700 rounded-lg p-4 mb-4">
         <h2 className="font-semibold mb-2">Tenant / Unit</h2>
