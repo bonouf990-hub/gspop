@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase-server";
 import AssignTechnicianControl from "./AssignTechnicianControl";
 import WorkOrderStatusControl from "./WorkOrderStatusControl";
 import RequestParts from "./RequestParts";
+import CreateWorkOrderPO from "./CreateWorkOrderPO";
 
 async function getWorkOrder(id: string) {
   const supabase = await createClient();
@@ -100,6 +101,34 @@ async function getInventoryItems(propertyId: string) {
   return (data ?? []) as { id: string; name: string; sku: string | null; quantity_on_hand: number; unit_of_measure: string | null }[];
 }
 
+type PORow = {
+  id: string;
+  description: string | null;
+  amount: number;
+  status: string;
+  created_at: string;
+  vendor: { name: string } | null;
+};
+
+async function getWorkOrderPOs(workOrderId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("purchase_orders")
+    .select("id, description, amount, status, created_at, vendor:vendors(name)")
+    .eq("work_order_id", workOrderId)
+    .order("created_at", { ascending: false });
+  return (data ?? []) as unknown as PORow[];
+}
+
+async function getVendors() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("vendors")
+    .select("id, name, category")
+    .order("name");
+  return (data ?? []) as { id: string; name: string; category: string | null }[];
+}
+
 async function getCheckins(workOrderId: string) {
   const supabase = await createClient();
   const { data } = await supabase
@@ -124,9 +153,11 @@ export default async function WorkOrderDetailPage({
   ]);
 
   const propertyId = wo?.property_id as string | null;
-  const [partsRequests, inventoryItems] = await Promise.all([
+  const [partsRequests, inventoryItems, purchaseOrders, vendors] = await Promise.all([
     getPartsRequests(id),
     propertyId ? getInventoryItems(propertyId) : Promise.resolve([]),
+    getWorkOrderPOs(id),
+    getVendors(),
   ]);
 
   if (!wo) {
@@ -258,6 +289,62 @@ export default async function WorkOrderDetailPage({
                     {pr.status}
                   </span>
                 </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+            Purchase Orders ({purchaseOrders.length})
+          </h2>
+          {propertyId && !["closed", "cancelled"].includes(wo.status as string) && (
+            <CreateWorkOrderPO
+              workOrderId={id}
+              propertyId={propertyId}
+              workOrderTitle={wo.title as string}
+              vendors={vendors}
+            />
+          )}
+        </div>
+        {purchaseOrders.length === 0 ? (
+          <p className="text-sm text-[#6b6454]">No purchase orders linked to this work order.</p>
+        ) : (
+          <div className="space-y-2">
+            {purchaseOrders.map((po) => {
+              const vendor = po.vendor as { name: string } | null;
+              const poStatusStyle: Record<string, string> = {
+                pending: "bg-amber-900 text-amber-300",
+                approved: "bg-green-900 text-green-300",
+                rejected: "bg-red-900 text-red-300",
+                escalated: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+                fulfilled: "bg-[#213052] text-[#a0977e]",
+              };
+              return (
+                <Link
+                  key={po.id}
+                  href="/purchasing"
+                  className="block bg-[#0f1626] rounded-lg px-3 py-2 hover:bg-[#213052]"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium">
+                        {po.description ?? "Purchase Order"}
+                        <span className="text-[#d4af5a] ml-2 font-bold">
+                          AED {Number(po.amount).toLocaleString()}
+                        </span>
+                      </p>
+                      <p className="text-[10px] text-[#6b6454]">
+                        {vendor?.name ?? "No vendor"} · {new Date(po.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${poStatusStyle[po.status] ?? ""}`}>
+                      {po.status}
+                    </span>
+                  </div>
+                </Link>
               );
             })}
           </div>
