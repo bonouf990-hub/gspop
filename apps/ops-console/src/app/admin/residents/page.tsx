@@ -16,7 +16,7 @@ export default async function ResidentsPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-gray-500">You don&apos;t have access to Residents &amp; Leases.</p>
+        <p className="text-[#6b6454]">You don&apos;t have access to Residents &amp; Leases.</p>
       </main>
     );
   }
@@ -37,10 +37,10 @@ export default async function ResidentsPage() {
   return (
     <main className="p-8">
       <div className="flex items-center gap-3 mb-2">
-        <Link href="/" className="text-sm text-gray-400 hover:text-white">← Dashboard</Link>
+        <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
       </div>
-      <h1 className="text-2xl font-bold mb-2">Residents &amp; Leases</h1>
-      <p className="text-gray-500 mb-6">
+      <h1 className="text-2xl font-extrabold mb-2">Residents &amp; Leases</h1>
+      <p className="text-[#a0977e] mb-6">
         Onboard residents, set rent terms, and manage each lease&apos;s cheque schedule and documents.
       </p>
 
@@ -48,7 +48,7 @@ export default async function ResidentsPage() {
 
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Resident</th>
             <th className="py-2">Unit</th>
             <th className="py-2">Rent</th>
@@ -61,20 +61,20 @@ export default async function ResidentsPage() {
           {(leases ?? []).map((l) => {
             const unit = l.units as unknown as { label: string; properties: { name: string } | null } | null;
             return (
-              <tr key={l.id} className="border-b border-gray-800">
+              <tr key={l.id} className="border-b border-[rgba(184,144,47,0.08)]">
                 <td className="py-2">{l.tenant_full_name}</td>
-                <td className="py-2 text-gray-400">
+                <td className="py-2 text-[#a0977e]">
                   {unit?.properties?.name ? `${unit.properties.name} — ` : ""}{unit?.label ?? "—"}
                 </td>
-                <td className="py-2 text-gray-400">
+                <td className="py-2 text-[#a0977e]">
                   {l.rent_amount != null ? `${l.rent_amount} AED${l.rent_frequency ? ` / ${l.rent_frequency}` : ""}` : "—"}
                 </td>
-                <td className="py-2 text-gray-400">
+                <td className="py-2 text-[#a0977e]">
                   {l.start_date}{l.end_date ? ` – ${l.end_date}` : ""}
                 </td>
                 <td className="py-2 capitalize">{l.status}</td>
                 <td className="py-2">
-                  <Link href={`/admin/residents/${l.id}`} className="text-blue-400 hover:underline">
+                  <Link href={`/admin/residents/${l.id}`} className="text-[#d4af5a] hover:underline">
                     Manage
                   </Link>
                 </td>
@@ -82,7 +82,7 @@ export default async function ResidentsPage() {
             );
           })}
           {(leases ?? []).length === 0 && (
-            <tr><td colSpan={6} className="py-6 text-gray-500 text-center">No leases yet.</td></tr>
+            <tr><td colSpan={6} className="py-6 text-[#6b6454] text-center">No leases yet.</td></tr>
           )}
         </tbody>
       </table>

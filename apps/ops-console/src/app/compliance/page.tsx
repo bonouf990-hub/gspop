@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type ComplianceDocument } from "@gspop/shared";
 
@@ -21,10 +22,11 @@ export default async function CompliancePage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Compliance & Document Expiry</h1>
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-6">Compliance & Document Expiry</h1>
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Document</th>
             <th className="py-2">Type</th>
             <th className="py-2">Expiry Date</th>
@@ -33,7 +35,7 @@ export default async function CompliancePage() {
         </thead>
         <tbody>
           {documents.map((d) => (
-            <tr key={d.id} className="border-b border-gray-800">
+            <tr key={d.id} className="border-b border-[rgba(184,144,47,0.08)]">
               <td className="py-2">{d.title}</td>
               <td className="py-2">{d.documentType.replace(/_/g, " ")}</td>
               <td className="py-2">{d.expiryDate}</td>
@@ -44,7 +46,7 @@ export default async function CompliancePage() {
           ))}
           {documents.length === 0 && (
             <tr>
-              <td className="py-4 text-gray-500" colSpan={4}>
+              <td className="py-4 text-[#6b6454]" colSpan={4}>
                 No compliance documents tracked yet.
               </td>
             </tr>

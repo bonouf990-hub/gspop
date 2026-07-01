@@ -14,7 +14,7 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ le
     .single();
   const isAdmin = callerProfile && ["tenant_admin", "property_manager"].includes(callerProfile.role);
   if (!isAdmin) {
-    return <main className="p-8"><p className="text-gray-500">Not authorized.</p></main>;
+    return <main className="p-8"><p className="text-[#6b6454]">Not authorized.</p></main>;
   }
 
   const { data: lease } = await supabase
@@ -24,7 +24,7 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ le
     .single();
 
   if (!lease) {
-    return <main className="p-8"><p className="text-gray-500">Lease not found.</p></main>;
+    return <main className="p-8"><p className="text-[#6b6454]">Lease not found.</p></main>;
   }
 
   const [{ data: invoices }, { data: documents }] = await Promise.all([
@@ -44,9 +44,9 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ le
 
   return (
     <main className="p-8 max-w-3xl">
-      <Link href="/admin/residents" className="text-sm text-gray-400 hover:text-white">← Residents</Link>
-      <h1 className="text-2xl font-bold mt-2 mb-1">{lease.tenant_full_name}</h1>
-      <p className="text-gray-500 mb-6">
+      <Link href="/admin/residents" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Residents</Link>
+      <h1 className="text-2xl font-extrabold mt-2 mb-1">{lease.tenant_full_name}</h1>
+      <p className="text-[#a0977e] mb-6">
         {unit?.properties?.name ? `${unit.properties.name} — ` : ""}{unit?.label ?? "—"} ·{" "}
         {lease.rent_amount != null ? `${lease.rent_amount} AED${lease.rent_frequency ? `/${lease.rent_frequency}` : ""}` : "no rent set"} ·{" "}
         deposit {lease.deposit_amount != null ? `${lease.deposit_amount} AED (${lease.deposit_status})` : "—"}

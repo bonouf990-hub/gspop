@@ -90,7 +90,7 @@ export default async function WorkOrderDetailPage({
   if (!wo) {
     return (
       <main className="p-8">
-        <p className="text-gray-500">Work order not found.</p>
+        <p className="text-[#6b6454]">Work order not found.</p>
       </main>
     );
   }
@@ -108,19 +108,19 @@ export default async function WorkOrderDetailPage({
 
   return (
     <main className="p-8 max-w-3xl">
-      <Link href="/work-orders" className="text-sm text-gray-400 hover:text-white">
+      <Link href="/work-orders" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
         ← Work Orders
       </Link>
-      <h1 className="text-2xl font-bold mt-2 mb-1">{wo.title}</h1>
-      <p className="text-gray-400 mb-6">{wo.description}</p>
+      <h1 className="text-2xl font-extrabold mt-2 mb-1">{wo.title}</h1>
+      <p className="text-[#a0977e] mb-6">{wo.description}</p>
 
-      <section className="border border-gray-700 rounded-lg p-4 mb-4">
-        <h2 className="font-semibold mb-3">Status</h2>
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Status</h2>
         <WorkOrderStatusControl id={id} currentStatus={wo.status as string} />
       </section>
 
-      <section className="border border-gray-700 rounded-lg p-4 mb-4">
-        <h2 className="font-semibold mb-3">Assign Technician</h2>
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Assign Technician</h2>
         <AssignTechnicianControl
           workOrderId={id}
           currentTechId={wo.assigned_technician_id as string | null}
@@ -128,52 +128,52 @@ export default async function WorkOrderDetailPage({
         />
       </section>
 
-      <section className="border border-gray-700 rounded-lg p-4 mb-4">
-        <h2 className="font-semibold mb-2">Details</h2>
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-y-1 text-sm">
-          <span className="text-gray-500">Type</span>
+          <span className="text-[#a0977e]">Type</span>
           <span className="capitalize">{wo.type as string}</span>
-          <span className="text-gray-500">Priority</span>
+          <span className="text-[#a0977e]">Priority</span>
           <span className="capitalize">{wo.priority as string}</span>
-          <span className="text-gray-500">Property</span>
+          <span className="text-[#a0977e]">Property</span>
           <span>{property?.name ?? "—"}</span>
-          <span className="text-gray-500">Unit</span>
+          <span className="text-[#a0977e]">Unit</span>
           <span>{unit?.label ?? "—"}</span>
-          <span className="text-gray-500">Created by</span>
+          <span className="text-[#a0977e]">Created by</span>
           <span>{creator?.full_name ?? "—"}</span>
-          <span className="text-gray-500">Technician</span>
+          <span className="text-[#a0977e]">Technician</span>
           <span>{tech?.full_name ?? "Unassigned"}</span>
-          <span className="text-gray-500">Estimated cost</span>
+          <span className="text-[#a0977e]">Estimated cost</span>
           <span>{wo.estimated_cost ? `AED ${wo.estimated_cost}` : "—"}</span>
-          <span className="text-gray-500">Actual cost</span>
+          <span className="text-[#a0977e]">Actual cost</span>
           <span>{wo.actual_cost ? `AED ${wo.actual_cost}` : "—"}</span>
-          <span className="text-gray-500">Created</span>
+          <span className="text-[#a0977e]">Created</span>
           <span>{new Date(wo.created_at as string).toLocaleString()}</span>
         </div>
       </section>
 
       {asset && (
-        <section className="border border-gray-700 rounded-lg p-4 mb-4">
-          <h2 className="font-semibold mb-2">Linked Asset</h2>
+        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Linked Asset</h2>
           <div className="grid grid-cols-2 gap-y-1 text-sm">
-            <span className="text-gray-500">Name</span>
+            <span className="text-[#a0977e]">Name</span>
             <span>{asset.name}</span>
-            <span className="text-gray-500">Category</span>
+            <span className="text-[#a0977e]">Category</span>
             <span className="capitalize">{asset.category}</span>
-            <span className="text-gray-500">Status</span>
+            <span className="text-[#a0977e]">Status</span>
             <span className="capitalize">{asset.status.replace(/_/g, " ")}</span>
-            <span className="text-gray-500">Condition</span>
+            <span className="text-[#a0977e]">Condition</span>
             <span className="capitalize">{asset.condition}</span>
           </div>
         </section>
       )}
 
       {(photos.before.length > 0 || photos.after.length > 0) && (
-        <section className="border border-gray-700 rounded-lg p-4 mb-4">
-          <h2 className="font-semibold mb-3">Technician Photos</h2>
+        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Technician Photos</h2>
           {photos.before.length > 0 && (
             <>
-              <p className="text-sm text-gray-400 mb-2">Before</p>
+              <p className="text-sm text-[#a0977e] mb-2">Before</p>
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {photos.before.map((url, i) => (
                   <a key={i} href={url} target="_blank" rel="noopener noreferrer">
@@ -181,7 +181,7 @@ export default async function WorkOrderDetailPage({
                     <img
                       src={url}
                       alt={`Before ${i + 1}`}
-                      className="aspect-square w-full object-cover rounded-lg border border-gray-700"
+                      className="aspect-square w-full object-cover rounded-lg border border-[rgba(184,144,47,0.15)]"
                     />
                   </a>
                 ))}
@@ -190,7 +190,7 @@ export default async function WorkOrderDetailPage({
           )}
           {photos.after.length > 0 && (
             <>
-              <p className="text-sm text-gray-400 mb-2">After</p>
+              <p className="text-sm text-[#a0977e] mb-2">After</p>
               <div className="grid grid-cols-4 gap-2">
                 {photos.after.map((url, i) => (
                   <a key={i} href={url} target="_blank" rel="noopener noreferrer">
@@ -198,7 +198,7 @@ export default async function WorkOrderDetailPage({
                     <img
                       src={url}
                       alt={`After ${i + 1}`}
-                      className="aspect-square w-full object-cover rounded-lg border border-gray-700"
+                      className="aspect-square w-full object-cover rounded-lg border border-[rgba(184,144,47,0.15)]"
                     />
                   </a>
                 ))}
@@ -209,19 +209,19 @@ export default async function WorkOrderDetailPage({
       )}
 
       {checkins.length > 0 && (
-        <section className="border border-gray-700 rounded-lg p-4 mb-4">
-          <h2 className="font-semibold mb-2">GPS Check-ins</h2>
+        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">GPS Check-ins</h2>
           <div className="space-y-2 text-sm">
             {checkins.map((c, i) => (
               <div key={i} className="flex justify-between">
                 <span className="capitalize">
                   {(c.type as string).replace("_", " ")}
                 </span>
-                <span className="text-gray-400">
+                <span className="text-[#a0977e]">
                   {(c.latitude as number).toFixed(5)}, {(c.longitude as number).toFixed(5)}
                   {c.accuracy_meters ? ` (±${Math.round(c.accuracy_meters as number)}m)` : ""}
                 </span>
-                <span className="text-gray-500">
+                <span className="text-[#6b6454]">
                   {new Date(c.timestamp as string).toLocaleString()}
                 </span>
               </div>

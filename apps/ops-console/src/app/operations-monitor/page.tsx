@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import {
   camelCaseKeys,
@@ -46,8 +47,9 @@ export default async function OperationsMonitorPage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-1">Operations Monitor</h1>
-      <p className="text-gray-500 mb-8">
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-1">Operations Monitor</h1>
+      <p className="text-[#a0977e] mb-8">
         Open cases and technician utilization by trade — who's busy, who's idle, right now.
       </p>
 
@@ -58,23 +60,23 @@ export default async function OperationsMonitorPage() {
           const utilPct = util?.utilizationPct ?? 0;
 
           return (
-            <div key={trade} className="border border-gray-700 rounded-xl p-5">
+            <div key={trade} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold flex items-center gap-2">
+                <h2 className="font-bold flex items-center gap-2">
                   <span className="text-xl">{TRADE_ICONS[trade] ?? "🛠️"}</span>
                   {TRADE_LABELS[trade] ?? trade}
                 </h2>
-                <span className="text-2xl font-bold">{cases?.openCases ?? 0}</span>
+                <span className="text-2xl font-extrabold">{cases?.openCases ?? 0}</span>
               </div>
-              <p className="text-xs text-gray-500 mb-3">open cases</p>
+              <p className="text-xs text-[#6b6454] mb-3">open cases</p>
 
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Technicians busy</span>
+                <span className="text-[#a0977e]">Technicians busy</span>
                 <span>
                   {util?.busyTechnicians ?? 0} / {util?.totalTechnicians ?? 0}
                 </span>
               </div>
-              <div className="w-full bg-gray-800 rounded-full h-2 mb-1">
+              <div className="w-full bg-[#213052] rounded-full h-2 mb-1">
                 <div
                   className={`h-2 rounded-full ${
                     utilPct >= 80 ? "bg-red-500" : utilPct >= 50 ? "bg-amber-500" : "bg-green-500"
@@ -82,9 +84,9 @@ export default async function OperationsMonitorPage() {
                   style={{ width: `${utilPct}%` }}
                 />
               </div>
-              <p className="text-xs text-gray-500 mb-4">{utilPct}% utilization</p>
+              <p className="text-xs text-[#6b6454] mb-4">{utilPct}% utilization</p>
 
-              <div className="flex justify-between text-xs text-gray-400">
+              <div className="flex justify-between text-xs text-[#a0977e]">
                 <span>Idle: {util?.idleTechnicians ?? 0}</span>
                 <span>Active jobs: {cases?.activeCases ?? 0}</span>
                 <span>Pending approval: {cases?.pendingApproval ?? 0}</span>
@@ -92,13 +94,13 @@ export default async function OperationsMonitorPage() {
             </div>
           );
         })}
-        {trades.length === 0 && <p className="text-gray-500">No technicians or work orders yet.</p>}
+        {trades.length === 0 && <p className="text-[#6b6454]">No technicians or work orders yet.</p>}
       </div>
 
-      <h2 className="text-lg font-semibold mb-3">Technician Status</h2>
+      <h2 className="text-lg font-bold mb-3">Technician Status</h2>
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Name</th>
             <th className="py-2">Trade</th>
             <th className="py-2">Status</th>
@@ -107,24 +109,24 @@ export default async function OperationsMonitorPage() {
         </thead>
         <tbody>
           {technicians.map((t) => (
-            <tr key={t.technicianId} className="border-b border-gray-800">
+            <tr key={t.technicianId} className="border-b border-[rgba(184,144,47,0.08)]">
               <td className="py-2">{t.fullName}</td>
               <td className="py-2">{TRADE_LABELS[t.trade] ?? t.trade}</td>
               <td className="py-2">
                 <span
                   className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                    t.status === "busy" ? "bg-blue-900 text-blue-300" : "bg-gray-800 text-gray-400"
+                    t.status === "busy" ? "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]" : "bg-[#213052] text-[#a0977e]"
                   }`}
                 >
                   {t.status}
                 </span>
               </td>
-              <td className="py-2 text-gray-400">{t.currentWorkOrderTitle ?? "—"}</td>
+              <td className="py-2 text-[#a0977e]">{t.currentWorkOrderTitle ?? "—"}</td>
             </tr>
           ))}
           {technicians.length === 0 && (
             <tr>
-              <td className="py-4 text-gray-500" colSpan={4}>
+              <td className="py-4 text-[#6b6454]" colSpan={4}>
                 No technicians yet.
               </td>
             </tr>

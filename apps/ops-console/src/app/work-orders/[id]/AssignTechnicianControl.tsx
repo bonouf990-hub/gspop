@@ -42,7 +42,7 @@ export default function AssignTechnicianControl({
   return (
     <div className="flex items-center gap-2">
       <select
-        className="bg-[#162335] rounded-lg p-2 text-sm flex-1"
+        className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm flex-1 text-[#f0ece4]"
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
       >
@@ -57,7 +57,7 @@ export default function AssignTechnicianControl({
       <button
         onClick={save}
         disabled={saving || selected === (currentTechId ?? "")}
-        className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg disabled:opacity-40"
+        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-40"
       >
         {saving ? "Saving…" : "Assign"}
       </button>

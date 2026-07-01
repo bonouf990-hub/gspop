@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import type { TechnicianJobStats } from "@gspop/shared";
 
@@ -55,8 +56,9 @@ export default async function StaffDashboardPage({
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-2">Staff KPI Dashboard</h1>
-      <p className="text-gray-500 mb-6">
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-2">Staff KPI Dashboard</h1>
+      <p className="text-[#a0977e] mb-6">
         Job load, hours on-site, spend, and quality ratings per technician — the same data feeds
         KPI scoring up through supervisor and head-of-department review.
       </p>
@@ -64,7 +66,7 @@ export default async function StaffDashboardPage({
       <div className="flex gap-2 mb-6">
         <a
           href="/staff-dashboard"
-          className={`px-3 py-1 rounded-full text-sm ${!department ? "bg-blue-600" : "bg-[#162335]"}`}
+          className={`px-3 py-1 rounded-full text-sm font-medium ${!department ? "bg-[#b8902f] text-[#0f1626]" : "bg-[#1a2640] text-[#a0977e] border border-[rgba(184,144,47,0.15)]"}`}
         >
           All departments
         </a>
@@ -72,7 +74,7 @@ export default async function StaffDashboardPage({
           <a
             key={d}
             href={`/staff-dashboard?department=${encodeURIComponent(d!)}`}
-            className={`px-3 py-1 rounded-full text-sm ${department === d ? "bg-blue-600" : "bg-[#162335]"}`}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${department === d ? "bg-[#b8902f] text-[#0f1626]" : "bg-[#1a2640] text-[#a0977e] border border-[rgba(184,144,47,0.15)]"}`}
           >
             {d}
           </a>
@@ -81,7 +83,7 @@ export default async function StaffDashboardPage({
 
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Technician</th>
             <th className="py-2">Department</th>
             <th className="py-2">In Progress</th>
@@ -95,7 +97,7 @@ export default async function StaffDashboardPage({
         </thead>
         <tbody>
           {stats.map((s) => (
-            <tr key={s.technicianId} className="border-b border-gray-800">
+            <tr key={s.technicianId} className="border-b border-[rgba(184,144,47,0.08)]">
               <td className="py-2">{s.fullName}</td>
               <td className="py-2">{s.department ?? "—"}</td>
               <td className="py-2">{s.jobsInProgress}</td>
@@ -109,7 +111,7 @@ export default async function StaffDashboardPage({
           ))}
           {stats.length === 0 && (
             <tr>
-              <td className="py-4 text-gray-500" colSpan={9}>
+              <td className="py-4 text-[#6b6454]" colSpan={9}>
                 No technician activity yet.
               </td>
             </tr>

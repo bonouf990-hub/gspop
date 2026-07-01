@@ -59,18 +59,18 @@ export default function CreateResidentForm({ units }: { units: UnitOption[] }) {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg mb-6"
+        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg mb-6"
       >
         + Onboard Resident
       </button>
     );
   }
 
-  const input = "w-full bg-[#162335] rounded-lg p-2 text-sm";
+  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
 
   return (
-    <form onSubmit={handleSubmit} className="border border-gray-700 rounded-lg p-5 mb-6 space-y-3 max-w-lg">
-      <h3 className="font-semibold mb-2">Onboard Resident</h3>
+    <form onSubmit={handleSubmit} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6 space-y-3 max-w-lg">
+      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">Onboard Resident</h3>
 
       <input className={input} placeholder="Full name" value={form.fullName}
         onChange={(e) => setForm({ ...form, fullName: e.target.value })} required />
@@ -91,12 +91,12 @@ export default function CreateResidentForm({ units }: { units: UnitOption[] }) {
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Lease start</label>
+          <label className="text-xs text-[#a0977e] mb-1 block">Lease start</label>
           <input className={input} type="date" value={form.startDate}
             onChange={(e) => setForm({ ...form, startDate: e.target.value })} required />
         </div>
         <div>
-          <label className="text-xs text-gray-400 mb-1 block">Lease end</label>
+          <label className="text-xs text-[#a0977e] mb-1 block">Lease end</label>
           <input className={input} type="date" value={form.endDate}
             onChange={(e) => setForm({ ...form, endDate: e.target.value })} />
         </div>
@@ -127,11 +127,11 @@ export default function CreateResidentForm({ units }: { units: UnitOption[] }) {
 
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting}
-          className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg disabled:opacity-50">
+          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
           {submitting ? "Creating..." : "Create Resident & Lease"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#162335] text-sm font-medium px-4 py-2 rounded-lg">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
           Cancel
         </button>
       </div>

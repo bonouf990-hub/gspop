@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type ComplaintContext } from "@gspop/shared";
 import ComplaintStatusControl from "./ComplaintStatusControl";
@@ -47,7 +48,7 @@ export default async function ComplaintDetailPage({
   if (!context) {
     return (
       <main className="p-8">
-        <p className="text-gray-500">Complaint not found.</p>
+        <p className="text-[#6b6454]">Complaint not found.</p>
       </main>
     );
   }
@@ -56,30 +57,31 @@ export default async function ComplaintDetailPage({
 
   return (
     <main className="p-8 max-w-2xl">
-      <h1 className="text-2xl font-bold mb-2">{context.title}</h1>
-      <p className="text-gray-400 mb-6">{context.description}</p>
+      <Link href="/complaints" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Complaints</Link>
+      <h1 className="text-2xl font-extrabold mt-2 mb-2">{context.title}</h1>
+      <p className="text-[#a0977e] mb-6">{context.description}</p>
 
-      <section className="border border-gray-700 rounded-lg p-4 mb-4">
-        <h2 className="font-semibold mb-3">Status</h2>
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Status</h2>
         <ComplaintStatusControl id={id} currentStatus={status} />
       </section>
 
       {photoUrls.length > 0 && (
-        <section className="border border-gray-700 rounded-lg p-4 mb-4">
-          <h2 className="font-semibold mb-3">Resident Photos</h2>
+        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Resident Photos</h2>
           <div className="grid grid-cols-3 gap-2">
             {photoUrls.map((url, i) => (
               // eslint-disable-next-line @next/next/no-img-element
               <a key={i} href={url} target="_blank" rel="noopener noreferrer">
-                <img src={url} alt={`Attachment ${i + 1}`} className="aspect-square w-full object-cover rounded-lg border border-gray-700" />
+                <img src={url} alt={`Attachment ${i + 1}`} className="aspect-square w-full object-cover rounded-lg border border-[rgba(184,144,47,0.15)]" />
               </a>
             ))}
           </div>
         </section>
       )}
 
-      <section className="border border-gray-700 rounded-lg p-4 mb-4">
-        <h2 className="font-semibold mb-2">Tenant / Unit</h2>
+      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Tenant / Unit</h2>
         <p>Unit: {context.unitLabel ?? "Common area"}</p>
         <p>Resident: {context.residentName ?? "Unknown"}</p>
         <p>Occupants: {context.occupantCount ?? "n/a"}</p>
@@ -90,11 +92,13 @@ export default async function ComplaintDetailPage({
       </section>
 
       <section
-        className={`border rounded-lg p-4 ${
-          context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-gray-700"
+        className={`border rounded-xl p-4 ${
+          context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-[rgba(184,144,47,0.15)] bg-[#1a2640]"
         }`}
       >
-        <h2 className="font-semibold mb-2">Equipment History {context.isRecurringIssue && "— RECURRING ISSUE"}</h2>
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          Equipment History {context.isRecurringIssue && "— RECURRING ISSUE"}
+        </h2>
         {context.assetName ? (
           <>
             <p>Asset: {context.assetName}</p>
@@ -113,7 +117,7 @@ export default async function ComplaintDetailPage({
             )}
           </>
         ) : (
-          <p className="text-gray-500">No specific asset linked to this complaint yet.</p>
+          <p className="text-[#6b6454]">No specific asset linked to this complaint yet.</p>
         )}
       </section>
     </main>

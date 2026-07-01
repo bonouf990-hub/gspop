@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type Visitor } from "@gspop/shared";
 
@@ -16,11 +17,12 @@ export default async function VisitorsPage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-2">Visitor Log</h1>
-      <p className="text-gray-500 mb-6">{onSite.length} currently on site</p>
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-2">Visitor Log</h1>
+      <p className="text-[#a0977e] mb-6">{onSite.length} currently on site</p>
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Name</th>
             <th className="py-2">Purpose</th>
             <th className="py-2">Host Approved</th>
@@ -30,7 +32,7 @@ export default async function VisitorsPage() {
         </thead>
         <tbody>
           {visitors.map((v) => (
-            <tr key={v.id} className="border-b border-gray-800">
+            <tr key={v.id} className="border-b border-[rgba(184,144,47,0.08)]">
               <td className="py-2">{v.fullName}</td>
               <td className="py-2">{v.purpose}</td>
               <td className="py-2">{v.hostedByApproved ? "Yes" : "No"}</td>
@@ -48,7 +50,7 @@ export default async function VisitorsPage() {
           ))}
           {visitors.length === 0 && (
             <tr>
-              <td className="py-4 text-gray-500" colSpan={5}>
+              <td className="py-4 text-[#6b6454]" colSpan={5}>
                 No visitors logged yet.
               </td>
             </tr>

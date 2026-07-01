@@ -32,21 +32,24 @@ export default async function Dashboard() {
 
   return (
     <main className="p-8 max-w-5xl mx-auto w-full">
-      <p className="text-sm text-gray-500 mb-1">GSPOP — Operations Console</p>
-      <h1 className="text-2xl font-bold mb-1">
-        Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
-      </h1>
-      <p className="text-gray-500 mb-8 capitalize">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
+      <div className="mb-8">
+        <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-1">GSPOP — Operations Console</p>
+        <h1 className="text-2xl font-extrabold mb-1">
+          Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
+        </h1>
+        <p className="text-[#a0977e] capitalize">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
+        <div className="w-10 h-0.5 bg-[#b8902f] mt-3 rounded-full" />
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {cards.map((c) => (
           <Link
             key={c.href}
             href={c.href}
-            className="border border-gray-800 hover:border-blue-500 rounded-xl p-5 transition-colors bg-[#0f1a2b]"
+            className="border border-[rgba(184,144,47,0.15)] hover:border-[#b8902f] rounded-xl p-5 transition-colors bg-[#1a2640]"
           >
-            <p className="font-semibold mb-1">{c.title}</p>
-            <p className="text-sm text-gray-400">{c.desc}</p>
+            <p className="font-bold mb-1">{c.title}</p>
+            <p className="text-sm text-[#a0977e]">{c.desc}</p>
           </Link>
         ))}
       </div>

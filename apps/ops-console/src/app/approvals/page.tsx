@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type Approval } from "@gspop/shared";
 
@@ -16,19 +17,20 @@ export default async function ApprovalsPage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Pending Approvals</h1>
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-6">Pending Approvals</h1>
       <ul className="space-y-3">
         {approvals.map((a) => (
-          <li key={a.id} className="border border-gray-700 rounded-lg p-4">
+          <li key={a.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
             <p className="font-medium">
               {a.entityType.replace(/_/g, " ")} &middot; Level {a.level}
             </p>
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-[#a0977e]">
               Spend limit at decision: {a.spendLimitAtDecision ?? "n/a"}
             </p>
           </li>
         ))}
-        {approvals.length === 0 && <p className="text-gray-500">Nothing pending approval.</p>}
+        {approvals.length === 0 && <p className="text-[#6b6454]">Nothing pending approval.</p>}
       </ul>
     </main>
   );

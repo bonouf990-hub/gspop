@@ -49,17 +49,17 @@ export default function PostNoticeForm({
   if (!open) {
     return (
       <button onClick={() => setOpen(true)}
-        className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg mb-6">
+        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg mb-6">
         + Post Notice
       </button>
     );
   }
 
-  const input = "w-full bg-[#162335] rounded-lg p-2 text-sm";
+  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
 
   return (
-    <form onSubmit={handleSubmit} className="border border-gray-700 rounded-lg p-5 mb-6 space-y-3 max-w-lg">
-      <h3 className="font-semibold mb-2">New Building Notice</h3>
+    <form onSubmit={handleSubmit} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6 space-y-3 max-w-lg">
+      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">New Building Notice</h3>
       <select className={input} value={propertyId} onChange={(e) => setPropertyId(e.target.value)} required>
         <option value="">Select building…</option>
         {properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -69,17 +69,17 @@ export default function PostNoticeForm({
       <textarea className={`${input} h-28`} placeholder="Message to residents…" value={body}
         onChange={(e) => setBody(e.target.value)} required />
       <div>
-        <label className="text-xs text-gray-400 mb-1 block">Expires (optional)</label>
+        <label className="text-xs text-[#a0977e] mb-1 block">Expires (optional)</label>
         <input className={input} type="date" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} />
       </div>
       {error && <p className="text-red-400 text-xs">{error}</p>}
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting || !propertyId}
-          className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg disabled:opacity-50">
+          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
           {submitting ? "Posting..." : "Post to Residents"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#162335] text-sm font-medium px-4 py-2 rounded-lg">Cancel</button>
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">Cancel</button>
       </div>
     </form>
   );

@@ -19,7 +19,7 @@ const STATUS_COLOR: Record<string, string> = {
   pending: "text-yellow-400",
   overdue: "text-red-400",
   paid: "text-green-400",
-  waived: "text-gray-400",
+  waived: "text-[#a0977e]",
 };
 
 const DOC_TYPES = ["lease_agreement", "ejari", "addendum", "receipt", "other"];
@@ -39,16 +39,13 @@ export default function LeaseManager({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Add-invoice form
   const [newAmount, setNewAmount] = useState(rentAmount != null ? String(rentAmount) : "");
   const [newDue, setNewDue] = useState("");
 
-  // Per-invoice "mark cleared" expansion
   const [clearingId, setClearingId] = useState<string | null>(null);
   const [chequeNumber, setChequeNumber] = useState("");
   const [chequeBank, setChequeBank] = useState("");
 
-  // Document upload
   const [docTitle, setDocTitle] = useState("");
   const [docType, setDocType] = useState("lease_agreement");
   const [docFile, setDocFile] = useState<File | null>(null);
@@ -134,18 +131,17 @@ export default function LeaseManager({
     router.refresh();
   }
 
-  const input = "bg-[#162335] rounded-lg p-2 text-sm";
+  const input = "bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
 
   return (
     <div className="space-y-8">
       {error && <p className="text-red-400 text-sm">{error}</p>}
 
-      {/* Rent schedule */}
       <section>
-        <h2 className="font-semibold mb-3">Cheque Schedule</h2>
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Cheque Schedule</h2>
         <table className="w-full text-sm border-collapse mb-4">
           <thead>
-            <tr className="text-left border-b border-gray-700">
+            <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Amount</th>
               <th className="py-2">Due</th>
               <th className="py-2">Cheque</th>
@@ -155,10 +151,10 @@ export default function LeaseManager({
           </thead>
           <tbody>
             {invoices.map((i) => (
-              <tr key={i.id} className="border-b border-gray-800 align-top">
+              <tr key={i.id} className="border-b border-[rgba(184,144,47,0.08)] align-top">
                 <td className="py-2">{i.amount} AED</td>
-                <td className="py-2 text-gray-400">{i.due_date}</td>
-                <td className="py-2 text-gray-400">
+                <td className="py-2 text-[#a0977e]">{i.due_date}</td>
+                <td className="py-2 text-[#a0977e]">
                   {i.cheque_number ? `${i.cheque_number}${i.cheque_bank ? ` · ${i.cheque_bank}` : ""}` : "—"}
                 </td>
                 <td className={`py-2 capitalize ${STATUS_COLOR[i.status] ?? ""}`}>{i.status}</td>
@@ -174,7 +170,7 @@ export default function LeaseManager({
                           <button disabled={busy} onClick={() => markCleared(i.id)}
                             className="bg-green-600 text-white text-xs px-2.5 py-1 rounded">Confirm cleared</button>
                           <button onClick={() => setClearingId(null)}
-                            className="bg-[#162335] text-xs px-2.5 py-1 rounded">Cancel</button>
+                            className="bg-[#213052] text-[#a0977e] text-xs px-2.5 py-1 rounded">Cancel</button>
                         </div>
                       </div>
                     ) : (
@@ -182,7 +178,7 @@ export default function LeaseManager({
                         <button onClick={() => { setClearingId(i.id); setChequeNumber(i.cheque_number ?? ""); setChequeBank(i.cheque_bank ?? ""); }}
                           className="text-green-400 hover:underline text-xs">Mark cleared</button>
                         <button onClick={() => waive(i.id)} disabled={busy}
-                          className="text-gray-400 hover:underline text-xs">Waive</button>
+                          className="text-[#a0977e] hover:underline text-xs">Waive</button>
                       </div>
                     )
                   )}
@@ -190,58 +186,57 @@ export default function LeaseManager({
               </tr>
             ))}
             {invoices.length === 0 && (
-              <tr><td colSpan={5} className="py-4 text-gray-500 text-center">No cheques scheduled yet.</td></tr>
+              <tr><td colSpan={5} className="py-4 text-[#6b6454] text-center">No cheques scheduled yet.</td></tr>
             )}
           </tbody>
         </table>
 
         <form onSubmit={addInvoice} className="flex flex-wrap items-end gap-2">
           <div>
-            <label className="text-xs text-gray-400 mb-1 block">Amount (AED)</label>
+            <label className="text-xs text-[#a0977e] mb-1 block">Amount (AED)</label>
             <input className={input} type="number" value={newAmount}
               onChange={(e) => setNewAmount(e.target.value)} required />
           </div>
           <div>
-            <label className="text-xs text-gray-400 mb-1 block">Due date</label>
+            <label className="text-xs text-[#a0977e] mb-1 block">Due date</label>
             <input className={input} type="date" value={newDue}
               onChange={(e) => setNewDue(e.target.value)} required />
           </div>
           <button type="submit" disabled={busy}
-            className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg disabled:opacity-50">
+            className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
             + Add cheque
           </button>
         </form>
       </section>
 
-      {/* Documents */}
       <section>
-        <h2 className="font-semibold mb-3">Lease Documents</h2>
+        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Lease Documents</h2>
         <ul className="text-sm mb-4">
           {documents.map((d) => (
-            <li key={d.id} className="flex justify-between border-b border-gray-800 py-2">
-              <span>{d.title} <span className="text-gray-500 capitalize">· {d.doc_type.replace(/_/g, " ")}</span></span>
-              <span className="text-gray-500">{new Date(d.uploaded_at).toLocaleDateString()}</span>
+            <li key={d.id} className="flex justify-between border-b border-[rgba(184,144,47,0.08)] py-2">
+              <span>{d.title} <span className="text-[#6b6454] capitalize">· {d.doc_type.replace(/_/g, " ")}</span></span>
+              <span className="text-[#6b6454]">{new Date(d.uploaded_at).toLocaleDateString()}</span>
             </li>
           ))}
-          {documents.length === 0 && <li className="text-gray-500 py-2">No documents uploaded.</li>}
+          {documents.length === 0 && <li className="text-[#6b6454] py-2">No documents uploaded.</li>}
         </ul>
 
         <form onSubmit={uploadDoc} className="flex flex-wrap items-end gap-2">
           <div>
-            <label className="text-xs text-gray-400 mb-1 block">Title</label>
+            <label className="text-xs text-[#a0977e] mb-1 block">Title</label>
             <input className={input} placeholder="e.g. Tenancy Contract 2026" value={docTitle}
               onChange={(e) => setDocTitle(e.target.value)} required />
           </div>
           <div>
-            <label className="text-xs text-gray-400 mb-1 block">Type</label>
+            <label className="text-xs text-[#a0977e] mb-1 block">Type</label>
             <select className={input} value={docType} onChange={(e) => setDocType(e.target.value)}>
               {DOC_TYPES.map((t) => <option key={t} value={t}>{t.replace(/_/g, " ")}</option>)}
             </select>
           </div>
           <input type="file" onChange={(e) => setDocFile(e.target.files?.[0] ?? null)}
-            className="text-sm text-gray-300" required />
+            className="text-sm text-[#a0977e]" required />
           <button type="submit" disabled={busy || !docFile}
-            className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg disabled:opacity-50">
+            className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
             Upload
           </button>
         </form>

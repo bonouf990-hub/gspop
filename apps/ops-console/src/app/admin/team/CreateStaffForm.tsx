@@ -75,104 +75,56 @@ export default function CreateStaffForm({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg mb-6"
+        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg mb-6"
       >
         + Add Staff Member
       </button>
     );
   }
 
+  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
+
   return (
-    <form onSubmit={handleSubmit} className="border border-gray-700 rounded-lg p-5 mb-6 space-y-3 max-w-lg">
-      <h3 className="font-semibold mb-2">New Staff Member</h3>
-      <input
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        placeholder="Full name"
-        value={form.fullName}
-        onChange={(e) => setForm({ ...form, fullName: e.target.value })}
-        required
-      />
-      <input
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        placeholder="Phone"
-        value={form.phone}
-        onChange={(e) => setForm({ ...form, phone: e.target.value })}
-      />
-      <input
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        placeholder="Email"
-        type="email"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-        required
-      />
-      <input
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        placeholder="Temporary password"
-        type="text"
-        value={form.password}
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-        required
-        minLength={8}
-      />
-      <select
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        value={form.role}
-        onChange={(e) => setForm({ ...form, role: e.target.value })}
-      >
+    <form onSubmit={handleSubmit} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6 space-y-3 max-w-lg">
+      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">New Staff Member</h3>
+      <input className={input} placeholder="Full name" value={form.fullName}
+        onChange={(e) => setForm({ ...form, fullName: e.target.value })} required />
+      <input className={input} placeholder="Phone" value={form.phone}
+        onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+      <input className={input} placeholder="Email" type="email" value={form.email}
+        onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+      <input className={input} placeholder="Temporary password" type="text" value={form.password}
+        onChange={(e) => setForm({ ...form, password: e.target.value })} required minLength={8} />
+      <select className={input} value={form.role}
+        onChange={(e) => setForm({ ...form, role: e.target.value })}>
         {ROLES.map((r) => (
-          <option key={r} value={r}>
-            {r.replace(/_/g, " ")}
-          </option>
+          <option key={r} value={r}>{r.replace(/_/g, " ")}</option>
         ))}
       </select>
       {form.role === "technician" && (
-        <select
-          className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-          value={form.trade}
-          onChange={(e) => setForm({ ...form, trade: e.target.value })}
-        >
+        <select className={input} value={form.trade}
+          onChange={(e) => setForm({ ...form, trade: e.target.value })}>
           {["general", "hvac", "plumbing", "carpentry", "electrical"].map((t) => (
-            <option key={t} value={t}>
-              {t.charAt(0).toUpperCase() + t.slice(1)}
-            </option>
+            <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
           ))}
         </select>
       )}
-      <input
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        placeholder="Spend limit (AED)"
-        type="number"
-        value={form.spendLimit}
-        onChange={(e) => setForm({ ...form, spendLimit: e.target.value })}
-      />
-      <input
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        placeholder="Department (e.g. Maintenance, Front Desk)"
-        value={form.department}
-        onChange={(e) => setForm({ ...form, department: e.target.value })}
-      />
-      <input
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        placeholder="Job title"
-        value={form.jobTitle}
-        onChange={(e) => setForm({ ...form, jobTitle: e.target.value })}
-      />
-      <select
-        className="w-full bg-[#162335] rounded-lg p-2 text-sm"
-        value={form.reportsToId}
-        onChange={(e) => setForm({ ...form, reportsToId: e.target.value })}
-      >
+      <input className={input} placeholder="Spend limit (AED)" type="number" value={form.spendLimit}
+        onChange={(e) => setForm({ ...form, spendLimit: e.target.value })} />
+      <input className={input} placeholder="Department (e.g. Maintenance, Front Desk)" value={form.department}
+        onChange={(e) => setForm({ ...form, department: e.target.value })} />
+      <input className={input} placeholder="Job title" value={form.jobTitle}
+        onChange={(e) => setForm({ ...form, jobTitle: e.target.value })} />
+      <select className={input} value={form.reportsToId}
+        onChange={(e) => setForm({ ...form, reportsToId: e.target.value })}>
         <option value="">Reports to (none)</option>
         {managers.map((m) => (
-          <option key={m.id} value={m.id}>
-            {m.full_name}
-          </option>
+          <option key={m.id} value={m.id}>{m.full_name}</option>
         ))}
       </select>
 
       <div>
-        <p className="text-xs text-gray-400 mb-1.5">Assigned buildings</p>
+        <p className="text-xs text-[#a0977e] mb-1.5">Assigned buildings</p>
         <div className="flex flex-wrap gap-2">
           {properties.map((p) => (
             <button
@@ -180,7 +132,7 @@ export default function CreateStaffForm({
               key={p.id}
               onClick={() => toggleProperty(p.id)}
               className={`text-xs px-2.5 py-1 rounded-full border ${
-                propertyIds.includes(p.id) ? "bg-blue-600 border-blue-400" : "bg-[#162335] border-gray-700"
+                propertyIds.includes(p.id) ? "bg-[#b8902f] border-[#b8902f] text-[#0f1626] font-bold" : "bg-[#213052] border-[rgba(184,144,47,0.15)] text-[#a0977e]"
               }`}
             >
               {p.name}
@@ -192,18 +144,12 @@ export default function CreateStaffForm({
       {error && <p className="text-red-400 text-xs">{error}</p>}
 
       <div className="flex gap-2 pt-2">
-        <button
-          type="submit"
-          disabled={submitting}
-          className="bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg disabled:opacity-50"
-        >
+        <button type="submit" disabled={submitting}
+          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
           {submitting ? "Creating..." : "Create Staff Member"}
         </button>
-        <button
-          type="button"
-          onClick={() => setOpen(false)}
-          className="bg-[#162335] text-sm font-medium px-4 py-2 rounded-lg"
-        >
+        <button type="button" onClick={() => setOpen(false)}
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
           Cancel
         </button>
       </div>

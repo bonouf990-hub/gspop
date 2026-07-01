@@ -29,10 +29,10 @@ const OPEN_STATUSES = ["submitted", "acknowledged", "assigned", "in_progress"];
 const STATUS_STYLE: Record<string, string> = {
   submitted: "bg-amber-900 text-amber-300",
   acknowledged: "bg-amber-900 text-amber-300",
-  assigned: "bg-blue-900 text-blue-300",
-  in_progress: "bg-blue-900 text-blue-300",
+  assigned: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+  in_progress: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
   resolved: "bg-green-900 text-green-300",
-  closed: "bg-gray-800 text-gray-400",
+  closed: "bg-[#213052] text-[#a0977e]",
   rejected: "bg-red-900 text-red-300",
 };
 
@@ -56,10 +56,6 @@ export default function CallCenterSearch({
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  // Uses the call_center_lookup() database function — a narrow, audited
-  // path that returns only name/unit/phone, never the full resident
-  // profile or financial data. Direct table access for these roles is
-  // blocked at the database level regardless of what this UI does.
   const runSearch = useCallback(async (term: string) => {
     if (!term.trim()) return;
     const supabase = createClient();
@@ -145,18 +141,18 @@ export default function CallCenterSearch({
   return (
     <div className="max-w-2xl">
       {initialPhone && (
-        <div className="bg-blue-950 border border-blue-700 rounded-lg p-3 mb-4 text-sm">
+        <div className="bg-[rgba(184,144,47,0.12)] border border-[#b8902f] rounded-xl p-3 mb-4 text-sm">
           Incoming call from <strong>{initialPhone}</strong> — auto-matched below.
         </div>
       )}
       <form onSubmit={handleSearch} className="flex gap-2 mb-6">
         <input
-          className="flex-1 bg-[#162335] rounded-lg p-3 text-sm"
+          className="flex-1 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-3 text-sm text-[#f0ece4] placeholder-[#6b6454]"
           placeholder="Search by resident name or phone number..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit" className="bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium">
+        <button type="submit" className="bg-[#b8902f] text-[#0f1626] px-4 py-2 rounded-lg text-sm font-bold">
           Search
         </button>
       </form>
@@ -167,49 +163,49 @@ export default function CallCenterSearch({
             <li
               key={r.lease_id}
               onClick={() => selectLease(r)}
-              className="border border-gray-700 rounded-lg p-4 cursor-pointer hover:border-blue-500"
+              className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 cursor-pointer hover:border-[#b8902f]"
             >
               <p className="font-medium">{r.tenant_full_name}</p>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[#a0977e]">
                 {r.property_name} — Unit {r.unit_label} · {r.occupant_count} occupants
               </p>
-              {r.phone && <p className="text-xs text-gray-500">{r.phone}</p>}
+              {r.phone && <p className="text-xs text-[#6b6454]">{r.phone}</p>}
             </li>
           ))}
           {searched && results.length === 0 && (
-            <p className="text-gray-500 text-sm">No matching resident found.</p>
+            <p className="text-[#6b6454] text-sm">No matching resident found.</p>
           )}
         </ul>
       )}
 
       {selected && (
-        <div className="border border-gray-700 rounded-lg p-5">
+        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="font-semibold text-lg">{selected.tenant_full_name}</p>
-              <p className="text-sm text-gray-400">
+              <p className="font-bold text-lg">{selected.tenant_full_name}</p>
+              <p className="text-sm text-[#a0977e]">
                 {selected.property_name} — Unit {selected.unit_label}
               </p>
             </div>
-            <button onClick={() => setSelected(null)} className="text-xs text-gray-400">
+            <button onClick={() => setSelected(null)} className="text-xs text-[#a0977e] hover:text-[#b8902f]">
               Change caller
             </button>
           </div>
 
           <div className="mb-5">
-            <p className="text-xs text-gray-400 mb-2">
+            <p className="text-xs text-[#a0977e] mb-2">
               Complaint history for this unit ({history.length})
             </p>
             {history.length === 0 ? (
-              <p className="text-sm text-gray-500">No prior complaints on file for this unit.</p>
+              <p className="text-sm text-[#6b6454]">No prior complaints on file for this unit.</p>
             ) : (
               <ul className="space-y-1.5 max-h-40 overflow-y-auto">
                 {history.map((h) => (
-                  <li key={h.id} className="flex items-center justify-between text-sm bg-[#0f1726] rounded-lg px-3 py-2">
+                  <li key={h.id} className="flex items-center justify-between text-sm bg-[#0f1626] rounded-lg px-3 py-2">
                     <span>{h.title}</span>
-                    <span className="flex items-center gap-2 text-xs text-gray-500">
+                    <span className="flex items-center gap-2 text-xs text-[#6b6454]">
                       {new Date(h.submitted_at).toLocaleDateString()}
-                      <span className={`px-2 py-0.5 rounded-full font-medium ${STATUS_STYLE[h.status] ?? "bg-gray-800 text-gray-400"}`}>
+                      <span className={`px-2 py-0.5 rounded-full font-medium ${STATUS_STYLE[h.status] ?? "bg-[#213052] text-[#a0977e]"}`}>
                         {h.status.replace(/_/g, " ")}
                       </span>
                     </span>
@@ -223,14 +219,14 @@ export default function CallCenterSearch({
             <p className="text-green-400 text-sm">Complaint logged and routed to maintenance.</p>
           ) : (
             <>
-              <p className="text-xs text-gray-400 mb-2">Category</p>
+              <p className="text-xs text-[#a0977e] mb-2">Category</p>
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {categories.map((c) => (
                   <button
                     key={c.id}
                     onClick={() => selectCategory(c.id)}
                     className={`text-sm p-2.5 rounded-lg border text-left ${
-                      categoryId === c.id ? "bg-blue-600 border-blue-400" : "bg-[#162335] border-gray-700"
+                      categoryId === c.id ? "bg-[#b8902f] border-[#b8902f] text-[#0f1626] font-bold" : "bg-[#0f1626] border-[rgba(184,144,47,0.15)] text-[#f0ece4]"
                     }`}
                   >
                     {c.name}
@@ -249,14 +245,14 @@ export default function CallCenterSearch({
 
               {categoryId && (
                 <>
-                  <p className="text-xs text-gray-400 mb-2">Issue</p>
+                  <p className="text-xs text-[#a0977e] mb-2">Issue</p>
                   <div className="flex flex-col gap-2 mb-4">
                     {subissues.map((s) => (
                       <button
                         key={s.id}
                         onClick={() => setSubissueId(s.id)}
                         className={`text-sm p-2.5 rounded-lg border text-left ${
-                          subissueId === s.id ? "bg-blue-600 border-blue-400" : "bg-[#162335] border-gray-700"
+                          subissueId === s.id ? "bg-[#b8902f] border-[#b8902f] text-[#0f1626] font-bold" : "bg-[#0f1626] border-[rgba(184,144,47,0.15)] text-[#f0ece4]"
                         }`}
                       >
                         {s.name}
@@ -267,7 +263,7 @@ export default function CallCenterSearch({
               )}
 
               <textarea
-                className="w-full bg-[#162335] rounded-lg p-3 text-sm mb-4 h-20"
+                className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-3 text-sm text-[#f0ece4] placeholder-[#6b6454] mb-4 h-20"
                 placeholder="Notes from the call (optional)..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -276,7 +272,7 @@ export default function CallCenterSearch({
               <button
                 onClick={handleLogComplaint}
                 disabled={!subissueId || submitting}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium disabled:opacity-50"
+                className="bg-[#b8902f] text-[#0f1626] px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50"
               >
                 {submitting ? "Logging..." : "Log Complaint & Route to Maintenance"}
               </button>
