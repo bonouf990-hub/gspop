@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 type Property = { id: string; name: string };
 type Unit = { id: string; label: string; property_id: string };
@@ -91,23 +92,17 @@ export default function CreateWorkOrderForm({
     router.refresh();
   }
 
-  if (!open) {
-    return (
-      <button
-        onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2"
-      >
-        + Create Work Order
-      </button>
-    );
-  }
-
   const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
 
   return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 max-w-lg">
-      <h3 className="eyebrow mb-2">New Work Order</h3>
+    <>
+      <button onClick={() => setOpen(true)} className="btn-gold text-sm px-5 py-2.5">
+        + Create Work Order
+      </button>
 
+      {open && (
+        <Modal title="New Work Order" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <div>
         <label className="text-xs text-[#a0977e] mb-1 block">Property *</label>
         <select className={input} value={form.propertyId}
@@ -189,6 +184,9 @@ export default function CreateWorkOrderForm({
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

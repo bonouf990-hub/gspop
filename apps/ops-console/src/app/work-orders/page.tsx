@@ -81,32 +81,57 @@ export default async function WorkOrdersPage() {
   const { workOrders, properties, units, technicians, role } = await getPageData();
   const isTechnician = role === "technician";
 
+  const OPEN_STATUSES = ["draft", "pending_approval", "approved", "assigned", "in_progress", "paused"];
+  const monthStart = new Date();
+  monthStart.setDate(1);
+  const kpis = [
+    { label: "Open", value: workOrders.filter((w) => OPEN_STATUSES.includes(w.status)).length },
+    { label: "In Progress", value: workOrders.filter((w) => w.status === "in_progress").length },
+    { label: "Emergency", value: workOrders.filter((w) => w.priority === "emergency" && OPEN_STATUSES.includes(w.status)).length },
+    {
+      label: "Completed This Month",
+      value: workOrders.filter(
+        (w) =>
+          ["completed_by_technician", "verified_by_supervisor", "confirmed_by_resident", "closed"].includes(w.status) &&
+          new Date(w.created_at) >= monthStart
+      ).length,
+    },
+  ];
+
   return (
-    <main className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
           <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">
-            {isTechnician ? "My Work Orders" : "Work Orders"}
-          </h1>
-          <p className="text-[#a0977e] mb-6">Assign, track, and verify maintenance jobs across all buildings.</p>
+          <h1 className="mt-1">{isTechnician ? "My Work Orders" : "Work Orders"}</h1>
+          <p className="text-[#a0977e] mt-1">Assign, track, and verify maintenance jobs across all buildings.</p>
         </div>
         {!isTechnician && <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />}
       </div>
 
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {kpis.map((k) => (
+          <div key={k.label} className="lux-card p-5">
+            <p className="eyebrow text-[10px]">{k.label}</p>
+            <p className="font-display text-3xl mt-2">{k.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-            <th className="py-2 font-medium">Title</th>
-            <th className="py-2 font-medium">Property / Unit</th>
-            <th className="py-2 font-medium">Type</th>
-            <th className="py-2 font-medium">Priority</th>
-            <th className="py-2 font-medium">Status</th>
-            <th className="py-2 font-medium">Technician</th>
-            <th className="py-2 font-medium">Created</th>
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e] bg-[rgba(184,144,47,0.04)]">
+            <th className="px-5 py-3.5 font-medium">Title</th>
+            <th className="px-5 py-3.5 font-medium">Property / Unit</th>
+            <th className="px-5 py-3.5 font-medium">Type</th>
+            <th className="px-5 py-3.5 font-medium">Priority</th>
+            <th className="px-5 py-3.5 font-medium">Status</th>
+            <th className="px-5 py-3.5 font-medium">Technician</th>
+            <th className="px-5 py-3.5 font-medium">Created</th>
           </tr>
         </thead>
         <tbody>
@@ -115,9 +140,9 @@ export default async function WorkOrdersPage() {
             const unit = wo.units as { label: string } | null;
             const tech = wo.technician as { full_name: string } | null;
             return (
-              <tr key={wo.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
-                <td className="py-2">
-                  <Link href={`/work-orders/${wo.id}`} className="text-[#d4af5a] hover:underline">
+              <tr key={wo.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[rgba(33,48,82,0.5)]">
+                <td className="px-5 py-3.5">
+                  <Link href={`/work-orders/${wo.id}`} className="text-[#d4af5a] hover:underline font-medium">
                     {wo.title}
                   </Link>
                   {wo.visit_source === "resident_booking" && (
@@ -132,22 +157,22 @@ export default async function WorkOrdersPage() {
                     </p>
                   )}
                 </td>
-                <td className="py-2 text-[#a0977e]">
+                <td className="px-5 py-3.5 text-[#a0977e]">
                   {[prop?.name, unit?.label].filter(Boolean).join(" · ") || "—"}
                 </td>
-                <td className="py-2 capitalize">{wo.type}</td>
-                <td className="py-2">
+                <td className="px-5 py-3.5 capitalize">{wo.type}</td>
+                <td className="px-5 py-3.5">
                   <span
                     className={`text-xs font-medium px-2 py-0.5 rounded ${PRIORITY_COLORS[wo.priority] ?? ""}`}
                   >
                     {wo.priority.toUpperCase()}
                   </span>
                 </td>
-                <td className={`py-2 capitalize ${STATUS_COLORS[wo.status] ?? ""}`}>
+                <td className={`px-5 py-3.5 capitalize ${STATUS_COLORS[wo.status] ?? ""}`}>
                   {wo.status.replace(/_/g, " ")}
                 </td>
-                <td className="py-2">{tech?.full_name ?? "Unassigned"}</td>
-                <td className="py-2 text-[#6b6454]">
+                <td className="px-5 py-3.5">{tech?.full_name ?? "Unassigned"}</td>
+                <td className="px-5 py-3.5 text-[#6b6454]">
                   {new Date(wo.created_at).toLocaleDateString()}
                 </td>
               </tr>
@@ -155,13 +180,14 @@ export default async function WorkOrdersPage() {
           })}
           {workOrders.length === 0 && (
             <tr>
-              <td className="py-4 text-[#6b6454]" colSpan={7}>
+              <td className="px-5 py-10 text-[#6b6454] text-center" colSpan={7}>
                 No work orders yet.
               </td>
             </tr>
           )}
         </tbody>
       </table>
+      </div>
       </div>
     </main>
   );
