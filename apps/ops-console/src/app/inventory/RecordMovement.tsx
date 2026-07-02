@@ -50,14 +50,7 @@ export default function RecordMovement({
       return;
     }
 
-    const delta = type === "issue" ? -qty : qty;
-    const { error: rpcErr } = await supabase.rpc("increment_inventory", { item_id: itemId, delta });
-    if (rpcErr) {
-      await supabase
-        .from("inventory_items")
-        .update({ updated_at: new Date().toISOString() })
-        .eq("id", itemId);
-    }
+    // Stock on hand is adjusted automatically by the inventory-movement trigger.
 
     setSubmitting(false);
     setOpen(false);
