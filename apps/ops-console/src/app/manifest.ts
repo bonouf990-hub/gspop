@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ARENCO Operations Console",
-    short_name: "ARENCO Ops",
+    name: "ARENCO One — Estate Operations",
+    short_name: "ARENCO One",
     description:
-      "ARENCO Real Estate — staff console for work orders, bookings, compliance, and building operations.",
+      "ARENCO One — the platform running ARENCO Real Estate's entire estate operation: maintenance, store, purchasing, residents and finance.",
     start_url: "/",
     display: "standalone",
     background_color: "#f4f6fa",

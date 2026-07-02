@@ -42,11 +42,11 @@ export default function LoginPage() {
         {/* Monogram crest above the card */}
         <div className="flex flex-col items-center mb-8">
           <h1 className="text-5xl font-extrabold tracking-[0.12em] text-[#16233c]">
-            ARENCO
+            ARENCO <span className="text-[#b01b42]">One</span>
           </h1>
           <div className="flex items-center gap-3 mt-2.5">
             <span className="block w-8 h-px bg-gradient-to-r from-transparent to-[#b01b42]" />
-            <p className="eyebrow">Real Estate — Operations Console</p>
+            <p className="eyebrow">Estate Operations Platform</p>
             <span className="block w-8 h-px bg-gradient-to-l from-transparent to-[#b01b42]" />
           </div>
         </div>

@@ -20,8 +20,8 @@ const display = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "ARENCO — Operations Console",
-  description: "ARENCO Real Estate — property operations platform",
+  title: "ARENCO One — Estate Operations",
+  description: "ARENCO One — the platform running ARENCO Real Estate's entire estate operation",
 };
 
 export const viewport: Viewport = {

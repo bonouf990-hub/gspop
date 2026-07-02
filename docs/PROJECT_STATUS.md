@@ -1,6 +1,6 @@
-# ARENCO AMFM — Build Status & Guide
+# ARENCO One — Build Status & Guide
 
-**Asset & Facilities Management platform — what has been built, how it works, and what comes next.**
+**Estate operations platform — what has been built, how it works, and what comes next.**
 Status as of 2 July 2026. Grouped by the department that owns each module.
 
 Status key: **Live** (working now) · **Partial** (exists, being connected) · **Planned** (next to build).
