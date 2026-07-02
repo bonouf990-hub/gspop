@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { compressImage } from "@/lib/image";
 
 type Invoice = {
   id: string;
@@ -108,11 +109,13 @@ export default function LeaseManager({
     setError(null);
     const supabase = createClient();
     const { data: userData } = await supabase.auth.getUser();
-    const ext = docFile.name.split(".").pop()?.toLowerCase() || "pdf";
+    // Photographed documents get shrunk; PDFs and other files pass through unchanged.
+    const upload = await compressImage(docFile);
+    const ext = upload.name.split(".").pop()?.toLowerCase() || "pdf";
     const path = `${leaseId}/${crypto.randomUUID()}.${ext}`;
     const { error: upErr } = await supabase.storage
       .from("lease-documents")
-      .upload(path, docFile, { contentType: docFile.type || "application/octet-stream" });
+      .upload(path, upload, { contentType: upload.type || "application/octet-stream" });
     if (upErr) {
       setBusy(false);
       return setError(upErr.message);
