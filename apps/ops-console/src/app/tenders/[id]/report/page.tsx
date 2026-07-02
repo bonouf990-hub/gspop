@@ -149,7 +149,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
 
       <div className="border-b-2 border-[#b01b42] pb-4 mb-6">
         <p className="eyebrow mb-1">
-          GSPOP — Tender Evaluation Report
+          ARENCO — Tender Evaluation Report
         </p>
         <h1 className="text-2xl font-extrabold">{tender.title}</h1>
         <p className="text-sm text-[#9aa5bd] mt-1">{tender.description}</p>
@@ -493,7 +493,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
 
       <div className="border-t-2 border-[#b01b42] pt-4 text-xs text-[#5d6880] print:mt-8">
         <div className="flex justify-between">
-          <span>GSPOP Tender Evaluation Report — {tender.title}</span>
+          <span>ARENCO Tender Evaluation Report — {tender.title}</span>
           <span>Generated {new Date().toLocaleString()}</span>
         </div>
         <p className="mt-1">

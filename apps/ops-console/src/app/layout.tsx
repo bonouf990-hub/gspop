@@ -19,8 +19,8 @@ const display = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "GSPOP — Operations Console",
-  description: "Golden Sands Property Operations Platform",
+  title: "ARENCO — Operations Console",
+  description: "ARENCO Real Estate — property operations platform",
 };
 
 export const viewport: Viewport = {

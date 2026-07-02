@@ -175,7 +175,7 @@ export default async function VendorPortalPage() {
       <div className="mb-8">
         <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
         <p className="eyebrow mb-1 mt-2">
-          GSPOP — Vendor Portal
+          ARENCO — Vendor Portal
         </p>
         <h1 className="mb-1">{vendor.name}</h1>
         <p className="text-[#9aa5bd]">

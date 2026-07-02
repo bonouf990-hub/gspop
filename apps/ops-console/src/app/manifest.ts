@@ -2,10 +2,10 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "GSPOP Operations Console",
-    short_name: "GSPOP Ops",
+    name: "ARENCO Operations Console",
+    short_name: "ARENCO Ops",
     description:
-      "Golden Sands Property Operations Platform — staff console for work orders, bookings, compliance, and building operations.",
+      "ARENCO Real Estate — staff console for work orders, bookings, compliance, and building operations.",
     start_url: "/",
     display: "standalone",
     background_color: "#0f1626",

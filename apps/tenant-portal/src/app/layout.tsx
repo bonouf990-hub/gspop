@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GSPOP — Golden Sands Residences",
+  title: "Golden Sands Residences — by ARENCO",
   description: "Your home, managed.",
 };
 
