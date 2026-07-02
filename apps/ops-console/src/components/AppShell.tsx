@@ -23,9 +23,15 @@ type NavGroup = { label: string; items: NavItem[] };
 
 const NAV: NavGroup[] = [
   {
-    label: "Operations",
+    label: "Assets & Engineering",
     items: [
       { href: "/", label: "Home", icon: LayoutDashboard },
+      { href: "/assets", label: "Asset Register", icon: Boxes },
+    ],
+  },
+  {
+    label: "Maintenance",
+    items: [
       { href: "/work-orders", label: "Work Orders", icon: Wrench },
       { href: "/complaints", label: "Complaints", icon: MessageSquare },
       { href: "/approvals", label: "Approvals", icon: CheckSquare },
