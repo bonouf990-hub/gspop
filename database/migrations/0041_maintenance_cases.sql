@@ -72,7 +72,7 @@ declare
   r record;
 begin
   -- Complaints first (they are the origin of converted cases)
-  for r in select id from complaints where case_number is null order by created_at
+  for r in select id from complaints where case_number is null
   loop
     update complaints set case_number = next_case_number() where id = r.id;
   end loop;
@@ -86,7 +86,7 @@ begin
     and c.case_number is not null;
 
   -- Remaining work orders get their own numbers
-  for r in select id from work_orders where case_number is null order by created_at
+  for r in select id from work_orders where case_number is null order by created_at nulls last
   loop
     update work_orders set case_number = next_case_number() where id = r.id;
   end loop;
