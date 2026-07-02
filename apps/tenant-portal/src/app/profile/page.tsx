@@ -136,7 +136,7 @@ export default function ProfilePage() {
       .toUpperCase() || null;
 
   return (
-    <main className="min-h-screen bg-[var(--background)] pb-32">
+    <main className="min-h-screen pb-32">
       <div className="px-6 pt-10 pb-6">
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Account
@@ -231,7 +231,7 @@ export default function ProfilePage() {
           <button
             type="submit"
             disabled={saving || loading}
-            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
+            className="btn-gold w-full flex items-center justify-center gap-2 p-3.5 text-sm disabled:opacity-40"
           >
             {savedFlash ? (
               <>

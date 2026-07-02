@@ -95,7 +95,7 @@ export default function CreateWorkOrderForm({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg"
+        className="btn-gold text-sm px-4 py-2"
       >
         + Create Work Order
       </button>
@@ -105,8 +105,8 @@ export default function CreateWorkOrderForm({
   const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
 
   return (
-    <form onSubmit={handleSubmit} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 space-y-3 max-w-lg">
-      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">New Work Order</h3>
+    <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 max-w-lg">
+      <h3 className="eyebrow mb-2">New Work Order</h3>
 
       <div>
         <label className="text-xs text-[#a0977e] mb-1 block">Property *</label>
@@ -181,7 +181,7 @@ export default function CreateWorkOrderForm({
 
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting}
-          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
+          className="btn-gold text-sm px-4 py-2 disabled:opacity-50">
           {submitting ? "Creating…" : "Create Work Order"}
         </button>
         <button type="button" onClick={() => setOpen(false)}

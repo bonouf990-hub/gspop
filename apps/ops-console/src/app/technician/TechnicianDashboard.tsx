@@ -221,7 +221,7 @@ export default function TechnicianDashboard({
       <header className="sticky top-0 z-20 bg-[#0f1626]/95 backdrop-blur-lg px-4 py-3 border-b border-[rgba(184,144,47,0.15)]">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase">GSPOP</p>
+            <p className="eyebrow">GSPOP</p>
             <p className="font-bold">{profile.name}</p>
             <p className="text-xs text-[#a0977e] capitalize">{profile.trade ?? profile.role}</p>
           </div>
@@ -242,7 +242,7 @@ export default function TechnicianDashboard({
         {/* Active Timer */}
         {activeWO && timerRunning && (
           <div className="bg-[#1a2640] border border-[#b8902f] rounded-2xl p-4 mb-4 text-center">
-            <p className="text-xs text-[#b8902f] uppercase tracking-wider mb-1">Job Timer</p>
+            <p className="eyebrow mb-1">Job Timer</p>
             <p className="text-3xl font-mono font-bold text-[#d4af5a]">{fmtTimer(timer)}</p>
             <button
               onClick={() => checkOut(activeWO)}
@@ -279,7 +279,7 @@ export default function TechnicianDashboard({
               <JobCard key={wo.id} wo={wo} expanded={activeWO === wo.id}>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {!checkedInWOs.has(wo.id) || checkedOutWOs.has(wo.id) ? (
-                    <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a]">
+                    <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="btn-gold">
                       GPS Check In
                     </ActionBtn>
                   ) : (
@@ -316,7 +316,7 @@ export default function TechnicianDashboard({
                       <button
                         onClick={() => uploadPhoto(wo.id)}
                         disabled={busy}
-                        className="px-4 py-2.5 text-sm font-bold rounded-lg bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a] disabled:opacity-50"
+                        className="px-4 py-2.5 text-sm btn-gold disabled:opacity-50"
                       >
                         Upload
                       </button>
@@ -334,10 +334,10 @@ export default function TechnicianDashboard({
             {assignedWOs.map((wo) => (
               <JobCard key={wo.id} wo={wo}>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <ActionBtn onClick={() => startJob(wo.id)} disabled={busy} color="bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a]">
+                  <ActionBtn onClick={() => startJob(wo.id)} disabled={busy} color="btn-gold">
                     Start Job
                   </ActionBtn>
-                  <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a]">
+                  <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="btn-gold">
                     GPS Check In & Start
                   </ActionBtn>
                 </div>

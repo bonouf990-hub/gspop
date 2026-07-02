@@ -50,7 +50,7 @@ export default async function DocumentsPage() {
   const documents = await getDocuments();
 
   return (
-    <main className="min-h-screen bg-[var(--background)] pb-32">
+    <main className="min-h-screen pb-32">
       <div className="px-6 pt-10 pb-6">
         <Link href="/profile" className="inline-flex items-center text-[var(--muted)] text-sm mb-4">
           <ChevronLeft size={16} /> Profile

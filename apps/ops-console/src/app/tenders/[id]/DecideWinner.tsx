@@ -67,7 +67,7 @@ export default function DecideWinner({
 
   return (
     <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4">
-      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+      <h3 className="eyebrow mb-2">
         Select Tender Winner
       </h3>
       <p className="text-xs text-[#a0977e] mb-3">

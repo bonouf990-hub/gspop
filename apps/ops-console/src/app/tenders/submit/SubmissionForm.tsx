@@ -105,7 +105,7 @@ export default function SubmissionForm({
   if (!verified) {
     return (
       <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-6">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Verify Site Visit Attendance
         </h2>
         <p className="text-sm text-[#a0977e] mb-4">
@@ -128,7 +128,7 @@ export default function SubmissionForm({
           <button
             onClick={handleVerify}
             disabled={!verifyEmail}
-            className="text-sm font-bold px-4 py-2.5 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+            className="text-sm btn-gold px-4 py-2.5 disabled:opacity-50"
           >
             Verify
           </button>
@@ -151,7 +151,7 @@ export default function SubmissionForm({
 
   return (
     <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-6">
-      <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+      <h2 className="eyebrow mb-4">
         Submit Your Tender
       </h2>
 
@@ -260,7 +260,7 @@ export default function SubmissionForm({
         <button
           onClick={handleSubmit}
           disabled={submitting || !vendorName || !vendorEmail || !proposedAmount}
-          className="w-full text-sm font-bold px-4 py-3 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+          className="w-full text-sm btn-gold px-4 py-3 disabled:opacity-50"
         >
           {submitting ? "Submitting…" : "Submit Tender"}
         </button>

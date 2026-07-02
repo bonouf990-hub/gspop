@@ -244,7 +244,7 @@ export default async function BudgetTrackingPage({
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
         {kpis.map((k) => (
-          <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-xl font-extrabold ${k.color}`}>{k.value}</p>
             <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
@@ -253,9 +253,9 @@ export default async function BudgetTrackingPage({
 
       {/* Grand Progress Bar */}
       {grandBudget > 0 && (
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
+        <div className="lux-card p-5 mb-8">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+            <h2 className="eyebrow">
               Overall Budget Utilization — {year}
             </h2>
             <span className={`text-sm font-bold ${statusColor(grandPct, true)}`}>{grandPct}%</span>
@@ -293,12 +293,12 @@ export default async function BudgetTrackingPage({
 
       {/* Per-Building Budget Table */}
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Budget by Building — {year}
         </h2>
         <div className="space-y-4">
           {views.map((v) => (
-            <div key={v.propertyId} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
+            <div key={v.propertyId} className="lux-card p-5">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
@@ -378,7 +378,7 @@ export default async function BudgetTrackingPage({
 
       {/* Summary Table */}
       <section className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-5">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Summary — All Buildings {year}
         </h2>
         <div className="overflow-x-auto">

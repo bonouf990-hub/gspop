@@ -102,8 +102,8 @@ export default async function PurchaseOrderDetailPage({
       <p className="text-[#a0977e] mb-6">PO #{(po.id as string).slice(0, 8).toUpperCase()}</p>
 
       {/* Status & Actions */}
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Status</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Status</h2>
         <div className="flex items-center gap-3 flex-wrap">
           <span className={`text-sm font-bold px-3 py-1.5 rounded-lg ${STATUS_STYLE[po.status as string] ?? ""}`}>
             {(po.status as string).charAt(0).toUpperCase() + (po.status as string).slice(1)}
@@ -113,8 +113,8 @@ export default async function PurchaseOrderDetailPage({
       </section>
 
       {/* Details */}
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Details</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-y-1 text-sm">
           <span className="text-[#a0977e]">Amount</span>
           <span className="font-bold text-[#d4af5a]">AED {Number(po.amount).toLocaleString()}</span>
@@ -159,8 +159,8 @@ export default async function PurchaseOrderDetailPage({
 
       {/* Linked Work Order */}
       {workOrder && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Linked Work Order</h2>
+        <section className="lux-card p-4 mb-4">
+          <h2 className="eyebrow mb-3">Linked Work Order</h2>
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <p className="font-medium">{workOrder.title}</p>
@@ -180,8 +180,8 @@ export default async function PurchaseOrderDetailPage({
 
       {/* Linked Tender */}
       {tender && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Source Tender</h2>
+        <section className="lux-card p-4 mb-4">
+          <h2 className="eyebrow mb-3">Source Tender</h2>
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <p className="font-medium">{tender.title}</p>
@@ -198,8 +198,8 @@ export default async function PurchaseOrderDetailPage({
       )}
 
       {/* Linked Invoices */}
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">
           Invoices ({invoices.length})
         </h2>
         {invoices.length === 0 ? (

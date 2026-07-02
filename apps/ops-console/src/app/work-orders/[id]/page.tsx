@@ -199,13 +199,13 @@ export default async function WorkOrderDetailPage({
       <h1 className="text-2xl font-extrabold mt-2 mb-1">{wo.title}</h1>
       <p className="text-[#a0977e] mb-6">{wo.description}</p>
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Status</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Status</h2>
         <WorkOrderStatusControl id={id} currentStatus={wo.status as string} startedAt={(wo.started_at as string | null) ?? null} />
       </section>
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Assign Technician</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Assign Technician</h2>
         <AssignTechnicianControl
           workOrderId={id}
           currentTechId={wo.assigned_technician_id as string | null}
@@ -213,8 +213,8 @@ export default async function WorkOrderDetailPage({
         />
       </section>
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Details</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-y-1 text-sm">
           <span className="text-[#a0977e]">Type</span>
           <span className="capitalize">{wo.type as string}</span>
@@ -254,8 +254,8 @@ export default async function WorkOrderDetailPage({
       </section>
 
       {linkedComplaint && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Originating Complaint</h2>
+        <section className="lux-card p-4 mb-4">
+          <h2 className="eyebrow mb-3">Originating Complaint</h2>
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <p className="font-medium capitalize">
@@ -277,8 +277,8 @@ export default async function WorkOrderDetailPage({
       )}
 
       {asset && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Linked Asset</h2>
+        <section className="lux-card p-4 mb-4">
+          <h2 className="eyebrow mb-3">Linked Asset</h2>
           <div className="grid grid-cols-2 gap-y-1 text-sm">
             <span className="text-[#a0977e]">Name</span>
             <span>{asset.name}</span>
@@ -292,9 +292,9 @@ export default async function WorkOrderDetailPage({
         </section>
       )}
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+      <section className="lux-card p-4 mb-4">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+          <h2 className="eyebrow">
             Parts Requests ({partsRequests.length})
           </h2>
           {propertyId && !["closed", "cancelled"].includes(wo.status as string) && (
@@ -348,9 +348,9 @@ export default async function WorkOrderDetailPage({
         )}
       </section>
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
+      <section className="lux-card p-4 mb-4">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+          <h2 className="eyebrow">
             Purchase Orders ({purchaseOrders.length})
           </h2>
           {propertyId && !["closed", "cancelled"].includes(wo.status as string) && (
@@ -405,8 +405,8 @@ export default async function WorkOrderDetailPage({
       </section>
 
       {(photos.before.length > 0 || photos.after.length > 0) && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Technician Photos</h2>
+        <section className="lux-card p-4 mb-4">
+          <h2 className="eyebrow mb-3">Technician Photos</h2>
           {photos.before.length > 0 && (
             <>
               <p className="text-sm text-[#a0977e] mb-2">Before</p>
@@ -445,8 +445,8 @@ export default async function WorkOrderDetailPage({
       )}
 
       {checkins.length > 0 && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">GPS Check-ins</h2>
+        <section className="lux-card p-4 mb-4">
+          <h2 className="eyebrow mb-3">GPS Check-ins</h2>
           <div className="space-y-2 text-sm">
             {checkins.map((c, i) => (
               <div key={i} className="flex justify-between">

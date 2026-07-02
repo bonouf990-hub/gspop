@@ -138,7 +138,7 @@ export default function BookingsPage() {
   );
 
   return (
-    <main className="min-h-screen bg-[var(--background)] pb-32">
+    <main className="min-h-screen pb-32">
       <div className="px-6 pt-10 pb-6">
         <Link href="/" className="inline-flex items-center text-[var(--muted)] text-sm mb-4">
           <ChevronLeft size={16} /> Home
@@ -230,7 +230,7 @@ export default function BookingsPage() {
             <button
               type="submit"
               disabled={submitting || !selectedArea || !date}
-              className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
+              className="btn-gold w-full p-3.5 text-sm disabled:opacity-40"
             >
               {submitting ? "Booking…" : "Confirm Booking"}
             </button>

@@ -20,7 +20,7 @@ export default function SeedDefaults({ tenantId }: { tenantId: string }) {
     <button
       onClick={handleSeed}
       disabled={seeding}
-      className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50"
+      className="btn-gold text-sm px-4 py-2 disabled:opacity-50"
     >
       {seeding ? "Setting up…" : "Load Default Rules"}
     </button>

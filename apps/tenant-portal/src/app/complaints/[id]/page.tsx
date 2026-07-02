@@ -83,7 +83,7 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
 
   if (!data) {
     return (
-      <main className="min-h-screen bg-[var(--background)] flex flex-col items-center justify-center p-6">
+      <main className="min-h-screen flex flex-col items-center justify-center p-6">
         <p className="text-[var(--muted)] text-center mb-4">Request not found.</p>
         <Link href="/complaints" className="text-[var(--gold)] text-sm font-medium">
           Back to my requests
@@ -97,7 +97,7 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
   const currentStage = stageIndexFor(complaint.status);
 
   return (
-    <main className="min-h-screen bg-[var(--background)] pb-32">
+    <main className="min-h-screen pb-32">
       <div className="px-6 pt-10 pb-6">
         <Link href="/complaints" className="inline-flex items-center text-[var(--muted)] text-sm mb-4">
           <ChevronLeft size={16} /> My Requests

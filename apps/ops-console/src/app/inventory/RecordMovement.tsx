@@ -81,8 +81,8 @@ export default function RecordMovement({
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-      <form onSubmit={handleSubmit} className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-xl p-5 space-y-3 w-80">
-        <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-1">
+      <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 w-80">
+        <h3 className="eyebrow mb-1">
           Stock Movement
         </h3>
         <p className="text-sm text-[#a0977e] mb-2">{itemName}</p>
@@ -103,7 +103,7 @@ export default function RecordMovement({
 
         <div className="flex gap-2 pt-1">
           <button type="submit" disabled={submitting}
-            className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
+            className="btn-gold text-sm px-4 py-2 disabled:opacity-50">
             {submitting ? "Saving…" : "Save"}
           </button>
           <button type="button" onClick={() => setOpen(false)}

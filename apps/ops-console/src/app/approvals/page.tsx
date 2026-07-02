@@ -108,7 +108,7 @@ export default async function ApprovalsPage() {
       <p className="text-[#a0977e] mb-6">Spend requests and escalations awaiting sign-off.</p>
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Pending ({pending.length})
         </h2>
         {pending.length === 0 ? (
@@ -132,7 +132,7 @@ export default async function ApprovalsPage() {
       </section>
 
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Recent Decisions
         </h2>
         {recent.length === 0 ? (

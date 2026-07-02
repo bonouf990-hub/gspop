@@ -72,7 +72,7 @@ export default function InviteGuestPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[var(--background)] pb-10">
+    <main className="min-h-screen pb-10">
       <div className="px-6 pt-10 pb-6">
         <Link href="/gate" className="inline-flex items-center text-[var(--muted)] text-sm mb-4">
           <ChevronLeft size={16} /> Gate
@@ -141,7 +141,7 @@ export default function InviteGuestPage() {
         <button
           type="submit"
           disabled={submitting || !guestName}
-          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
+          className="btn-gold w-full p-3.5 text-sm disabled:opacity-40"
         >
           {submitting ? "Inviting..." : "Invite Guest"}
         </button>

@@ -170,19 +170,19 @@ export default async function WorkflowsPage() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d4af5a]">{rules.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Rules Configured</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-green-400">{rules.filter((r) => r.is_active).length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d4af5a]">{chains.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Approval Chains</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-blue-400">{rulesByModule.size}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Modules Covered</p>
         </div>
@@ -194,7 +194,7 @@ export default async function WorkflowsPage() {
         return (
           <section key={mod} className="mb-8">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              <h2 className="eyebrow">
                 {MODULE_LABELS[mod]} ({moduleRules.length} rules)
               </h2>
             </div>
@@ -312,7 +312,7 @@ export default async function WorkflowsPage() {
       })}
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Create Approval Chain
         </h2>
         <ApprovalChainEditor

@@ -117,7 +117,7 @@ export default async function TenderSubmitPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
-          <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-2">GSPOP Tendering Portal</p>
+          <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
           <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
           <p className="text-[#a0977e] mt-2">
             {isPast
@@ -134,7 +134,7 @@ export default async function TenderSubmitPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
-          <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-2">GSPOP Tendering Portal</p>
+          <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
           <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
           <p className="text-[#a0977e] mt-2">
             This tender requires a mandatory site visit before submission. No vendors have been marked as attended yet.
@@ -149,7 +149,7 @@ export default async function TenderSubmitPage({
     <main className="min-h-screen bg-[#0f1626] p-8">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-2">GSPOP Tendering Portal</p>
+          <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
           <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
           <p className="text-[#a0977e] mt-1">{tender.description}</p>
           <div className="flex justify-center gap-4 mt-3 text-sm text-[#6b6454]">
@@ -161,14 +161,14 @@ export default async function TenderSubmitPage({
           </div>
         </div>
 
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Scope of Work</h2>
+        <section className="lux-card p-5 mb-6">
+          <h2 className="eyebrow mb-3">Scope of Work</h2>
           <p className="text-sm text-[#a0977e] whitespace-pre-wrap">{tender.scope_of_work}</p>
         </section>
 
         {requirements.length > 0 && (
-          <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6">
-            <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <section className="lux-card p-5 mb-6">
+            <h2 className="eyebrow mb-3">
               Requirements — Please Address Each
             </h2>
             <div className="space-y-2">

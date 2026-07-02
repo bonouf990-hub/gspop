@@ -10,7 +10,7 @@ const NEXT_ACTIONS: Record<string, { label: string; next: string; color: string 
     { label: "Cancel", next: "cancelled", color: "bg-red-900 text-red-300" },
   ],
   published: [
-    { label: "Schedule Site Visit", next: "site_visit", color: "bg-[#b8902f] text-[#0f1626]" },
+    { label: "Schedule Site Visit", next: "site_visit", color: "btn-gold" },
     { label: "Open Submissions", next: "submissions_open", color: "bg-green-800 text-green-200" },
     { label: "Cancel", next: "cancelled", color: "bg-red-900 text-red-300" },
   ],
@@ -21,7 +21,7 @@ const NEXT_ACTIONS: Record<string, { label: string; next: string; color: string 
     { label: "Close Submissions", next: "closed", color: "bg-amber-800 text-amber-200" },
   ],
   closed: [
-    { label: "Begin Evaluation", next: "evaluating", color: "bg-[#b8902f] text-[#0f1626]" },
+    { label: "Begin Evaluation", next: "evaluating", color: "btn-gold" },
   ],
   evaluating: [],
 };

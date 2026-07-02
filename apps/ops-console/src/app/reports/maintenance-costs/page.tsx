@@ -315,7 +315,7 @@ export default async function MaintenanceCostReport() {
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
         {kpis.map((k) => (
-          <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-xl font-extrabold ${k.color}`}>{k.value}</p>
             <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
@@ -324,8 +324,8 @@ export default async function MaintenanceCostReport() {
 
       {/* Cost Distribution Bar */}
       {grandTotals.totalCost > 0 && (
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <div className="lux-card p-5 mb-8">
+          <h2 className="eyebrow mb-3">
             Cost Distribution
           </h2>
           <div className="h-4 bg-[#0f1626] rounded-full overflow-hidden flex mb-2">
@@ -367,7 +367,7 @@ export default async function MaintenanceCostReport() {
 
       {/* Per-Building Breakdown */}
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <h2 className="eyebrow mb-4">
           Cost by Building
         </h2>
         {buildingList.length === 0 ? (
@@ -379,7 +379,7 @@ export default async function MaintenanceCostReport() {
               const types = [...bldg.byType.values()].sort((a, b) => b.count - a.count);
 
               return (
-                <div key={bldg.propertyId} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
+                <div key={bldg.propertyId} className="lux-card p-5">
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <h3 className="text-lg font-bold">{bldg.propertyName}</h3>
@@ -483,7 +483,7 @@ export default async function MaintenanceCostReport() {
 
       {/* Technician Labor Report */}
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Technician Manpower Cost
         </h2>
         <p className="text-xs text-[#a0977e] mb-3">
@@ -542,7 +542,7 @@ export default async function MaintenanceCostReport() {
 
       {/* Grand Total Summary */}
       <section className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-5">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Grand Total — All Buildings
         </h2>
         <div className="overflow-x-auto">

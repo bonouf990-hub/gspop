@@ -65,7 +65,7 @@ export default function EditSalary({
       <button
         onClick={save}
         disabled={saving}
-        className="text-xs font-bold px-3 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+        className="text-xs btn-gold px-3 py-2 disabled:opacity-50"
       >
         {saving ? "…" : "Save"}
       </button>

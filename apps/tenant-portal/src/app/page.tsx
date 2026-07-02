@@ -92,7 +92,7 @@ export default async function HomePage() {
   const rentDue = nextInvoice && (nextInvoice.status === "pending" || nextInvoice.status === "overdue");
 
   return (
-    <main className="min-h-screen pb-32 bg-[var(--background)]">
+    <main className="min-h-screen pb-32">
       {/* Dark hero, transitions into light body below */}
       <div
         className="relative h-[300px] w-full bg-cover bg-center overflow-hidden"
@@ -149,7 +149,7 @@ export default async function HomePage() {
           </div>
           <div>
             <p className="text-xs tracking-[0.2em] uppercase text-white/55 mb-1.5">Welcome home</p>
-            <h1 className="font-display text-white text-[2.75rem] leading-[1.05] font-semibold tracking-tight">
+            <h1 className="font-display text-white text-[3.25rem] leading-[1.05] font-semibold tracking-tight">
               {unit?.label ?? "—"}
             </h1>
             <div className="h-px w-14 mt-3 bg-gradient-to-r from-[var(--gold-soft)] to-transparent" />
@@ -164,7 +164,7 @@ export default async function HomePage() {
             className="elevated-card rounded-2xl p-5 flex items-center justify-between"
           >
             <div>
-              <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-1">
+              <p className="eyebrow text-[10px] mb-1">
                 {nextInvoice!.status === "overdue" ? "Payment Overdue" : "Payment Due"}
               </p>
               <p className="font-display text-2xl text-[#f0ece4]">{nextInvoice!.amount} AED</p>
@@ -190,9 +190,8 @@ export default async function HomePage() {
         </div>
 
         <section className="elevated-card rounded-2xl p-6">
-          <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-5">
-            Residence Details
-          </p>
+          <p className="eyebrow">Residence Details</p>
+          <div className="gold-rule mt-2.5 mb-5" />
           <div className="grid grid-cols-3 gap-3 mb-5">
             <div className="text-center">
               <BedDouble size={18} className="mx-auto mb-1.5 text-[var(--gold)]" strokeWidth={1.6} />
@@ -226,10 +225,8 @@ export default async function HomePage() {
 
           {assets.length > 0 && (
             <>
-              <div className="gold-divider my-4" />
-              <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-3">
-                In-Residence Equipment
-              </p>
+              <p className="eyebrow mt-6">In-Residence Equipment</p>
+              <div className="gold-rule mt-2.5 mb-3" />
               <ul className="space-y-2">
                 {assets.map((a) => (
                   <li key={a.id} className="flex items-center gap-2 text-sm text-[#f0ece4]">

@@ -140,7 +140,7 @@ export default async function PurchasingPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
         {kpis.map((k) => (
-          <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-2xl font-extrabold ${k.color}`}>{k.value}</p>
             <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
             {k.amount !== null && (
@@ -154,7 +154,7 @@ export default async function PurchasingPage() {
 
       {tendersNeedingPO.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h2 className="eyebrow mb-3">
             Decided Tenders — PO Required ({tendersNeedingPO.length})
           </h2>
           <div className="space-y-2">
@@ -198,7 +198,7 @@ export default async function PurchasingPage() {
 
       {pending.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h2 className="eyebrow mb-3">
             Pending Approval ({pending.length})
           </h2>
           <div className="space-y-2">
@@ -266,7 +266,7 @@ export default async function PurchasingPage() {
       )}
 
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           All Orders ({orders.length})
         </h2>
         <div className="overflow-x-auto">

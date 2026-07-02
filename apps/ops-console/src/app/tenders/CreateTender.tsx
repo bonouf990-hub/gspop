@@ -114,7 +114,7 @@ export default function CreateTender({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-xs font-bold px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626]"
+        className="text-xs btn-gold px-4 py-2"
       >
         + New Tender
       </button>
@@ -124,7 +124,7 @@ export default function CreateTender({
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-start justify-center pt-12 overflow-y-auto">
       <div className="bg-[#1a2640] border border-[#b8902f] rounded-xl p-6 w-full max-w-2xl mb-12">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <h2 className="eyebrow mb-4">
           Create New Tender / RFP
         </h2>
 
@@ -296,7 +296,7 @@ export default function CreateTender({
           <button
             onClick={handleSubmit}
             disabled={saving || !title || !description || !scopeOfWork || !deadline}
-            className="text-xs font-bold px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+            className="text-xs btn-gold px-4 py-2 disabled:opacity-50"
           >
             {saving ? "Creating…" : "Create Tender"}
           </button>

@@ -13,7 +13,7 @@ type Props = {
 
 const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: string }[]> = {
   draft: [
-    { label: "Assign & Open", next: "assigned", style: "bg-[#b8902f] text-[#0f1626]" },
+    { label: "Assign & Open", next: "assigned", style: "btn-gold" },
     { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#6b6454]" },
   ],
   assigned: [
@@ -29,7 +29,7 @@ const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: s
     { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#6b6454]" },
   ],
   completed_by_technician: [
-    { label: "Supervisor Verify", next: "verified_by_supervisor", style: "bg-[#b8902f] text-[#0f1626]" },
+    { label: "Supervisor Verify", next: "verified_by_supervisor", style: "btn-gold" },
     { label: "Reopen", next: "in_progress", style: "bg-amber-800 text-amber-200" },
   ],
   verified_by_supervisor: [
@@ -44,7 +44,7 @@ const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: s
     { label: "Reject", next: "rejected", style: "bg-red-800 text-red-200" },
   ],
   approved: [
-    { label: "Assign & Start", next: "assigned", style: "bg-[#b8902f] text-[#0f1626]" },
+    { label: "Assign & Start", next: "assigned", style: "btn-gold" },
   ],
   rejected: [],
   closed: [],
@@ -198,7 +198,7 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
 
       {showFeedback && (
         <div className="mt-4 border border-[rgba(184,144,47,0.15)] rounded-xl p-4 bg-[#0f1626]">
-          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h3 className="eyebrow mb-3">
             Job Completion — Resident Feedback
           </h3>
           <p className="text-xs text-[#a0977e] mb-3">

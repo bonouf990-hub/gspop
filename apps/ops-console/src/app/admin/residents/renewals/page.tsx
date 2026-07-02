@@ -89,7 +89,7 @@ export default async function LeaseRenewalsPage() {
 
       {/* Summary KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-[#d4af5a]">{leases.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active with End Date</p>
         </div>
@@ -101,7 +101,7 @@ export default async function LeaseRenewalsPage() {
           <p className="text-xl font-extrabold text-amber-400">{upcoming.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Expiring 31–90 Days</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-amber-400">{needsAction.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Needs Action</p>
         </div>
@@ -130,7 +130,7 @@ export default async function LeaseRenewalsPage() {
       {/* Later */}
       {later.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h2 className="eyebrow mb-3">
             Future — 90+ Days ({later.length})
           </h2>
           <LeaseTable leases={later} now={now} />
@@ -155,7 +155,7 @@ function LeaseTable({ leases, now }: { leases: LeaseRow[]; now: Date }) {
         const statusStyle = RENEWAL_STATUS_STYLE[l.renewal_status ?? "not_started"] ?? RENEWAL_STATUS_STYLE.not_started;
 
         return (
-          <div key={l.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
+          <div key={l.id} className="lux-card p-4">
             <div className="flex items-start justify-between mb-2">
               <div>
                 <p className="font-bold">{l.tenant_full_name}</p>

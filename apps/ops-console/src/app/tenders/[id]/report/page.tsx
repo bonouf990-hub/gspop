@@ -148,7 +148,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
       </div>
 
       <div className="border-b-2 border-[#b8902f] pb-4 mb-6">
-        <p className="text-[10px] text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-1">
+        <p className="eyebrow mb-1">
           GSPOP — Tender Evaluation Report
         </p>
         <h1 className="text-2xl font-extrabold">{tender.title}</h1>
@@ -162,7 +162,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
       </div>
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
+        <h2 className="eyebrow mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
           Tender Overview
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
@@ -210,7 +210,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
 
       {winner && (
         <section className="mb-8">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
+          <h2 className="eyebrow mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
             {winner.status === "winner" ? "Selected Winner" : "Top Ranked Vendor"}
           </h2>
           <div className="border-2 border-[#b8902f] rounded-xl p-5 bg-[rgba(184,144,47,0.05)]">
@@ -261,7 +261,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
       )}
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
+        <h2 className="eyebrow mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
           Comparative Analysis — All Submissions
         </h2>
         <div className="overflow-x-auto">
@@ -329,7 +329,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
+        <h2 className="eyebrow mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
           Pricing Analysis
         </h2>
         <div className="grid grid-cols-3 gap-4 mb-4">
@@ -380,7 +380,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
 
       {requirements.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
+          <h2 className="eyebrow mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
             Requirements Compliance Matrix
           </h2>
           <div className="overflow-x-auto">
@@ -431,7 +431,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
       )}
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
+        <h2 className="eyebrow mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
           Individual Vendor Analysis
         </h2>
         <div className="space-y-4">

@@ -105,7 +105,7 @@ export default function ApprovalChainEditor({
   const approverRoles = allRoles.filter((r) => ["tenant_admin", "property_manager", "supervisor"].includes(r));
 
   return (
-    <form onSubmit={handleSave} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 max-w-2xl">
+    <form onSubmit={handleSave} className="lux-card p-5 max-w-2xl">
       <div className="grid grid-cols-2 gap-3 mb-4">
         <div>
           <label className="text-xs text-[#a0977e] mb-1 block">Chain Name *</label>
@@ -198,7 +198,7 @@ export default function ApprovalChainEditor({
       {error && <p className="text-red-400 text-xs mb-2">{error}</p>}
 
       <button type="submit" disabled={saving}
-        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
+        className="btn-gold text-sm px-4 py-2 disabled:opacity-50">
         {saving ? "Creating…" : "Create Chain"}
       </button>
     </form>

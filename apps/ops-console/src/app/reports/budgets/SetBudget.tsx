@@ -83,7 +83,7 @@ export default function SetBudget({
         className={`text-xs font-bold px-3 py-1.5 rounded-lg ${
           currentBudget > 0
             ? "bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
-            : "bg-[#b8902f] text-[#0f1626]"
+            : "btn-gold"
         }`}
       >
         {currentBudget > 0 ? "Edit Budget" : "Set Budget"}
@@ -95,7 +95,7 @@ export default function SetBudget({
 
   return (
     <div className="border border-[rgba(184,144,47,0.15)] bg-[#0f1626] rounded-xl p-4 min-w-[280px]">
-      <h4 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+      <h4 className="eyebrow mb-2">
         {propertyName} — {year} Budget
       </h4>
 
@@ -129,7 +129,7 @@ export default function SetBudget({
         <button
           onClick={save}
           disabled={saving || !amount}
-          className="bg-[#b8902f] text-[#0f1626] text-xs font-bold px-4 py-2 rounded-lg disabled:opacity-50"
+          className="btn-gold text-xs px-4 py-2 disabled:opacity-50"
         >
           {saving ? "Saving…" : "Save Budget"}
         </button>

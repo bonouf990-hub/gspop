@@ -52,21 +52,38 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col bg-[var(--background)]">
+    <main className="min-h-screen flex items-center justify-center text-[#f0ece4] px-4 relative overflow-hidden">
+      {/* Ambient gold aura behind the card */}
       <div
-        className="h-56 w-full flex items-end p-8 rounded-b-[32px]"
-        style={{ background: "radial-gradient(circle at 25% 15%, #2b3a5e 0%, #0F1626 75%)" }}
-      >
-        <div>
-          <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold-soft)] font-medium mb-2">
-            Golden Sands Residences
-          </p>
-          <h1 className="font-display text-white text-3xl font-semibold">Set a New Password</h1>
-        </div>
-      </div>
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(560px 420px at 50% 42%, rgba(184,144,47,0.13), transparent 70%)",
+        }}
+      />
 
-      <form onSubmit={handleSubmit} className="flex-1 px-6 -mt-6">
-        <div className="elevated-card rounded-2xl p-6 space-y-4">
+      <div className="relative w-full max-w-md">
+        {/* Monogram crest above the card */}
+        <div className="flex flex-col items-center mb-8">
+          <div className="relative w-20 h-20 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full border border-[rgba(184,144,47,0.35)]" />
+            <div className="absolute inset-[5px] rounded-full border border-[rgba(184,144,47,0.7)] bg-[rgba(184,144,47,0.07)]" />
+            <span className="font-display text-2xl font-semibold text-[#d4af5a] tracking-[0.1em]">
+              GS
+            </span>
+          </div>
+          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#f0ece4]">
+            Golden Sands
+          </h1>
+          <div className="flex items-center gap-3 mt-2.5">
+            <span className="block w-8 h-px bg-gradient-to-r from-transparent to-[#b8902f]" />
+            <p className="eyebrow">Reset Password</p>
+            <span className="block w-8 h-px bg-gradient-to-l from-transparent to-[#b8902f]" />
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="lux-card p-8 space-y-5">
           {done ? (
             <p className="text-[#5cc98a] text-sm text-center py-4">
               Password updated. Taking you to your home…
@@ -74,41 +91,52 @@ export default function ResetPasswordPage() {
           ) : (
             <>
               <div>
-                <label className="text-[10px] tracking-[0.15em] uppercase text-[var(--muted)] mb-1.5 block">
+                <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[var(--muted)] mb-2">
                   New Password
                 </label>
                 <input
-                  className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
+                  className="lux-input w-full p-3.5 text-sm"
                   type="password"
+                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
                   required
                 />
               </div>
+
               <div>
-                <label className="text-[10px] tracking-[0.15em] uppercase text-[var(--muted)] mb-1.5 block">
+                <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[var(--muted)] mb-2">
                   Confirm Password
                 </label>
                 <input
-                  className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
+                  className="lux-input w-full p-3.5 text-sm"
                   type="password"
+                  placeholder="••••••••"
                   value={confirm}
                   onChange={(e) => setConfirm(e.target.value)}
+                  autoComplete="new-password"
                   required
                 />
               </div>
-              {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
+
+              {error && <p className="text-[#e08a8a] text-sm">{error}</p>}
+
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3 font-semibold text-sm disabled:opacity-50 transition-opacity"
+                className="btn-gold w-full p-3.5 text-sm uppercase disabled:opacity-50"
               >
                 {submitting ? "Updating…" : "Update Password"}
               </button>
             </>
           )}
-        </div>
-      </form>
+        </form>
+
+        <p className="text-center text-xs text-[#6b6454] mt-8 tracking-[0.14em] uppercase">
+          Golden Sands Property Management · Dubai
+        </p>
+      </div>
     </main>
   );
 }

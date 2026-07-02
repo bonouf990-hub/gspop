@@ -49,7 +49,7 @@ export default function PostNoticeForm({
   if (!open) {
     return (
       <button onClick={() => setOpen(true)}
-        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg mb-6">
+        className="btn-gold text-sm px-4 py-2 mb-6">
         + Post Notice
       </button>
     );
@@ -58,8 +58,8 @@ export default function PostNoticeForm({
   const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
 
   return (
-    <form onSubmit={handleSubmit} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6 space-y-3 max-w-lg">
-      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">New Building Notice</h3>
+    <form onSubmit={handleSubmit} className="lux-card p-5 mb-6 space-y-3 max-w-lg">
+      <h3 className="eyebrow mb-2">New Building Notice</h3>
       <select className={input} value={propertyId} onChange={(e) => setPropertyId(e.target.value)} required>
         <option value="">Select building…</option>
         {properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -75,7 +75,7 @@ export default function PostNoticeForm({
       {error && <p className="text-red-400 text-xs">{error}</p>}
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting || !propertyId}
-          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
+          className="btn-gold text-sm px-4 py-2 disabled:opacity-50">
           {submitting ? "Posting..." : "Post to Residents"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
