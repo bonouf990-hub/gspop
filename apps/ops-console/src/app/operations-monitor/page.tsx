@@ -16,11 +16,11 @@ const TRADE_LABELS: Record<string, string> = {
 };
 
 const TRADE_ICONS: Record<string, string> = {
-  hvac: "❄️",
-  plumbing: "🚿",
-  carpentry: "🪚",
-  electrical: "⚡",
-  general: "🛠️",
+  hvac: "AC",
+  plumbing: "PL",
+  carpentry: "CA",
+  electrical: "EL",
+  general: "GN",
 };
 
 type BudgetActual = {
@@ -87,7 +87,9 @@ export default async function OperationsMonitorPage() {
             <div key={trade} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-bold flex items-center gap-2">
-                  <span className="text-xl">{TRADE_ICONS[trade] ?? "🛠️"}</span>
+                  <span className="w-8 h-8 rounded-lg bg-[rgba(184,144,47,0.12)] text-[#d4af5a] text-xs font-bold flex items-center justify-center">
+                    {TRADE_ICONS[trade] ?? "GN"}
+                  </span>
                   {TRADE_LABELS[trade] ?? trade}
                 </h2>
                 <span className="text-2xl font-extrabold">{cases?.openCases ?? 0}</span>
@@ -124,14 +126,15 @@ export default async function OperationsMonitorPage() {
       {budgets.length > 0 && (
         <>
           <h2 className="text-lg font-bold mb-3">Budget vs Actual — This Month</h2>
-          <table className="w-full text-sm border-collapse mb-10">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse mb-10 min-w-[700px]">
             <thead>
               <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                 <th className="py-2">Property</th>
                 <th className="py-2">Category</th>
-                <th className="py-2 text-right">Budget (AED)</th>
-                <th className="py-2 text-right">Actual (AED)</th>
-                <th className="py-2 text-right">Remaining</th>
+                <th className="py-2">Budget (AED)</th>
+                <th className="py-2">Actual (AED)</th>
+                <th className="py-2">Remaining</th>
                 <th className="py-2">Usage</th>
               </tr>
             </thead>
@@ -145,9 +148,9 @@ export default async function OperationsMonitorPage() {
                   <tr key={b.budget_id} className="border-b border-[rgba(184,144,47,0.08)]">
                     <td className="py-2">{propertiesById.get(b.property_id) ?? "—"}</td>
                     <td className="py-2 capitalize">{b.category}</td>
-                    <td className="py-2 text-right text-[#a0977e]">{budgeted.toLocaleString()}</td>
-                    <td className="py-2 text-right font-medium">{actual.toLocaleString()}</td>
-                    <td className={`py-2 text-right font-medium ${remaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                    <td className="py-2 text-[#a0977e]">{budgeted.toLocaleString()}</td>
+                    <td className="py-2 font-medium">{actual.toLocaleString()}</td>
+                    <td className={`py-2 font-medium ${remaining < 0 ? "text-red-400" : "text-green-400"}`}>
                       {remaining.toLocaleString()}
                     </td>
                     <td className="py-2">
@@ -166,11 +169,13 @@ export default async function OperationsMonitorPage() {
               })}
             </tbody>
           </table>
+          </div>
         </>
       )}
 
       <h2 className="text-lg font-bold mb-3">Technician Status</h2>
-      <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[600px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Name</th>
@@ -205,6 +210,7 @@ export default async function OperationsMonitorPage() {
           )}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

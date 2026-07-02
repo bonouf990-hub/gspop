@@ -104,7 +104,8 @@ export default async function ApprovalsPage() {
       <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
         ← Dashboard
       </Link>
-      <h1 className="text-2xl font-extrabold mt-1 mb-6">Approvals</h1>
+      <h1 className="text-2xl font-extrabold mt-1 mb-1">Approvals</h1>
+      <p className="text-[#a0977e] mb-6">Spend requests and escalations awaiting sign-off.</p>
 
       <section className="mb-8">
         <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
@@ -113,7 +114,8 @@ export default async function ApprovalsPage() {
         {pending.length === 0 ? (
           <p className="text-[#6b6454] text-sm">Nothing pending approval.</p>
         ) : (
-          <table className="w-full text-sm border-collapse">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse min-w-[600px]">
             <thead>
               <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                 <th className="py-2 font-medium">Item</th>
@@ -125,6 +127,7 @@ export default async function ApprovalsPage() {
             </thead>
             <tbody>{pending.map(renderRow)}</tbody>
           </table>
+          </div>
         )}
       </section>
 
@@ -135,7 +138,8 @@ export default async function ApprovalsPage() {
         {recent.length === 0 ? (
           <p className="text-[#6b6454] text-sm">No recent decisions.</p>
         ) : (
-          <table className="w-full text-sm border-collapse">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse min-w-[600px]">
             <thead>
               <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                 <th className="py-2 font-medium">Item</th>
@@ -147,6 +151,7 @@ export default async function ApprovalsPage() {
             </thead>
             <tbody>{recent.map(renderRow)}</tbody>
           </table>
+          </div>
         )}
       </section>
     </main>

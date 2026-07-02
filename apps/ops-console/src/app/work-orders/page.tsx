@@ -91,11 +91,13 @@ export default async function WorkOrdersPage() {
           <h1 className="text-2xl font-extrabold mt-1">
             {isTechnician ? "My Work Orders" : "Work Orders"}
           </h1>
+          <p className="text-[#a0977e] mb-6">Assign, track, and verify maintenance jobs across all buildings.</p>
         </div>
         {!isTechnician && <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />}
       </div>
 
-      <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2 font-medium">Title</th>
@@ -160,6 +162,7 @@ export default async function WorkOrdersPage() {
           )}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

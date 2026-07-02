@@ -73,14 +73,14 @@ export default function VisitorActions({
         <button
           onClick={handleCheckIn}
           disabled={busy}
-          className="bg-green-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
+          className="bg-green-900/50 text-green-300 border border-green-500/30 text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
         >
           Check In
         </button>
         <button
           onClick={handleDecline}
           disabled={busy}
-          className="bg-red-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
+          className="bg-red-950/50 text-red-300 border border-red-500/30 text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
         >
           Decline
         </button>
@@ -93,7 +93,7 @@ export default function VisitorActions({
       <button
         onClick={handleCheckOut}
         disabled={busy}
-        className="bg-gray-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
+        className="bg-[#213052] text-[#d4af5a] text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
       >
         Check Out
       </button>
