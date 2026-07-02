@@ -152,9 +152,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       {/* Brand */}
       <div className="px-6 pt-6 pb-5 border-b border-[#eef1f7]">
         <Link href="/" className="block">
-          <p className="text-xl font-extrabold tracking-[0.14em] text-[#16233c]">ARENCO</p>
+          <p className="text-xl font-extrabold tracking-[0.14em] text-[#16233c]">ARENCO <span className="text-[#b01b42]">One</span></p>
           <p className="text-[9px] font-bold tracking-[0.3em] uppercase text-[#b01b42] mt-0.5">
-            Real Estate · Operations
+            Estate Operations
           </p>
         </Link>
       </div>

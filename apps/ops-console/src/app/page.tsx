@@ -143,7 +143,7 @@ export default async function Dashboard() {
   return (
     <main className="p-8 max-w-6xl mx-auto w-full">
       <div className="mb-10">
-        <p className="eyebrow mb-2">ARENCO Real Estate — Asset &amp; Facilities Management</p>
+        <p className="eyebrow mb-2">ARENCO One — Estate Operations Platform</p>
         <h1 className="font-display text-4xl text-[#16233c]">
           Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
         </h1>
