@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 import { checkWorkflow } from "@/lib/workflow";
+import Modal from "@/components/Modal";
 
 type Property = { id: string; name: string };
 type Vendor = { id: string; name: string; category: string | null };
@@ -73,39 +74,34 @@ export default function CreatePurchaseOrder({
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + New Purchase Order
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
-
-  return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 max-w-sm">
-      <h3 className="eyebrow mb-2">
-        New Purchase Order
-      </h3>
-
+      {open && (
+        <Modal title="New Purchase Order" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Description *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Description *</label>
         <input className={input} placeholder="What needs to be purchased?"
           value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Amount (AED) *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Amount (AED) *</label>
         <input className={input} type="number" step="0.01" placeholder="0.00"
           value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} required />
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Property *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Property *</label>
         <select className={input} value={form.propertyId}
           onChange={(e) => setForm({ ...form, propertyId: e.target.value })} required>
           <option value="">Select property…</option>
@@ -114,7 +110,7 @@ export default function CreatePurchaseOrder({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Vendor (optional)</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Vendor (optional)</label>
         <select className={input} value={form.vendorId}
           onChange={(e) => setForm({ ...form, vendorId: e.target.value })}>
           <option value="">No vendor selected</option>
@@ -134,10 +130,13 @@ export default function CreatePurchaseOrder({
           {submitting ? "Creating…" : "Submit Order"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

@@ -5,12 +5,12 @@ import BottomNav from "@/components/BottomNav";
 import { ClipboardList, ChevronRight } from "lucide-react";
 
 const STATUS_STYLE: Record<string, string> = {
-  submitted: "bg-[rgba(184,144,47,0.15)] text-[#d4af5a]",
+  submitted: "bg-[rgba(176,27,66,0.15)] text-[#d9647f]",
   acknowledged: "bg-[rgba(90,140,200,0.15)] text-[#8fb4e0]",
   assigned: "bg-[rgba(90,140,200,0.15)] text-[#8fb4e0]",
   in_progress: "bg-[rgba(90,140,200,0.15)] text-[#8fb4e0]",
   resolved: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]",
-  closed: "bg-[rgba(255,255,255,0.06)] text-[#a0977e]",
+  closed: "bg-[rgba(255,255,255,0.06)] text-[#9aa5bd]",
   rejected: "bg-[rgba(180,60,60,0.15)] text-[#e08a8a]",
 };
 
@@ -34,7 +34,7 @@ export default async function MyComplaintsPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Maintenance
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">My Requests</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">My Requests</h1>
       </div>
 
       <div className="px-5">
@@ -47,7 +47,7 @@ export default async function MyComplaintsPage() {
                   className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
                 >
                   <div>
-                    <p className="text-sm font-medium text-[#f0ece4]">{c.title}</p>
+                    <p className="text-sm font-medium text-[#eef1f6]">{c.title}</p>
                     <p className="text-xs text-[var(--muted)] mt-0.5">
                       {new Date(c.submittedAt).toLocaleDateString()}
                     </p>
@@ -56,7 +56,7 @@ export default async function MyComplaintsPage() {
                     <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[c.status]}`}>
                       {c.status.replace(/_/g, " ")}
                     </span>
-                    <ChevronRight size={16} className="text-[#6b6454]" />
+                    <ChevronRight size={16} className="text-[#5d6880]" />
                   </div>
                 </Link>
               </li>

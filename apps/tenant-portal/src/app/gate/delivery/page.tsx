@@ -60,7 +60,7 @@ export default function AllowDeliveryPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Pre-Authorize
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Allow Delivery</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">Allow Delivery</h1>
         <p className="text-sm text-[var(--muted)] mt-1">Select the courier and a delivery window.</p>
       </div>
 
@@ -77,13 +77,13 @@ export default function AllowDeliveryPage() {
                 onClick={() => setBrand(b)}
                 className={`flex items-center gap-2.5 rounded-xl p-3 text-sm font-medium border transition-colors ${
                   brand === b
-                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d4af5a]"
-                    : "bg-[#141d33] border-[var(--hairline)] text-[#f0ece4]"
+                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d9647f]"
+                    : "bg-[#141d33] border-[var(--hairline)] text-[#eef1f6]"
                 }`}
               >
                 <span
                   className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-semibold ${
-                    brand === b ? "bg-[var(--gold)] text-[#0f1626]" : "bg-[rgba(184,144,47,0.12)] text-[var(--muted)]"
+                    brand === b ? "bg-[var(--gold)] text-[#0f1626]" : "bg-[rgba(176,27,66,0.12)] text-[var(--muted)]"
                   }`}
                 >
                   {b[0]}
@@ -102,7 +102,7 @@ export default function AllowDeliveryPage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Expected after</label>
             <input
               type="datetime-local"
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
               value={windowStart}
               onChange={(e) => setWindowStart(e.target.value)}
               required
@@ -112,14 +112,14 @@ export default function AllowDeliveryPage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Until</label>
             <input
               type="datetime-local"
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
               value={windowEnd}
               onChange={(e) => setWindowEnd(e.target.value)}
               required
             />
           </div>
           <label className="flex items-center justify-between pt-1 cursor-pointer">
-            <span className="text-sm text-[#f0ece4]">Leave with security if I'm not home</span>
+            <span className="text-sm text-[#eef1f6]">Leave with security if I'm not home</span>
             <button
               type="button"
               role="switch"

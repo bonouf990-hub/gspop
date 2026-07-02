@@ -63,14 +63,14 @@ export default function WorkflowRuleEditor({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+        className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
       >
         Edit
       </button>
     );
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
@@ -80,7 +80,7 @@ export default function WorkflowRuleEditor({
         </h3>
 
         <div className="mb-4">
-          <label className="text-xs text-[#a0977e] mb-2 block">Allowed Roles</label>
+          <label className="text-xs text-[#9aa5bd] mb-2 block">Allowed Roles</label>
           <div className="flex flex-wrap gap-2">
             {allRoles.map((role) => (
               <button
@@ -89,8 +89,8 @@ export default function WorkflowRuleEditor({
                 onClick={() => toggleRole(role)}
                 className={`text-xs font-medium px-3 py-1.5 rounded-lg transition-colors ${
                   roles.includes(role)
-                    ? "bg-[#b8902f] text-[#0f1626]"
-                    : "bg-[#0f1626] text-[#6b6454] border border-[rgba(184,144,47,0.15)]"
+                    ? "bg-[#b01b42] text-[#0f1626]"
+                    : "bg-[#0f1626] text-[#5d6880] border border-[rgba(176,27,66,0.15)]"
                 }`}
               >
                 {roleLabels[role] ?? role}
@@ -101,7 +101,7 @@ export default function WorkflowRuleEditor({
 
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
-            <label className="text-xs text-[#a0977e] mb-1 block">Requires Approval Above (AED)</label>
+            <label className="text-xs text-[#9aa5bd] mb-1 block">Requires Approval Above (AED)</label>
             <input
               className={input}
               type="number"
@@ -112,7 +112,7 @@ export default function WorkflowRuleEditor({
             />
           </div>
           <div>
-            <label className="text-xs text-[#a0977e] mb-1 block">Max Amount (AED)</label>
+            <label className="text-xs text-[#9aa5bd] mb-1 block">Max Amount (AED)</label>
             <input
               className={input}
               type="number"
@@ -125,7 +125,7 @@ export default function WorkflowRuleEditor({
         </div>
 
         <div className="mb-4">
-          <label className="text-xs text-[#a0977e] mb-1 block">Notes</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Notes</label>
           <textarea
             className={input}
             rows={2}
@@ -141,9 +141,9 @@ export default function WorkflowRuleEditor({
               type="checkbox"
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
-              className="accent-[#b8902f]"
+              className="accent-[#b01b42]"
             />
-            <span className="text-[#a0977e]">Rule is active</span>
+            <span className="text-[#9aa5bd]">Rule is active</span>
           </label>
         </div>
 
@@ -157,7 +157,7 @@ export default function WorkflowRuleEditor({
           </button>
           <button
             onClick={() => setOpen(false)}
-            className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]"
+            className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]"
           >
             Cancel
           </button>

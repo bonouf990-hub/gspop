@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Modal from "@/components/Modal";
 
 type StaffOption = { id: string; full_name: string };
 type PropertyOption = { id: string; name: string };
@@ -71,22 +72,20 @@ export default function CreateStaffForm({
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2 mb-6"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + Add Staff Member
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
-
-  return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 mb-6 space-y-3 max-w-lg">
-      <h3 className="eyebrow mb-2">New Staff Member</h3>
+      {open && (
+        <Modal title="New Staff Member" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <input className={input} placeholder="Full name" value={form.fullName}
         onChange={(e) => setForm({ ...form, fullName: e.target.value })} required />
       <input className={input} placeholder="Phone" value={form.phone}
@@ -124,7 +123,7 @@ export default function CreateStaffForm({
       </select>
 
       <div>
-        <p className="text-xs text-[#a0977e] mb-1.5">Assigned buildings</p>
+        <p className="text-xs text-[#9aa5bd] mb-1.5">Assigned buildings</p>
         <div className="flex flex-wrap gap-2">
           {properties.map((p) => (
             <button
@@ -132,7 +131,7 @@ export default function CreateStaffForm({
               key={p.id}
               onClick={() => toggleProperty(p.id)}
               className={`text-xs px-2.5 py-1 rounded-full border ${
-                propertyIds.includes(p.id) ? "bg-[#b8902f] border-[#b8902f] text-[#0f1626] font-bold" : "bg-[#213052] border-[rgba(184,144,47,0.15)] text-[#a0977e]"
+                propertyIds.includes(p.id) ? "bg-[#b01b42] border-[#b01b42] text-[#0f1626] font-bold" : "bg-[#213052] border-[rgba(176,27,66,0.15)] text-[#9aa5bd]"
               }`}
             >
               {p.name}
@@ -149,10 +148,13 @@ export default function CreateStaffForm({
           {submitting ? "Creating..." : "Create Staff Member"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

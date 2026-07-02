@@ -46,7 +46,7 @@ async function getPageData() {
 
 const STATUS_STYLE: Record<string, string> = {
   confirmed: "bg-green-900 text-green-300",
-  cancelled: "bg-[#213052] text-[#6b6454]",
+  cancelled: "bg-[#213052] text-[#5d6880]",
   no_show: "bg-red-900 text-red-300",
 };
 
@@ -54,14 +54,14 @@ export default async function BookingsPage() {
   const { bookings, commonAreas, properties, propertiesById, residents } = await getPageData();
 
   return (
-    <main className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">Common Area Bookings</h1>
-          <p className="text-[#a0977e] mb-6">Common-area reservations — gym, pool, and function rooms.</p>
+          <h1 className="mt-1">Common Area Bookings</h1>
+          <p className="text-[#9aa5bd] mt-1">Common-area reservations — gym, pool, and function rooms.</p>
         </div>
         <CreateBookingForm
           commonAreas={commonAreas}
@@ -70,17 +70,18 @@ export default async function BookingsPage() {
         />
       </div>
 
+      <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-            <th className="py-2 font-medium">Facility</th>
-            <th className="py-2 font-medium">Property</th>
-            <th className="py-2 font-medium">Resident</th>
-            <th className="py-2 font-medium">Date</th>
-            <th className="py-2 font-medium">Time</th>
-            <th className="py-2 font-medium">Status</th>
-            <th className="py-2 font-medium">Actions</th>
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <th className="px-5 py-3.5 font-medium">Facility</th>
+            <th className="px-5 py-3.5 font-medium">Property</th>
+            <th className="px-5 py-3.5 font-medium">Resident</th>
+            <th className="px-5 py-3.5 font-medium">Date</th>
+            <th className="px-5 py-3.5 font-medium">Time</th>
+            <th className="px-5 py-3.5 font-medium">Status</th>
+            <th className="px-5 py-3.5 font-medium">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -90,30 +91,30 @@ export default async function BookingsPage() {
             const start = new Date(b.start_time);
             const end = new Date(b.end_time);
             return (
-              <tr key={b.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
-                <td className="py-2">
+              <tr key={b.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                <td className="px-5 py-3.5">
                   <span className="font-medium">{area?.name ?? "—"}</span>
-                  <span className="text-[#6b6454] text-xs ml-2 capitalize">
+                  <span className="text-[#5d6880] text-xs ml-2 capitalize">
                     {area?.category?.replace(/_/g, " ") ?? ""}
                   </span>
                 </td>
-                <td className="py-2 text-[#a0977e]">
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {area?.property_id ? propertiesById.get(area.property_id) ?? "—" : "—"}
                 </td>
-                <td className="py-2">{resident?.full_name ?? "—"}</td>
-                <td className="py-2 text-[#a0977e]">{start.toLocaleDateString()}</td>
-                <td className="py-2 text-[#a0977e]">
+                <td className="px-5 py-3.5">{resident?.full_name ?? "—"}</td>
+                <td className="px-5 py-3.5 text-[#9aa5bd]">{start.toLocaleDateString()}</td>
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} –{" "}
                   {end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                 </td>
-                <td className="py-2">
+                <td className="px-5 py-3.5">
                   <span
-                    className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[b.status] ?? "bg-[#213052] text-[#a0977e]"}`}
+                    className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[b.status] ?? "bg-[#213052] text-[#9aa5bd]"}`}
                   >
                     {b.status.replace(/_/g, " ")}
                   </span>
                 </td>
-                <td className="py-2">
+                <td className="px-5 py-3.5">
                   {b.status === "confirmed" && <BookingActions bookingId={b.id} />}
                 </td>
               </tr>
@@ -121,13 +122,14 @@ export default async function BookingsPage() {
           })}
           {bookings.length === 0 && (
             <tr>
-              <td className="py-4 text-[#6b6454]" colSpan={7}>
+              <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={7}>
                 No bookings yet.
               </td>
             </tr>
           )}
         </tbody>
       </table>
+      </div>
       </div>
     </main>
   );

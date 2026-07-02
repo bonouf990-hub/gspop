@@ -5,8 +5,8 @@ import BottomNav from "@/components/BottomNav";
 import { ChevronLeft, Check, Clock } from "lucide-react";
 
 const PRIORITY_STYLE: Record<string, string> = {
-  low: "bg-[rgba(255,255,255,0.06)] text-[#a0977e]",
-  medium: "bg-[rgba(184,144,47,0.15)] text-[#d4af5a]",
+  low: "bg-[rgba(255,255,255,0.06)] text-[#9aa5bd]",
+  medium: "bg-[rgba(176,27,66,0.15)] text-[#d9647f]",
   high: "bg-[rgba(200,130,50,0.15)] text-[#e0a45c]",
   emergency: "bg-[rgba(180,60,60,0.15)] text-[#e08a8a]",
 };
@@ -105,7 +105,7 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Maintenance
         </p>
-        <h1 className="font-display text-2xl text-[#f0ece4] font-semibold leading-tight">
+        <h1 className="font-display text-2xl text-[#eef1f6] font-semibold leading-tight">
           {complaint.title}
         </h1>
         <div className="flex items-center gap-2 mt-3">
@@ -146,8 +146,8 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
                           done
                             ? "bg-[var(--gold)] border-[var(--gold)] text-[#0f1626]"
                             : current
-                              ? "bg-[rgba(184,144,47,0.12)] border-[var(--gold)] text-[var(--gold)]"
-                              : "bg-[#141d33] border-[var(--hairline)] text-[#6b6454]"
+                              ? "bg-[rgba(176,27,66,0.12)] border-[var(--gold)] text-[var(--gold)]"
+                              : "bg-[#141d33] border-[var(--hairline)] text-[#5d6880]"
                         }`}
                       >
                         {done ? <Check size={14} /> : current ? <Clock size={14} /> : <span className="w-1.5 h-1.5 rounded-full bg-current" />}
@@ -159,7 +159,7 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
                     <div className={`pb-6 ${last ? "pb-0" : ""}`}>
                       <p
                         className={`text-sm font-medium ${
-                          done || current ? "text-[#f0ece4]" : "text-[var(--muted)]"
+                          done || current ? "text-[#eef1f6]" : "text-[var(--muted)]"
                         }`}
                       >
                         {stage.label}
@@ -178,13 +178,13 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
           <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-3">
             Details
           </p>
-          <p className="text-sm text-[#f0ece4] leading-relaxed whitespace-pre-line">
+          <p className="text-sm text-[#eef1f6] leading-relaxed whitespace-pre-line">
             {complaint.description || "No additional details provided."}
           </p>
           <div className="gold-divider my-4" />
           <div className="flex justify-between text-sm">
             <span className="text-[var(--muted)]">Assigned technician</span>
-            <span className="text-[#f0ece4] font-medium">{technicianName ?? "Not yet assigned"}</span>
+            <span className="text-[#eef1f6] font-medium">{technicianName ?? "Not yet assigned"}</span>
           </div>
         </section>
 

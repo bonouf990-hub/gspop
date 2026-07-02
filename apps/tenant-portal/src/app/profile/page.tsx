@@ -141,7 +141,7 @@ export default function ProfilePage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Account
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">My Profile</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">My Profile</h1>
       </div>
 
       <div className="px-5 space-y-5">
@@ -188,7 +188,7 @@ export default function ProfilePage() {
               Full Name
             </label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6] focus:border-[var(--gold)] outline-none transition-colors"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Your name"
@@ -201,7 +201,7 @@ export default function ProfilePage() {
               Phone
             </label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6] focus:border-[var(--gold)] outline-none transition-colors"
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -217,7 +217,7 @@ export default function ProfilePage() {
               Email
             </label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6] focus:border-[var(--gold)] outline-none transition-colors"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -253,10 +253,10 @@ export default function ProfilePage() {
             <FileText size={18} strokeWidth={1.8} />
           </span>
           <div className="flex-1">
-            <p className="text-sm font-medium text-[#f0ece4]">My Documents</p>
+            <p className="text-sm font-medium text-[#eef1f6]">My Documents</p>
             <p className="text-xs text-[var(--muted)]">Tenancy contract, Ejari, receipts</p>
           </div>
-          <ChevronRight size={18} className="text-[#6b6454]" />
+          <ChevronRight size={18} className="text-[#5d6880]" />
         </Link>
 
         <button

@@ -141,7 +141,7 @@ export default function ChecklistManager({
           </button>
           <button
             onClick={() => startChecklist("move_out")}
-            className="px-4 py-2.5 rounded-lg bg-[#213052] text-[#d4af5a] text-sm font-bold"
+            className="px-4 py-2.5 rounded-lg bg-[#213052] text-[#d9647f] text-sm font-bold"
           >
             + New Move-Out Checklist
           </button>
@@ -164,20 +164,20 @@ export default function ChecklistManager({
                       value={item.name}
                       onChange={(e) => updateItemName(i, e.target.value)}
                       placeholder="Item name..."
-                      className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm font-medium mb-1"
+                      className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm font-medium mb-1"
                     />
                   )}
                   <input
                     value={item.notes}
                     onChange={(e) => updateItem(i, "notes", e.target.value)}
                     placeholder="Notes (optional)..."
-                    className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#a0977e] mt-1"
+                    className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#9aa5bd] mt-1"
                   />
                 </div>
                 <select
                   value={item.condition}
                   onChange={(e) => updateItem(i, "condition", e.target.value)}
-                  className={`text-xs font-bold rounded-lg bg-[#1a2640] border border-[rgba(184,144,47,0.15)] px-2 py-1 ${CONDITION_COLORS[item.condition] ?? ""}`}
+                  className={`text-xs font-bold rounded-lg bg-[#1a2640] border border-[rgba(176,27,66,0.15)] px-2 py-1 ${CONDITION_COLORS[item.condition] ?? ""}`}
                 >
                   <option value="good">Good</option>
                   <option value="fair">Fair</option>
@@ -189,14 +189,14 @@ export default function ChecklistManager({
           </div>
           <button
             onClick={addCustomItem}
-            className="text-xs text-[#d4af5a] hover:underline mb-4 block"
+            className="text-xs text-[#d9647f] hover:underline mb-4 block"
           >
             + Add custom item
           </button>
           <div className="flex gap-3">
             <button
               onClick={() => setCreating(false)}
-              className="flex-1 py-2 rounded-lg border border-[rgba(184,144,47,0.15)] text-sm font-bold text-[#a0977e]"
+              className="flex-1 py-2 rounded-lg border border-[rgba(176,27,66,0.15)] text-sm font-bold text-[#9aa5bd]"
             >
               Cancel
             </button>
@@ -229,7 +229,7 @@ export default function ChecklistManager({
                       }`}>
                         {cl.checklist_type === "move_in" ? "Move-In" : "Move-Out"}
                       </span>
-                      <span className="text-xs text-[#6b6454] ml-2">
+                      <span className="text-xs text-[#5d6880] ml-2">
                         {new Date(cl.created_at).toLocaleDateString()}
                         {cl.performer && ` · by ${cl.performer.full_name}`}
                       </span>
@@ -248,14 +248,14 @@ export default function ChecklistManager({
                             : item.condition === "fair" ? "bg-amber-400"
                             : "bg-red-400"
                         }`} />
-                        <span className={item.condition === "good" ? "text-[#a0977e]" : ""}>
+                        <span className={item.condition === "good" ? "text-[#9aa5bd]" : ""}>
                           {item.item_name}
                         </span>
                         <span className={`text-[10px] capitalize ${CONDITION_COLORS[item.condition] ?? ""}`}>
                           {item.condition !== "good" && item.condition}
                         </span>
                         {item.notes && (
-                          <span className="text-[10px] text-[#6b6454]">— {item.notes}</span>
+                          <span className="text-[10px] text-[#5d6880]">— {item.notes}</span>
                         )}
                       </div>
                     ))}

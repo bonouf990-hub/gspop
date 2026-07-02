@@ -21,14 +21,14 @@ const SEVERITY_STYLE: Record<string, string> = {
   critical: "border-red-500 bg-red-950/20",
   high: "border-orange-500 bg-orange-950/20",
   medium: "border-amber-500 bg-amber-950/20",
-  low: "border-[rgba(184,144,47,0.15)] bg-[#0f1626]",
+  low: "border-[rgba(176,27,66,0.15)] bg-[#0f1626]",
 };
 
 const SEVERITY_BADGE: Record<string, string> = {
   critical: "bg-red-900 text-red-300",
   high: "bg-orange-900 text-orange-300",
   medium: "bg-amber-900 text-amber-300",
-  low: "bg-[#213052] text-[#a0977e]",
+  low: "bg-[#213052] text-[#9aa5bd]",
 };
 
 export default function AnomalyScanner() {
@@ -71,14 +71,14 @@ export default function AnomalyScanner() {
           <div className="flex items-center gap-4">
             <div className="bg-[#0f1626] rounded-lg p-4 text-center min-w-[120px]">
               <p className={`text-3xl font-extrabold ${riskColor}`}>{result.risk_score}</p>
-              <p className="text-[10px] text-[#6b6454] uppercase mt-1">Risk Score</p>
+              <p className="text-[10px] text-[#5d6880] uppercase mt-1">Risk Score</p>
             </div>
-            <p className="text-sm text-[#f0ece4] flex-1">{result.overall_assessment}</p>
+            <p className="text-sm text-[#eef1f6] flex-1">{result.overall_assessment}</p>
           </div>
 
           {result.anomalies?.length > 0 && (
             <div>
-              <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">
+              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">
                 Anomalies Found ({result.anomalies.length})
               </p>
               <div className="space-y-2">
@@ -88,18 +88,18 @@ export default function AnomalyScanner() {
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${SEVERITY_BADGE[a.severity] ?? ""}`}>
                         {a.severity?.toUpperCase()}
                       </span>
-                      <span className="text-[10px] text-[#6b6454] uppercase">{a.category}</span>
+                      <span className="text-[10px] text-[#5d6880] uppercase">{a.category}</span>
                     </div>
                     <p className="font-bold text-sm">{a.title}</p>
-                    <p className="text-sm text-[#a0977e] mt-1">{a.description}</p>
+                    <p className="text-sm text-[#9aa5bd] mt-1">{a.description}</p>
                     {a.affected_records?.length > 0 && (
-                      <p className="text-xs text-[#6b6454] mt-1">
+                      <p className="text-xs text-[#5d6880] mt-1">
                         Records: {a.affected_records.join(", ")}
                       </p>
                     )}
                     <div className="flex items-center justify-between mt-2">
-                      <p className="text-xs text-[#d4af5a]">Action: {a.recommendation}</p>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-[rgba(184,144,47,0.12)] text-[#b8902f] font-bold whitespace-nowrap">
+                      <p className="text-xs text-[#d9647f]">Action: {a.recommendation}</p>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-[rgba(176,27,66,0.12)] text-[#b01b42] font-bold whitespace-nowrap">
                         {a.category === "hours" ? "Supervisor" : a.severity === "critical" ? "Admin" : "Property Manager"}
                       </span>
                     </div>
@@ -111,15 +111,15 @@ export default function AnomalyScanner() {
 
           {result.vendor_risk_flags?.length > 0 && (
             <div>
-              <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">Vendor Risk Flags</p>
+              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Vendor Risk Flags</p>
               <div className="space-y-1">
                 {result.vendor_risk_flags.map((v, i) => (
                   <div key={i} className="bg-[#0f1626] rounded-lg px-3 py-2 flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium">{v.vendor}</p>
-                      <p className="text-xs text-[#a0977e]">{v.reason}</p>
+                      <p className="text-xs text-[#9aa5bd]">{v.reason}</p>
                     </div>
-                    <span className={`text-xs font-bold uppercase ${v.risk === "high" ? "text-red-400" : v.risk === "medium" ? "text-amber-400" : "text-[#a0977e]"}`}>
+                    <span className={`text-xs font-bold uppercase ${v.risk === "high" ? "text-red-400" : v.risk === "medium" ? "text-amber-400" : "text-[#9aa5bd]"}`}>
                       {v.risk}
                     </span>
                   </div>

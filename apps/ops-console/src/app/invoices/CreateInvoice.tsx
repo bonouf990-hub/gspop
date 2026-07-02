@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 type Vendor = { id: string; name: string };
 type PO = { id: string; description: string | null; amount: number; vendor: { name: string } | null };
@@ -91,33 +92,28 @@ export default function CreateInvoice({
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + New Invoice
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
-
-  return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 max-w-md">
-      <h3 className="eyebrow mb-2">
-        Record Invoice
-      </h3>
-
+      {open && (
+        <Modal title="Record Invoice" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Invoice Number *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Invoice Number *</label>
         <input className={input} placeholder="INV-2024-001"
           value={form.invoiceNumber} onChange={(e) => setForm({ ...form, invoiceNumber: e.target.value })} required />
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Link to Purchase Order</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Link to Purchase Order</label>
         <select className={input} value={form.purchaseOrderId}
           onChange={(e) => handlePOChange(e.target.value)}>
           <option value="">No PO link</option>
@@ -134,7 +130,7 @@ export default function CreateInvoice({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Vendor *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Vendor *</label>
         <select className={input} value={form.vendorId}
           onChange={(e) => setForm({ ...form, vendorId: e.target.value })} required>
           <option value="">Select vendor…</option>
@@ -144,12 +140,12 @@ export default function CreateInvoice({
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Invoice Date *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Invoice Date *</label>
           <input className={input} type="date" value={form.invoiceDate}
             onChange={(e) => setForm({ ...form, invoiceDate: e.target.value })} required />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Due Date</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Due Date</label>
           <input className={input} type="date" value={form.dueDate}
             onChange={(e) => setForm({ ...form, dueDate: e.target.value })} />
         </div>
@@ -157,25 +153,25 @@ export default function CreateInvoice({
 
       <div className="grid grid-cols-3 gap-2">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Amount (AED) *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Amount (AED) *</label>
           <input className={input} type="number" step="0.01" placeholder="0.00"
             value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} required />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">VAT</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">VAT</label>
           <input className={input} type="number" step="0.01" placeholder="0.00"
             value={form.vatAmount} onChange={(e) => setForm({ ...form, vatAmount: e.target.value })} />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Total</label>
-          <p className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#d4af5a] font-bold">
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Total</label>
+          <p className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#d9647f] font-bold">
             {total.toLocaleString()}
           </p>
         </div>
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Notes</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Notes</label>
         <textarea className={input} rows={2} placeholder="Additional details…"
           value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
       </div>
@@ -188,10 +184,13 @@ export default function CreateInvoice({
           {submitting ? "Recording…" : "Record Invoice"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

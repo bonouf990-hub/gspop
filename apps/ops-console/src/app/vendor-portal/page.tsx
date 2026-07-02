@@ -127,9 +127,9 @@ function fmtAED(n: number) {
 
 const STATUS_COLORS: Record<string, string> = {
   active: "bg-green-900 text-green-300",
-  completed: "bg-[#213052] text-[#a0977e]",
+  completed: "bg-[#213052] text-[#9aa5bd]",
   overdue: "bg-red-900 text-red-300",
-  cancelled: "bg-[#213052] text-[#6b6454]",
+  cancelled: "bg-[#213052] text-[#5d6880]",
   pending: "bg-amber-900/50 text-amber-300",
   approved: "bg-green-900 text-green-300",
   fulfilled: "bg-blue-900/50 text-blue-300",
@@ -146,7 +146,7 @@ export default async function VendorPortalPage() {
   if (!data) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">This portal is only accessible to vendor accounts.</p>
+        <p className="text-[#5d6880]">This portal is only accessible to vendor accounts.</p>
       </main>
     );
   }
@@ -155,7 +155,7 @@ export default async function VendorPortalPage() {
     return (
       <main className="p-8">
         <h1 className="text-2xl font-extrabold mb-2">Vendor Portal</h1>
-        <p className="text-[#a0977e]">Welcome, {data.profile.full_name}. Your vendor account is being set up.</p>
+        <p className="text-[#9aa5bd]">Welcome, {data.profile.full_name}. Your vendor account is being set up.</p>
       </main>
     );
   }
@@ -173,40 +173,40 @@ export default async function VendorPortalPage() {
   return (
     <main className="p-8 max-w-5xl mx-auto">
       <div className="mb-8">
-        <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+        <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
         <p className="eyebrow mb-1 mt-2">
           GSPOP — Vendor Portal
         </p>
-        <h1 className="text-2xl font-extrabold mb-1">{vendor.name}</h1>
-        <p className="text-[#a0977e]">
+        <h1 className="mb-1">{vendor.name}</h1>
+        <p className="text-[#9aa5bd]">
           {vendor.category ?? "General Contractor"}
           {vendor.rating != null && (
-            <span className="ml-2 text-[#d4af5a]">
+            <span className="ml-2 text-[#d9647f]">
               {"★".repeat(Math.round(Number(vendor.rating)))}
-              <span className="text-[#6b6454]">{"★".repeat(5 - Math.round(Number(vendor.rating)))}</span>
+              <span className="text-[#5d6880]">{"★".repeat(5 - Math.round(Number(vendor.rating)))}</span>
             </span>
           )}
         </p>
-        <div className="w-10 h-0.5 bg-[#b8902f] mt-3 rounded-full" />
+        <div className="w-10 h-0.5 bg-[#b01b42] mt-3 rounded-full" />
       </div>
 
       {/* KPI Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="lux-card p-4 text-center">
-          <p className="text-xl font-extrabold text-[#d4af5a]">{activeAssignments.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active Projects</p>
+          <p className="text-xl font-extrabold text-[#d9647f]">{activeAssignments.length}</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Active Projects</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-blue-400">{activeContracts.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active Contracts</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Active Contracts</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-amber-400">{pendingPOs.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Open POs</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Open POs</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-green-400">{fmtAED(totalRevenue)}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Total PO Value</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Total PO Value</p>
         </div>
       </div>
 
@@ -216,7 +216,7 @@ export default async function VendorPortalPage() {
           Project Assignments ({assignments.length})
         </h2>
         {assignments.length === 0 ? (
-          <p className="text-[#6b6454] text-sm">No project assignments yet.</p>
+          <p className="text-[#5d6880] text-sm">No project assignments yet.</p>
         ) : (
           <div className="space-y-2">
             {assignments.map((a) => {
@@ -230,20 +230,20 @@ export default async function VendorPortalPage() {
                 <div
                   key={a.id}
                   className={`border rounded-xl p-4 bg-[#1a2640] ${
-                    isOverdue ? "border-red-500" : "border-[rgba(184,144,47,0.15)]"
+                    isOverdue ? "border-red-500" : "border-[rgba(176,27,66,0.15)]"
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <p className="font-bold">{a.project_name}</p>
-                      <p className="text-xs text-[#a0977e]">{prop?.name ?? "—"}</p>
+                      <p className="text-xs text-[#9aa5bd]">{prop?.name ?? "—"}</p>
                     </div>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${STATUS_COLORS[a.status] ?? STATUS_COLORS.active}`}>
                       {a.status}
                     </span>
                   </div>
-                  {a.scope && <p className="text-sm text-[#a0977e] mb-2">{a.scope}</p>}
-                  <div className="flex gap-4 text-xs text-[#6b6454]">
+                  {a.scope && <p className="text-sm text-[#9aa5bd] mb-2">{a.scope}</p>}
+                  <div className="flex gap-4 text-xs text-[#5d6880]">
                     <span>Start: {a.start_date}</span>
                     {a.expected_end_date && (
                       <span className={isOverdue ? "text-red-400 font-bold" : ""}>
@@ -272,7 +272,7 @@ export default async function VendorPortalPage() {
             Contracts ({contracts.length})
           </h2>
           {contracts.length === 0 ? (
-            <p className="text-[#6b6454] text-sm">No contracts on file.</p>
+            <p className="text-[#5d6880] text-sm">No contracts on file.</p>
           ) : (
             <div className="space-y-2">
               {contracts.map((c) => {
@@ -280,11 +280,11 @@ export default async function VendorPortalPage() {
                 return (
                   <div key={c.id} className={`lux-card p-4 ${isExpired ? "opacity-60" : ""}`}>
                     <p className="font-medium text-sm">{c.title}</p>
-                    <div className="flex justify-between mt-1 text-xs text-[#a0977e]">
+                    <div className="flex justify-between mt-1 text-xs text-[#9aa5bd]">
                       <span>{c.start_date} → {c.end_date ?? "Ongoing"}</span>
-                      {c.value && <span className="text-[#d4af5a] font-bold">{fmtAED(Number(c.value))}</span>}
+                      {c.value && <span className="text-[#d9647f] font-bold">{fmtAED(Number(c.value))}</span>}
                     </div>
-                    {c.sla_hours && <p className="text-[10px] text-[#6b6454] mt-1">SLA: {c.sla_hours}h response</p>}
+                    {c.sla_hours && <p className="text-[10px] text-[#5d6880] mt-1">SLA: {c.sla_hours}h response</p>}
                   </div>
                 );
               })}
@@ -298,16 +298,16 @@ export default async function VendorPortalPage() {
             Won Tenders ({tenders.length})
           </h2>
           {tenders.length === 0 ? (
-            <p className="text-[#6b6454] text-sm">No tenders won yet.</p>
+            <p className="text-[#5d6880] text-sm">No tenders won yet.</p>
           ) : (
             <div className="space-y-2">
               {tenders.map((t) => (
                 <div key={t.id} className="lux-card p-4">
                   <p className="font-medium text-sm">{t.title}</p>
-                  <div className="flex justify-between mt-1 text-xs text-[#a0977e]">
+                  <div className="flex justify-between mt-1 text-xs text-[#9aa5bd]">
                     <span>Deadline: {t.submission_deadline}</span>
                     {t.budget_estimate && (
-                      <span className="text-[#d4af5a] font-bold">
+                      <span className="text-[#d9647f] font-bold">
                         {fmtAED(Number(t.budget_estimate))} {t.currency}
                       </span>
                     )}
@@ -325,33 +325,35 @@ export default async function VendorPortalPage() {
           Purchase Orders ({pos.length})
         </h2>
         {pos.length === 0 ? (
-          <p className="text-[#6b6454] text-sm">No purchase orders yet.</p>
+          <p className="text-[#5d6880] text-sm">No purchase orders yet.</p>
         ) : (
+          <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-                  <th className="py-2 font-medium">Description</th>
-                  <th className="py-2 font-medium">Amount</th>
-                  <th className="py-2 font-medium">Status</th>
-                  <th className="py-2 font-medium">Date</th>
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                  <th className="px-5 py-3.5 font-medium">Description</th>
+                  <th className="px-5 py-3.5 font-medium">Amount</th>
+                  <th className="px-5 py-3.5 font-medium">Status</th>
+                  <th className="px-5 py-3.5 font-medium">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {pos.map((po) => (
-                  <tr key={po.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
-                    <td className="py-2">{po.description ?? "—"}</td>
-                    <td className="py-2 text-[#d4af5a] font-bold">{fmtAED(Number(po.amount))}</td>
-                    <td className="py-2">
+                  <tr key={po.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                    <td className="px-5 py-3.5">{po.description ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#d9647f] font-bold">{fmtAED(Number(po.amount))}</td>
+                    <td className="px-5 py-3.5">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${STATUS_COLORS[po.status] ?? ""}`}>
                         {po.status}
                       </span>
                     </td>
-                    <td className="py-2 text-[#6b6454]">{new Date(po.created_at).toLocaleDateString()}</td>
+                    <td className="px-5 py-3.5 text-[#5d6880]">{new Date(po.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
         )}
       </section>
@@ -370,37 +372,39 @@ export default async function VendorPortalPage() {
           </Link>
         </div>
         {invoices.length === 0 ? (
-          <p className="text-[#6b6454] text-sm">No invoices submitted yet.</p>
+          <p className="text-[#5d6880] text-sm">No invoices submitted yet.</p>
         ) : (
+          <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-                  <th className="py-2 font-medium">Invoice #</th>
-                  <th className="py-2 font-medium">Amount</th>
-                  <th className="py-2 font-medium">Total (VAT)</th>
-                  <th className="py-2 font-medium">Status</th>
-                  <th className="py-2 font-medium">Date</th>
-                  <th className="py-2 font-medium">Due</th>
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                  <th className="px-5 py-3.5 font-medium">Invoice #</th>
+                  <th className="px-5 py-3.5 font-medium">Amount</th>
+                  <th className="px-5 py-3.5 font-medium">Total (VAT)</th>
+                  <th className="px-5 py-3.5 font-medium">Status</th>
+                  <th className="px-5 py-3.5 font-medium">Date</th>
+                  <th className="px-5 py-3.5 font-medium">Due</th>
                 </tr>
               </thead>
               <tbody>
                 {invoices.map((inv) => (
-                  <tr key={inv.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
-                    <td className="py-2 font-medium">{inv.invoice_number}</td>
-                    <td className="py-2">{fmtAED(Number(inv.amount))}</td>
-                    <td className="py-2 text-[#d4af5a] font-bold">{fmtAED(Number(inv.total_amount))}</td>
-                    <td className="py-2">
+                  <tr key={inv.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                    <td className="px-5 py-3.5 font-medium">{inv.invoice_number}</td>
+                    <td className="px-5 py-3.5">{fmtAED(Number(inv.amount))}</td>
+                    <td className="px-5 py-3.5 text-[#d9647f] font-bold">{fmtAED(Number(inv.total_amount))}</td>
+                    <td className="px-5 py-3.5">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${STATUS_COLORS[inv.status] ?? ""}`}>
                         {inv.status}
                       </span>
                     </td>
-                    <td className="py-2 text-[#6b6454]">{inv.invoice_date}</td>
-                    <td className="py-2 text-[#6b6454]">{inv.due_date ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#5d6880]">{inv.invoice_date}</td>
+                    <td className="px-5 py-3.5 text-[#5d6880]">{inv.due_date ?? "—"}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
           </div>
         )}
       </section>

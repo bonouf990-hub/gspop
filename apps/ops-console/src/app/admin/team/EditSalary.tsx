@@ -36,14 +36,14 @@ export default function EditSalary({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-[10px] text-[#b8902f] hover:text-[#d4af5a]"
+        className="text-[10px] text-[#b01b42] hover:text-[#d9647f]"
       >
         Edit
       </button>
     );
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-1.5 text-xs text-[#f0ece4]";
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-1.5 text-xs text-[#eef1f6]";
 
   return (
     <div className="flex items-center gap-2">
@@ -69,7 +69,7 @@ export default function EditSalary({
       >
         {saving ? "…" : "Save"}
       </button>
-      <button onClick={() => setOpen(false)} className="text-xs px-3 py-2 text-[#6b6454]">
+      <button onClick={() => setOpen(false)} className="text-xs px-3 py-2 text-[#5d6880]">
         ✕
       </button>
     </div>

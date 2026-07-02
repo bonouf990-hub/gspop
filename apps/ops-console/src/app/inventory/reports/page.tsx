@@ -225,31 +225,31 @@ export default async function InventoryReportPage() {
   const kpis = [
     { label: "Total Issued", value: totalIssuedThisMonth, color: "text-amber-400" },
     { label: "Total Received", value: totalReceivedThisMonth, color: "text-green-400" },
-    { label: "Movements", value: totalMovements, color: "text-[#d4af5a]" },
+    { label: "Movements", value: totalMovements, color: "text-[#d9647f]" },
     {
       label: "vs Last Month",
       value: `${issueChange >= 0 ? "+" : ""}${issueChange}%`,
-      color: Math.abs(issueChange) > 20 ? "text-amber-400" : "text-[#d4af5a]",
+      color: Math.abs(issueChange) > 20 ? "text-amber-400" : "text-[#d9647f]",
     },
     { label: "Parts Fulfilled", value: requestsFulfilled, color: "text-green-400" },
-    { label: "Parts Pending", value: requestsPending, color: requestsPending > 0 ? "text-amber-400" : "text-[#d4af5a]" },
-    { label: "Rejected", value: requestsRejected, color: requestsRejected > 0 ? "text-red-400" : "text-[#6b6454]" },
+    { label: "Parts Pending", value: requestsPending, color: requestsPending > 0 ? "text-amber-400" : "text-[#d9647f]" },
+    { label: "Rejected", value: requestsRejected, color: requestsRejected > 0 ? "text-red-400" : "text-[#5d6880]" },
   ];
 
   return (
-    <main className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
           <div className="flex gap-3 text-sm">
-            <Link href="/" className="text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
-            <Link href="/inventory" className="text-[#a0977e] hover:text-[#b8902f]">← Inventory</Link>
+            <Link href="/" className="text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+            <Link href="/inventory" className="text-[#9aa5bd] hover:text-[#b01b42]">← Inventory</Link>
           </div>
-          <h1 className="text-2xl font-extrabold mt-1">Inventory Report — {monthName}</h1>
-          <p className="text-[#a0977e] text-sm mt-1">
+          <h1 className="mt-1">Inventory Report — {monthName}</h1>
+          <p className="text-[#9aa5bd] text-sm mt-1">
             AI-analyzed monthly inventory summary with consumption insights and recommendations.
           </p>
         </div>
-        <div className="text-xs text-[#6b6454]">
+        <div className="text-xs text-[#5d6880]">
           Generated: {new Date().toLocaleString()}
         </div>
       </div>
@@ -258,19 +258,19 @@ export default async function InventoryReportPage() {
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-2xl font-extrabold ${k.color}`}>{k.value}</p>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
       </div>
 
-      <section className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-5 mb-8">
+      <section className="border border-[#b01b42] bg-[#1a2640] rounded-xl p-5 mb-8">
         <h2 className="eyebrow mb-3">
           AI Insights & Recommendations
         </h2>
         <ul className="space-y-2">
           {insights.map((insight, idx) => (
-            <li key={idx} className="text-sm text-[#f0ece4] flex gap-2">
-              <span className="text-[#b8902f] font-bold shrink-0">→</span>
+            <li key={idx} className="text-sm text-[#eef1f6] flex gap-2">
+              <span className="text-[#b01b42] font-bold shrink-0">→</span>
               <span>{insight}</span>
             </li>
           ))}
@@ -283,7 +283,7 @@ export default async function InventoryReportPage() {
             Top 10 Consumed Items
           </h2>
           {topConsumed.length === 0 || topConsumed[0].totalIssued === 0 ? (
-            <p className="text-[#6b6454] text-sm">No items issued this month.</p>
+            <p className="text-[#5d6880] text-sm">No items issued this month.</p>
           ) : (
             <div className="space-y-2">
               {topConsumed
@@ -296,15 +296,15 @@ export default async function InventoryReportPage() {
                       <div className="flex justify-between text-sm mb-0.5">
                         <span className="font-medium">
                           {s.name}
-                          {s.sku && <span className="text-[#6b6454] ml-1">({s.sku})</span>}
+                          {s.sku && <span className="text-[#5d6880] ml-1">({s.sku})</span>}
                         </span>
-                        <span className="text-[#d4af5a] font-bold">
+                        <span className="text-[#d9647f] font-bold">
                           {s.totalIssued} {s.unit ?? ""}
                         </span>
                       </div>
                       <div className="h-1.5 bg-[#0f1626] rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-[#b8902f] rounded-full"
+                          className="h-full bg-[#b01b42] rounded-full"
                           style={{ width: `${pct}%` }}
                         />
                       </div>
@@ -324,7 +324,7 @@ export default async function InventoryReportPage() {
           ) : (
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd]">
                   <th className="py-2 font-medium">Item</th>
                   <th className="py-2 font-medium">On Hand</th>
                   <th className="py-2 font-medium">Threshold</th>
@@ -333,15 +333,15 @@ export default async function InventoryReportPage() {
               </thead>
               <tbody>
                 {criticalStock.map((s, idx) => (
-                  <tr key={idx} className="border-b border-[rgba(184,144,47,0.08)]">
+                  <tr key={idx} className="border-b border-[rgba(176,27,66,0.08)]">
                     <td className="py-2 font-medium">
                       {s.name}
-                      {s.sku && <span className="text-[#6b6454] ml-1">({s.sku})</span>}
+                      {s.sku && <span className="text-[#5d6880] ml-1">({s.sku})</span>}
                     </td>
                     <td className={`py-2 font-bold ${s.currentStock <= 0 ? "text-red-400" : "text-amber-400"}`}>
                       {s.currentStock}
                     </td>
-                    <td className="py-2 text-[#6b6454]">{s.reorderThreshold}</td>
+                    <td className="py-2 text-[#5d6880]">{s.reorderThreshold}</td>
                     <td className="py-2 text-red-400 font-bold">
                       {s.reorderThreshold - s.currentStock}
                     </td>
@@ -359,20 +359,20 @@ export default async function InventoryReportPage() {
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           <div>
-            <p className="text-2xl font-extrabold text-[#d4af5a]">{totalRequests}</p>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Total Requests</p>
+            <p className="text-2xl font-extrabold text-[#d9647f]">{totalRequests}</p>
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Total Requests</p>
           </div>
           <div>
             <p className="text-2xl font-extrabold text-green-400">{requestsFulfilled}</p>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Fulfilled</p>
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Fulfilled</p>
           </div>
           <div>
             <p className="text-2xl font-extrabold text-amber-400">{requestsPending}</p>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">In Progress</p>
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">In Progress</p>
           </div>
           <div>
             <p className="text-2xl font-extrabold text-red-400">{requestsRejected}</p>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Rejected</p>
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Rejected</p>
           </div>
         </div>
         {totalRequests > 0 && (

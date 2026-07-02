@@ -96,13 +96,13 @@ export default async function VendorsPage() {
 
   return (
     <main className="p-8">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">Vendors & Contracts</h1>
-          <p className="text-[#a0977e] text-sm mt-1">
+          <h1 className="mt-1">Vendors & Contracts</h1>
+          <p className="text-[#9aa5bd] text-sm mt-1">
             Manage external contractors, suppliers, and their service contracts.
           </p>
         </div>
@@ -129,18 +129,18 @@ export default async function VendorsPage() {
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h3 className="font-bold text-lg">{v.name}</h3>
-                  <p className="text-sm text-[#a0977e]">
+                  <p className="text-sm text-[#9aa5bd]">
                     {v.category ?? "General"}
                     {v.rating != null && (
-                      <span className="ml-2 text-[#d4af5a]">
+                      <span className="ml-2 text-[#d9647f]">
                         {"★".repeat(Math.round(Number(v.rating)))}
-                        <span className="text-[#6b6454]">{"★".repeat(5 - Math.round(Number(v.rating)))}</span>
+                        <span className="text-[#5d6880]">{"★".repeat(5 - Math.round(Number(v.rating)))}</span>
                         <span className="text-xs ml-1">{Number(v.rating).toFixed(1)}</span>
                       </span>
                     )}
                   </p>
                 </div>
-                <span className="text-xs text-[#6b6454]">
+                <span className="text-xs text-[#5d6880]">
                   {contracts.length} contract{contracts.length !== 1 ? "s" : ""}
                 </span>
               </div>
@@ -166,7 +166,7 @@ export default async function VendorsPage() {
                     {completedAssignments.length > 0 && (
                       <div className="bg-[#0f1626] rounded-lg px-3 py-2 text-center">
                         <p className="text-lg font-extrabold text-green-400">{completedAssignments.length}</p>
-                        <p className="text-[10px] text-[#6b6454] uppercase">Completed</p>
+                        <p className="text-[10px] text-[#5d6880] uppercase">Completed</p>
                       </div>
                     )}
                     {onTimeRate !== null && (
@@ -174,21 +174,21 @@ export default async function VendorsPage() {
                         <p className={`text-lg font-extrabold ${onTimeRate >= 80 ? "text-green-400" : onTimeRate >= 60 ? "text-amber-400" : "text-red-400"}`}>
                           {onTimeRate}%
                         </p>
-                        <p className="text-[10px] text-[#6b6454] uppercase">On-Time</p>
+                        <p className="text-[10px] text-[#5d6880] uppercase">On-Time</p>
                       </div>
                     )}
                     {tenderWins > 0 && (
                       <div className="bg-[#0f1626] rounded-lg px-3 py-2 text-center">
-                        <p className="text-lg font-extrabold text-[#d4af5a]">{tenderWins}</p>
-                        <p className="text-[10px] text-[#6b6454] uppercase">Tender Wins</p>
+                        <p className="text-lg font-extrabold text-[#d9647f]">{tenderWins}</p>
+                        <p className="text-[10px] text-[#5d6880] uppercase">Tender Wins</p>
                       </div>
                     )}
                     {poData && poData.total > 0 && (
                       <div className="bg-[#0f1626] rounded-lg px-3 py-2 text-center">
-                        <p className="text-lg font-extrabold text-[#d4af5a]">
+                        <p className="text-lg font-extrabold text-[#d9647f]">
                           {(poData.total / 1000).toFixed(0)}K
                         </p>
-                        <p className="text-[10px] text-[#6b6454] uppercase">PO Value (AED)</p>
+                        <p className="text-[10px] text-[#5d6880] uppercase">PO Value (AED)</p>
                       </div>
                     )}
                   </div>
@@ -202,12 +202,12 @@ export default async function VendorsPage() {
                       <div>
                         <span className="font-medium">{c.title}</span>
                         {c.sla_hours && (
-                          <span className="text-xs text-[#6b6454] ml-2">SLA: {c.sla_hours}h</span>
+                          <span className="text-xs text-[#5d6880] ml-2">SLA: {c.sla_hours}h</span>
                         )}
                       </div>
-                      <div className="text-right text-xs text-[#a0977e]">
+                      <div className="text-right text-xs text-[#9aa5bd]">
                         {c.value != null && (
-                          <span className="text-[#d4af5a] font-medium mr-2">
+                          <span className="text-[#d9647f] font-medium mr-2">
                             AED {Number(c.value).toLocaleString()}
                           </span>
                         )}
@@ -222,12 +222,12 @@ export default async function VendorsPage() {
 
               {expiredContracts.length > 0 && (
                 <details className="mt-2">
-                  <summary className="text-xs text-[#6b6454] cursor-pointer">
+                  <summary className="text-xs text-[#5d6880] cursor-pointer">
                     {expiredContracts.length} expired contract{expiredContracts.length !== 1 ? "s" : ""}
                   </summary>
                   <div className="space-y-1 mt-1.5 opacity-60">
                     {expiredContracts.map((c) => (
-                      <div key={c.id} className="bg-[#0f1626] rounded-lg px-3 py-2 text-sm text-[#6b6454]">
+                      <div key={c.id} className="bg-[#0f1626] rounded-lg px-3 py-2 text-sm text-[#5d6880]">
                         {c.title} — expired {c.end_date}
                       </div>
                     ))}
@@ -236,12 +236,12 @@ export default async function VendorsPage() {
               )}
 
               {contracts.length === 0 && (
-                <p className="text-xs text-[#6b6454]">No contracts on file.</p>
+                <p className="text-xs text-[#5d6880]">No contracts on file.</p>
               )}
 
               {assignments.length > 0 && (
                 <div className="mt-3">
-                  <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-1.5">
+                  <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-1.5">
                     Project Assignments
                   </p>
                   <div className="space-y-1.5">
@@ -263,19 +263,19 @@ export default async function VendorsPage() {
                                 {a.project_name}
                                 {isOverdue && <span className="text-red-400 text-xs ml-2 font-bold">OVERDUE</span>}
                               </span>
-                              <span className="text-xs text-[#6b6454] ml-2">
+                              <span className="text-xs text-[#5d6880] ml-2">
                                 {propertiesById.get(a.property_id) ?? "—"}
                               </span>
                             </div>
                             <div className="flex items-center gap-3">
                               {daysRemaining !== null && a.status === "active" && (
-                                <span className={`text-xs font-bold ${isOverdue ? "text-red-400" : "text-[#d4af5a]"}`}>
+                                <span className={`text-xs font-bold ${isOverdue ? "text-red-400" : "text-[#d9647f]"}`}>
                                   {daysRemaining >= 0 ? `${daysRemaining}d left` : `${Math.abs(daysRemaining)}d over`}
                                 </span>
                               )}
                               <span className={`text-[10px] font-bold uppercase ${
                                 a.status === "active" ? "text-green-400"
-                                  : a.status === "completed" ? "text-[#6b6454]"
+                                  : a.status === "completed" ? "text-[#5d6880]"
                                   : a.status === "cancelled" ? "text-red-400"
                                   : "text-amber-400"
                               }`}>
@@ -284,8 +284,8 @@ export default async function VendorsPage() {
                               <AssignmentActions assignmentId={a.id} status={a.status} />
                             </div>
                           </div>
-                          {a.scope && <p className="text-xs text-[#6b6454] mt-1">{a.scope}</p>}
-                          <div className="flex gap-3 text-[10px] text-[#6b6454] mt-1">
+                          {a.scope && <p className="text-xs text-[#5d6880] mt-1">{a.scope}</p>}
+                          <div className="flex gap-3 text-[10px] text-[#5d6880] mt-1">
                             <span>Start: {a.start_date}</span>
                             {a.expected_end_date && <span>Due: {a.expected_end_date}</span>}
                             {a.actual_end_date && <span>Completed: {a.actual_end_date}</span>}
@@ -302,7 +302,7 @@ export default async function VendorsPage() {
         })}
 
         {vendors.length === 0 && (
-          <p className="text-[#6b6454]">No vendors registered yet.</p>
+          <p className="text-[#5d6880]">No vendors registered yet.</p>
         )}
       </div>
     </main>

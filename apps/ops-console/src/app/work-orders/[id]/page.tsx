@@ -175,7 +175,7 @@ export default async function WorkOrderDetailPage({
   if (!wo) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">Work order not found.</p>
+        <p className="text-[#5d6880]">Work order not found.</p>
       </main>
     );
   }
@@ -193,11 +193,11 @@ export default async function WorkOrderDetailPage({
 
   return (
     <main className="p-8 max-w-3xl">
-      <Link href="/work-orders" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+      <Link href="/work-orders" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
         ← Work Orders
       </Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-1">{wo.title}</h1>
-      <p className="text-[#a0977e] mb-6">{wo.description}</p>
+      <p className="text-[#9aa5bd] mb-6">{wo.description}</p>
 
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Status</h2>
@@ -216,37 +216,37 @@ export default async function WorkOrderDetailPage({
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-y-1 text-sm">
-          <span className="text-[#a0977e]">Type</span>
+          <span className="text-[#9aa5bd]">Type</span>
           <span className="capitalize">{wo.type as string}</span>
-          <span className="text-[#a0977e]">Priority</span>
+          <span className="text-[#9aa5bd]">Priority</span>
           <span className="capitalize">{wo.priority as string}</span>
-          <span className="text-[#a0977e]">Property</span>
+          <span className="text-[#9aa5bd]">Property</span>
           <span>{property?.name ?? "—"}</span>
-          <span className="text-[#a0977e]">Unit</span>
+          <span className="text-[#9aa5bd]">Unit</span>
           <span>{unit?.label ?? "—"}</span>
-          <span className="text-[#a0977e]">Created by</span>
+          <span className="text-[#9aa5bd]">Created by</span>
           <span>{creator?.full_name ?? "—"}</span>
-          <span className="text-[#a0977e]">Technician</span>
+          <span className="text-[#9aa5bd]">Technician</span>
           <span>{tech?.full_name ?? "Unassigned"}</span>
-          <span className="text-[#a0977e]">Estimated cost</span>
+          <span className="text-[#9aa5bd]">Estimated cost</span>
           <span>{wo.estimated_cost ? `AED ${wo.estimated_cost}` : "—"}</span>
-          <span className="text-[#a0977e]">Actual cost</span>
+          <span className="text-[#9aa5bd]">Actual cost</span>
           <span>{wo.actual_cost ? `AED ${wo.actual_cost}` : "—"}</span>
-          <span className="text-[#a0977e]">Started</span>
+          <span className="text-[#9aa5bd]">Started</span>
           <span>{wo.started_at ? new Date(wo.started_at as string).toLocaleString() : "—"}</span>
-          <span className="text-[#a0977e]">Completed</span>
+          <span className="text-[#9aa5bd]">Completed</span>
           <span>{wo.completed_at ? new Date(wo.completed_at as string).toLocaleString() : "—"}</span>
-          <span className="text-[#a0977e]">Hours worked</span>
+          <span className="text-[#9aa5bd]">Hours worked</span>
           <span>{wo.hours_worked ? `${Number(wo.hours_worked).toFixed(1)}h` : "—"}</span>
-          <span className="text-[#a0977e]">Created</span>
+          <span className="text-[#9aa5bd]">Created</span>
           <span>{new Date(wo.created_at as string).toLocaleString()}</span>
           {wo.visit_source === "resident_booking" && (
             <>
-              <span className="text-[#a0977e]">Source</span>
+              <span className="text-[#9aa5bd]">Source</span>
               <span className="text-[#8fb4e0] font-medium">Resident Visit Request</span>
-              <span className="text-[#a0977e]">Preferred date</span>
+              <span className="text-[#9aa5bd]">Preferred date</span>
               <span>{wo.preferred_visit_date ? new Date(wo.preferred_visit_date as string).toLocaleDateString() : "—"}</span>
-              <span className="text-[#a0977e]">Preferred time</span>
+              <span className="text-[#9aa5bd]">Preferred time</span>
               <span className="capitalize">{(wo.preferred_visit_time as string) ?? "—"}</span>
             </>
           )}
@@ -262,13 +262,13 @@ export default async function WorkOrderDetailPage({
                 {linkedComplaint.category?.replace(/_/g, " ")}
                 {linkedComplaint.sub_issue && ` — ${linkedComplaint.sub_issue.replace(/_/g, " ")}`}
               </p>
-              <p className="text-[10px] text-[#6b6454]">
+              <p className="text-[10px] text-[#5d6880]">
                 Reported: {new Date(linkedComplaint.created_at).toLocaleDateString()} · Status: {linkedComplaint.status}
               </p>
             </div>
             <Link
               href={`/complaints/${linkedComplaint.id}`}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Complaint
             </Link>
@@ -280,13 +280,13 @@ export default async function WorkOrderDetailPage({
         <section className="lux-card p-4 mb-4">
           <h2 className="eyebrow mb-3">Linked Asset</h2>
           <div className="grid grid-cols-2 gap-y-1 text-sm">
-            <span className="text-[#a0977e]">Name</span>
+            <span className="text-[#9aa5bd]">Name</span>
             <span>{asset.name}</span>
-            <span className="text-[#a0977e]">Category</span>
+            <span className="text-[#9aa5bd]">Category</span>
             <span className="capitalize">{asset.category}</span>
-            <span className="text-[#a0977e]">Status</span>
+            <span className="text-[#9aa5bd]">Status</span>
             <span className="capitalize">{asset.status.replace(/_/g, " ")}</span>
-            <span className="text-[#a0977e]">Condition</span>
+            <span className="text-[#9aa5bd]">Condition</span>
             <span className="capitalize">{asset.condition}</span>
           </div>
         </section>
@@ -308,7 +308,7 @@ export default async function WorkOrderDetailPage({
           )}
         </div>
         {partsRequests.length === 0 ? (
-          <p className="text-sm text-[#6b6454]">No parts requested for this work order.</p>
+          <p className="text-sm text-[#5d6880]">No parts requested for this work order.</p>
         ) : (
           <div className="space-y-2">
             {partsRequests.map((pr) => {
@@ -316,8 +316,8 @@ export default async function WorkOrderDetailPage({
               const requester = pr.requester as { full_name: string } | null;
               const statusStyle: Record<string, string> = {
                 requested: "bg-amber-900 text-amber-300",
-                approved: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
-                picking: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+                approved: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
+                picking: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
                 delivering: "bg-amber-900 text-amber-300",
                 delivered: "bg-green-900 text-green-300",
                 collected: "bg-green-900 text-green-300",
@@ -328,12 +328,12 @@ export default async function WorkOrderDetailPage({
                   <div>
                     <p className="text-sm font-medium">
                       {item?.name ?? "Item"}
-                      {item?.sku && <span className="text-[#6b6454] ml-1">({item.sku})</span>}
-                      <span className="text-[#d4af5a] ml-2">
+                      {item?.sku && <span className="text-[#5d6880] ml-1">({item.sku})</span>}
+                      <span className="text-[#d9647f] ml-2">
                         x{pr.quantity} {item?.unit_of_measure ?? ""}
                       </span>
                     </p>
-                    <p className="text-[10px] text-[#6b6454]">
+                    <p className="text-[10px] text-[#5d6880]">
                       {requester?.full_name ?? "—"} · {pr.delivery_method} · {new Date(pr.created_at).toLocaleDateString()}
                       {pr.notes && ` · ${pr.notes}`}
                     </p>
@@ -363,7 +363,7 @@ export default async function WorkOrderDetailPage({
           )}
         </div>
         {purchaseOrders.length === 0 ? (
-          <p className="text-sm text-[#6b6454]">No purchase orders linked to this work order.</p>
+          <p className="text-sm text-[#5d6880]">No purchase orders linked to this work order.</p>
         ) : (
           <div className="space-y-2">
             {purchaseOrders.map((po) => {
@@ -372,8 +372,8 @@ export default async function WorkOrderDetailPage({
                 pending: "bg-amber-900 text-amber-300",
                 approved: "bg-green-900 text-green-300",
                 rejected: "bg-red-900 text-red-300",
-                escalated: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
-                fulfilled: "bg-[#213052] text-[#a0977e]",
+                escalated: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
+                fulfilled: "bg-[#213052] text-[#9aa5bd]",
               };
               return (
                 <Link
@@ -385,11 +385,11 @@ export default async function WorkOrderDetailPage({
                     <div>
                       <p className="text-sm font-medium">
                         {po.description ?? "Purchase Order"}
-                        <span className="text-[#d4af5a] ml-2 font-bold">
+                        <span className="text-[#d9647f] ml-2 font-bold">
                           AED {Number(po.amount).toLocaleString()}
                         </span>
                       </p>
-                      <p className="text-[10px] text-[#6b6454]">
+                      <p className="text-[10px] text-[#5d6880]">
                         {vendor?.name ?? "No vendor"} · {new Date(po.created_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -409,7 +409,7 @@ export default async function WorkOrderDetailPage({
           <h2 className="eyebrow mb-3">Technician Photos</h2>
           {photos.before.length > 0 && (
             <>
-              <p className="text-sm text-[#a0977e] mb-2">Before</p>
+              <p className="text-sm text-[#9aa5bd] mb-2">Before</p>
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {photos.before.map((url, i) => (
                   <a key={i} href={url} target="_blank" rel="noopener noreferrer">
@@ -417,7 +417,7 @@ export default async function WorkOrderDetailPage({
                     <img
                       src={url}
                       alt={`Before ${i + 1}`}
-                      className="aspect-square w-full object-cover rounded-lg border border-[rgba(184,144,47,0.15)]"
+                      className="aspect-square w-full object-cover rounded-lg border border-[rgba(176,27,66,0.15)]"
                     />
                   </a>
                 ))}
@@ -426,7 +426,7 @@ export default async function WorkOrderDetailPage({
           )}
           {photos.after.length > 0 && (
             <>
-              <p className="text-sm text-[#a0977e] mb-2">After</p>
+              <p className="text-sm text-[#9aa5bd] mb-2">After</p>
               <div className="grid grid-cols-4 gap-2">
                 {photos.after.map((url, i) => (
                   <a key={i} href={url} target="_blank" rel="noopener noreferrer">
@@ -434,7 +434,7 @@ export default async function WorkOrderDetailPage({
                     <img
                       src={url}
                       alt={`After ${i + 1}`}
-                      className="aspect-square w-full object-cover rounded-lg border border-[rgba(184,144,47,0.15)]"
+                      className="aspect-square w-full object-cover rounded-lg border border-[rgba(176,27,66,0.15)]"
                     />
                   </a>
                 ))}
@@ -453,11 +453,11 @@ export default async function WorkOrderDetailPage({
                 <span className="capitalize">
                   {(c.type as string).replace("_", " ")}
                 </span>
-                <span className="text-[#a0977e]">
+                <span className="text-[#9aa5bd]">
                   {(c.latitude as number).toFixed(5)}, {(c.longitude as number).toFixed(5)}
                   {c.accuracy_meters ? ` (±${Math.round(c.accuracy_meters as number)}m)` : ""}
                 </span>
-                <span className="text-[#6b6454]">
+                <span className="text-[#5d6880]">
                   {new Date(c.timestamp as string).toLocaleString()}
                 </span>
               </div>

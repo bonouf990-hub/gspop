@@ -81,7 +81,7 @@ export default function PurchaseOrderActions({
           <button
             onClick={() => setShowEscalate(!showEscalate)}
             disabled={updating}
-            className="text-xs font-bold px-2 py-1 rounded bg-[rgba(184,144,47,0.15)] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.25)] disabled:opacity-50"
+            className="text-xs font-bold px-2 py-1 rounded bg-[rgba(176,27,66,0.15)] text-[#d9647f] hover:bg-[rgba(176,27,66,0.25)] disabled:opacity-50"
           >
             Escalate
           </button>

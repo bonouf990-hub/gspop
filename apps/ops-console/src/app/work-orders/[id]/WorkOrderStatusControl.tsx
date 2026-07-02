@@ -14,11 +14,11 @@ type Props = {
 const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: string }[]> = {
   draft: [
     { label: "Assign & Open", next: "assigned", style: "btn-gold" },
-    { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#6b6454]" },
+    { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#5d6880]" },
   ],
   assigned: [
     { label: "Start Work", next: "in_progress", style: "bg-green-800 text-green-200" },
-    { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#6b6454]" },
+    { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#5d6880]" },
   ],
   in_progress: [
     { label: "Complete Job", next: "completed_by_technician", style: "bg-green-800 text-green-200" },
@@ -26,7 +26,7 @@ const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: s
   ],
   paused: [
     { label: "Resume Work", next: "in_progress", style: "bg-green-800 text-green-200" },
-    { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#6b6454]" },
+    { label: "Cancel", next: "cancelled", style: "bg-[#213052] text-[#5d6880]" },
   ],
   completed_by_technician: [
     { label: "Supervisor Verify", next: "verified_by_supervisor", style: "btn-gold" },
@@ -34,10 +34,10 @@ const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: s
   ],
   verified_by_supervisor: [
     { label: "Resident Confirmed", next: "confirmed_by_resident", style: "bg-green-800 text-green-200" },
-    { label: "Close Job", next: "closed", style: "bg-[#213052] text-[#a0977e]" },
+    { label: "Close Job", next: "closed", style: "bg-[#213052] text-[#9aa5bd]" },
   ],
   confirmed_by_resident: [
-    { label: "Close Job", next: "closed", style: "bg-[#213052] text-[#a0977e]" },
+    { label: "Close Job", next: "closed", style: "bg-[#213052] text-[#9aa5bd]" },
   ],
   pending_approval: [
     { label: "Approve", next: "approved", style: "bg-green-800 text-green-200" },
@@ -67,17 +67,17 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const STATUS_STYLE: Record<string, string> = {
-  draft: "bg-[#213052] text-[#a0977e]",
+  draft: "bg-[#213052] text-[#9aa5bd]",
   pending_approval: "bg-amber-900/60 text-amber-300",
   approved: "bg-green-900/40 text-green-300",
   rejected: "bg-red-900/40 text-red-300",
   assigned: "bg-[rgba(143,180,224,0.15)] text-[#8fb4e0]",
   in_progress: "bg-green-900/60 text-green-300",
   paused: "bg-amber-900/40 text-amber-300",
-  completed_by_technician: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+  completed_by_technician: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   verified_by_supervisor: "bg-green-900/40 text-green-300",
   confirmed_by_resident: "bg-green-900/60 text-green-300",
-  closed: "bg-[#213052] text-[#6b6454]",
+  closed: "bg-[#213052] text-[#5d6880]",
   cancelled: "bg-red-900/20 text-red-400",
 };
 
@@ -173,7 +173,7 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
     await doUpdate("completed_by_technician", feedback);
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
 
   return (
     <div>
@@ -197,16 +197,16 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
       {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
 
       {showFeedback && (
-        <div className="mt-4 border border-[rgba(184,144,47,0.15)] rounded-xl p-4 bg-[#0f1626]">
+        <div className="mt-4 border border-[rgba(176,27,66,0.15)] rounded-xl p-4 bg-[#0f1626]">
           <h3 className="eyebrow mb-3">
             Job Completion — Resident Feedback
           </h3>
-          <p className="text-xs text-[#a0977e] mb-3">
+          <p className="text-xs text-[#9aa5bd] mb-3">
             Capture feedback from the resident before closing the job card. Skip if resident is unavailable.
           </p>
 
           <div className="mb-3">
-            <label className="text-xs text-[#a0977e] mb-1 block">Resident Rating</label>
+            <label className="text-xs text-[#9aa5bd] mb-1 block">Resident Rating</label>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -215,8 +215,8 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
                   onClick={() => setFeedback({ ...feedback, rating: star })}
                   className={`w-8 h-8 rounded-lg text-sm font-bold ${
                     star <= feedback.rating
-                      ? "bg-[#b8902f] text-[#0f1626]"
-                      : "bg-[#213052] text-[#6b6454]"
+                      ? "bg-[#b01b42] text-[#0f1626]"
+                      : "bg-[#213052] text-[#5d6880]"
                   }`}
                 >
                   {star}
@@ -226,7 +226,7 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
           </div>
 
           <div className="mb-3">
-            <label className="text-xs text-[#a0977e] mb-1 block">Resident Comments (optional)</label>
+            <label className="text-xs text-[#9aa5bd] mb-1 block">Resident Comments (optional)</label>
             <textarea
               className={input}
               rows={2}
@@ -247,13 +247,13 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
             <button
               onClick={() => doUpdate("completed_by_technician")}
               disabled={acting}
-              className="bg-[#213052] text-[#a0977e] text-xs font-medium px-4 py-2 rounded-lg disabled:opacity-50"
+              className="bg-[#213052] text-[#9aa5bd] text-xs font-medium px-4 py-2 rounded-lg disabled:opacity-50"
             >
               Skip — Resident Unavailable
             </button>
             <button
               onClick={() => setShowFeedback(false)}
-              className="text-xs text-[#6b6454] px-3 py-2"
+              className="text-xs text-[#5d6880] px-3 py-2"
             >
               Cancel
             </button>
@@ -261,7 +261,7 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
         </div>
       )}
 
-      <div className="mt-3 text-[10px] text-[#6b6454]">
+      <div className="mt-3 text-[10px] text-[#5d6880]">
         <span className="font-bold">Flow:</span>{" "}
         Draft → Assigned → In Progress → Completed → Supervisor Verify → Resident Confirm → Closed
       </div>

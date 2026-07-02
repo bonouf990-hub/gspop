@@ -140,7 +140,7 @@ export default async function WorkflowsPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">Only tenant administrators can configure workflows.</p>
+        <p className="text-[#5d6880]">Only tenant administrators can configure workflows.</p>
       </main>
     );
   }
@@ -155,13 +155,13 @@ export default async function WorkflowsPage() {
 
   return (
     <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">Workflow Configuration</h1>
-          <p className="text-[#a0977e] text-sm mt-1">
+          <h1 className="mt-1">Workflow Configuration</h1>
+          <p className="text-[#9aa5bd] text-sm mt-1">
             Control who can perform each action, set approval thresholds, and define approval chains.
             Changes take effect immediately across the platform.
           </p>
@@ -171,20 +171,20 @@ export default async function WorkflowsPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         <div className="lux-card p-4 text-center">
-          <p className="text-2xl font-extrabold text-[#d4af5a]">{rules.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Rules Configured</p>
+          <p className="text-2xl font-extrabold text-[#d9647f]">{rules.length}</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Rules Configured</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-green-400">{rules.filter((r) => r.is_active).length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Active</p>
         </div>
         <div className="lux-card p-4 text-center">
-          <p className="text-2xl font-extrabold text-[#d4af5a]">{chains.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Approval Chains</p>
+          <p className="text-2xl font-extrabold text-[#d9647f]">{chains.length}</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Approval Chains</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-blue-400">{rulesByModule.size}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Modules Covered</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Modules Covered</p>
         </div>
       </div>
 
@@ -200,63 +200,64 @@ export default async function WorkflowsPage() {
             </div>
 
             {moduleRules.length === 0 ? (
-              <p className="text-sm text-[#6b6454] mb-4">
+              <p className="text-sm text-[#5d6880] mb-4">
                 No rules configured yet for this module.
               </p>
             ) : (
-              <div className="overflow-x-auto mb-4">
+              <div className="lux-card overflow-hidden mb-4">
+              <div className="overflow-x-auto">
                 <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-                      <th className="py-2 font-medium w-32">Action</th>
-                      <th className="py-2 font-medium">Allowed Roles</th>
-                      <th className="py-2 font-medium w-36">Approval Above</th>
-                      <th className="py-2 font-medium w-28">Max Amount</th>
-                      <th className="py-2 font-medium w-16">Active</th>
-                      <th className="py-2 font-medium w-40">Last Updated</th>
-                      <th className="py-2 font-medium w-24">Actions</th>
+                    <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                      <th className="px-5 py-3.5 font-medium w-32">Action</th>
+                      <th className="px-5 py-3.5 font-medium">Allowed Roles</th>
+                      <th className="px-5 py-3.5 font-medium w-36">Approval Above</th>
+                      <th className="px-5 py-3.5 font-medium w-28">Max Amount</th>
+                      <th className="px-5 py-3.5 font-medium w-16">Active</th>
+                      <th className="px-5 py-3.5 font-medium w-40">Last Updated</th>
+                      <th className="px-5 py-3.5 font-medium w-24">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {moduleRules.map((rule) => (
-                      <tr key={rule.id} className={`border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052] ${!rule.is_active ? "opacity-50" : ""}`}>
-                        <td className="py-2 font-medium">{ACTION_LABELS[rule.action] ?? rule.action}</td>
-                        <td className="py-2">
+                      <tr key={rule.id} className={`border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052] ${!rule.is_active ? "opacity-50" : ""}`}>
+                        <td className="px-5 py-3.5 font-medium">{ACTION_LABELS[rule.action] ?? rule.action}</td>
+                        <td className="px-5 py-3.5">
                           <div className="flex flex-wrap gap-1">
                             {rule.allowed_roles.map((role) => (
                               <span
                                 key={role}
-                                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#213052] text-[#a0977e]"
+                                className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#213052] text-[#9aa5bd]"
                               >
                                 {ROLE_LABELS[role] ?? role}
                               </span>
                             ))}
                           </div>
                         </td>
-                        <td className="py-2 text-[#a0977e]">
+                        <td className="px-5 py-3.5 text-[#9aa5bd]">
                           {rule.requires_approval_above !== null
                             ? `AED ${Number(rule.requires_approval_above).toLocaleString()}`
                             : "—"}
                         </td>
-                        <td className="py-2 text-[#a0977e]">
+                        <td className="px-5 py-3.5 text-[#9aa5bd]">
                           {rule.max_amount !== null
                             ? `AED ${Number(rule.max_amount).toLocaleString()}`
                             : "—"}
                         </td>
-                        <td className="py-2">
+                        <td className="px-5 py-3.5">
                           {rule.is_active ? (
                             <span className="text-green-400 text-xs">Yes</span>
                           ) : (
                             <span className="text-red-400 text-xs">No</span>
                           )}
                         </td>
-                        <td className="py-2 text-[10px] text-[#6b6454]">
+                        <td className="px-5 py-3.5 text-[10px] text-[#5d6880]">
                           {new Date(rule.updated_at).toLocaleDateString()}
                           {rule.updated_by_user && (
                             <span> by {(rule.updated_by_user as { full_name: string }).full_name}</span>
                           )}
                         </td>
-                        <td className="py-2">
+                        <td className="px-5 py-3.5">
                           <WorkflowRuleEditor
                             rule={rule}
                             allRoles={ALL_ROLES}
@@ -268,20 +269,21 @@ export default async function WorkflowsPage() {
                   </tbody>
                 </table>
               </div>
+              </div>
             )}
 
             {moduleChains.length > 0 && (
               <div className="ml-4 mb-4">
-                <h3 className="text-[10px] font-bold text-[#a0977e] tracking-[0.15em] uppercase mb-2">
+                <h3 className="text-[10px] font-bold text-[#9aa5bd] tracking-[0.15em] uppercase mb-2">
                   Approval Chains
                 </h3>
                 {moduleChains.map((chain) => (
-                  <div key={chain.id} className="border border-[rgba(184,144,47,0.08)] rounded-lg p-3 mb-2 bg-[#0f1626]">
+                  <div key={chain.id} className="border border-[rgba(176,27,66,0.08)] rounded-lg p-3 mb-2 bg-[#0f1626]">
                     <div className="flex items-center justify-between mb-2">
                       <p className="text-sm font-medium">
                         {chain.name}
                         {chain.min_amount !== null && chain.max_amount !== null && (
-                          <span className="text-[#6b6454] text-xs ml-2">
+                          <span className="text-[#5d6880] text-xs ml-2">
                             AED {Number(chain.min_amount).toLocaleString()} – {Number(chain.max_amount).toLocaleString()}
                           </span>
                         )}
@@ -293,8 +295,8 @@ export default async function WorkflowsPage() {
                         .sort((a, b) => a.step_order - b.step_order)
                         .map((step, i) => (
                           <div key={step.id} className="flex items-center gap-1">
-                            {i > 0 && <span className="text-[#6b6454]">→</span>}
-                            <span className={`text-[10px] font-medium px-2 py-1 rounded ${step.is_required ? "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]" : "bg-[#213052] text-[#a0977e]"}`}>
+                            {i > 0 && <span className="text-[#5d6880]">→</span>}
+                            <span className={`text-[10px] font-medium px-2 py-1 rounded ${step.is_required ? "bg-[rgba(176,27,66,0.12)] text-[#d9647f]" : "bg-[#213052] text-[#9aa5bd]"}`}>
                               {step.approver_user
                                 ? (step.approver_user as { full_name: string }).full_name
                                 : ROLE_LABELS[step.approver_role] ?? step.approver_role}
@@ -323,16 +325,16 @@ export default async function WorkflowsPage() {
         />
       </section>
 
-      <div className="border border-[rgba(184,144,47,0.08)] rounded-xl p-5 bg-[#1a2640]">
-        <h3 className="text-xs font-bold text-[#a0977e] tracking-[0.15em] uppercase mb-2">
+      <div className="border border-[rgba(176,27,66,0.08)] rounded-xl p-5 bg-[#1a2640]">
+        <h3 className="text-xs font-bold text-[#9aa5bd] tracking-[0.15em] uppercase mb-2">
           How Workflow Rules Work
         </h3>
-        <ul className="text-xs text-[#6b6454] space-y-1">
-          <li><strong className="text-[#a0977e]">Allowed Roles</strong> — Only users with these roles will see the action button for this module.</li>
-          <li><strong className="text-[#a0977e]">Approval Above</strong> — Transactions above this amount require explicit approval from the next level in the chain.</li>
-          <li><strong className="text-[#a0977e]">Max Amount</strong> — The maximum transaction value this role can handle without escalation.</li>
-          <li><strong className="text-[#a0977e]">Approval Chains</strong> — Define the sequence of approvers for a module. Each step can be a specific person or any user with a given role.</li>
-          <li><strong className="text-[#a0977e]">Active/Inactive</strong> — Deactivate a rule to temporarily disable the action without deleting the configuration.</li>
+        <ul className="text-xs text-[#5d6880] space-y-1">
+          <li><strong className="text-[#9aa5bd]">Allowed Roles</strong> — Only users with these roles will see the action button for this module.</li>
+          <li><strong className="text-[#9aa5bd]">Approval Above</strong> — Transactions above this amount require explicit approval from the next level in the chain.</li>
+          <li><strong className="text-[#9aa5bd]">Max Amount</strong> — The maximum transaction value this role can handle without escalation.</li>
+          <li><strong className="text-[#9aa5bd]">Approval Chains</strong> — Define the sequence of approvers for a module. Each step can be a specific person or any user with a given role.</li>
+          <li><strong className="text-[#9aa5bd]">Active/Inactive</strong> — Deactivate a rule to temporarily disable the action without deleting the configuration.</li>
         </ul>
       </div>
     </main>

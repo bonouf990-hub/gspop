@@ -93,7 +93,7 @@ export default function VisitorActions({
       <button
         onClick={handleCheckOut}
         disabled={busy}
-        className="bg-[#213052] text-[#d4af5a] text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
+        className="bg-[#213052] text-[#d9647f] text-xs font-medium px-3 py-1.5 rounded-lg disabled:opacity-50"
       >
         Check Out
       </button>

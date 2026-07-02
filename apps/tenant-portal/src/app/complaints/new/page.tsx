@@ -167,7 +167,7 @@ export default function NewComplaintPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Maintenance
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Report an Issue</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">Report an Issue</h1>
         <p className="text-sm text-[var(--muted)] mt-1">
           {categoryId ? `What's wrong with: ${selectedCategory?.name}?` : "Select what's wrong — we'll route it to the right technician."}
         </p>
@@ -186,10 +186,10 @@ export default function NewComplaintPage() {
                     onClick={() => selectCategory(cat.id)}
                     className="flex flex-col items-center gap-2 rounded-xl p-4 text-center border bg-[#141d33] border-[var(--hairline)]"
                   >
-                    <span className="w-10 h-10 rounded-full flex items-center justify-center bg-[rgba(184,144,47,0.12)] text-[var(--gold)]">
+                    <span className="w-10 h-10 rounded-full flex items-center justify-center bg-[rgba(176,27,66,0.12)] text-[var(--gold)]">
                       <Icon size={18} strokeWidth={1.8} />
                     </span>
-                    <span className="text-xs font-medium text-[#f0ece4]">{cat.name}</span>
+                    <span className="text-xs font-medium text-[#eef1f6]">{cat.name}</span>
                   </button>
                 );
               })}
@@ -213,8 +213,8 @@ export default function NewComplaintPage() {
                   onClick={() => setSubissueId(sub.id)}
                   className={`text-left rounded-xl p-3.5 text-sm font-medium border transition-colors ${
                     subissueId === sub.id
-                      ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d4af5a]"
-                      : "bg-[#141d33] border-[var(--hairline)] text-[#f0ece4]"
+                      ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d9647f]"
+                      : "bg-[#141d33] border-[var(--hairline)] text-[#eef1f6]"
                   }`}
                 >
                   {sub.name}
@@ -228,7 +228,7 @@ export default function NewComplaintPage() {
 
           <div className="elevated-card rounded-2xl p-5 space-y-4">
             <textarea
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 h-28 text-sm text-[#f0ece4]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 h-28 text-sm text-[#eef1f6]"
               placeholder={isOther ? "Describe the issue..." : "Add a few details (optional)..."}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -269,7 +269,7 @@ export default function NewComplaintPage() {
             <button
               type="button"
               disabled={photos.length >= MAX_PHOTOS}
-              className="w-full flex items-center justify-center gap-2 bg-[#141d33] border border-[var(--hairline)] text-[#f0ece4] rounded-xl p-3 text-sm font-medium disabled:opacity-40"
+              className="w-full flex items-center justify-center gap-2 bg-[#141d33] border border-[var(--hairline)] text-[#eef1f6] rounded-xl p-3 text-sm font-medium disabled:opacity-40"
               onClick={() => fileInputRef.current?.click()}
             >
               <Camera size={16} />

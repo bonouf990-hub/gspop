@@ -88,8 +88,8 @@ export default async function TenderSubmitPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">Invalid Link</h1>
-          <p className="text-[#a0977e] mt-2">This tender submission link is missing or invalid.</p>
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">Invalid Link</h1>
+          <p className="text-[#9aa5bd] mt-2">This tender submission link is missing or invalid.</p>
         </div>
       </main>
     );
@@ -101,8 +101,8 @@ export default async function TenderSubmitPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">Tender Not Found</h1>
-          <p className="text-[#a0977e] mt-2">This tender link is expired or invalid.</p>
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">Tender Not Found</h1>
+          <p className="text-[#9aa5bd] mt-2">This tender link is expired or invalid.</p>
         </div>
       </main>
     );
@@ -118,13 +118,13 @@ export default async function TenderSubmitPage({
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
           <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
-          <p className="text-[#a0977e] mt-2">
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
+          <p className="text-[#9aa5bd] mt-2">
             {isPast
               ? "The submission deadline for this tender has passed."
               : "This tender is no longer accepting submissions."}
           </p>
-          <p className="text-xs text-[#6b6454] mt-4">Deadline was: {deadline.toLocaleString()}</p>
+          <p className="text-xs text-[#5d6880] mt-4">Deadline was: {deadline.toLocaleString()}</p>
         </div>
       </main>
     );
@@ -135,8 +135,8 @@ export default async function TenderSubmitPage({
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
           <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
-          <p className="text-[#a0977e] mt-2">
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
+          <p className="text-[#9aa5bd] mt-2">
             This tender requires a mandatory site visit before submission. No vendors have been marked as attended yet.
             Please contact the procurement team.
           </p>
@@ -150,9 +150,9 @@ export default async function TenderSubmitPage({
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
-          <p className="text-[#a0977e] mt-1">{tender.description}</p>
-          <div className="flex justify-center gap-4 mt-3 text-sm text-[#6b6454]">
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
+          <p className="text-[#9aa5bd] mt-1">{tender.description}</p>
+          <div className="flex justify-center gap-4 mt-3 text-sm text-[#5d6880]">
             {tender.property && <span>{(tender.property as { name: string }).name}</span>}
             <span>Deadline: {deadline.toLocaleDateString()}</span>
             {tender.budget_estimate && (
@@ -163,7 +163,7 @@ export default async function TenderSubmitPage({
 
         <section className="lux-card p-5 mb-6">
           <h2 className="eyebrow mb-3">Scope of Work</h2>
-          <p className="text-sm text-[#a0977e] whitespace-pre-wrap">{tender.scope_of_work}</p>
+          <p className="text-sm text-[#9aa5bd] whitespace-pre-wrap">{tender.scope_of_work}</p>
         </section>
 
         {requirements.length > 0 && (
@@ -175,17 +175,17 @@ export default async function TenderSubmitPage({
               {requirements.map((req) => (
                 <div key={req.id} className="bg-[#0f1626] rounded-lg px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-[#f0ece4]">{req.title}</span>
+                    <span className="text-sm font-medium text-[#eef1f6]">{req.title}</span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                      req.is_mandatory ? "bg-red-900 text-red-300" : "bg-[rgba(184,144,47,0.12)] text-[#6b6454]"
+                      req.is_mandatory ? "bg-red-900 text-red-300" : "bg-[rgba(176,27,66,0.12)] text-[#5d6880]"
                     }`}>
                       {req.is_mandatory ? "REQUIRED" : "OPTIONAL"}
                     </span>
-                    <span className="text-[10px] text-[#6b6454]">
+                    <span className="text-[10px] text-[#5d6880]">
                       {CATEGORY_LABEL[req.category] ?? req.category}
                     </span>
                   </div>
-                  {req.description && <p className="text-xs text-[#6b6454] mt-0.5">{req.description}</p>}
+                  {req.description && <p className="text-xs text-[#5d6880] mt-0.5">{req.description}</p>}
                 </div>
               ))}
             </div>

@@ -27,9 +27,9 @@ async function getRent(): Promise<{ lease: Lease | null; invoices: RentInvoice[]
 
 const STATUS_STYLE: Record<string, string> = {
   overdue: "bg-[rgba(180,60,60,0.15)] text-[#e08a8a]",
-  pending: "bg-[rgba(184,144,47,0.15)] text-[#d4af5a]",
+  pending: "bg-[rgba(176,27,66,0.15)] text-[#d9647f]",
   paid: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]",
-  waived: "bg-[rgba(255,255,255,0.06)] text-[#a0977e]",
+  waived: "bg-[rgba(255,255,255,0.06)] text-[#9aa5bd]",
 };
 
 const STATUS_LABEL: Record<string, string> = {
@@ -55,7 +55,7 @@ export default async function RentPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Account
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Rent & Payments</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">Rent & Payments</h1>
       </div>
 
       <div className="px-5 space-y-5">
@@ -68,14 +68,14 @@ export default async function RentPage() {
             <div className="space-y-2.5 text-sm">
               <div className="flex justify-between">
                 <span className="text-[var(--muted)]">Rent</span>
-                <span className="text-[#f0ece4] font-medium">
+                <span className="text-[#eef1f6] font-medium">
                   {lease.rentAmount != null ? `${lease.rentAmount} AED` : "—"}
                   {lease.rentFrequency ? ` / ${lease.rentFrequency}` : ""}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--muted)]">Security deposit</span>
-                <span className="text-[#f0ece4] font-medium">
+                <span className="text-[#eef1f6] font-medium">
                   {lease.depositAmount != null ? `${lease.depositAmount} AED` : "—"}
                   <span className="text-[var(--muted)] font-normal">
                     {" "}({DEPOSIT_LABEL[lease.depositStatus] ?? lease.depositStatus})
@@ -84,7 +84,7 @@ export default async function RentPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--muted)]">Lease period</span>
-                <span className="text-[#f0ece4] font-medium">
+                <span className="text-[#eef1f6] font-medium">
                   {lease.startDate}
                   {lease.endDate ? ` – ${lease.endDate}` : ""}
                 </span>
@@ -109,7 +109,7 @@ export default async function RentPage() {
               const row = (
                 <div className="flex items-center justify-between py-3">
                   <div>
-                    <p className="font-display text-lg text-[#f0ece4]">{i.amount} AED</p>
+                    <p className="font-display text-lg text-[#eef1f6]">{i.amount} AED</p>
                     <p className="text-xs text-[var(--muted)] mt-0.5">
                       Due {i.dueDate}
                       {i.chequeNumber ? ` · Cheque ${i.chequeNumber}` : ""}
@@ -119,7 +119,7 @@ export default async function RentPage() {
                     <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[i.status]}`}>
                       {STATUS_LABEL[i.status] ?? i.status}
                     </span>
-                    {cleared && <ChevronRight size={16} className="text-[#6b6454]" />}
+                    {cleared && <ChevronRight size={16} className="text-[#5d6880]" />}
                   </div>
                 </div>
               );

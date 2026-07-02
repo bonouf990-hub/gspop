@@ -167,7 +167,7 @@ export default async function HomePage() {
               <p className="eyebrow text-[10px] mb-1">
                 {nextInvoice!.status === "overdue" ? "Payment Overdue" : "Payment Due"}
               </p>
-              <p className="font-display text-2xl text-[#f0ece4]">{nextInvoice!.amount} AED</p>
+              <p className="font-display text-2xl text-[#eef1f6]">{nextInvoice!.amount} AED</p>
               <p className="text-xs text-[var(--muted)] mt-0.5">by {nextInvoice!.dueDate}</p>
             </div>
             <ArrowRight size={20} className="text-[var(--gold)]" />
@@ -181,7 +181,7 @@ export default async function HomePage() {
                 <span className="w-12 h-12 rounded-full bg-[var(--gold-pale)] flex items-center justify-center text-[var(--gold)] group-hover:bg-[var(--gold)] group-hover:text-[#0f1626] transition-colors">
                   <Icon size={20} strokeWidth={1.8} />
                 </span>
-                <span className="text-[10px] text-center text-[#f0ece4] leading-tight font-medium">
+                <span className="text-[10px] text-center text-[#eef1f6] leading-tight font-medium">
                   {label}
                 </span>
               </Link>
@@ -195,17 +195,17 @@ export default async function HomePage() {
           <div className="grid grid-cols-3 gap-3 mb-5">
             <div className="text-center">
               <BedDouble size={18} className="mx-auto mb-1.5 text-[var(--gold)]" strokeWidth={1.6} />
-              <p className="font-display text-xl text-[#f0ece4]">{unit?.bedrooms ?? "—"}</p>
+              <p className="font-display text-xl text-[#eef1f6]">{unit?.bedrooms ?? "—"}</p>
               <p className="text-[9px] text-[var(--muted)] uppercase tracking-wide mt-0.5">Bedrooms</p>
             </div>
             <div className="text-center border-x border-[var(--hairline)]">
               <Bath size={18} className="mx-auto mb-1.5 text-[var(--gold)]" strokeWidth={1.6} />
-              <p className="font-display text-xl text-[#f0ece4]">{unit?.bathrooms ?? "—"}</p>
+              <p className="font-display text-xl text-[#eef1f6]">{unit?.bathrooms ?? "—"}</p>
               <p className="text-[9px] text-[var(--muted)] uppercase tracking-wide mt-0.5">Bathrooms</p>
             </div>
             <div className="text-center">
               <Ruler size={18} className="mx-auto mb-1.5 text-[var(--gold)]" strokeWidth={1.6} />
-              <p className="font-display text-xl text-[#f0ece4]">{unit?.sizeSqm ?? "—"}</p>
+              <p className="font-display text-xl text-[#eef1f6]">{unit?.sizeSqm ?? "—"}</p>
               <p className="text-[9px] text-[var(--muted)] uppercase tracking-wide mt-0.5">Sq. Meters</p>
             </div>
           </div>
@@ -215,11 +215,11 @@ export default async function HomePage() {
           <div className="space-y-2.5 text-sm">
             <div className="flex justify-between">
               <span className="text-[var(--muted)]">Occupants</span>
-              <span className="text-[#f0ece4] font-medium">{lease.occupantCount}</span>
+              <span className="text-[#eef1f6] font-medium">{lease.occupantCount}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-[var(--muted)]">Parking</span>
-              <span className="text-[#f0ece4] font-medium">{lease.parkingSpaceLabel ?? "Not assigned"}</span>
+              <span className="text-[#eef1f6] font-medium">{lease.parkingSpaceLabel ?? "Not assigned"}</span>
             </div>
           </div>
 
@@ -229,7 +229,7 @@ export default async function HomePage() {
               <div className="gold-rule mt-2.5 mb-3" />
               <ul className="space-y-2">
                 {assets.map((a) => (
-                  <li key={a.id} className="flex items-center gap-2 text-sm text-[#f0ece4]">
+                  <li key={a.id} className="flex items-center gap-2 text-sm text-[#eef1f6]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--gold)]" />
                     {a.name}
                   </li>

@@ -27,46 +27,41 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center text-[#f0ece4] px-4 relative overflow-hidden">
+    <main className="min-h-screen flex items-center justify-center text-[#eef1f6] px-4 relative overflow-hidden">
       {/* Ambient gold aura behind the card */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(560px 420px at 50% 42%, rgba(184,144,47,0.13), transparent 70%)",
+            "radial-gradient(560px 420px at 50% 42%, rgba(176,27,66,0.13), transparent 70%)",
         }}
       />
 
       <div className="relative w-full max-w-md">
         {/* Monogram crest above the card */}
         <div className="flex flex-col items-center mb-8">
-          <div className="relative w-20 h-20 flex items-center justify-center">
-            <div className="absolute inset-0 rounded-full border border-[rgba(184,144,47,0.35)]" />
-            <div className="absolute inset-[5px] rounded-full border border-[rgba(184,144,47,0.7)] bg-[rgba(184,144,47,0.07)]" />
-            <span className="font-display text-2xl font-semibold text-[#d4af5a] tracking-[0.1em]">
-              GS
-            </span>
-          </div>
-          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#f0ece4]">
-            Golden Sands
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand-mark.svg" alt="ARENCO" className="w-24 h-auto" />
+          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#eef1f6]">
+            ARENCO
           </h1>
           <div className="flex items-center gap-3 mt-2.5">
-            <span className="block w-8 h-px bg-gradient-to-r from-transparent to-[#b8902f]" />
-            <p className="eyebrow">Operations Console</p>
-            <span className="block w-8 h-px bg-gradient-to-l from-transparent to-[#b8902f]" />
+            <span className="block w-8 h-px bg-gradient-to-r from-transparent to-[#b01b42]" />
+            <p className="eyebrow">Real Estate — Operations Console</p>
+            <span className="block w-8 h-px bg-gradient-to-l from-transparent to-[#b01b42]" />
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="lux-card p-8 space-y-5">
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#a0977e] mb-2">
+            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#9aa5bd] mb-2">
               Email
             </label>
             <input
               className="lux-input w-full p-3.5 text-sm"
               type="email"
-              placeholder="you@goldensands.ae"
+              placeholder="you@company.ae"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
@@ -75,7 +70,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#a0977e] mb-2">
+            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#9aa5bd] mb-2">
               Password
             </label>
             <input
@@ -100,8 +95,8 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="text-center text-xs text-[#6b6454] mt-8 tracking-[0.14em] uppercase">
-          Golden Sands Property Management · Dubai
+        <p className="text-center text-xs text-[#5d6880] mt-8 tracking-[0.14em] uppercase">
+          ARENCO Real Estate · Dubai
         </p>
       </div>
     </main>

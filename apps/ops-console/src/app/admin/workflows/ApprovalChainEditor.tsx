@@ -101,19 +101,19 @@ export default function ApprovalChainEditor({
     router.refresh();
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
   const approverRoles = allRoles.filter((r) => ["tenant_admin", "property_manager", "supervisor"].includes(r));
 
   return (
     <form onSubmit={handleSave} className="lux-card p-5 max-w-2xl">
       <div className="grid grid-cols-2 gap-3 mb-4">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Chain Name *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Chain Name *</label>
           <input className={input} placeholder="e.g. High-Value PO Approval"
             value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Module *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Module *</label>
           <select className={input} value={module}
             onChange={(e) => setModule(e.target.value)} required>
             <option value="">Select module…</option>
@@ -126,25 +126,25 @@ export default function ApprovalChainEditor({
 
       <div className="grid grid-cols-2 gap-3 mb-4">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Min Amount (AED)</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Min Amount (AED)</label>
           <input className={input} type="number" step="0.01" placeholder="0"
             value={minAmount} onChange={(e) => setMinAmount(e.target.value)} />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Max Amount (AED)</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Max Amount (AED)</label>
           <input className={input} type="number" step="0.01" placeholder="No limit"
             value={maxAmount} onChange={(e) => setMaxAmount(e.target.value)} />
         </div>
       </div>
 
       <div className="mb-4">
-        <label className="text-xs text-[#a0977e] mb-2 block">Approval Steps (in order)</label>
+        <label className="text-xs text-[#9aa5bd] mb-2 block">Approval Steps (in order)</label>
         <div className="space-y-2">
           {steps.map((step, idx) => (
             <div key={idx} className="flex flex-wrap items-center gap-2 bg-[#0f1626] rounded-lg p-2">
-              <span className="text-xs text-[#6b6454] w-6 text-center">{idx + 1}.</span>
+              <span className="text-xs text-[#5d6880] w-6 text-center">{idx + 1}.</span>
               <select
-                className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-lg px-2 py-1.5 text-xs text-[#f0ece4] flex-1 min-w-[140px]"
+                className="bg-[#1a2640] border border-[rgba(176,27,66,0.15)] rounded-lg px-2 py-1.5 text-xs text-[#eef1f6] flex-1 min-w-[140px]"
                 value={step.approverRole}
                 onChange={(e) => updateStep(idx, { approverRole: e.target.value })}
               >
@@ -153,7 +153,7 @@ export default function ApprovalChainEditor({
                 ))}
               </select>
               <select
-                className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-lg px-2 py-1.5 text-xs text-[#f0ece4] flex-1 min-w-[140px]"
+                className="bg-[#1a2640] border border-[rgba(176,27,66,0.15)] rounded-lg px-2 py-1.5 text-xs text-[#eef1f6] flex-1 min-w-[140px]"
                 value={step.approverUserId}
                 onChange={(e) => updateStep(idx, { approverUserId: e.target.value })}
               >
@@ -164,17 +164,17 @@ export default function ApprovalChainEditor({
                     <option key={s.id} value={s.id}>{s.full_name}</option>
                   ))}
               </select>
-              <label className="flex items-center gap-1 text-[10px] text-[#a0977e] whitespace-nowrap">
+              <label className="flex items-center gap-1 text-[10px] text-[#9aa5bd] whitespace-nowrap">
                 <input
                   type="checkbox"
                   checked={step.isRequired}
                   onChange={(e) => updateStep(idx, { isRequired: e.target.checked })}
-                  className="accent-[#b8902f]"
+                  className="accent-[#b01b42]"
                 />
                 Required
               </label>
               <input
-                className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-xs text-[#f0ece4] w-24"
+                className="bg-[#1a2640] border border-[rgba(176,27,66,0.15)] rounded px-2 py-1.5 text-xs text-[#eef1f6] w-24"
                 type="number"
                 placeholder="Skip below"
                 value={step.canSkipIfBelow}
@@ -190,7 +190,7 @@ export default function ApprovalChainEditor({
           ))}
         </div>
         <button type="button" onClick={addStep}
-          className="text-xs text-[#b8902f] hover:text-[#d4af5a] mt-2">
+          className="text-xs text-[#b01b42] hover:text-[#d9647f] mt-2">
           + Add Step
         </button>
       </div>

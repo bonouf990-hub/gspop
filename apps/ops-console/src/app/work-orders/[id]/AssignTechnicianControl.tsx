@@ -50,7 +50,7 @@ export default function AssignTechnicianControl({
   return (
     <div className="flex items-center gap-2">
       <select
-        className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm flex-1 text-[#f0ece4]"
+        className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm flex-1 text-[#eef1f6]"
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
       >

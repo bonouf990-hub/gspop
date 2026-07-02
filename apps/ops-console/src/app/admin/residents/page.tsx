@@ -17,7 +17,7 @@ export default async function ResidentsPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">You don&apos;t have access to Residents &amp; Leases.</p>
+        <p className="text-[#5d6880]">You don&apos;t have access to Residents &amp; Leases.</p>
       </main>
     );
   }
@@ -51,57 +51,58 @@ export default async function ResidentsPage() {
   });
 
   return (
-    <main className="p-8">
-      <div className="flex items-center gap-3 mb-2">
-        <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+        <div>
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <h1 className="mt-1">Residents &amp; Leases</h1>
+          <p className="text-[#9aa5bd] mt-1">
+            Onboard residents, set rent terms, and manage each lease&apos;s cheque schedule and documents.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/residents/renewals"
+            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.12)]"
+          >
+            Lease Renewals
+          </Link>
+          <ExportCsv rows={csvRows} filename="leases" />
+          <CreateResidentForm units={unitOptions} />
+        </div>
       </div>
-      <h1 className="text-2xl font-extrabold mb-2">Residents &amp; Leases</h1>
-      <p className="text-[#a0977e] mb-6">
-        Onboard residents, set rent terms, and manage each lease&apos;s cheque schedule and documents.
-      </p>
 
-      <div className="flex gap-3 mb-4">
-        <Link
-          href="/admin/residents/renewals"
-          className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"
-        >
-          Lease Renewals
-        </Link>
-        <ExportCsv rows={csvRows} filename="leases" />
-      </div>
-
-      <CreateResidentForm units={unitOptions} />
-
+      <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[700px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-            <th className="py-2">Resident</th>
-            <th className="py-2">Unit</th>
-            <th className="py-2">Rent</th>
-            <th className="py-2">Period</th>
-            <th className="py-2">Status</th>
-            <th className="py-2"></th>
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <th className="px-5 py-3.5">Resident</th>
+            <th className="px-5 py-3.5">Unit</th>
+            <th className="px-5 py-3.5">Rent</th>
+            <th className="px-5 py-3.5">Period</th>
+            <th className="px-5 py-3.5">Status</th>
+            <th className="px-5 py-3.5"></th>
           </tr>
         </thead>
         <tbody>
           {(leases ?? []).map((l) => {
             const unit = l.units as unknown as { label: string; properties: { name: string } | null } | null;
             return (
-              <tr key={l.id} className="border-b border-[rgba(184,144,47,0.08)]">
-                <td className="py-2">{l.tenant_full_name}</td>
-                <td className="py-2 text-[#a0977e]">
+              <tr key={l.id} className="border-b border-[rgba(176,27,66,0.08)]">
+                <td className="px-5 py-3.5">{l.tenant_full_name}</td>
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {unit?.properties?.name ? `${unit.properties.name} — ` : ""}{unit?.label ?? "—"}
                 </td>
-                <td className="py-2 text-[#a0977e]">
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {l.rent_amount != null ? `${l.rent_amount} AED${l.rent_frequency ? ` / ${l.rent_frequency}` : ""}` : "—"}
                 </td>
-                <td className="py-2 text-[#a0977e]">
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {l.start_date}{l.end_date ? ` – ${l.end_date}` : ""}
                 </td>
-                <td className="py-2 capitalize">{l.status}</td>
-                <td className="py-2">
-                  <Link href={`/admin/residents/${l.id}`} className="text-[#d4af5a] hover:underline">
+                <td className="px-5 py-3.5 capitalize">{l.status}</td>
+                <td className="px-5 py-3.5">
+                  <Link href={`/admin/residents/${l.id}`} className="text-[#d9647f] hover:underline">
                     Manage
                   </Link>
                 </td>
@@ -109,10 +110,11 @@ export default async function ResidentsPage() {
             );
           })}
           {(leases ?? []).length === 0 && (
-            <tr><td colSpan={6} className="py-6 text-[#6b6454] text-center">No leases yet.</td></tr>
+            <tr><td colSpan={6} className="px-5 py-10 text-[#5d6880] text-center">No leases yet.</td></tr>
           )}
         </tbody>
       </table>
+      </div>
       </div>
     </main>
   );

@@ -123,7 +123,7 @@ export default function CreateTender({
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-start justify-center pt-12 overflow-y-auto">
-      <div className="bg-[#1a2640] border border-[#b8902f] rounded-xl p-6 w-full max-w-2xl mb-12">
+      <div className="bg-[#1a2640] border border-[#b01b42] rounded-xl p-6 w-full max-w-2xl mb-12">
         <h2 className="eyebrow mb-4">
           Create New Tender / RFP
         </h2>
@@ -133,27 +133,27 @@ export default function CreateTender({
             placeholder="Tender Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+            className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
           />
           <textarea
             placeholder="Brief description of what you're procuring…"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+            className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
           />
           <textarea
             placeholder="Detailed scope of work — this is what vendors will bid against…"
             value={scopeOfWork}
             onChange={(e) => setScopeOfWork(e.target.value)}
             rows={4}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+            className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
           />
           <div className="grid grid-cols-3 gap-3">
             <select
               value={propertyId}
               onChange={(e) => setPropertyId(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
             >
               <option value="">All Properties</option>
               {properties.map((p) => (
@@ -165,21 +165,21 @@ export default function CreateTender({
               value={budgetEstimate}
               onChange={(e) => setBudgetEstimate(e.target.value)}
               type="number"
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
             />
             <input
               type="datetime-local"
               value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
             />
           </div>
         </div>
 
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-bold text-[#a0977e] uppercase tracking-wider">Site Visit</p>
-            <label className="flex items-center gap-2 text-xs text-[#a0977e]">
+            <p className="text-xs font-bold text-[#9aa5bd] uppercase tracking-wider">Site Visit</p>
+            <label className="flex items-center gap-2 text-xs text-[#9aa5bd]">
               <input
                 type="checkbox"
                 checked={siteVisitRequired}
@@ -189,8 +189,8 @@ export default function CreateTender({
             </label>
           </div>
           {siteVisitRequired && (
-            <div className="bg-[#0f1626] rounded-lg p-3 border border-[rgba(184,144,47,0.08)] space-y-2">
-              <p className="text-xs text-[#6b6454]">
+            <div className="bg-[#0f1626] rounded-lg p-3 border border-[rgba(176,27,66,0.08)] space-y-2">
+              <p className="text-xs text-[#5d6880]">
                 Vendors must attend a site inspection before they can submit their tender.
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -199,20 +199,20 @@ export default function CreateTender({
                   value={siteVisitDate}
                   onChange={(e) => setSiteVisitDate(e.target.value)}
                   placeholder="Site Visit Date & Time"
-                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm text-[#f0ece4]"
+                  className="bg-[#1a2640] border border-[rgba(176,27,66,0.15)] rounded px-2 py-1.5 text-sm text-[#eef1f6]"
                 />
                 <input
                   placeholder="Meeting point / location"
                   value={siteVisitLocation}
                   onChange={(e) => setSiteVisitLocation(e.target.value)}
-                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm text-[#f0ece4]"
+                  className="bg-[#1a2640] border border-[rgba(176,27,66,0.15)] rounded px-2 py-1.5 text-sm text-[#eef1f6]"
                 />
               </div>
               <input
                 placeholder="Additional instructions (PPE required, parking info, etc.)"
                 value={siteVisitNotes}
                 onChange={(e) => setSiteVisitNotes(e.target.value)}
-                className="w-full bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm text-[#f0ece4]"
+                className="w-full bg-[#1a2640] border border-[rgba(176,27,66,0.15)] rounded px-2 py-1.5 text-sm text-[#eef1f6]"
               />
             </div>
           )}
@@ -220,29 +220,29 @@ export default function CreateTender({
 
         <div className="mb-4">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-xs font-bold text-[#a0977e] uppercase tracking-wider">
+            <p className="text-xs font-bold text-[#9aa5bd] uppercase tracking-wider">
               Requirements & Criteria ({requirements.length})
             </p>
             <button
               onClick={addRequirement}
-              className="text-xs text-[#b8902f] font-bold hover:text-[#d4af5a]"
+              className="text-xs text-[#b01b42] font-bold hover:text-[#d9647f]"
             >
               + Add Requirement
             </button>
           </div>
           {requirements.map((req, idx) => (
-            <div key={idx} className="bg-[#0f1626] rounded-lg p-3 mb-2 border border-[rgba(184,144,47,0.08)]">
+            <div key={idx} className="bg-[#0f1626] rounded-lg p-3 mb-2 border border-[rgba(176,27,66,0.08)]">
               <div className="flex flex-wrap gap-2 items-center">
                 <input
                   placeholder="Requirement title"
                   value={req.title}
                   onChange={(e) => updateReq(idx, "title", e.target.value)}
-                  className="flex-1 min-w-[120px] bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+                  className="flex-1 min-w-[120px] bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
                 />
                 <select
                   value={req.category}
                   onChange={(e) => updateReq(idx, "category", e.target.value)}
-                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-xs"
+                  className="bg-[#1a2640] border border-[rgba(176,27,66,0.15)] rounded px-2 py-1.5 text-xs"
                 >
                   <option value="certification">Certification</option>
                   <option value="experience">Experience</option>
@@ -252,7 +252,7 @@ export default function CreateTender({
                   <option value="insurance">Insurance</option>
                   <option value="other">Other</option>
                 </select>
-                <label className="flex items-center gap-1 text-xs text-[#a0977e]">
+                <label className="flex items-center gap-1 text-xs text-[#9aa5bd]">
                   <input
                     type="checkbox"
                     checked={req.isMandatory}
@@ -267,7 +267,7 @@ export default function CreateTender({
                   placeholder="Description (optional)"
                   value={req.description}
                   onChange={(e) => updateReq(idx, "description", e.target.value)}
-                  className="min-w-0 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
+                  className="min-w-0 bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]"
                 />
                 <div className="flex items-center gap-1">
                   <input
@@ -276,15 +276,15 @@ export default function CreateTender({
                     onChange={(e) => updateReq(idx, "weight", Number(e.target.value))}
                     min={1}
                     max={100}
-                    className="w-14 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-2 py-2 text-sm text-[#f0ece4] text-center"
+                    className="w-14 bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-2 py-2 text-sm text-[#eef1f6] text-center"
                   />
-                  <span className="text-[10px] text-[#6b6454]">wt</span>
+                  <span className="text-[10px] text-[#5d6880]">wt</span>
                 </div>
               </div>
             </div>
           ))}
           {requirements.length === 0 && (
-            <p className="text-xs text-[#6b6454]">
+            <p className="text-xs text-[#5d6880]">
               Add requirements that vendors must address — certifications, experience, technical capability, etc.
             </p>
           )}
@@ -302,7 +302,7 @@ export default function CreateTender({
           </button>
           <button
             onClick={() => setOpen(false)}
-            className="text-xs font-bold px-4 py-2 rounded-lg bg-[#0f1626] text-[#a0977e] border border-[rgba(184,144,47,0.15)]"
+            className="text-xs font-bold px-4 py-2 rounded-lg bg-[#0f1626] text-[#9aa5bd] border border-[rgba(176,27,66,0.15)]"
           >
             Cancel
           </button>

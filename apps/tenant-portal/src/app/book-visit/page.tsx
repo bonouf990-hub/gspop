@@ -130,22 +130,22 @@ export default function BookVisitPage() {
         <div className="max-w-md mx-auto px-4 pt-16 text-center">
           <CheckCircle size={64} className="text-[#5cc98a] mx-auto mb-4" />
           <h1 className="font-display text-2xl font-semibold mb-2">Visit Booked!</h1>
-          <p className="text-[#a0977e] mb-2">
+          <p className="text-[#9aa5bd] mb-2">
             Your technician visit for <strong>{selectedJob?.label}</strong> has been submitted.
           </p>
           <div className="elevated-card rounded-2xl p-4 mt-4 text-left">
             <div className="grid grid-cols-2 gap-y-2 text-sm">
-              <span className="text-[#a0977e]">Job Type</span>
+              <span className="text-[#9aa5bd]">Job Type</span>
               <span className="font-medium">{selectedJob?.label}</span>
-              <span className="text-[#a0977e]">Unit</span>
+              <span className="text-[#9aa5bd]">Unit</span>
               <span className="font-medium">{unitLabel || "—"}</span>
-              <span className="text-[#a0977e]">Preferred Date</span>
+              <span className="text-[#9aa5bd]">Preferred Date</span>
               <span className="font-medium">{new Date(visitDate).toLocaleDateString()}</span>
-              <span className="text-[#a0977e]">Time Slot</span>
+              <span className="text-[#9aa5bd]">Time Slot</span>
               <span className="font-medium">{selectedSlot?.label} ({selectedSlot?.detail})</span>
             </div>
           </div>
-          <p className="text-xs text-[#a0977e] mt-4">
+          <p className="text-xs text-[#9aa5bd] mt-4">
             Our team will review and assign a technician. You&apos;ll receive a notification once confirmed.
           </p>
           <button
@@ -162,7 +162,7 @@ export default function BookVisitPage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--foreground)] pb-28">
       <header className="sticky top-0 z-20 bg-[var(--bg)]/80 backdrop-blur-xl px-4 py-3 flex items-center gap-3">
-        <Link href="/" className="text-[#a0977e]">
+        <Link href="/" className="text-[#9aa5bd]">
           <ChevronLeft size={24} />
         </Link>
         <h1 className="font-display font-semibold text-lg">Book Technician Visit</h1>
@@ -175,19 +175,19 @@ export default function BookVisitPage() {
             <div key={s} className="flex-1 flex items-center gap-1">
               <div
                 className={`h-1.5 flex-1 rounded-full transition-colors ${
-                  s <= step ? "bg-[var(--gold)]" : "bg-[rgba(184,144,47,0.15)]"
+                  s <= step ? "bg-[var(--gold)]" : "bg-[rgba(176,27,66,0.15)]"
                 }`}
               />
             </div>
           ))}
-          <span className="text-xs text-[#a0977e] ml-1">Step {step}/3</span>
+          <span className="text-xs text-[#9aa5bd] ml-1">Step {step}/3</span>
         </div>
 
         {/* Step 1: Select Job Type */}
         {step === 1 && (
           <div>
             <h2 className="font-display font-semibold text-lg mb-1">What do you need?</h2>
-            <p className="text-sm text-[#a0977e] mb-4">
+            <p className="text-sm text-[#9aa5bd] mb-4">
               Select the type of maintenance work you need.
             </p>
             <div className="grid grid-cols-3 gap-3">
@@ -205,9 +205,9 @@ export default function BookVisitPage() {
                   >
                     <j.Icon
                       size={24}
-                      className={active ? "text-[var(--gold)]" : "text-[#a0977e]"}
+                      className={active ? "text-[var(--gold)]" : "text-[#9aa5bd]"}
                     />
-                    <span className={`text-xs text-center ${active ? "font-bold text-[var(--gold)]" : "text-[#a0977e]"}`}>
+                    <span className={`text-xs text-center ${active ? "font-bold text-[var(--gold)]" : "text-[#9aa5bd]"}`}>
                       {j.label}
                     </span>
                   </button>
@@ -231,7 +231,7 @@ export default function BookVisitPage() {
             <h2 className="font-display font-semibold text-lg mb-1">
               Describe the issue
             </h2>
-            <p className="text-sm text-[#a0977e] mb-4">
+            <p className="text-sm text-[#9aa5bd] mb-4">
               Help the technician understand what to expect.
               {unitLabel && <> Unit: <strong>{unitLabel}</strong></>}
             </p>
@@ -239,12 +239,12 @@ export default function BookVisitPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. The AC in the bedroom is making a loud noise and not cooling properly. It started two days ago."
-              className="w-full min-h-[140px] rounded-2xl bg-[#141d33] border border-[var(--border)] p-4 text-sm placeholder:text-[#a0977e]/60 resize-none"
+              className="w-full min-h-[140px] rounded-2xl bg-[#141d33] border border-[var(--border)] p-4 text-sm placeholder:text-[#9aa5bd]/60 resize-none"
             />
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setStep(1)}
-                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#a0977e]"
+                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#9aa5bd]"
               >
                 Back
               </button>
@@ -263,7 +263,7 @@ export default function BookVisitPage() {
         {step === 3 && (
           <div>
             <h2 className="font-display font-semibold text-lg mb-1">When works for you?</h2>
-            <p className="text-sm text-[#a0977e] mb-4">
+            <p className="text-sm text-[#9aa5bd] mb-4">
               Choose your preferred date and time slot.
             </p>
 
@@ -302,7 +302,7 @@ export default function BookVisitPage() {
                       <span className={`text-sm ${active ? "font-bold text-[var(--gold)]" : ""}`}>
                         {slot.label}
                       </span>
-                      <span className="text-xs text-[#a0977e]">{slot.detail}</span>
+                      <span className="text-xs text-[#9aa5bd]">{slot.detail}</span>
                     </button>
                   );
                 })}
@@ -312,17 +312,17 @@ export default function BookVisitPage() {
             {/* Summary */}
             {visitDate && visitTime && (
               <div className="elevated-card rounded-2xl p-4 mb-4">
-                <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">
+                <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">
                   Visit Summary
                 </p>
                 <div className="grid grid-cols-2 gap-y-1 text-sm">
-                  <span className="text-[#a0977e]">Job Type</span>
+                  <span className="text-[#9aa5bd]">Job Type</span>
                   <span className="font-medium">{selectedJob?.label}</span>
-                  <span className="text-[#a0977e]">Unit</span>
+                  <span className="text-[#9aa5bd]">Unit</span>
                   <span className="font-medium">{unitLabel || "—"}</span>
-                  <span className="text-[#a0977e]">Date</span>
+                  <span className="text-[#9aa5bd]">Date</span>
                   <span className="font-medium">{new Date(visitDate).toLocaleDateString()}</span>
-                  <span className="text-[#a0977e]">Time</span>
+                  <span className="text-[#9aa5bd]">Time</span>
                   <span className="font-medium">{selectedSlot?.label}</span>
                 </div>
               </div>
@@ -335,7 +335,7 @@ export default function BookVisitPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => setStep(2)}
-                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#a0977e]"
+                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#9aa5bd]"
               >
                 Back
               </button>

@@ -104,11 +104,11 @@ export default function SubmissionForm({
 
   if (!verified) {
     return (
-      <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-6">
+      <div className="border border-[#b01b42] bg-[#1a2640] rounded-xl p-6">
         <h2 className="eyebrow mb-3">
           Verify Site Visit Attendance
         </h2>
-        <p className="text-sm text-[#a0977e] mb-4">
+        <p className="text-sm text-[#9aa5bd] mb-4">
           Enter the email address you used when registering for the site visit to proceed.
         </p>
         {verifyError && (
@@ -122,7 +122,7 @@ export default function SubmissionForm({
             placeholder="Email used for site visit registration"
             value={verifyEmail}
             onChange={(e) => setVerifyEmail(e.target.value)}
-            className="flex-1 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+            className="flex-1 bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             onKeyDown={(e) => e.key === "Enter" && handleVerify()}
           />
           <button
@@ -141,7 +141,7 @@ export default function SubmissionForm({
     return (
       <div className="border border-green-700 bg-green-950/30 rounded-xl p-8 text-center">
         <p className="text-2xl font-extrabold text-green-400 mb-2">Submission Received</p>
-        <p className="text-[#a0977e]">
+        <p className="text-[#9aa5bd]">
           Thank you, {vendorName}. Your tender submission has been recorded and will be
           reviewed by our procurement team. You will be contacted at {vendorEmail} regarding the outcome.
         </p>
@@ -150,106 +150,106 @@ export default function SubmissionForm({
   }
 
   return (
-    <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-6">
+    <div className="border border-[#b01b42] bg-[#1a2640] rounded-xl p-6">
       <h2 className="eyebrow mb-4">
         Submit Your Tender
       </h2>
 
       <div className="space-y-4">
         <div>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-2">Company Details</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Company Details</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input
               placeholder="Company Name *"
               value={vendorName}
               onChange={(e) => setVendorName(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Email Address *"
               type="email"
               value={vendorEmail}
               onChange={(e) => setVendorEmail(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Phone Number"
               value={vendorPhone}
               onChange={(e) => setVendorPhone(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Company Registration / Trade License"
               value={companyReg}
               onChange={(e) => setCompanyReg(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
           </div>
         </div>
 
         <div>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-2">Bid Details</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Bid Details</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input
               placeholder={`Proposed Amount (${currency}) *`}
               type="number"
               value={proposedAmount}
               onChange={(e) => setProposedAmount(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Proposed Timeline (days)"
               type="number"
               value={timelineDays}
               onChange={(e) => setTimelineDays(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
           </div>
         </div>
 
         <div>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-2">Cover Letter</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Cover Letter</p>
           <textarea
             placeholder="Introduce your company and why you're the best fit for this project…"
             value={coverLetter}
             onChange={(e) => setCoverLetter(e.target.value)}
             rows={4}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+            className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
           />
         </div>
 
         <div>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-2">Technical Approach</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Technical Approach</p>
           <textarea
             placeholder="Describe how you would execute this project — methodology, team, equipment…"
             value={technicalApproach}
             onChange={(e) => setTechnicalApproach(e.target.value)}
             rows={4}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+            className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
           />
         </div>
 
         {requirements.length > 0 && (
           <div>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-2">
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">
               Requirement Responses
             </p>
             <div className="space-y-3">
               {requirements.map((req) => (
                 <div key={req.id}>
-                  <label className="text-sm font-medium text-[#f0ece4] flex items-center gap-1">
+                  <label className="text-sm font-medium text-[#eef1f6] flex items-center gap-1">
                     {req.title}
                     {req.is_mandatory && <span className="text-red-400">*</span>}
                   </label>
                   {req.description && (
-                    <p className="text-xs text-[#6b6454] mb-1">{req.description}</p>
+                    <p className="text-xs text-[#5d6880] mb-1">{req.description}</p>
                   )}
                   <textarea
                     placeholder={`Your response for: ${req.title}`}
                     value={responses[req.id] ?? ""}
                     onChange={(e) => updateResponse(req.id, e.target.value)}
                     rows={2}
-                    className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+                    className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
                   />
                 </div>
               ))}

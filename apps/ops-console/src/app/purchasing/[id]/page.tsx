@@ -7,8 +7,8 @@ const STATUS_STYLE: Record<string, string> = {
   pending: "bg-amber-900 text-amber-300",
   approved: "bg-green-900 text-green-300",
   rejected: "bg-red-900 text-red-300",
-  escalated: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
-  fulfilled: "bg-[#213052] text-[#a0977e]",
+  escalated: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
+  fulfilled: "bg-[#213052] text-[#9aa5bd]",
 };
 
 async function getPurchaseOrder(id: string) {
@@ -55,7 +55,7 @@ export default async function PurchaseOrderDetailPage({
 }) {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#6b6454]">You don&apos;t have access to Purchasing.</p></main>;
+    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to Purchasing.</p></main>;
   }
 
   const { id } = await params;
@@ -67,7 +67,7 @@ export default async function PurchaseOrderDetailPage({
   if (!po) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">Purchase order not found.</p>
+        <p className="text-[#5d6880]">Purchase order not found.</p>
       </main>
     );
   }
@@ -85,21 +85,21 @@ export default async function PurchaseOrderDetailPage({
 
   const INV_STATUS: Record<string, string> = {
     received: "bg-amber-900 text-amber-300",
-    verified: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+    verified: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
     disputed: "bg-red-900 text-red-300",
     approved: "bg-green-900 text-green-300",
-    paid: "bg-[#213052] text-[#a0977e]",
+    paid: "bg-[#213052] text-[#9aa5bd]",
   };
 
   return (
     <main className="p-8 max-w-3xl">
-      <Link href="/purchasing" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+      <Link href="/purchasing" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
         ← Purchase Orders
       </Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-1">
         {po.description ?? "Purchase Order"}
       </h1>
-      <p className="text-[#a0977e] mb-6">PO #{(po.id as string).slice(0, 8).toUpperCase()}</p>
+      <p className="text-[#9aa5bd] mb-6">PO #{(po.id as string).slice(0, 8).toUpperCase()}</p>
 
       {/* Status & Actions */}
       <section className="lux-card p-4 mb-4">
@@ -116,43 +116,43 @@ export default async function PurchaseOrderDetailPage({
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-y-1 text-sm">
-          <span className="text-[#a0977e]">Amount</span>
-          <span className="font-bold text-[#d4af5a]">AED {Number(po.amount).toLocaleString()}</span>
-          <span className="text-[#a0977e]">Property</span>
+          <span className="text-[#9aa5bd]">Amount</span>
+          <span className="font-bold text-[#d9647f]">AED {Number(po.amount).toLocaleString()}</span>
+          <span className="text-[#9aa5bd]">Property</span>
           <span>{property?.name ?? "—"}</span>
-          <span className="text-[#a0977e]">Vendor</span>
+          <span className="text-[#9aa5bd]">Vendor</span>
           <span>
             {vendor ? (
               <>
                 {vendor.name}
-                {vendor.category && <span className="text-[#6b6454] ml-1">({vendor.category})</span>}
-                {vendor.rating && <span className="text-[#d4af5a] ml-1">{"★".repeat(Math.round(Number(vendor.rating)))}</span>}
+                {vendor.category && <span className="text-[#5d6880] ml-1">({vendor.category})</span>}
+                {vendor.rating && <span className="text-[#d9647f] ml-1">{"★".repeat(Math.round(Number(vendor.rating)))}</span>}
               </>
             ) : "—"}
           </span>
-          <span className="text-[#a0977e]">Requested by</span>
+          <span className="text-[#9aa5bd]">Requested by</span>
           <span>{requester?.full_name ?? "—"}</span>
-          <span className="text-[#a0977e]">Approved by</span>
+          <span className="text-[#9aa5bd]">Approved by</span>
           <span>{approver?.full_name ?? "—"}</span>
           {po.urgency && (
             <>
-              <span className="text-[#a0977e]">Urgency</span>
+              <span className="text-[#9aa5bd]">Urgency</span>
               <span className="capitalize font-medium text-amber-400">{po.urgency as string}</span>
             </>
           )}
-          <span className="text-[#a0977e]">Created</span>
+          <span className="text-[#9aa5bd]">Created</span>
           <span>{new Date(po.created_at as string).toLocaleString()}</span>
           {po.approved_at && (
             <>
-              <span className="text-[#a0977e]">Approved at</span>
+              <span className="text-[#9aa5bd]">Approved at</span>
               <span>{new Date(po.approved_at as string).toLocaleString()}</span>
             </>
           )}
         </div>
         {po.notes && (
           <div className="mt-3 text-sm">
-            <span className="text-[#a0977e]">Notes: </span>
-            <span className="text-[#f0ece4]">{po.notes as string}</span>
+            <span className="text-[#9aa5bd]">Notes: </span>
+            <span className="text-[#eef1f6]">{po.notes as string}</span>
           </div>
         )}
       </section>
@@ -164,13 +164,13 @@ export default async function PurchaseOrderDetailPage({
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <p className="font-medium">{workOrder.title}</p>
-              <p className="text-[10px] text-[#6b6454] capitalize">
+              <p className="text-[10px] text-[#5d6880] capitalize">
                 {workOrder.type} · {workOrder.status.replace(/_/g, " ")}
               </p>
             </div>
             <Link
               href={`/work-orders/${workOrder.id}`}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Work Order
             </Link>
@@ -185,11 +185,11 @@ export default async function PurchaseOrderDetailPage({
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <p className="font-medium">{tender.title}</p>
-              <p className="text-[10px] text-[#6b6454] capitalize">Status: {tender.status}</p>
+              <p className="text-[10px] text-[#5d6880] capitalize">Status: {tender.status}</p>
             </div>
             <Link
               href={`/tenders/${tender.id}`}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Tender
             </Link>
@@ -203,21 +203,21 @@ export default async function PurchaseOrderDetailPage({
           Invoices ({invoices.length})
         </h2>
         {invoices.length === 0 ? (
-          <p className="text-sm text-[#6b6454]">No invoices linked to this purchase order.</p>
+          <p className="text-sm text-[#5d6880]">No invoices linked to this purchase order.</p>
         ) : (
           <>
             <div className="grid grid-cols-3 gap-3 mb-3">
               <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-                <p className="text-sm font-bold text-[#d4af5a]">AED {Number(po.amount).toLocaleString()}</p>
-                <p className="text-[10px] text-[#6b6454] uppercase">PO Amount</p>
+                <p className="text-sm font-bold text-[#d9647f]">AED {Number(po.amount).toLocaleString()}</p>
+                <p className="text-[10px] text-[#5d6880] uppercase">PO Amount</p>
               </div>
               <div className="bg-[#0f1626] rounded-lg p-3 text-center">
                 <p className="text-sm font-bold text-amber-400">AED {invoiceTotal.toLocaleString()}</p>
-                <p className="text-[10px] text-[#6b6454] uppercase">Invoiced</p>
+                <p className="text-[10px] text-[#5d6880] uppercase">Invoiced</p>
               </div>
               <div className="bg-[#0f1626] rounded-lg p-3 text-center">
                 <p className="text-sm font-bold text-green-400">AED {paidTotal.toLocaleString()}</p>
-                <p className="text-[10px] text-[#6b6454] uppercase">Paid</p>
+                <p className="text-[10px] text-[#5d6880] uppercase">Paid</p>
               </div>
             </div>
             <div className="space-y-2">
@@ -226,11 +226,11 @@ export default async function PurchaseOrderDetailPage({
                   <div>
                     <p className="text-sm font-medium">
                       {inv.invoice_number}
-                      <span className="text-[#d4af5a] ml-2 font-bold">
+                      <span className="text-[#d9647f] ml-2 font-bold">
                         AED {Number(inv.total_amount).toLocaleString()}
                       </span>
                     </p>
-                    <p className="text-[10px] text-[#6b6454]">
+                    <p className="text-[10px] text-[#5d6880]">
                       {new Date(inv.invoice_date).toLocaleDateString()}
                       {inv.due_date && ` · Due: ${new Date(inv.due_date).toLocaleDateString()}`}
                     </p>

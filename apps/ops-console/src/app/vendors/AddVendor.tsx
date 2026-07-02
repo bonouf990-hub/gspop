@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 export default function AddVendor() {
   const router = useRouter();
@@ -41,23 +42,20 @@ export default function AddVendor() {
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + Add Vendor
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
-
-  return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 max-w-sm">
-      <h3 className="eyebrow mb-2">New Vendor</h3>
-
+      {open && (
+        <Modal title="New Vendor" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <input className={input} placeholder="Vendor name *" value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })} required />
       <input className={input} placeholder="Category (e.g. HVAC, Plumbing, Electrical)"
@@ -71,10 +69,13 @@ export default function AddVendor() {
           {submitting ? "Adding…" : "Add Vendor"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

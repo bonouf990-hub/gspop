@@ -42,21 +42,21 @@ export default async function InventoryPage() {
   );
 
   return (
-    <main className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">Inventory & Store</h1>
-          <p className="text-[#a0977e] text-sm mt-1">
+          <h1 className="mt-1">Inventory & Store</h1>
+          <p className="text-[#9aa5bd] text-sm mt-1">
             Track stock levels, record movements, and flag items below reorder threshold.
           </p>
         </div>
         <div className="flex gap-2">
           <Link
             href="/inventory/reports"
-            className="text-xs font-bold px-4 py-2 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"
+            className="text-xs font-bold px-4 py-2 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.12)]"
           >
             Monthly Report
           </Link>
@@ -82,45 +82,46 @@ export default async function InventoryPage() {
         </div>
       )}
 
+      <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-            <th className="py-2 font-medium">Item</th>
-            <th className="py-2 font-medium">SKU</th>
-            <th className="py-2 font-medium">Property</th>
-            <th className="py-2 font-medium">On Hand</th>
-            <th className="py-2 font-medium">Unit</th>
-            <th className="py-2 font-medium">Unit Cost</th>
-            <th className="py-2 font-medium">Reorder At</th>
-            <th className="py-2 font-medium">Last Updated</th>
-            <th className="py-2 font-medium">Actions</th>
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <th className="px-5 py-3.5 font-medium">Item</th>
+            <th className="px-5 py-3.5 font-medium">SKU</th>
+            <th className="px-5 py-3.5 font-medium">Property</th>
+            <th className="px-5 py-3.5 font-medium">On Hand</th>
+            <th className="px-5 py-3.5 font-medium">Unit</th>
+            <th className="px-5 py-3.5 font-medium">Unit Cost</th>
+            <th className="px-5 py-3.5 font-medium">Reorder At</th>
+            <th className="px-5 py-3.5 font-medium">Last Updated</th>
+            <th className="px-5 py-3.5 font-medium">Actions</th>
           </tr>
         </thead>
         <tbody>
           {items.map((i) => {
             const isLow = i.reorder_threshold > 0 && i.quantity_on_hand <= i.reorder_threshold;
             return (
-              <tr key={i.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
-                <td className="py-2 font-medium">{i.name}</td>
-                <td className="py-2 text-[#6b6454]">{i.sku ?? "—"}</td>
-                <td className="py-2 text-[#a0977e]">
+              <tr key={i.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                <td className="px-5 py-3.5 font-medium">{i.name}</td>
+                <td className="px-5 py-3.5 text-[#5d6880]">{i.sku ?? "—"}</td>
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {i.property_id ? propertiesById.get(i.property_id) ?? "—" : "All"}
                 </td>
-                <td className={`py-2 font-medium ${isLow ? "text-amber-400" : ""}`}>
+                <td className={`px-5 py-3.5 font-medium ${isLow ? "text-amber-400" : ""}`}>
                   {Number(i.quantity_on_hand)}
                 </td>
-                <td className="py-2 text-[#6b6454]">{i.unit_of_measure ?? "—"}</td>
-                <td className="py-2 text-[#d4af5a]">
+                <td className="px-5 py-3.5 text-[#5d6880]">{i.unit_of_measure ?? "—"}</td>
+                <td className="px-5 py-3.5 text-[#d9647f]">
                   {i.unit_cost && Number(i.unit_cost) > 0 ? `AED ${Number(i.unit_cost).toLocaleString()}` : "—"}
                 </td>
-                <td className="py-2 text-[#6b6454]">
+                <td className="px-5 py-3.5 text-[#5d6880]">
                   {i.reorder_threshold > 0 ? Number(i.reorder_threshold) : "—"}
                 </td>
-                <td className="py-2 text-[#6b6454]">
+                <td className="px-5 py-3.5 text-[#5d6880]">
                   {new Date(i.updated_at).toLocaleDateString()}
                 </td>
-                <td className="py-2">
+                <td className="px-5 py-3.5">
                   <RecordMovement itemId={i.id} itemName={i.name} />
                 </td>
               </tr>
@@ -128,13 +129,14 @@ export default async function InventoryPage() {
           })}
           {items.length === 0 && (
             <tr>
-              <td className="py-4 text-[#6b6454]" colSpan={9}>
+              <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={9}>
                 No inventory items yet.
               </td>
             </tr>
           )}
         </tbody>
       </table>
+      </div>
       </div>
     </main>
   );

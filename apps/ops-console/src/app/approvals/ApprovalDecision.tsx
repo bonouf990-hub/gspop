@@ -52,7 +52,7 @@ export default function ApprovalDecision({
   return (
     <div className="flex items-center gap-2">
       <input
-        className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-2 py-1 text-xs text-[#f0ece4] w-36"
+        className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-2 py-1 text-xs text-[#eef1f6] w-36"
         placeholder="Comment (optional)"
         value={comment}
         onChange={(e) => setComment(e.target.value)}

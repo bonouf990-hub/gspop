@@ -35,10 +35,10 @@ export default function ConvertToWorkOrder({
   if (existingWorkOrderId) {
     return (
       <div className="flex items-center gap-3">
-        <span className="text-xs text-[#a0977e]">Linked work order:</span>
+        <span className="text-xs text-[#9aa5bd]">Linked work order:</span>
         <a
           href={`/work-orders/${existingWorkOrderId}`}
-          className="text-[#d4af5a] text-sm font-medium hover:underline"
+          className="text-[#d9647f] text-sm font-medium hover:underline"
         >
           View Work Order →
         </a>
@@ -103,16 +103,16 @@ export default function ConvertToWorkOrder({
   }
 
   const input =
-    "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
+    "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-[#a0977e]">
+      <p className="text-xs text-[#9aa5bd]">
         This creates a work order pre-filled from the complaint and links them together.
       </p>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Priority</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Priority</label>
         <select
           className={input}
           value={priority}
@@ -127,7 +127,7 @@ export default function ConvertToWorkOrder({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">
+        <label className="text-xs text-[#9aa5bd] mb-1 block">
           Assign Technician (optional)
         </label>
         <select
@@ -157,7 +157,7 @@ export default function ConvertToWorkOrder({
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]"
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]"
         >
           Cancel
         </button>

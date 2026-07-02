@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 type Property = { id: string; name: string };
 
@@ -53,23 +54,20 @@ export default function AddInventoryItem({ properties }: { properties: Property[
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + Add Item
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
-
-  return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 max-w-sm">
-      <h3 className="eyebrow mb-2">New Inventory Item</h3>
-
+      {open && (
+        <Modal title="New Inventory Item" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <input className={input} placeholder="Item name *" value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })} required />
       <input className={input} placeholder="SKU (optional)" value={form.sku}
@@ -79,26 +77,26 @@ export default function AddInventoryItem({ properties }: { properties: Property[
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Qty on Hand</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Qty on Hand</label>
           <input className={input} type="number" value={form.quantityOnHand}
             onChange={(e) => setForm({ ...form, quantityOnHand: e.target.value })} />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Reorder At</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Reorder At</label>
           <input className={input} type="number" value={form.reorderThreshold}
             onChange={(e) => setForm({ ...form, reorderThreshold: e.target.value })} />
         </div>
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Unit Cost (AED)</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Unit Cost (AED)</label>
         <input className={input} type="number" step="0.01" min="0" placeholder="Cost per unit"
           value={form.unitCost}
           onChange={(e) => setForm({ ...form, unitCost: e.target.value })} />
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Property (optional)</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Property (optional)</label>
         <select className={input} value={form.propertyId}
           onChange={(e) => setForm({ ...form, propertyId: e.target.value })}>
           <option value="">All properties</option>
@@ -114,10 +112,13 @@ export default function AddInventoryItem({ properties }: { properties: Property[
           {submitting ? "Adding…" : "Add Item"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

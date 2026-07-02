@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 150">
+  <defs>
+    <clipPath id="leftA-leftleg">
+      <polygon points="95,28 118,28 62,150 30,150"/>
+    </clipPath>
+    <clipPath id="bigA-leftleg">
+      <polygon points="168,0 196,0 122,150 92,150"/>
+    </clipPath>
+  </defs>
+  <g fill="#B01B42">
+    <!-- small A, left leg -->
+    <polygon points="95,28 118,28 62,150 30,150"/>
+    <!-- small A, right leg -->
+    <polygon points="95,28 118,28 152,150 124,150"/>
+    <!-- big A, left leg -->
+    <polygon points="168,0 196,0 122,150 92,150"/>
+    <!-- big A, right leg -->
+    <polygon points="168,0 196,0 240,150 212,150"/>
+  </g>
+  <!-- stair stripes cut into the left legs -->
+  <g fill="#0c1428">
+    <rect x="0" y="96" width="240" height="7" clip-path="url(#leftA-leftleg)"/>
+    <rect x="0" y="112" width="240" height="7" clip-path="url(#leftA-leftleg)"/>
+    <rect x="0" y="128" width="240" height="7" clip-path="url(#leftA-leftleg)"/>
+    <rect x="0" y="96" width="240" height="7" clip-path="url(#bigA-leftleg)"/>
+    <rect x="0" y="112" width="240" height="7" clip-path="url(#bigA-leftleg)"/>
+    <rect x="0" y="128" width="240" height="7" clip-path="url(#bigA-leftleg)"/>
+  </g>
+</svg>

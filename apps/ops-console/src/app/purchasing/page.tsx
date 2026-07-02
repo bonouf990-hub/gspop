@@ -88,8 +88,8 @@ const STATUS_STYLE: Record<string, string> = {
   pending: "bg-amber-900 text-amber-300",
   approved: "bg-green-900 text-green-300",
   rejected: "bg-red-900 text-red-300",
-  escalated: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
-  fulfilled: "bg-[#213052] text-[#a0977e]",
+  escalated: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
+  fulfilled: "bg-[#213052] text-[#9aa5bd]",
 };
 
 const URGENCY_STYLE: Record<string, string> = {
@@ -100,7 +100,7 @@ const URGENCY_STYLE: Record<string, string> = {
 export default async function PurchasingPage() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#6b6454]">You don&apos;t have access to Purchasing.</p></main>;
+    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to Purchasing.</p></main>;
   }
 
   const { orders, properties, vendors, tendersNeedingPO } = await getPageData();
@@ -118,20 +118,20 @@ export default async function PurchasingPage() {
   const kpis = [
     { label: "Pending", value: pending.length, amount: totalPending, color: "text-amber-400" },
     { label: "Approved", value: approved.length, amount: totalApproved, color: "text-green-400" },
-    { label: "Fulfilled", value: fulfilled.length, amount: totalFulfilled, color: "text-[#d4af5a]" },
+    { label: "Fulfilled", value: fulfilled.length, amount: totalFulfilled, color: "text-[#d9647f]" },
     { label: "Rejected", value: rejected.length, amount: null, color: "text-red-400" },
-    { label: "From Tenders", value: tenderSourced.length, amount: null, color: "text-[#b8902f]" },
+    { label: "From Tenders", value: tenderSourced.length, amount: null, color: "text-[#b01b42]" },
   ];
 
   return (
-    <main className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">Purchasing</h1>
-          <p className="text-[#a0977e] text-sm mt-1">
+          <h1 className="mt-1">Purchasing</h1>
+          <p className="text-[#9aa5bd] text-sm mt-1">
             Create purchase orders, track approval status, and mark fulfilled orders.
           </p>
         </div>
@@ -142,9 +142,9 @@ export default async function PurchasingPage() {
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-2xl font-extrabold ${k.color}`}>{k.value}</p>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{k.label}</p>
             {k.amount !== null && (
-              <p className="text-xs text-[#6b6454] mt-0.5">
+              <p className="text-xs text-[#5d6880] mt-0.5">
                 AED {k.amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
               </p>
             )}
@@ -164,18 +164,18 @@ export default async function PurchasingPage() {
               return (
                 <div
                   key={t.id}
-                  className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 flex items-center justify-between"
+                  className="border border-[#b01b42] bg-[rgba(176,27,66,0.08)] rounded-xl p-4 flex items-center justify-between"
                 >
                   <div>
                     <p className="font-medium">
                       {t.title}
                       {t.winning_amount !== null && (
-                        <span className="text-[#d4af5a] ml-2 font-bold">
+                        <span className="text-[#d9647f] ml-2 font-bold">
                           {t.currency} {t.winning_amount.toLocaleString()}
                         </span>
                       )}
                     </p>
-                    <p className="text-sm text-[#a0977e]">
+                    <p className="text-sm text-[#9aa5bd]">
                       Winner: {vendor?.name ?? "—"}
                       {prop && ` · ${prop.name}`}
                       {t.decided_at && ` · Decided ${new Date(t.decided_at).toLocaleDateString()}`}
@@ -184,7 +184,7 @@ export default async function PurchasingPage() {
                   <div className="flex gap-2">
                     <Link
                       href={`/tenders/${t.id}`}
-                      className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+                      className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
                     >
                       View Tender
                     </Link>
@@ -219,15 +219,15 @@ export default async function PurchasingPage() {
                       ? "border-red-500 bg-red-950/20"
                       : o.urgency === "urgent"
                         ? "border-amber-500 bg-amber-950/20"
-                        : "border-[rgba(184,144,47,0.15)] bg-[#1a2640]"
+                        : "border-[rgba(176,27,66,0.15)] bg-[#1a2640]"
                   }`}
                 >
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <Link href={`/purchasing/${o.id}`} className="font-medium hover:text-[#d4af5a]">
+                      <Link href={`/purchasing/${o.id}`} className="font-medium hover:text-[#d9647f]">
                         {o.description ?? "Purchase Order"}
                       </Link>
-                      <span className="text-[#d4af5a] font-bold">
+                      <span className="text-[#d9647f] font-bold">
                         AED {Number(o.amount).toLocaleString()}
                       </span>
                       {o.urgency && o.urgency !== "normal" && (
@@ -238,18 +238,18 @@ export default async function PurchasingPage() {
                       {tender && (
                         <Link
                           href={`/tenders/${o.tender_id}`}
-                          className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[rgba(184,144,47,0.12)] text-[#b8902f] hover:bg-[rgba(184,144,47,0.2)]"
+                          className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[rgba(176,27,66,0.12)] text-[#b01b42] hover:bg-[rgba(176,27,66,0.2)]"
                         >
                           Tender: {tender.title}
                         </Link>
                       )}
                     </div>
-                    <p className="text-sm text-[#a0977e] mt-0.5">
+                    <p className="text-sm text-[#9aa5bd] mt-0.5">
                       {[vendor?.name, property?.name].filter(Boolean).join(" · ")}
                       {requester && ` · Requested by ${requester.full_name}`}
                     </p>
                     {wo && (
-                      <p className="text-xs text-[#6b6454]">Work order: {wo.title}</p>
+                      <p className="text-xs text-[#5d6880]">Work order: {wo.title}</p>
                     )}
                     {daysPending > 3 && (
                       <p className="text-xs text-amber-400 mt-0.5">
@@ -269,19 +269,20 @@ export default async function PurchasingPage() {
         <h2 className="eyebrow mb-3">
           All Orders ({orders.length})
         </h2>
+        <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[800px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-                <th className="py-2 font-medium">Description</th>
-                <th className="py-2 font-medium">Source</th>
-                <th className="py-2 font-medium">Vendor</th>
-                <th className="py-2 font-medium">Property</th>
-                <th className="py-2 font-medium">Amount</th>
-                <th className="py-2 font-medium">Status</th>
-                <th className="py-2 font-medium">Requested By</th>
-                <th className="py-2 font-medium">Date</th>
-                <th className="py-2 font-medium">Actions</th>
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                <th className="px-5 py-3.5 font-medium">Description</th>
+                <th className="px-5 py-3.5 font-medium">Source</th>
+                <th className="px-5 py-3.5 font-medium">Vendor</th>
+                <th className="px-5 py-3.5 font-medium">Property</th>
+                <th className="px-5 py-3.5 font-medium">Amount</th>
+                <th className="px-5 py-3.5 font-medium">Status</th>
+                <th className="px-5 py-3.5 font-medium">Requested By</th>
+                <th className="px-5 py-3.5 font-medium">Date</th>
+                <th className="px-5 py-3.5 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -292,49 +293,49 @@ export default async function PurchasingPage() {
                 const approver = o.approver as { full_name: string } | null;
                 const tender = o.tender as { title: string } | null;
                 return (
-                  <tr key={o.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
-                    <td className="py-2">
-                      <Link href={`/purchasing/${o.id}`} className="font-medium hover:text-[#d4af5a]">
+                  <tr key={o.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                    <td className="px-5 py-3.5">
+                      <Link href={`/purchasing/${o.id}`} className="font-medium hover:text-[#d9647f]">
                         {o.description ?? "—"}
                       </Link>
-                      {o.notes && <p className="text-[10px] text-[#6b6454]">{o.notes}</p>}
+                      {o.notes && <p className="text-[10px] text-[#5d6880]">{o.notes}</p>}
                     </td>
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       {tender ? (
                         <Link
                           href={`/tenders/${o.tender_id}`}
-                          className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[rgba(184,144,47,0.12)] text-[#b8902f] hover:bg-[rgba(184,144,47,0.2)] whitespace-nowrap"
+                          className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[rgba(176,27,66,0.12)] text-[#b01b42] hover:bg-[rgba(176,27,66,0.2)] whitespace-nowrap"
                         >
                           Tender
                         </Link>
                       ) : o.work_order ? (
-                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#213052] text-[#a0977e]">
+                        <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[#213052] text-[#9aa5bd]">
                           Work Order
                         </span>
                       ) : (
-                        <span className="text-[10px] text-[#6b6454]">Manual</span>
+                        <span className="text-[10px] text-[#5d6880]">Manual</span>
                       )}
                     </td>
-                    <td className="py-2 text-[#a0977e]">{vendor?.name ?? "—"}</td>
-                    <td className="py-2 text-[#a0977e]">{property?.name ?? "—"}</td>
-                    <td className="py-2 text-[#d4af5a] font-medium">
+                    <td className="px-5 py-3.5 text-[#9aa5bd]">{vendor?.name ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#9aa5bd]">{property?.name ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#d9647f] font-medium">
                       {Number(o.amount).toLocaleString()}
                     </td>
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[o.status] ?? ""}`}>
                         {o.status}
                       </span>
                       {approver && o.status === "approved" && (
-                        <p className="text-[10px] text-[#6b6454] mt-0.5">
+                        <p className="text-[10px] text-[#5d6880] mt-0.5">
                           by {approver.full_name}
                         </p>
                       )}
                     </td>
-                    <td className="py-2">{requester?.full_name ?? "—"}</td>
-                    <td className="py-2 text-[#6b6454]">
+                    <td className="px-5 py-3.5">{requester?.full_name ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#5d6880]">
                       {new Date(o.created_at).toLocaleDateString()}
                     </td>
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       <PurchaseOrderActions orderId={o.id} currentStatus={o.status} amount={Number(o.amount)} />
                     </td>
                   </tr>
@@ -342,13 +343,14 @@ export default async function PurchasingPage() {
               })}
               {orders.length === 0 && (
                 <tr>
-                  <td className="py-4 text-[#6b6454]" colSpan={9}>
+                  <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={9}>
                     No purchase orders yet.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
+        </div>
         </div>
       </section>
     </main>
