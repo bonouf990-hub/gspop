@@ -199,6 +199,20 @@ export interface RentInvoice {
   status: RentInvoiceStatus;
   paidAt: string | null;
   paymentMethod: string | null;
+  chequeNumber: string | null;
+  chequeBank: string | null;
+  clearedAt: string | null;
+  notes: string | null;
+}
+
+export interface LeaseDocument {
+  id: string;
+  leaseId: string;
+  docType: "lease_agreement" | "ejari" | "addendum" | "receipt" | "other";
+  title: string;
+  storagePath: string;
+  uploadedBy: string | null;
+  uploadedAt: string;
 }
 
 export type MoveChecklistType = "move_in" | "move_out";
@@ -296,9 +310,12 @@ export interface LeaseOccupant {
 export type NotificationType =
   | "complaint_new"
   | "complaint_sla_breach"
+  | "complaint_status_update"
   | "work_order_assigned"
   | "approval_pending"
-  | "approval_escalated";
+  | "approval_escalated"
+  | "notice_posted"
+  | "rent_cleared";
 
 export interface AppNotification {
   id: string;

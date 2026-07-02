@@ -9,12 +9,14 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitting(true);
     setError(null);
+    setNotice(null);
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setSubmitting(false);
@@ -24,6 +26,24 @@ export default function LoginPage() {
     }
     router.push("/");
     router.refresh();
+  }
+
+  async function handleForgotPassword() {
+    setError(null);
+    setNotice(null);
+    if (!email) {
+      setError("Enter your email first, then tap Forgot password.");
+      return;
+    }
+    const supabase = createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) {
+      setError(error.message);
+      return;
+    }
+    setNotice("If that email is registered, a password reset link is on its way.");
   }
 
   return (
@@ -67,12 +87,20 @@ export default function LoginPage() {
             />
           </div>
           {error && <p className="text-red-500 text-xs">{error}</p>}
+          {notice && <p className="text-[var(--gold)] text-xs">{notice}</p>}
           <button
             type="submit"
             disabled={submitting}
             className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3 font-semibold text-sm disabled:opacity-50 transition-opacity"
           >
             {submitting ? "Signing in..." : "Sign In"}
+          </button>
+          <button
+            type="button"
+            onClick={handleForgotPassword}
+            className="w-full text-center text-xs text-[var(--muted)] hover:text-[var(--navy)] transition-colors"
+          >
+            Forgot password?
           </button>
         </div>
       </form>

@@ -38,15 +38,25 @@ in one surface can expose.
   compliance/document expiry, budgets, audit log.
 - **ops-console**: Work Orders, Approvals, Complaints (with recurring-issue detection), Compliance,
   Visitor Log.
-- **tenant-portal**: home dashboard (apartment details, equipment, rent-due banner), report an
-  issue, my requests, rent & payments, building notices.
-- **mobile**: technician job list, job detail with mandatory before-photo → GPS check-in → timer →
-  after-photo → GPS check-out sequence.
+- **tenant-portal** (resident surface — feature-complete): home dashboard (apartment details,
+  equipment, rent-due banner, profile + notifications), report an issue with photo upload,
+  my requests with a status-tracked detail view, rent as a cheque schedule with printable
+  receipts, building notices, in-app notifications, visitor pre-authorization, a profile page
+  (photo, phone/email, sign out), lease documents (contract/Ejari/receipts), and password reset.
+- **ops-console** management for the tenant surface: a navigation dashboard, Residents & Leases
+  (onboard residents, rent terms, per-lease cheque schedule, documents), Building Notices, and
+  complaint triage that shows resident photos and pushes status updates back to residents.
+- **mobile**: technician login, job list (active/completed tabs, pull-to-refresh, property/unit
+  context), job detail with mandatory before-photo capture & upload → GPS check-in → timer →
+  after-photo capture & upload → completion notes → GPS check-out, profile with performance
+  stats and sign-out.
 
 ## Setup
 
 1. Create a **new** Supabase project (not linked to any existing one). Run all files in
-   `database/migrations/` **in order** (0001 → 0005) against it.
+   `database/migrations/` **in order** (0001 → 0023) against it. The later migrations create
+   the private storage buckets they need (`unit-photos`, `complaint-photos`, `avatars`,
+   `lease-documents`) via `storage.buckets`, so no manual bucket setup is required.
 2. Copy each app's `.env.example` to `.env.local` (`.env` for mobile) and fill in the new
    project's URL/anon key.
 3. From the repo root: `npm install`

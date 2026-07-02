@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import {
   camelCaseKeys,
@@ -22,23 +23,47 @@ const TRADE_ICONS: Record<string, string> = {
   general: "🛠️",
 };
 
+type BudgetActual = {
+  budget_id: string;
+  property_id: string;
+  category: string;
+  fiscal_year: number;
+  fiscal_month: number;
+  budgeted_amount: number;
+  actual_amount: number;
+};
+
 async function getMonitorData() {
   const supabase = await createClient();
-  const [{ data: caseCounts }, { data: utilization }, { data: technicians }] = await Promise.all([
-    supabase.from("trade_case_counts").select("*"),
-    supabase.from("trade_technician_utilization").select("*"),
-    supabase.from("technician_current_status").select("*").order("trade"),
-  ]);
+  const now = new Date();
+  const [{ data: caseCounts }, { data: utilization }, { data: technicians }, { data: budgets }, { data: properties }] =
+    await Promise.all([
+      supabase.from("trade_case_counts").select("*"),
+      supabase.from("trade_technician_utilization").select("*"),
+      supabase.from("technician_current_status").select("*").order("trade"),
+      supabase
+        .from("budget_actuals")
+        .select("*")
+        .eq("fiscal_year", now.getFullYear())
+        .eq("fiscal_month", now.getMonth() + 1),
+      supabase.from("properties").select("id, name"),
+    ]);
+
+  const propertiesById = new Map(
+    ((properties ?? []) as { id: string; name: string }[]).map((p) => [p.id, p.name])
+  );
 
   return {
     caseCounts: camelCaseKeys<TradeCaseCounts[]>(caseCounts ?? []),
     utilization: camelCaseKeys<TradeTechnicianUtilization[]>(utilization ?? []),
     technicians: camelCaseKeys<TechnicianCurrentStatus[]>(technicians ?? []),
+    budgets: (budgets ?? []) as BudgetActual[],
+    propertiesById,
   };
 }
 
 export default async function OperationsMonitorPage() {
-  const { caseCounts, utilization, technicians } = await getMonitorData();
+  const { caseCounts, utilization, technicians, budgets, propertiesById } = await getMonitorData();
 
   const trades = Array.from(
     new Set([...caseCounts.map((c) => c.trade), ...utilization.map((u) => u.trade)])
@@ -46,8 +71,9 @@ export default async function OperationsMonitorPage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-1">Operations Monitor</h1>
-      <p className="text-gray-500 mb-8">
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-1">Operations Monitor</h1>
+      <p className="text-[#a0977e] mb-8">
         Open cases and technician utilization by trade — who's busy, who's idle, right now.
       </p>
 
@@ -58,23 +84,23 @@ export default async function OperationsMonitorPage() {
           const utilPct = util?.utilizationPct ?? 0;
 
           return (
-            <div key={trade} className="border border-gray-700 rounded-xl p-5">
+            <div key={trade} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold flex items-center gap-2">
+                <h2 className="font-bold flex items-center gap-2">
                   <span className="text-xl">{TRADE_ICONS[trade] ?? "🛠️"}</span>
                   {TRADE_LABELS[trade] ?? trade}
                 </h2>
-                <span className="text-2xl font-bold">{cases?.openCases ?? 0}</span>
+                <span className="text-2xl font-extrabold">{cases?.openCases ?? 0}</span>
               </div>
-              <p className="text-xs text-gray-500 mb-3">open cases</p>
+              <p className="text-xs text-[#6b6454] mb-3">open cases</p>
 
               <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-400">Technicians busy</span>
+                <span className="text-[#a0977e]">Technicians busy</span>
                 <span>
                   {util?.busyTechnicians ?? 0} / {util?.totalTechnicians ?? 0}
                 </span>
               </div>
-              <div className="w-full bg-gray-800 rounded-full h-2 mb-1">
+              <div className="w-full bg-[#213052] rounded-full h-2 mb-1">
                 <div
                   className={`h-2 rounded-full ${
                     utilPct >= 80 ? "bg-red-500" : utilPct >= 50 ? "bg-amber-500" : "bg-green-500"
@@ -82,9 +108,9 @@ export default async function OperationsMonitorPage() {
                   style={{ width: `${utilPct}%` }}
                 />
               </div>
-              <p className="text-xs text-gray-500 mb-4">{utilPct}% utilization</p>
+              <p className="text-xs text-[#6b6454] mb-4">{utilPct}% utilization</p>
 
-              <div className="flex justify-between text-xs text-gray-400">
+              <div className="flex justify-between text-xs text-[#a0977e]">
                 <span>Idle: {util?.idleTechnicians ?? 0}</span>
                 <span>Active jobs: {cases?.activeCases ?? 0}</span>
                 <span>Pending approval: {cases?.pendingApproval ?? 0}</span>
@@ -92,13 +118,61 @@ export default async function OperationsMonitorPage() {
             </div>
           );
         })}
-        {trades.length === 0 && <p className="text-gray-500">No technicians or work orders yet.</p>}
+        {trades.length === 0 && <p className="text-[#6b6454]">No technicians or work orders yet.</p>}
       </div>
 
-      <h2 className="text-lg font-semibold mb-3">Technician Status</h2>
+      {budgets.length > 0 && (
+        <>
+          <h2 className="text-lg font-bold mb-3">Budget vs Actual — This Month</h2>
+          <table className="w-full text-sm border-collapse mb-10">
+            <thead>
+              <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
+                <th className="py-2">Property</th>
+                <th className="py-2">Category</th>
+                <th className="py-2 text-right">Budget (AED)</th>
+                <th className="py-2 text-right">Actual (AED)</th>
+                <th className="py-2 text-right">Remaining</th>
+                <th className="py-2">Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              {budgets.map((b) => {
+                const budgeted = Number(b.budgeted_amount);
+                const actual = Number(b.actual_amount);
+                const remaining = budgeted - actual;
+                const pct = budgeted > 0 ? Math.round((actual / budgeted) * 100) : 0;
+                return (
+                  <tr key={b.budget_id} className="border-b border-[rgba(184,144,47,0.08)]">
+                    <td className="py-2">{propertiesById.get(b.property_id) ?? "—"}</td>
+                    <td className="py-2 capitalize">{b.category}</td>
+                    <td className="py-2 text-right text-[#a0977e]">{budgeted.toLocaleString()}</td>
+                    <td className="py-2 text-right font-medium">{actual.toLocaleString()}</td>
+                    <td className={`py-2 text-right font-medium ${remaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                      {remaining.toLocaleString()}
+                    </td>
+                    <td className="py-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-20 bg-[#213052] rounded-full h-2">
+                          <div
+                            className={`h-2 rounded-full ${pct > 100 ? "bg-red-500" : pct > 80 ? "bg-amber-500" : "bg-green-500"}`}
+                            style={{ width: `${Math.min(pct, 100)}%` }}
+                          />
+                        </div>
+                        <span className="text-xs text-[#6b6454]">{pct}%</span>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      )}
+
+      <h2 className="text-lg font-bold mb-3">Technician Status</h2>
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Name</th>
             <th className="py-2">Trade</th>
             <th className="py-2">Status</th>
@@ -107,24 +181,24 @@ export default async function OperationsMonitorPage() {
         </thead>
         <tbody>
           {technicians.map((t) => (
-            <tr key={t.technicianId} className="border-b border-gray-800">
+            <tr key={t.technicianId} className="border-b border-[rgba(184,144,47,0.08)]">
               <td className="py-2">{t.fullName}</td>
               <td className="py-2">{TRADE_LABELS[t.trade] ?? t.trade}</td>
               <td className="py-2">
                 <span
                   className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                    t.status === "busy" ? "bg-blue-900 text-blue-300" : "bg-gray-800 text-gray-400"
+                    t.status === "busy" ? "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]" : "bg-[#213052] text-[#a0977e]"
                   }`}
                 >
                   {t.status}
                 </span>
               </td>
-              <td className="py-2 text-gray-400">{t.currentWorkOrderTitle ?? "—"}</td>
+              <td className="py-2 text-[#a0977e]">{t.currentWorkOrderTitle ?? "—"}</td>
             </tr>
           ))}
           {technicians.length === 0 && (
             <tr>
-              <td className="py-4 text-gray-500" colSpan={4}>
+              <td className="py-4 text-[#6b6454]" colSpan={4}>
                 No technicians yet.
               </td>
             </tr>

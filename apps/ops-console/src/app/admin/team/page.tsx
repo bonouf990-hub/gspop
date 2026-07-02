@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import CreateStaffForm from "./CreateStaffForm";
+import EditSalary from "./EditSalary";
 
 const ROLE_DESCRIPTIONS: Record<string, string> = {
   tenant_admin: "Full access across all properties, billing, and team management.",
@@ -26,7 +28,7 @@ export default async function TeamManagementPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-gray-500">You don't have access to Team Management.</p>
+        <p className="text-[#6b6454]">You don't have access to Team Management.</p>
       </main>
     );
   }
@@ -34,7 +36,7 @@ export default async function TeamManagementPage() {
   const [{ data: staff }, { data: properties }, { data: assignments }] = await Promise.all([
     supabase
       .from("user_profiles")
-      .select("id, full_name, role, department, job_title, reports_to_id")
+      .select("id, full_name, role, trade, department, job_title, phone, reports_to_id, monthly_salary, hourly_rate")
       .order("role"),
     supabase.from("properties").select("id, name"),
     supabase.from("property_assignments").select("user_id, property_id"),
@@ -55,19 +57,20 @@ export default async function TeamManagementPage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-2">Team Management</h1>
-      <p className="text-gray-500 mb-6">
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-2">Team Management</h1>
+      <p className="text-[#a0977e] mb-6">
         Create staff logins, assign roles, reporting lines, and which buildings they cover.
       </p>
 
-      <details className="mb-6 border border-gray-700 rounded-lg p-4">
-        <summary className="cursor-pointer font-medium text-sm">Role reference — who can do what</summary>
+      <details className="mb-6 border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
+        <summary className="cursor-pointer font-medium text-sm text-[#d4af5a]">Role reference — who can do what</summary>
         <table className="w-full text-sm mt-3 border-collapse">
           <tbody>
             {Object.entries(ROLE_DESCRIPTIONS).map(([role, desc]) => (
-              <tr key={role} className="border-b border-gray-800">
+              <tr key={role} className="border-b border-[rgba(184,144,47,0.08)]">
                 <td className="py-2 pr-4 font-medium capitalize whitespace-nowrap">{role.replace(/_/g, " ")}</td>
-                <td className="py-2 text-gray-400">{desc}</td>
+                <td className="py-2 text-[#a0977e]">{desc}</td>
               </tr>
             ))}
           </tbody>
@@ -81,24 +84,42 @@ export default async function TeamManagementPage() {
 
       <table className="w-full text-sm border-collapse">
         <thead>
-          <tr className="text-left border-b border-gray-700">
+          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Name</th>
             <th className="py-2">Role</th>
-            <th className="py-2">Department</th>
+            <th className="py-2">Trade</th>
+            <th className="py-2">Phone</th>
+            <th className="py-2 text-right">Monthly Salary</th>
+            <th className="py-2 text-right">Hourly Rate</th>
             <th className="py-2">Reports To</th>
             <th className="py-2">Buildings</th>
+            <th className="py-2"></th>
           </tr>
         </thead>
         <tbody>
           {(staff ?? []).map((s) => (
-            <tr key={s.id} className="border-b border-gray-800">
+            <tr key={s.id} className="border-b border-[rgba(184,144,47,0.08)]">
               <td className="py-2">{s.full_name}</td>
               <td className="py-2 capitalize">{s.role.replace(/_/g, " ")}</td>
-              <td className="py-2 text-gray-400">{s.department ?? "—"}</td>
-              <td className="py-2 text-gray-400">
+              <td className="py-2 text-[#a0977e] capitalize">{s.trade ?? "—"}</td>
+              <td className="py-2 text-[#a0977e]">{s.phone ?? "—"}</td>
+              <td className="py-2 text-right text-[#d4af5a]">
+                {s.monthly_salary ? `AED ${Number(s.monthly_salary).toLocaleString()}` : "—"}
+              </td>
+              <td className="py-2 text-right text-[#d4af5a]">
+                {s.hourly_rate ? `AED ${Number(s.hourly_rate).toLocaleString()}` : "—"}
+              </td>
+              <td className="py-2 text-[#a0977e]">
                 {s.reports_to_id ? staffById.get(s.reports_to_id)?.full_name ?? "—" : "—"}
               </td>
-              <td className="py-2 text-gray-400">{(propertiesByUser.get(s.id) ?? []).join(", ") || "All"}</td>
+              <td className="py-2 text-[#a0977e]">{(propertiesByUser.get(s.id) ?? []).join(", ") || "All"}</td>
+              <td className="py-2">
+                <EditSalary
+                  userId={s.id}
+                  currentSalary={s.monthly_salary ? Number(s.monthly_salary) : null}
+                  currentHourlyRate={s.hourly_rate ? Number(s.hourly_rate) : null}
+                />
+              </td>
             </tr>
           ))}
         </tbody>

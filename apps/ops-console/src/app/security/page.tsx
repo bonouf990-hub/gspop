@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { camelCaseKeys, type Visitor } from "@gspop/shared";
 import VisitorActions from "./VisitorActions";
@@ -29,16 +30,17 @@ export default async function SecurityConsolePage() {
 
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold mb-1">Security Console</h1>
-      <p className="text-gray-500 mb-8">
+      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <h1 className="text-2xl font-extrabold mt-1 mb-1">Security Console</h1>
+      <p className="text-[#a0977e] mb-8">
         Pre-authorized visitors awaiting arrival, who's on site now, and recent activity.
       </p>
 
       <section className="mb-8">
-        <h2 className="text-lg font-semibold mb-3">Expected ({invited.length})</h2>
+        <h2 className="text-lg font-bold mb-3">Expected ({invited.length})</h2>
         <table className="w-full text-sm border-collapse">
           <thead>
-            <tr className="text-left border-b border-gray-700">
+            <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Name</th>
               <th className="py-2">Purpose</th>
               <th className="py-2">Window</th>
@@ -48,14 +50,14 @@ export default async function SecurityConsolePage() {
           </thead>
           <tbody>
             {invited.map((v) => (
-              <tr key={v.id} className="border-b border-gray-800">
+              <tr key={v.id} className="border-b border-[rgba(184,144,47,0.08)]">
                 <td className="py-2">{v.fullName || v.brandName}</td>
                 <td className="py-2 capitalize">{v.purpose}</td>
-                <td className="py-2 text-gray-400">
+                <td className="py-2 text-[#a0977e]">
                   {v.expectedWindowStart ? new Date(v.expectedWindowStart).toLocaleTimeString() : "—"} –{" "}
                   {v.expectedWindowEnd ? new Date(v.expectedWindowEnd).toLocaleTimeString() : "—"}
                 </td>
-                <td className="py-2 text-gray-400">{v.emiratesIdNumber ?? "—"}</td>
+                <td className="py-2 text-[#a0977e]">{v.emiratesIdNumber ?? "—"}</td>
                 <td className="py-2">
                   <VisitorActions
                     visitorId={v.id}
@@ -68,7 +70,7 @@ export default async function SecurityConsolePage() {
             ))}
             {invited.length === 0 && (
               <tr>
-                <td className="py-4 text-gray-500" colSpan={5}>
+                <td className="py-4 text-[#6b6454]" colSpan={5}>
                   No visitors expected.
                 </td>
               </tr>
@@ -78,10 +80,10 @@ export default async function SecurityConsolePage() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-lg font-semibold mb-3">On Site ({onSite.length})</h2>
+        <h2 className="text-lg font-bold mb-3">On Site ({onSite.length})</h2>
         <table className="w-full text-sm border-collapse">
           <thead>
-            <tr className="text-left border-b border-gray-700">
+            <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Name</th>
               <th className="py-2">Purpose</th>
               <th className="py-2">Checked In</th>
@@ -90,10 +92,10 @@ export default async function SecurityConsolePage() {
           </thead>
           <tbody>
             {onSite.map((v) => (
-              <tr key={v.id} className="border-b border-gray-800">
+              <tr key={v.id} className="border-b border-[rgba(184,144,47,0.08)]">
                 <td className="py-2">{v.fullName || v.brandName}</td>
                 <td className="py-2 capitalize">{v.purpose}</td>
-                <td className="py-2 text-gray-400">
+                <td className="py-2 text-[#a0977e]">
                   {v.checkedInAt ? new Date(v.checkedInAt).toLocaleTimeString() : "—"}
                 </td>
                 <td className="py-2">
@@ -108,7 +110,7 @@ export default async function SecurityConsolePage() {
             ))}
             {onSite.length === 0 && (
               <tr>
-                <td className="py-4 text-gray-500" colSpan={4}>
+                <td className="py-4 text-[#6b6454]" colSpan={4}>
                   No one currently on site.
                 </td>
               </tr>
@@ -118,10 +120,10 @@ export default async function SecurityConsolePage() {
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold mb-3">Recent Activity</h2>
+        <h2 className="text-lg font-bold mb-3">Recent Activity</h2>
         <table className="w-full text-sm border-collapse">
           <thead>
-            <tr className="text-left border-b border-gray-700">
+            <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Name</th>
               <th className="py-2">Purpose</th>
               <th className="py-2">Status</th>
@@ -129,15 +131,15 @@ export default async function SecurityConsolePage() {
           </thead>
           <tbody>
             {history.map((v) => (
-              <tr key={v.id} className="border-b border-gray-800">
+              <tr key={v.id} className="border-b border-[rgba(184,144,47,0.08)]">
                 <td className="py-2">{v.fullName || v.brandName}</td>
                 <td className="py-2 capitalize">{v.purpose}</td>
-                <td className="py-2 text-gray-400">{STATUS_LABEL[v.status]}</td>
+                <td className="py-2 text-[#a0977e]">{STATUS_LABEL[v.status]}</td>
               </tr>
             ))}
             {history.length === 0 && (
               <tr>
-                <td className="py-4 text-gray-500" colSpan={3}>
+                <td className="py-4 text-[#6b6454]" colSpan={3}>
                   No recent activity.
                 </td>
               </tr>
