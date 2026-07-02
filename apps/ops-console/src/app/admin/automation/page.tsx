@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Timer } from "lucide-react";
 import AutomationSettingsForm from "./AutomationSettingsForm";
 
 export default async function AutomationSettingsPage() {
@@ -15,7 +17,7 @@ export default async function AutomationSettingsPage() {
   const isAdmin = profile && ["super_admin", "tenant_admin", "property_manager"].includes(profile.role);
   if (!isAdmin) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">You don&apos;t have access to Automation Settings.</p>
       </main>
     );
@@ -28,11 +30,13 @@ export default async function AutomationSettingsPage() {
     .maybeSingle();
 
   return (
-    <main className="p-8 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-extrabold mt-1 mb-1">Automation Settings</h1>
-      <p className="text-[#5b6b85] mb-8">
-        Control when reminders go out and which automations run. Changes take effect from the next daily run.
-      </p>
+    <main className="p-6 sm:p-8 max-w-3xl mx-auto">
+      <PageHeader
+        eyebrow="Administration"
+        title="Automation Settings"
+        icon={Timer}
+        description="Control when reminders go out and which automations run. Changes take effect from the next daily run."
+      />
 
       <AutomationSettingsForm
         tenantId={profile.tenant_id as string}

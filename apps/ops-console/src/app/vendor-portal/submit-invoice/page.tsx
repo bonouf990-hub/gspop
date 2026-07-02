@@ -41,14 +41,14 @@ export default async function SubmitInvoicePage() {
 
   if (!data) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">Vendor account not found.</p>
       </main>
     );
   }
 
   return (
-    <main className="p-8 max-w-2xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-2xl mx-auto">
       <Link href="/vendor-portal" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Vendor Portal</Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-2">Submit Invoice</h1>
       <p className="text-[#5b6b85] mb-6">

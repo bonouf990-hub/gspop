@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Wallet } from "lucide-react";
 import { requireManagementRole } from "@/lib/check-permission";
 import SetBudget from "./SetBudget";
 import ExportCsv from "@/components/ExportCsv";
@@ -177,7 +179,7 @@ export default async function BudgetTrackingPage({
 }) {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this report.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this report.</p></main>;
   }
 
   const sp = await searchParams;
@@ -210,9 +212,10 @@ export default async function BudgetTrackingPage({
   ];
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
+          <p className="eyebrow mb-1.5 flex items-center gap-2"><Wallet size={12} /> Insight &amp; Reporting</p>
           <h1 className="mt-1">Building Budget Tracker</h1>
           <p className="text-[#5b6b85] text-sm mt-1">
             Annual maintenance budget per building — set budgets and track consumption in real time.
@@ -272,13 +275,13 @@ export default async function BudgetTrackingPage({
 
       {/* Over-budget alerts */}
       {overBudget.length > 0 && (
-        <div className="bg-red-950 border border-red-700 rounded-xl p-4 mb-6">
+        <div className="bg-gradient-to-br from-red-50 to-white border border-red-200 rounded-xl p-4 mb-6 shadow-[var(--shadow-sm)]">
           <h2 className="text-xs font-bold text-red-600 tracking-[0.15em] uppercase mb-2">
             Over Budget Alert ({overBudget.length})
           </h2>
           <ul className="space-y-1">
             {overBudget.map((v) => (
-              <li key={v.propertyId} className="text-sm text-red-200">
+              <li key={v.propertyId} className="text-sm text-red-700">
                 <span className="font-medium">{v.propertyName}</span> — exceeded by{" "}
                 <span className="font-bold">AED {Math.abs(v.remaining).toLocaleString()}</span>{" "}
                 ({v.pctUsed}% of budget used)
@@ -303,10 +306,10 @@ export default async function BudgetTrackingPage({
                     {v.totalBudget > 0 && (
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                         v.pctUsed >= 100
-                          ? "bg-red-900 text-red-700"
+                          ? "bg-red-50 text-red-700"
                           : v.pctUsed >= 80
-                          ? "bg-amber-900 text-amber-700"
-                          : "bg-green-900 text-green-700"
+                          ? "bg-amber-50 text-amber-700"
+                          : "bg-green-50 text-green-700"
                       }`}>
                         {v.pctUsed}% used
                       </span>
@@ -379,7 +382,7 @@ export default async function BudgetTrackingPage({
           Summary — All Buildings {year}
         </h2>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[800px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[800px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>

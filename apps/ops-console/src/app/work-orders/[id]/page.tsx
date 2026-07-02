@@ -242,7 +242,7 @@ export default async function WorkOrderDetailPage({
 
   if (!wo) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">Case not found.</p>
       </main>
     );
@@ -389,7 +389,7 @@ export default async function WorkOrderDetailPage({
   const active = !["closed", "cancelled"].includes(status);
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">
         <div>

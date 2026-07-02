@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { Wrench, PlayCircle, Siren, CheckCircle2 } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import StatTile, { type StatTone } from "@/components/StatTile";
 import CreateWorkOrderForm from "./CreateWorkOrderForm";
+
+type IconType = React.ComponentType<{ size?: number | string; className?: string }>;
 
 type WorkOrderRow = {
   id: string;
@@ -95,12 +100,13 @@ export default async function WorkOrdersPage({
   const OPEN_STATUSES = ["draft", "pending_approval", "approved", "assigned", "in_progress", "paused"];
   const monthStart = new Date();
   monthStart.setDate(1);
-  const kpis = [
-    { label: "Open", value: workOrders.filter((w) => OPEN_STATUSES.includes(w.status)).length },
-    { label: "In Progress", value: workOrders.filter((w) => w.status === "in_progress").length },
-    { label: "Emergency", value: workOrders.filter((w) => w.priority === "emergency" && OPEN_STATUSES.includes(w.status)).length },
+  const kpis: { label: string; value: number; tone: StatTone; icon: IconType }[] = [
+    { label: "Open", value: workOrders.filter((w) => OPEN_STATUSES.includes(w.status)).length, tone: "gold", icon: Wrench },
+    { label: "In Progress", value: workOrders.filter((w) => w.status === "in_progress").length, tone: "amber", icon: PlayCircle },
+    { label: "Emergency", value: workOrders.filter((w) => w.priority === "emergency" && OPEN_STATUSES.includes(w.status)).length, tone: "red", icon: Siren },
     {
       label: "Completed This Month",
+      tone: "green", icon: CheckCircle2,
       value: workOrders.filter(
         (w) =>
           ["completed_by_technician", "verified_by_supervisor", "confirmed_by_resident", "closed"].includes(w.status) &&
@@ -110,35 +116,35 @@ export default async function WorkOrdersPage({
   ];
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">{isTechnician ? "My Work Orders" : "Work Orders"}</h1>
-          <p className="text-[#5b6b85] mt-1">Assign, track, and verify maintenance jobs across all buildings.</p>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <div className="rise-in">
+        <PageHeader
+          eyebrow="Maintenance & Engineering"
+          title={isTechnician ? "My Work Orders" : "Work Orders"}
+          icon={Wrench}
+          description="Assign, track, and verify maintenance jobs across all buildings."
+          actions={!isTechnician ? <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} /> : undefined}
+        >
           {filteredUnitLabel && (
-            <p className="mt-2 text-xs font-bold">
-              <span className="px-3 py-1.5 rounded-full bg-[rgba(176,27,66,0.08)] text-[#b01b42]">
+            <p className="mt-3 text-xs font-bold">
+              <span className="pill bg-[rgba(176,27,66,0.08)] text-[#b01b42]">
                 Showing history for unit {filteredUnitLabel}
               </span>{" "}
               <Link href="/work-orders" className="text-[#5b6b85] underline ml-2">clear</Link>
             </p>
           )}
-        </div>
-        {!isTechnician && <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />}
+        </PageHeader>
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 rise-in rise-in-1">
         {kpis.map((k) => (
-          <div key={k.label} className="lux-card p-5">
-            <p className="eyebrow text-[10px]">{k.label}</p>
-            <p className="text-3xl font-extrabold text-[#16233c] mt-2 tabular-nums">{k.value}</p>
-          </div>
+          <StatTile key={k.label} label={k.label} value={k.value} tone={k.tone} icon={k.icon} />
         ))}
       </div>
 
-      <div className="lux-card overflow-hidden">
+      <div className="lux-card overflow-hidden rise-in rise-in-2">
       <div className="overflow-x-auto">
-      <table className="w-full text-sm border-collapse min-w-[900px]">
+      <table className="lux-table w-full text-sm border-collapse min-w-[900px]">
         <thead>
           <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5 font-medium">Title</th>

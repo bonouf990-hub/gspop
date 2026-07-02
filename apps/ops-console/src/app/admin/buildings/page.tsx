@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Building2 } from "lucide-react";
 
 type Building = {
   id: string;
@@ -24,20 +26,18 @@ export default async function BuildingsPage() {
   const totalCommon = buildings.reduce((s, b) => s + (b.common_areas?.[0]?.count ?? 0), 0);
 
   return (
-    <main className="p-8 max-w-5xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">
-        <div>
-          <p className="eyebrow">Portfolio</p>
-          <h1 className="mt-1">Buildings</h1>
-          <p className="text-[#5b6b85] mt-1">
-            Every building with its floors, apartments and common areas — the foundation the Asset Register attaches to.
-          </p>
-        </div>
-        <Link href="/admin/buildings/import"
-          className="text-sm font-bold px-4 py-2.5 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.06)]">
-          Bulk Import
-        </Link>
-      </div>
+    <main className="p-6 sm:p-8 max-w-5xl mx-auto">
+      <PageHeader
+        eyebrow="Portfolio"
+        title="Buildings"
+        icon={Building2}
+        description="Every building with its floors, apartments and common areas — the foundation the Asset Register attaches to."
+        actions={
+          <Link href="/admin/buildings/import" className="btn-ghost text-sm px-4 py-2.5">
+            Bulk Import
+          </Link>
+        }
+      />
 
       <div className="grid grid-cols-3 gap-4 mb-6">
         {[["Buildings", buildings.length], ["Apartments", totalUnits], ["Common Areas", totalCommon]].map(([label, value]) => (
@@ -49,7 +49,7 @@ export default async function BuildingsPage() {
       </div>
 
       <div className="lux-card overflow-hidden">
-        <table className="w-full text-sm border-collapse">
+        <table className="lux-table w-full text-sm border-collapse">
           <thead>
             <tr className="text-left border-b border-[#e4e9f2] text-[#5b6b85] bg-[#f7f9fc]">
               <th className="px-5 py-3.5 font-medium">Building</th>

@@ -149,18 +149,18 @@ async function getTenderData(id: string) {
 
 const STATUS_STYLE: Record<string, string> = {
   draft: "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]",
-  published: "bg-green-900 text-green-700",
-  site_visit: "bg-amber-900 text-amber-700",
-  submissions_open: "bg-green-900 text-green-700",
-  closed: "bg-amber-900 text-amber-700",
+  published: "bg-green-50 text-green-700",
+  site_visit: "bg-amber-50 text-amber-700",
+  submissions_open: "bg-green-50 text-green-700",
+  closed: "bg-amber-50 text-amber-700",
   evaluating: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  decided: "bg-green-900 text-green-700",
-  cancelled: "bg-red-900 text-red-700",
+  decided: "bg-green-50 text-green-700",
+  cancelled: "bg-red-50 text-red-700",
   submitted: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  under_review: "bg-amber-900 text-amber-700",
-  shortlisted: "bg-green-900 text-green-700",
+  under_review: "bg-amber-50 text-amber-700",
+  shortlisted: "bg-green-50 text-green-700",
   winner: "bg-[#b01b42] text-[#f4f6fa]",
-  rejected: "bg-red-900 text-red-700",
+  rejected: "bg-red-50 text-red-700",
 };
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -186,7 +186,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
   const sorted = [...submissions].sort((a, b) => (b.ai_score ?? 0) - (a.ai_score ?? 0));
 
   return (
-    <main className="p-8">
+    <main className="p-6 sm:p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
           <div className="flex gap-3 text-sm">
@@ -298,7 +298,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                 <div>
                   <span className="text-sm font-medium">{req.title}</span>
                   <span className={`text-[10px] ml-2 px-1.5 py-0.5 rounded ${
-                    req.is_mandatory ? "bg-red-900 text-red-700" : "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]"
+                    req.is_mandatory ? "bg-red-50 text-red-700" : "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]"
                   }`}>
                     {req.is_mandatory ? "REQUIRED" : "OPTIONAL"}
                   </span>
@@ -450,7 +450,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                   )}
 
                   {!mandatoryMet && requirements.some((r) => r.is_mandatory) && (
-                    <div className="bg-red-950/30 border border-red-200 rounded-lg px-3 py-2 mb-3">
+                    <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-3">
                       <p className="text-xs text-red-600 font-bold">
                         Missing mandatory requirements — may not qualify
                       </p>

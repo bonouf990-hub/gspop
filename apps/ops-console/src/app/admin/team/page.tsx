@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { UserCog } from "lucide-react";
 import CreateStaffForm from "./CreateStaffForm";
 import EditSalary from "./EditSalary";
 
@@ -27,7 +29,7 @@ export default async function TeamManagementPage() {
 
   if (!isAdmin) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">You don&apos;t have access to Team Management.</p>
       </main>
     );
@@ -56,19 +58,19 @@ export default async function TeamManagementPage() {
   );
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Team Management</h1>
-          <p className="text-[#5b6b85] mt-1">
-            Create staff logins, assign roles, reporting lines, and which buildings they cover.
-          </p>
-        </div>
-        <CreateStaffForm
-          managers={(managers ?? []).map((m) => ({ id: m.id, full_name: m.full_name }))}
-          properties={(properties ?? []).map((p) => ({ id: p.id, name: p.name }))}
-        />
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Administration"
+        title="Team Management"
+        icon={UserCog}
+        description="Create staff logins, assign roles, reporting lines, and which buildings they cover."
+        actions={
+          <CreateStaffForm
+            managers={(managers ?? []).map((m) => ({ id: m.id, full_name: m.full_name }))}
+            properties={(properties ?? []).map((p) => ({ id: p.id, name: p.name }))}
+          />
+        }
+      />
 
       <details className="mb-6 lux-card p-4">
         <summary className="cursor-pointer font-medium text-sm text-[#d9647f]">Role reference — who can do what</summary>
@@ -86,7 +88,7 @@ export default async function TeamManagementPage() {
 
       <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
-      <table className="w-full text-sm border-collapse min-w-[1000px]">
+      <table className="lux-table w-full text-sm border-collapse min-w-[1000px]">
         <thead>
           <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5">Name</th>

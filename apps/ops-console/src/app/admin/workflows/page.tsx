@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { GitBranch } from "lucide-react";
 import WorkflowRuleEditor from "./WorkflowRuleEditor";
 import ApprovalChainEditor from "./ApprovalChainEditor";
 import SeedDefaults from "./SeedDefaults";
@@ -139,7 +141,7 @@ export default async function WorkflowsPage() {
   const isAdmin = callerProfile && ["tenant_admin", "super_admin"].includes(callerProfile.role);
   if (!isAdmin) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">Only tenant administrators can configure workflows.</p>
       </main>
     );
@@ -154,17 +156,14 @@ export default async function WorkflowsPage() {
   const modules = Object.keys(MODULE_LABELS);
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Workflow Configuration</h1>
-          <p className="text-[#5b6b85] text-sm mt-1">
-            Control who can perform each action, set approval thresholds, and define approval chains.
-            Changes take effect immediately across the platform.
-          </p>
-        </div>
-        {rules.length === 0 && tenantId && <SeedDefaults tenantId={tenantId} />}
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Administration"
+        title="Workflow Configuration"
+        icon={GitBranch}
+        description="Control who can perform each action, set approval thresholds, and define approval chains. Changes take effect immediately across the platform."
+        actions={rules.length === 0 && tenantId ? <SeedDefaults tenantId={tenantId} /> : undefined}
+      />
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         <div className="lux-card p-4 text-center">
@@ -203,7 +202,7 @@ export default async function WorkflowsPage() {
             ) : (
               <div className="lux-card overflow-hidden mb-4">
               <div className="overflow-x-auto">
-                <table className="w-full text-sm border-collapse">
+                <table className="lux-table w-full text-sm border-collapse">
                   <thead>
                     <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                       <th className="px-5 py-3.5 font-medium w-32">Action</th>

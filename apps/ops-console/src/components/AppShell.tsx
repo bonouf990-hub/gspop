@@ -159,14 +159,21 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   const sidebar = (
-    <div className="flex flex-col h-full bg-white border-r border-[#e4e9f2]">
+    <div className="flex flex-col h-full bg-gradient-to-b from-white to-[#fcfdff] border-r border-[#e4e9f2]">
       {/* Brand */}
-      <div className="px-6 pt-6 pb-5 border-b border-[#eef1f7]">
-        <Link href="/" className="block">
-          <p className="text-xl font-extrabold tracking-[0.14em] text-[#16233c]">ARENCO <span className="text-[#b01b42]">One</span></p>
-          <p className="text-[9px] font-bold tracking-[0.3em] uppercase text-[#b01b42] mt-0.5">
-            Estate Operations
-          </p>
+      <div className="px-5 pt-6 pb-5 border-b border-[#eef1f7]">
+        <Link href="/" className="group flex items-center gap-3">
+          <span className="icon-chip icon-chip-solid icon-chip-lg shrink-0 font-display text-lg font-bold">
+            A
+          </span>
+          <span className="min-w-0">
+            <span className="block text-lg font-extrabold tracking-[0.12em] text-[#16233c] leading-none">
+              ARENCO <span className="text-[#b01b42]">One</span>
+            </span>
+            <span className="block text-[9px] font-bold tracking-[0.3em] uppercase text-[#b01b42] mt-1.5">
+              Estate Operations
+            </span>
+          </span>
         </Link>
       </div>
 
@@ -177,7 +184,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           if (items.length === 0) return null;
           return (
             <div key={group.label}>
-              <p className="px-3 mb-1.5 text-[10px] font-bold tracking-[0.18em] uppercase text-[#8b97ab]">
+              <p className="px-3 mb-1.5 text-[10px] font-bold tracking-[0.18em] uppercase text-[#9aa6ba]">
                 {group.label}
               </p>
               <ul className="space-y-0.5">
@@ -189,14 +196,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                        aria-current={active ? "page" : undefined}
+                        className={`group/nav relative flex items-center gap-3 pl-3 pr-3 py-2 rounded-lg text-sm transition-all duration-200 ${
                           active
-                            ? "bg-[rgba(176,27,66,0.08)] text-[#b01b42] font-semibold"
+                            ? "bg-[rgba(176,27,66,0.07)] text-[#b01b42] font-semibold shadow-[inset_0_0_0_1px_rgba(176,27,66,0.12)]"
                             : "text-[#43536e] hover:bg-[#f4f7fb] hover:text-[#16233c]"
                         }`}
                       >
-                        <Icon size={17} className={active ? "text-[#b01b42]" : "text-[#8b97ab]"} />
-                        {item.label}
+                        {active && (
+                          <span className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-full bg-gradient-to-b from-[#c92c52] to-[#97173a]" />
+                        )}
+                        <span
+                          className={`flex items-center justify-center w-7 h-7 rounded-lg transition-all duration-200 ${
+                            active
+                              ? "bg-white text-[#b01b42] shadow-[0_1px_2px_rgba(176,27,66,0.18),inset_0_1px_0_rgba(255,255,255,0.9)] ring-1 ring-[rgba(176,27,66,0.15)]"
+                              : "text-[#8b97ab] group-hover/nav:text-[#5b6b85]"
+                          }`}
+                        >
+                          <Icon size={16} />
+                        </span>
+                        <span className="truncate">{item.label}</span>
                       </Link>
                     </li>
                   );
@@ -207,8 +226,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         })}
       </nav>
 
-      <div className="px-6 py-4 border-t border-[#eef1f7]">
-        <p className="text-[10px] text-[#8b97ab] tracking-[0.14em] uppercase">
+      <div className="px-5 py-4 border-t border-[#eef1f7]">
+        <p className="text-[10px] text-[#9aa6ba] tracking-[0.14em] uppercase flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#34d399] shadow-[0_0_0_2px_rgba(52,211,153,0.2)]" />
           ARENCO Real Estate · Dubai
         </p>
       </div>
@@ -230,12 +250,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       <div className="lg:pl-64 flex flex-col min-h-screen">
         {/* Topbar */}
-        <header className="sticky top-0 z-30 bg-white/85 backdrop-blur border-b border-[#e4e9f2]">
+        <header className="sticky top-0 z-30 bg-white/75 backdrop-blur-xl border-b border-[#e4e9f2] shadow-[0_1px_2px_rgba(22,35,60,0.03)]">
           <div className="flex items-center gap-3 px-4 sm:px-6 h-14">
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg text-[#43536e] hover:bg-[#f4f7fb]"
+              className="lg:hidden w-9 h-9 flex items-center justify-center rounded-lg text-[#43536e] hover:bg-[#f4f7fb] transition-colors"
               aria-label="Open menu"
             >
               <Menu size={20} />
@@ -245,24 +265,26 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
             <Link
               href="/notifications"
-              className="relative w-9 h-9 flex items-center justify-center rounded-lg text-[#43536e] hover:bg-[#f4f7fb]"
+              className="relative w-9 h-9 flex items-center justify-center rounded-lg text-[#43536e] hover:bg-[#f4f7fb] hover:text-[#b01b42] transition-colors"
               aria-label="Notifications"
             >
               <Bell size={18} />
               {unread > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#b01b42] text-white text-[10px] font-bold flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-gradient-to-br from-[#c92c52] to-[#97173a] text-white text-[10px] font-bold flex items-center justify-center shadow-[0_2px_5px_rgba(176,27,66,0.4)] ring-2 ring-white tabular-nums">
                   {unread > 99 ? "99+" : unread}
                 </span>
               )}
             </Link>
 
+            <div className="w-px h-6 bg-[#e4e9f2] mx-0.5 hidden sm:block" />
+
             <div className="relative">
               <button
                 type="button"
                 onClick={() => setMenuOpen((v) => !v)}
-                className="flex items-center gap-2.5 pl-1.5 pr-3 py-1.5 rounded-lg hover:bg-[#f4f7fb]"
+                className="flex items-center gap-2.5 pl-1.5 pr-2.5 py-1.5 rounded-xl hover:bg-[#f4f7fb] transition-colors"
               >
-                <span className="w-8 h-8 rounded-full bg-[#b01b42] text-white text-xs font-bold flex items-center justify-center">
+                <span className="w-8 h-8 rounded-full bg-gradient-to-br from-[#c92c52] to-[#97173a] text-white text-xs font-bold flex items-center justify-center shadow-[0_2px_6px_rgba(176,27,66,0.3),inset_0_1px_0_rgba(255,255,255,0.3)]">
                   {(profile?.name ?? "?")
                     .split(" ")
                     .map((w) => w[0])
@@ -283,11 +305,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               {menuOpen && (
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setMenuOpen(false)} />
-                  <div className="absolute right-0 top-full mt-1.5 z-20 w-48 bg-white border border-[#e4e9f2] rounded-xl shadow-lg overflow-hidden">
+                  <div className="absolute right-0 top-full mt-2 z-20 w-56 bg-white border border-[#e4e9f2] rounded-xl shadow-[0_12px_40px_rgba(22,35,60,0.16)] overflow-hidden origin-top-right">
+                    <div className="px-4 py-3 border-b border-[#eef1f7] bg-gradient-to-b from-white to-[#fbfcfe]">
+                      <p className="text-sm font-semibold text-[#16233c] leading-tight truncate">{profile?.name ?? "…"}</p>
+                      <p className="text-[11px] text-[#8b97ab] capitalize leading-tight mt-0.5">
+                        {profile?.role?.replace(/_/g, " ") ?? ""}
+                      </p>
+                    </div>
                     <button
                       type="button"
                       onClick={signOut}
-                      className="w-full flex items-center gap-2.5 px-4 py-3 text-sm text-[#c0304a] hover:bg-[#fdf2f4]"
+                      className="w-full flex items-center gap-2.5 px-4 py-3 text-sm font-medium text-[#c0304a] hover:bg-[#fdf2f4] transition-colors"
                     >
                       <LogOut size={16} />
                       Sign out

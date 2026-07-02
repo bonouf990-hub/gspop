@@ -56,7 +56,7 @@ export default function BudgetForecast() {
           </div>
 
           {result.warnings?.length > 0 && (
-            <div className="bg-red-950/20 border border-red-200 rounded-lg p-3">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-3">
               <p className="text-xs text-red-600 uppercase tracking-wider font-bold mb-2">Warnings</p>
               {result.warnings.map((w, i) => (
                 <p key={i} className="text-sm text-red-700">{w}</p>

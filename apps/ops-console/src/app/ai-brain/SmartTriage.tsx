@@ -16,9 +16,9 @@ type Property = { id: string; name: string };
 
 const PRIORITY_STYLE: Record<string, string> = {
   low: "bg-[#e9eef6] text-[#5b6b85]",
-  medium: "bg-amber-900 text-amber-700",
+  medium: "bg-amber-50 text-amber-700",
   high: "bg-orange-900 text-orange-300",
-  critical: "bg-red-900 text-red-700",
+  critical: "bg-red-50 text-red-700",
 };
 
 export default function SmartTriage({ userRole }: { userRole: string }) {

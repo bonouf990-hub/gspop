@@ -14,7 +14,7 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ le
     .single();
   const isAdmin = callerProfile && ["tenant_admin", "property_manager"].includes(callerProfile.role);
   if (!isAdmin) {
-    return <main className="p-8"><p className="text-[#8b97ab]">Not authorized.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">Not authorized.</p></main>;
   }
 
   const { data: lease } = await supabase
@@ -24,7 +24,7 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ le
     .single();
 
   if (!lease) {
-    return <main className="p-8"><p className="text-[#8b97ab]">Lease not found.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">Lease not found.</p></main>;
   }
 
   const [{ data: invoices }, { data: documents }] = await Promise.all([
@@ -43,7 +43,7 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ le
   const unit = lease.units as unknown as { label: string; properties: { name: string } | null } | null;
 
   return (
-    <main className="p-8 max-w-3xl">
+    <main className="p-6 sm:p-8 max-w-3xl">
       <Link href="/admin/residents" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Residents</Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-1">{lease.tenant_full_name}</h1>
       <p className="text-[#5b6b85] mb-6">

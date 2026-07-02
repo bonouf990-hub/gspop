@@ -137,7 +137,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
   const highestBid = amounts.length > 0 ? Math.max(...amounts) : 0;
 
   return (
-    <main className="p-8 max-w-4xl mx-auto print:p-4">
+    <main className="p-6 sm:p-8 max-w-4xl mx-auto print:p-4">
       <div className="flex items-center justify-between mb-6 print:hidden">
         <div className="flex gap-3 text-sm">
           <Link href={`/tenders/${id}`} className="text-[#5b6b85] hover:text-[#b01b42]">
@@ -265,7 +265,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
           Comparative Analysis — All Submissions
         </h2>
         <div className="overflow-x-auto">
-        <table className="w-full text-sm border-collapse min-w-[900px]">
+        <table className="lux-table w-full text-sm border-collapse min-w-[900px]">
           <thead>
             <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85]">
               <th className="py-2 font-medium">Rank</th>

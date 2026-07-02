@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { Boxes, CheckCircle2, Wrench, ShieldCheck, CalendarClock } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import StatTile, { type StatTone } from "@/components/StatTile";
 import CreateAssetForm from "./CreateAssetForm";
+
+type IconType = React.ComponentType<{ size?: number | string; className?: string }>;
 
 type AssetRow = {
   id: string;
@@ -69,12 +74,13 @@ export default async function AssetRegisterPage({
   const { building, system } = await searchParams;
   const { assets, buildings } = await getData(building, system);
 
-  const kpis = [
-    { label: "Total Assets", value: assets.length },
-    { label: "In Service", value: assets.filter((a) => a.status === "in_service").length },
-    { label: "Under Repair", value: assets.filter((a) => a.status === "under_repair").length },
+  const kpis: { label: string; value: number; tone: StatTone; icon: IconType }[] = [
+    { label: "Total Assets", value: assets.length, tone: "navy", icon: Boxes },
+    { label: "In Service", value: assets.filter((a) => a.status === "in_service").length, tone: "green", icon: CheckCircle2 },
+    { label: "Under Repair", value: assets.filter((a) => a.status === "under_repair").length, tone: "amber", icon: Wrench },
     {
       label: "Warranty ≤ 60d",
+      tone: "gold", icon: ShieldCheck,
       value: assets.filter((a) => {
         const d = daysUntil(a.warranty_expiry);
         return d !== null && d >= 0 && d <= 60;
@@ -82,6 +88,7 @@ export default async function AssetRegisterPage({
     },
     {
       label: "PPM Due ≤ 30d",
+      tone: "red", icon: CalendarClock,
       value: assets.filter((a) => {
         const d = daysUntil(a.next_maintenance_due);
         return d !== null && d >= 0 && d <= 30;
@@ -90,47 +97,34 @@ export default async function AssetRegisterPage({
   ];
 
   const selectCls =
-    "bg-white border border-[#d8dfeb] rounded-lg px-3 py-2 text-sm text-[#16233c]";
+    "lux-input px-3 py-2 text-sm text-[#16233c]";
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">
-        <div>
-          <p className="eyebrow">Assets &amp; Engineering</p>
-          <h1 className="mt-1">Asset Register</h1>
-          <p className="text-[#5b6b85] mt-1">
-            Every piece of equipment — Building → Floor → Apartment / Common Area → Equipment. QR-tagged,
-            with warranty, condition and maintenance history.
-          </p>
-        </div>
-        <div className="flex gap-2 items-center flex-wrap">
-          <Link
-            href="/assets/import"
-            className="text-sm font-bold px-4 py-2.5 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.06)]"
-          >
-            Import Equipment
-          </Link>
-          <Link
-            href="/assets/history-import"
-            className="text-sm font-bold px-4 py-2.5 rounded-lg border border-[#d8dfeb] text-[#16233c] hover:border-[#b01b42] hover:text-[#b01b42]"
-          >
-            Import History
-          </Link>
-          <CreateAssetForm buildings={buildings} />
-        </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <div className="rise-in">
+        <PageHeader
+          eyebrow="Assets & Engineering"
+          title="Asset Register"
+          icon={Boxes}
+          description="Every piece of equipment — Building → Floor → Apartment / Common Area → Equipment. QR-tagged, with warranty, condition and maintenance history."
+          actions={
+            <>
+              <Link href="/assets/import" className="btn-ghost text-sm px-4 py-2.5">Import Equipment</Link>
+              <Link href="/assets/history-import" className="btn-ghost text-sm px-4 py-2.5">Import History</Link>
+              <CreateAssetForm buildings={buildings} />
+            </>
+          }
+        />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6 rise-in rise-in-1">
         {kpis.map((k) => (
-          <div key={k.label} className="lux-card p-4">
-            <p className="eyebrow text-[10px]">{k.label}</p>
-            <p className="text-3xl font-extrabold text-[#16233c] mt-1.5 tabular-nums">{k.value}</p>
-          </div>
+          <StatTile key={k.label} label={k.label} value={k.value} tone={k.tone} icon={k.icon} />
         ))}
       </div>
 
       {/* Filters */}
-      <form className="flex flex-wrap gap-3 mb-4 items-center">
+      <form className="flex flex-wrap gap-3 mb-4 items-center rise-in rise-in-2">
         <select name="building" defaultValue={building ?? ""} className={selectCls}>
           <option value="">All buildings</option>
           {buildings.map((b) => (
@@ -149,9 +143,9 @@ export default async function AssetRegisterPage({
         )}
       </form>
 
-      <div className="lux-card overflow-hidden">
+      <div className="lux-card overflow-hidden rise-in rise-in-3">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[900px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[900px]">
             <thead>
               <tr className="text-left border-b border-[#e4e9f2] text-[#5b6b85] bg-[#f7f9fc]">
                 <th className="px-5 py-3.5 font-medium">Equipment</th>
@@ -218,8 +212,12 @@ export default async function AssetRegisterPage({
               })}
               {assets.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-5 py-10 text-center text-[#8b97ab]">
-                    No assets registered yet. Add your first piece of equipment to start building the register.
+                  <td colSpan={7} className="px-5 py-16 text-center">
+                    <span className="icon-chip icon-chip-neutral icon-chip-lg mb-3 flex mx-auto" style={{ width: "3rem" }}>
+                      <Boxes size={22} />
+                    </span>
+                    <p className="text-[#5b6b85] font-medium">No assets registered yet</p>
+                    <p className="text-[#8b97ab] text-xs mt-1">Add your first piece of equipment to start building the register.</p>
                   </td>
                 </tr>
               )}

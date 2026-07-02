@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Activity } from "lucide-react";
 
 type PropertySummary = {
   id: string;
@@ -275,18 +277,19 @@ export default async function CommandCenterPage() {
   ];
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">GM Command Center</h1>
-          <p className="text-[#5b6b85] mt-1">
-            Live overview of all operations across buildings, contractors, and inventory.
-          </p>
-        </div>
-        <div className="text-xs text-[#8b97ab]">
-          Last refreshed: {new Date().toLocaleTimeString()}
-        </div>
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Insight & Reporting"
+        title="GM Command Center"
+        icon={Activity}
+        description="Live overview of all operations across buildings, contractors, and inventory."
+        actions={
+          <span className="pill bg-[#f4f7fb] text-[#8b97ab] !text-[11px]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#34d399]" />
+            Last refreshed {new Date().toLocaleTimeString()}
+          </span>
+        }
+      />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
         {kpis.map((k) => (
@@ -335,7 +338,7 @@ export default async function CommandCenterPage() {
             Buildings Overview
           </h2>
           <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[600px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[600px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>
@@ -379,7 +382,7 @@ export default async function CommandCenterPage() {
                     key={vp.id}
                     className={`rounded-lg p-3 border ${
                       vp.is_overdue
-                        ? "border-red-500 bg-red-950/30"
+                        ? "border-red-500 bg-red-50"
                         : vp.status === "completed"
                           ? "border-[rgba(176,27,66,0.08)] bg-[#f4f6fa] opacity-60"
                           : "border-[rgba(176,27,66,0.15)] bg-[#f4f6fa]"

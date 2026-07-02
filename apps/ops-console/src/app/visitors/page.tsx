@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { DoorOpen } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
 import { camelCaseKeys, type Visitor } from "@gspop/shared";
 
 async function getVisitors(): Promise<Visitor[]> {
@@ -16,16 +17,24 @@ export default async function VisitorsPage() {
   const onSite = visitors.filter((v) => v.checkedInAt && !v.checkedOutAt);
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Visitor Log</h1>
-          <p className="text-[#5b6b85] mt-1">{onSite.length} currently on site</p>
-        </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <div className="rise-in">
+        <PageHeader
+          eyebrow="Community & Residents"
+          title="Visitor Log"
+          icon={DoorOpen}
+          description="Gate activity and pre-authorized visitors."
+          actions={
+            <span className="pill bg-[rgba(176,27,66,0.08)] text-[#b01b42] !text-xs !px-3 !py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#34d399]" />
+              <span className="tabular-nums">{onSite.length}</span> on site
+            </span>
+          }
+        />
       </div>
-      <div className="lux-card overflow-hidden">
+      <div className="lux-card overflow-hidden rise-in rise-in-1">
       <div className="overflow-x-auto">
-      <table className="w-full text-sm border-collapse min-w-[600px]">
+      <table className="lux-table w-full text-sm border-collapse min-w-[600px]">
         <thead>
           <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5">Name</th>

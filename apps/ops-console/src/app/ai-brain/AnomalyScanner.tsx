@@ -18,16 +18,16 @@ type AnomalyResult = {
 };
 
 const SEVERITY_STYLE: Record<string, string> = {
-  critical: "border-red-500 bg-red-950/20",
+  critical: "border-red-500 bg-red-50",
   high: "border-orange-500 bg-orange-950/20",
   medium: "border-amber-500 bg-amber-50/20",
   low: "border-[rgba(176,27,66,0.15)] bg-[#f4f6fa]",
 };
 
 const SEVERITY_BADGE: Record<string, string> = {
-  critical: "bg-red-900 text-red-700",
+  critical: "bg-red-50 text-red-700",
   high: "bg-orange-900 text-orange-300",
-  medium: "bg-amber-900 text-amber-700",
+  medium: "bg-amber-50 text-amber-700",
   low: "bg-[#e9eef6] text-[#5b6b85]",
 };
 

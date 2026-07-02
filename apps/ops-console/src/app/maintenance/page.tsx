@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { CalendarClock } from "lucide-react";
 import CreateSchedule from "./CreateSchedule";
 import ScheduleActions from "./ScheduleActions";
 
@@ -126,22 +128,22 @@ export default async function MaintenancePage() {
   ];
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Preventive Maintenance</h1>
-          <p className="text-[#5b6b85] text-sm mt-1">
-            Recurring schedules that auto-generate work orders on a set cadence.
-          </p>
-        </div>
-        <CreateSchedule
-          properties={properties}
-          units={units}
-          assets={assets}
-          vendors={vendors}
-          technicians={technicians}
-        />
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Maintenance & Engineering"
+        title="Preventive Maintenance"
+        icon={CalendarClock}
+        description="Recurring schedules that auto-generate work orders on a set cadence."
+        actions={
+          <CreateSchedule
+            properties={properties}
+            units={units}
+            assets={assets}
+            vendors={vendors}
+            technicians={technicians}
+          />
+        }
+      />
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
         {kpis.map((k) => (
@@ -184,7 +186,7 @@ export default async function MaintenancePage() {
         </h2>
         <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[900px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[900px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Title</th>
@@ -274,7 +276,7 @@ function ScheduleCard({ s, woCount, overdue }: { s: ScheduleRow; woCount: number
     <div
       className={`border rounded-xl p-4 flex items-center justify-between ${
         overdue
-          ? "border-red-500 bg-red-950/20"
+          ? "border-red-500 bg-red-50"
           : "border-amber-500/50 bg-amber-50"
       }`}
     >

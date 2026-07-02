@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { ScrollText } from "lucide-react";
 import { askAI } from "@/lib/ai-service";
 
 type WO = { status: string; type: string; priority: string; actual_cost: number | null; estimated_cost: number | null; title: string; created_at: string };
@@ -132,13 +134,13 @@ export default async function AISummaryPage({
   const selectCls = "bg-white border border-[#d8dfeb] rounded-lg px-3 py-2 text-sm text-[#16233c]";
 
   return (
-    <main className="p-8 max-w-4xl mx-auto">
-      <p className="eyebrow">Insight &amp; Reporting · AI</p>
-      <h1 className="mt-1">AI Monthly Building Report</h1>
-      <p className="text-[#5b6b85] mt-1 mb-6">
-        Pick a building and month — the assistant writes a GM-ready summary from that month&apos;s work orders,
-        complaints and spend against budget.
-      </p>
+    <main className="p-6 sm:p-8 max-w-4xl mx-auto">
+      <PageHeader
+        eyebrow="Insight & Reporting · AI"
+        title="AI Monthly Building Report"
+        icon={ScrollText}
+        description="Pick a building and month — the assistant writes a GM-ready summary from that month's work orders, complaints and spend against budget."
+      />
 
       <form className="flex flex-wrap gap-3 items-end mb-6">
         <div>
