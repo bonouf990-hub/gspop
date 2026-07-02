@@ -2,6 +2,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { qrDataUrl, assetUrl } from "@/lib/qr";
 import PrintButton from "./PrintButton";
+import EditAssetForm, { type AssetForEdit } from "./EditAssetForm";
+import ServiceHistory, { type ServiceRecord } from "./ServiceHistory";
 
 const SYSTEM_LABELS: Record<string, string> = {
   hvac: "HVAC", electrical: "Electrical", plumbing: "Plumbing", fire_alarm: "Fire Alarm",
@@ -32,6 +34,16 @@ async function getCases(assetId: string) {
   }[];
 }
 
+async function getServiceHistory(assetId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("asset_service_history")
+    .select("id, service_date, description, cost, vendor_name")
+    .eq("asset_id", assetId)
+    .order("service_date", { ascending: false, nullsFirst: false });
+  return (data ?? []) as ServiceRecord[];
+}
+
 async function getLifecycle(assetId: string) {
   const supabase = await createClient();
   const { data } = await supabase
@@ -51,8 +63,9 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ id
     return <main className="p-8 max-w-6xl mx-auto"><p className="text-[#8b97ab]">Asset not found.</p></main>;
   }
 
-  const [cases, lifecycle, qr] = await Promise.all([
+  const [cases, serviceHistory, lifecycle, qr] = await Promise.all([
     getCases(id),
+    getServiceHistory(id),
     getLifecycle(id),
     qrDataUrl(assetUrl(id)),
   ]);
@@ -72,8 +85,41 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ id
     : null;
   const underWarranty = warrantyDays !== null && warrantyDays >= 0;
 
-  const lifetimeCost = cases.reduce((s, c) => s + Number(c.actual_cost ?? 0), 0);
-  const repairCount = cases.length;
+  const workOrderCost = cases.reduce((s, c) => s + Number(c.actual_cost ?? 0), 0);
+  const serviceLogCost = serviceHistory.reduce((s, r) => s + Number(r.cost ?? 0), 0);
+  const priorCost = Number(asset.prior_service_cost ?? 0);
+  const priorCount = Number(asset.prior_service_count ?? 0);
+
+  // Lifetime cost & repair count fold together three sources: prior (pre-system)
+  // totals, logged historical service records, and in-system work orders.
+  const lifetimeCost = workOrderCost + serviceLogCost + priorCost;
+  const repairCount = cases.length + serviceHistory.length + priorCount;
+
+  const editable: AssetForEdit = {
+    id: asset.id as string,
+    name: asset.name as string,
+    property_id: (asset.property_id as string) ?? null,
+    unit_id: (asset.unit_id as string) ?? null,
+    common_area_id: (asset.common_area_id as string) ?? null,
+    system_type: (asset.system_type as string) ?? null,
+    category: (asset.category as string) ?? null,
+    manufacturer: (asset.manufacturer as string) ?? null,
+    model: (asset.model as string) ?? null,
+    serial_number: (asset.serial_number as string) ?? null,
+    qr_code: (asset.qr_code as string) ?? null,
+    criticality: (asset.criticality as string) ?? null,
+    condition: (asset.condition as string) ?? "new",
+    status: (asset.status as string) ?? "in_service",
+    installed_at: (asset.installed_at as string) ?? null,
+    expected_life_months: (asset.expected_life_months as number) ?? null,
+    warranty_expiry: (asset.warranty_expiry as string) ?? null,
+    warranty_provider: (asset.warranty_provider as string) ?? null,
+    purchase_cost: (asset.purchase_cost as number) ?? null,
+    maintenance_cycle_months: (asset.maintenance_cycle_months as number) ?? null,
+    next_maintenance_due: (asset.next_maintenance_due as string) ?? null,
+    prior_service_count: (asset.prior_service_count as number) ?? null,
+    prior_service_cost: (asset.prior_service_cost as number) ?? null,
+  };
 
   return (
     <main className="p-8 max-w-6xl mx-auto">
@@ -84,12 +130,15 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ id
           <h1 className="mt-0.5">{asset.name as string}</h1>
           <p className="text-[#5b6b85] mt-1">{location}</p>
         </div>
-        <span className={`text-xs font-bold px-3 py-1.5 rounded-full capitalize ${
-          asset.status === "in_service" ? "bg-green-50 text-green-700"
-          : asset.status === "under_repair" ? "bg-amber-50 text-amber-700"
-          : "bg-[#eef1f7] text-[#5b6b85]"}`}>
-          {(asset.status as string).replace(/_/g, " ")}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className={`text-xs font-bold px-3 py-1.5 rounded-full capitalize ${
+            asset.status === "in_service" ? "bg-green-50 text-green-700"
+            : asset.status === "under_repair" ? "bg-amber-50 text-amber-700"
+            : "bg-[#eef1f7] text-[#5b6b85]"}`}>
+            {(asset.status as string).replace(/_/g, " ")}
+          </span>
+          <EditAssetForm asset={editable} />
+        </div>
       </div>
 
       {/* Warranty / AMC guard banner */}
@@ -160,6 +209,8 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ id
             )}
           </section>
 
+          <ServiceHistory assetId={id} records={serviceHistory} />
+
           {lifecycle.length > 0 && (
             <section className="lux-card p-6">
               <h2 className="eyebrow mb-4">Lifecycle</h2>
@@ -201,10 +252,19 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ id
           <section className="lux-card p-5">
             <h2 className="eyebrow mb-3">Cost &amp; Wear</h2>
             <div className="text-sm space-y-1.5">
-              <div className="flex justify-between"><span className="text-[#5b6b85]">Repairs to date</span><span className="font-bold">{repairCount}</span></div>
-              <div className="flex justify-between"><span className="text-[#5b6b85]">Lifetime repair cost</span><span className="font-bold">AED {lifetimeCost.toLocaleString()}</span></div>
+              <div className="flex justify-between"><span className="text-[#5b6b85]">Times serviced</span><span className="font-bold">{repairCount}</span></div>
+              <div className="flex justify-between"><span className="text-[#5b6b85]">Lifetime service cost</span><span className="font-bold">AED {lifetimeCost.toLocaleString()}</span></div>
+              {priorCount > 0 && (
+                <div className="flex justify-between text-[11px] pl-3"><span className="text-[#8b97ab]">· prior (pre-system)</span><span className="text-[#8b97ab]">{priorCount} · AED {priorCost.toLocaleString()}</span></div>
+              )}
+              {serviceHistory.length > 0 && (
+                <div className="flex justify-between text-[11px] pl-3"><span className="text-[#8b97ab]">· logged records</span><span className="text-[#8b97ab]">{serviceHistory.length} · AED {serviceLogCost.toLocaleString()}</span></div>
+              )}
+              {cases.length > 0 && (
+                <div className="flex justify-between text-[11px] pl-3"><span className="text-[#8b97ab]">· in-system work orders</span><span className="text-[#8b97ab]">{cases.length} · AED {workOrderCost.toLocaleString()}</span></div>
+              )}
               {asset.purchase_cost != null && (
-                <div className="flex justify-between"><span className="text-[#5b6b85]">Purchase cost</span><span>AED {Number(asset.purchase_cost).toLocaleString()}</span></div>
+                <div className="flex justify-between pt-1 border-t border-[#eef1f7] mt-1"><span className="text-[#5b6b85]">Purchase cost</span><span>AED {Number(asset.purchase_cost).toLocaleString()}</span></div>
               )}
             </div>
             {asset.purchase_cost != null && lifetimeCost > Number(asset.purchase_cost) * 0.6 && (

@@ -9,12 +9,13 @@ const HEADERS = [
   "System Type", "Manufacturer", "Model", "Serial Number", "Asset Tag",
   "Condition", "Purchase Date", "Expected Life (years)", "PPM Cycle (months)",
   "Warranty Expiry", "Warranty Provider", "Purchase Cost", "Criticality",
+  "Prior Service Count", "Prior Service Cost",
 ];
 
 const SAMPLE = [
-  "Golden Sands Tower 5,3,apartment,1203,Split AC - Bedroom,hvac,Daikin,FTKF50,SN12345,AC-GS5-1203-01,new,2022-06-15,10,3,2025-06-15,Daikin UAE,4200,high",
-  "Golden Sands Tower 5,,building,,Chiller Pump #2,pump,Grundfos,CR15,PMP998,PMP-GS5-002,used,2019-01-10,15,6,,,18000,critical",
-  "Golden Sands Tower 3,B,common,Basement Parking,Fire Alarm Panel,fire_alarm,Honeywell,NFS2,FA771,FA-GS3-B-01,new,2021-03-01,12,12,2026-03-01,Honeywell,9500,critical",
+  "Golden Sands Tower 5,3,apartment,1203,Split AC - Bedroom,hvac,Daikin,FTKF50,SN12345,AC-GS5-1203-01,new,2022-06-15,10,3,2025-06-15,Daikin UAE,4200,high,2,1500",
+  "Golden Sands Tower 5,,building,,Chiller Pump #2,pump,Grundfos,CR15,PMP998,PMP-GS5-002,used,2019-01-10,15,6,,,18000,critical,5,22000",
+  "Golden Sands Tower 3,B,common,Basement Parking,Fire Alarm Panel,fire_alarm,Honeywell,NFS2,FA771,FA-GS3-B-01,new,2021-03-01,12,12,2026-03-01,Honeywell,9500,critical,0,0",
 ];
 
 const SYSTEMS = new Set(["hvac","electrical","plumbing","fire_alarm","firefighting","elevator","water_tank","pump","generator","bms","other"]);
@@ -101,9 +102,10 @@ export default function AssetImporter() {
       const g = (i: number) => (r[i] ?? "").trim();
       const [building, floor, locType, aptArea, name, systemType, manufacturer, model,
         serial, tag, condition, purchaseDate, lifeYears, ppmCycle, warrantyExpiry,
-        warrantyProvider, purchaseCost, criticality] = [
+        warrantyProvider, purchaseCost, criticality, priorCount, priorCost] = [
         g(0), g(1), g(2).toLowerCase(), g(3), g(4), g(5).toLowerCase(), g(6), g(7),
         g(8), g(9), g(10).toLowerCase(), g(11), g(12), g(13), g(14), g(15), g(16), g(17).toLowerCase(),
+        g(18), g(19),
       ];
 
       if (!name) return err(r, "Equipment name is required");
@@ -143,6 +145,8 @@ export default function AssetImporter() {
         warranty_provider: warrantyProvider || null,
         purchase_cost: purchaseCost ? Number(purchaseCost) : null,
         criticality: criticality || null,
+        prior_service_count: priorCount ? parseInt(priorCount, 10) : 0,
+        prior_service_cost: priorCost ? Number(priorCost) : 0,
       };
 
       return {

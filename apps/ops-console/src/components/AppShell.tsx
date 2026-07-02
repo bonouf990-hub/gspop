@@ -23,46 +23,51 @@ type NavGroup = { label: string; items: NavItem[] };
 
 const NAV: NavGroup[] = [
   {
-    label: "Assets & Engineering",
+    label: "Overview",
     items: [
       { href: "/", label: "Home", icon: LayoutDashboard },
-      { href: "/assets", label: "Asset Register", icon: Boxes },
     ],
   },
   {
-    label: "Maintenance",
+    label: "Maintenance & Engineering",
     items: [
-      { href: "/work-orders", label: "Work Orders", icon: Wrench },
-      { href: "/complaints", label: "Complaints", icon: MessageSquare },
-      { href: "/approvals", label: "Approvals", icon: CheckSquare },
+      { href: "/assets", label: "Asset Register", icon: Boxes },
+      { href: "/work-orders", label: "Job Cards / Work Orders", icon: Wrench },
+      { href: "/complaints", label: "Complaints & Help Desk", icon: MessageSquare },
       { href: "/maintenance", label: "Preventive Maintenance", icon: CalendarClock },
+      { href: "/approvals", label: "Approvals", icon: CheckSquare },
       { href: "/call-center", label: "Call Center", icon: Phone },
+      { href: "/compliance", label: "Compliance", icon: FileCheck },
     ],
   },
   {
-    label: "Building & Residents",
+    label: "Store & Inventory",
+    items: [
+      { href: "/store", label: "Store & Dispatch", icon: Package },
+      { href: "/inventory", label: "Inventory / Stock", icon: Boxes },
+    ],
+  },
+  {
+    label: "Purchasing & Contracts",
+    items: [
+      { href: "/purchasing", label: "Purchasing / POs", icon: ShoppingCart },
+      { href: "/tenders", label: "Tenders", icon: Gavel },
+      { href: "/vendors", label: "Vendors & Contracts", icon: Briefcase },
+      { href: "/invoices", label: "Invoices & Payments", icon: ReceiptText },
+    ],
+  },
+  {
+    label: "Community & Residents",
     items: [
       { href: "/admin/residents", label: "Residents & Leases", icon: Users, adminOnly: true },
       { href: "/admin/notices", label: "Building Notices", icon: Megaphone, adminOnly: true },
       { href: "/bookings", label: "Bookings", icon: CalendarDays },
       { href: "/visitors", label: "Visitor Log", icon: DoorOpen },
       { href: "/security", label: "Security Console", icon: Shield },
-      { href: "/compliance", label: "Compliance", icon: FileCheck },
     ],
   },
   {
-    label: "Procurement & Finance",
-    items: [
-      { href: "/purchasing", label: "Purchasing", icon: ShoppingCart },
-      { href: "/tenders", label: "Tenders", icon: Gavel },
-      { href: "/vendors", label: "Vendors & Contracts", icon: Briefcase },
-      { href: "/invoices", label: "Invoices & Payments", icon: ReceiptText },
-      { href: "/inventory", label: "Inventory", icon: Boxes },
-      { href: "/store", label: "Store & Dispatch", icon: Package },
-    ],
-  },
-  {
-    label: "Analytics",
+    label: "Insight & Reporting",
     items: [
       { href: "/reports/dashboard", label: "Analytics Dashboard", icon: BarChart3 },
       { href: "/ai-brain", label: "AI Brain", icon: Brain },
