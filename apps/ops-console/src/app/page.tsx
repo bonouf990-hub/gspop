@@ -57,6 +57,7 @@ const SECTIONS: Section[] = [
     cards: [
       { href: "/reports/dashboard", title: "Analytics Dashboard", desc: "KPI tiles, occupancy, rent collection, turnaround, building health." },
       { href: "/ai-brain", title: "AI Brain", desc: "Smart triage, budget forecasting, anomaly detection, predictive maintenance." },
+      { href: "/reports/ai-summary", title: "AI Building Report", desc: "AI-written monthly GM report per building — activity, cost vs budget, recommendations." },
       { href: "/command-center", title: "GM Command Center", desc: "Live ops overview across jobs, contractors, and stock alerts." },
       { href: "/reports/maintenance-costs", title: "Maintenance Cost Report", desc: "Per-building and apartment cost: parts, labor, external." },
       { href: "/reports/budgets", title: "Building Budgets", desc: "Annual budget per building — spent vs remaining, drives the spend guard." },

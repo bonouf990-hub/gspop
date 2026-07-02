@@ -71,6 +71,7 @@ const NAV: NavGroup[] = [
     items: [
       { href: "/reports/dashboard", label: "Analytics Dashboard", icon: BarChart3 },
       { href: "/ai-brain", label: "AI Brain", icon: Brain },
+      { href: "/reports/ai-summary", label: "AI Building Report", icon: ScrollText },
       { href: "/command-center", label: "Command Center", icon: Activity },
       { href: "/reports/maintenance-costs", label: "Maintenance Costs", icon: LineChart },
       { href: "/reports/budgets", label: "Building Budgets", icon: Wallet },
