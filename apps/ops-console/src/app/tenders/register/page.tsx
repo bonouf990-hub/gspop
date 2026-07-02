@@ -71,7 +71,7 @@ export default async function RegisterPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
-          <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
+          <p className="eyebrow mb-2">ARENCO Tendering Portal</p>
           <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
           <p className="text-[#9aa5bd] mt-2">Registration for the site visit is no longer open.</p>
         </div>
@@ -85,7 +85,7 @@ export default async function RegisterPage({
     <main className="min-h-screen bg-[#0f1626] p-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
+          <p className="eyebrow mb-2">ARENCO Tendering Portal</p>
           <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
           <p className="text-[#9aa5bd] mt-1">{tender.description}</p>
         </div>

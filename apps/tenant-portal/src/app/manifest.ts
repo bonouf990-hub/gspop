@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Golden Sands Resident Portal",
     short_name: "Golden Sands",
     description:
-      "Golden Sands Residences — manage your home, rent, requests, and visits from one place.",
+      "Golden Sands Residences by ARENCO Real Estate — manage your home, rent, requests, and visits from one place.",
     start_url: "/",
     display: "standalone",
     background_color: "#0f1626",

@@ -221,7 +221,7 @@ export default function TechnicianDashboard({
       <header className="sticky top-0 z-20 bg-[#0f1626]/95 backdrop-blur-lg px-4 py-3 border-b border-[rgba(176,27,66,0.15)]">
         <div className="flex items-center justify-between">
           <div>
-            <p className="eyebrow">GSPOP</p>
+            <p className="eyebrow">ARENCO</p>
             <p className="font-bold">{profile.name}</p>
             <p className="text-xs text-[#9aa5bd] capitalize">{profile.trade ?? profile.role}</p>
           </div>
