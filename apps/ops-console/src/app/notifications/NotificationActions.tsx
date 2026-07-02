@@ -19,7 +19,7 @@ export default function NotificationActions({
     const supabase = createClient();
     await supabase
       .from("notifications")
-      .update({ is_read: true, read_at: new Date().toISOString() })
+      .update({ read_at: new Date().toISOString() })
       .in("id", ids);
     setActing(false);
     router.refresh();

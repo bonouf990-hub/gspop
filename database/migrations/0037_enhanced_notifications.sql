@@ -1,6 +1,37 @@
--- Enhanced notification triggers for work order lifecycle, visit booking, and lease expiry.
+-- Enhanced notification triggers for work order lifecycle, visit booking,
+-- rent, and lease expiry. Uses the single unified notifications table
+-- (0002 schema: recipient_id/read_at, extended in 0030 with title/link/tenant_id).
 
--- Expand allowed types on the tenant-portal notifications table (original from 0002).
+-- Ensure the ops-console columns exist even if 0030's original version ran.
+alter table notifications
+  add column if not exists tenant_id uuid references tenants(id) on delete cascade,
+  add column if not exists title text,
+  add column if not exists link text;
+
+-- Enable RLS (was never turned on). Recipients read/update their own rows;
+-- any authenticated user may notify users within their own tenant
+-- (staff alerts, resident → security guard visitor invites).
+alter table notifications enable row level security;
+
+drop policy if exists own_notifications on notifications;
+drop policy if exists tenant_isolation_notifications on notifications;
+drop policy if exists user_own_notifications on notifications;
+
+drop policy if exists notifications_select_own on notifications;
+create policy notifications_select_own on notifications
+  for select using (recipient_id = auth.uid());
+
+drop policy if exists notifications_update_own on notifications;
+create policy notifications_update_own on notifications
+  for update using (recipient_id = auth.uid());
+
+drop policy if exists notifications_insert_same_tenant on notifications;
+create policy notifications_insert_same_tenant on notifications
+  for insert with check (
+    recipient_id in (select id from user_profiles where tenant_id = current_tenant_id())
+  );
+
+-- Unified allowed types: event types + generic severities.
 alter table notifications drop constraint if exists notifications_type_check;
 alter table notifications add constraint notifications_type_check
   check (type in (
@@ -10,22 +41,25 @@ alter table notifications add constraint notifications_type_check
     'notice_posted','rent_cleared','rent_overdue',
     'visit_booked','visit_confirmed','visit_cancelled',
     'lease_expiry_warning','lease_renewed',
-    'visitor_invited','visitor_arrived','visitor_declined'
+    'visitor_invited','visitor_arrived','visitor_declined',
+    'info','warning','urgent','success'
   ));
 
--- 1. Work order status change → notify assigned technician + creator
+-- 1. Work order status change → notify assigned technician + resident
 create or replace function notify_work_order_status_change() returns trigger as $$
 begin
   -- Notify assigned technician
   if new.assigned_technician_id is not null and new.assigned_technician_id != coalesce(new.created_by, '00000000-0000-0000-0000-000000000000'::uuid) then
-    insert into notifications (recipient_id, type, entity_type, entity_id, message)
+    insert into notifications (recipient_id, tenant_id, type, title, entity_type, entity_id, message)
     values (
       new.assigned_technician_id,
+      new.tenant_id,
       case
         when new.status in ('completed_by_technician','verified_by_supervisor','confirmed_by_resident','closed') then 'work_order_completed'
         when new.status = 'assigned' then 'work_order_assigned'
         else 'work_order_status_update'
       end,
+      'Work order update',
       'work_order',
       new.id,
       'Work order "' || new.title || '" is now ' || replace(new.status, '_', ' ') || '.'
@@ -34,15 +68,17 @@ begin
 
   -- Notify the resident if the work order has a resident_id (visit bookings)
   if new.resident_id is not null then
-    insert into notifications (recipient_id, type, entity_type, entity_id, message)
+    insert into notifications (recipient_id, tenant_id, type, title, entity_type, entity_id, message)
     values (
       new.resident_id,
+      new.tenant_id,
       case
         when new.status = 'assigned' then 'visit_confirmed'
         when new.status = 'cancelled' then 'visit_cancelled'
         when new.status in ('completed_by_technician','verified_by_supervisor','closed') then 'work_order_completed'
         else 'work_order_status_update'
       end,
+      'Visit request update',
       'work_order',
       new.id,
       case
@@ -69,9 +105,8 @@ create trigger trg_work_order_status_notify
 create or replace function notify_visit_booked() returns trigger as $$
 begin
   if new.visit_source = 'resident_booking' then
-    -- Notify all property managers and supervisors for this property
-    insert into notifications (recipient_id, type, entity_type, entity_id, message)
-    select up.id, 'visit_booked', 'work_order', new.id,
+    insert into notifications (recipient_id, tenant_id, type, title, entity_type, entity_id, message)
+    select up.id, new.tenant_id, 'visit_booked', 'New visit request', 'work_order', new.id,
            'New visit request: "' || new.title || '" for ' || coalesce(new.preferred_visit_date::text, 'TBD')
     from user_profiles up
     where up.tenant_id = new.tenant_id
@@ -97,9 +132,9 @@ begin
   where status = 'pending'
     and due_date < current_date;
 
-  -- Notify residents with overdue invoices
-  insert into notifications (recipient_id, type, entity_type, entity_id, message)
-  select l.primary_resident_id, 'rent_overdue', 'rent_invoice', ri.id,
+  -- Notify residents with overdue invoices (deduped per 7 days)
+  insert into notifications (recipient_id, type, title, entity_type, entity_id, message)
+  select l.primary_resident_id, 'rent_overdue', 'Rent overdue', 'rent_invoice', ri.id,
          'Rent payment of ' || ri.amount || ' AED was due on ' || ri.due_date || '. Please arrange payment.'
   from rent_invoices ri
   join leases l on l.id = ri.lease_id
@@ -118,9 +153,9 @@ $$ language plpgsql security definer set search_path = public;
 -- 4. Lease expiry warning function (called by scheduled job or manual trigger)
 create or replace function notify_expiring_leases() returns void as $$
 begin
-  -- 60-day warning
-  insert into notifications (recipient_id, type, entity_type, entity_id, message)
-  select l.primary_resident_id, 'lease_expiry_warning', 'lease', l.id,
+  -- 60-day warning to residents (deduped per 30 days)
+  insert into notifications (recipient_id, type, title, entity_type, entity_id, message)
+  select l.primary_resident_id, 'lease_expiry_warning', 'Lease expiring soon', 'lease', l.id,
          'Your lease expires on ' || l.end_date || '. Please contact management to discuss renewal.'
   from leases l
   where l.status = 'active'
@@ -136,8 +171,8 @@ begin
     );
 
   -- Also notify management about expiring leases
-  insert into notifications (recipient_id, type, entity_type, entity_id, message)
-  select up.id, 'lease_expiry_warning', 'lease', l.id,
+  insert into notifications (recipient_id, type, title, entity_type, entity_id, message)
+  select up.id, 'lease_expiry_warning', 'Lease expiring soon', 'lease', l.id,
          'Lease for ' || l.tenant_full_name || ' expires on ' || l.end_date || '.'
   from leases l
   join units u on u.id = l.unit_id

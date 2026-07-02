@@ -4,13 +4,12 @@ import NotificationActions from "./NotificationActions";
 
 type NotificationRow = {
   id: string;
-  title: string;
+  title: string | null;
   message: string;
   type: string;
   entity_type: string | null;
   entity_id: string | null;
   link: string | null;
-  is_read: boolean;
   read_at: string | null;
   created_at: string;
 };
@@ -45,8 +44,8 @@ async function getPageData() {
 export default async function NotificationsPage() {
   const { notifications } = await getPageData();
 
-  const unread = notifications.filter((n) => !n.is_read);
-  const urgent = notifications.filter((n) => n.type === "urgent" && !n.is_read);
+  const unread = notifications.filter((n) => !n.read_at);
+  const urgent = notifications.filter((n) => n.type === "urgent" && !n.read_at);
 
   return (
     <main className="p-8 max-w-3xl mx-auto">
@@ -114,19 +113,21 @@ function NotificationCard({ n }: { n: NotificationRow }) {
   else if (diffMin < 1440) timeAgo = `${Math.floor(diffMin / 60)}h ago`;
   else timeAgo = `${Math.floor(diffMin / 1440)}d ago`;
 
+  const isRead = Boolean(n.read_at);
+
   return (
     <div
       className={`border rounded-xl p-4 flex items-start gap-3 ${style.bg} ${
-        n.is_read ? "opacity-60" : ""
+        isRead ? "opacity-60" : ""
       }`}
     >
-      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${n.is_read ? "bg-[#6b6454]" : style.dot}`} />
+      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${isRead ? "bg-[#6b6454]" : style.dot}`} />
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
-          <p className={`text-sm font-medium ${n.is_read ? "text-[#a0977e]" : ""}`}>{n.title}</p>
+          <p className={`text-sm font-medium ${isRead ? "text-[#a0977e]" : ""}`}>{n.title ?? n.message}</p>
           <span className="text-[10px] text-[#6b6454] shrink-0">{timeAgo}</span>
         </div>
-        <p className="text-xs text-[#a0977e] mt-0.5">{n.message}</p>
+        {n.title && <p className="text-xs text-[#a0977e] mt-0.5">{n.message}</p>}
         <div className="flex items-center gap-2 mt-2">
           {href && (
             <Link
@@ -136,7 +137,7 @@ function NotificationCard({ n }: { n: NotificationRow }) {
               View Details
             </Link>
           )}
-          {!n.is_read && (
+          {!isRead && (
             <NotificationActions mode="mark-read" ids={[n.id]} />
           )}
         </div>

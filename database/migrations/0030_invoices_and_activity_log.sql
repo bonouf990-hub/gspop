@@ -45,26 +45,24 @@ create policy tenant_isolation_activity_log on activity_log
 create index idx_activity_log_entity on activity_log(entity_type, entity_id);
 create index idx_activity_log_created on activity_log(created_at desc);
 
--- Notifications
-create table notifications (
-  id uuid primary key default gen_random_uuid(),
-  tenant_id uuid not null references tenants(id) on delete cascade,
-  user_id uuid not null references user_profiles(id),
-  title text not null,
-  message text not null,
-  type text not null default 'info' check (type in ('info', 'warning', 'urgent', 'success')),
-  entity_type text,
-  entity_id uuid,
-  link text,
-  is_read boolean not null default false,
-  read_at timestamptz,
-  created_at timestamptz not null default now()
-);
+-- Notifications: the platform-wide notifications table already exists
+-- (created in 0002 with recipient_id/read_at). Extend it for ops-console
+-- use — optional headline, deep link, and tenant scoping — instead of
+-- creating a second table with the same name.
+alter table notifications
+  add column if not exists tenant_id uuid references tenants(id) on delete cascade,
+  add column if not exists title text,
+  add column if not exists link text;
 
-alter table notifications enable row level security;
-create policy tenant_isolation_notifications on notifications
-  for all using (tenant_id = current_tenant_id());
-create policy user_own_notifications on notifications
-  for select using (user_id = auth.uid());
+-- Generic severity types used by ops-console alongside the event types.
+alter table notifications drop constraint if exists notifications_type_check;
+alter table notifications add constraint notifications_type_check
+  check (type in (
+    'complaint_new','complaint_sla_breach','complaint_status_update',
+    'work_order_assigned','approval_pending','approval_escalated',
+    'notice_posted','rent_cleared',
+    'visitor_invited','visitor_arrived','visitor_declined',
+    'info','warning','urgent','success'
+  ));
 
-create index idx_notifications_user on notifications(user_id, is_read, created_at desc);
+create index if not exists idx_notifications_recipient on notifications(recipient_id, created_at desc);

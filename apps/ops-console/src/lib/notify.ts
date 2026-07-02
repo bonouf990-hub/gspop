@@ -24,7 +24,7 @@ export async function sendNotification(params: NotifyParams) {
 
   await supabase.from("notifications").insert({
     tenant_id: profile.tenant_id,
-    user_id: params.userId,
+    recipient_id: params.userId,
     title: params.title,
     message: params.message,
     type: params.type ?? "info",
@@ -57,7 +57,7 @@ export async function notifyRole(
 
   const rows = users.map((u) => ({
     tenant_id: u.tenant_id,
-    user_id: u.id,
+    recipient_id: u.id,
     title,
     message,
     type: options?.type ?? "info",
