@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -16,6 +16,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "GSPOP — Golden Sands Residences",
   description: "Your home, managed.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0f1626",
 };
 
 export default function RootLayout({

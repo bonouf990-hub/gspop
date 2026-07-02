@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "GSPOP — Operations Console",
   description: "Golden Sands Property Operations Platform",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0f1626",
 };
 
 export default function RootLayout({
