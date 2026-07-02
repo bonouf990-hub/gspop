@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Modal from "@/components/Modal";
 
 type UnitOption = { id: string; label: string };
 
@@ -55,23 +56,20 @@ export default function CreateResidentForm({ units }: { units: UnitOption[] }) {
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2 mb-6"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + Onboard Resident
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
-
-  return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 mb-6 space-y-3 max-w-lg">
-      <h3 className="eyebrow mb-2">Onboard Resident</h3>
-
+      {open && (
+        <Modal title="Onboard Resident" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <input className={input} placeholder="Full name" value={form.fullName}
         onChange={(e) => setForm({ ...form, fullName: e.target.value })} required />
       <input className={input} placeholder="Email (login)" type="email" value={form.email}
@@ -91,12 +89,12 @@ export default function CreateResidentForm({ units }: { units: UnitOption[] }) {
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Lease start</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Lease start</label>
           <input className={input} type="date" value={form.startDate}
             onChange={(e) => setForm({ ...form, startDate: e.target.value })} required />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Lease end</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Lease end</label>
           <input className={input} type="date" value={form.endDate}
             onChange={(e) => setForm({ ...form, endDate: e.target.value })} />
         </div>
@@ -131,10 +129,13 @@ export default function CreateResidentForm({ units }: { units: UnitOption[] }) {
           {submitting ? "Creating..." : "Create Resident & Lease"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

@@ -47,8 +47,8 @@ export default async function RegisterPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">Invalid Link</h1>
-          <p className="text-[#a0977e] mt-2">This registration link is missing or invalid.</p>
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">Invalid Link</h1>
+          <p className="text-[#9aa5bd] mt-2">This registration link is missing or invalid.</p>
         </div>
       </main>
     );
@@ -60,8 +60,8 @@ export default async function RegisterPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">Tender Not Found</h1>
-          <p className="text-[#a0977e] mt-2">This registration link is expired or invalid.</p>
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">Tender Not Found</h1>
+          <p className="text-[#9aa5bd] mt-2">This registration link is expired or invalid.</p>
         </div>
       </main>
     );
@@ -72,8 +72,8 @@ export default async function RegisterPage({
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
           <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
-          <p className="text-[#a0977e] mt-2">Registration for the site visit is no longer open.</p>
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
+          <p className="text-[#9aa5bd] mt-2">Registration for the site visit is no longer open.</p>
         </div>
       </main>
     );
@@ -86,15 +86,15 @@ export default async function RegisterPage({
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
-          <p className="text-[#a0977e] mt-1">{tender.description}</p>
+          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
+          <p className="text-[#9aa5bd] mt-1">{tender.description}</p>
         </div>
 
         <section className="lux-card p-5 mb-6">
           <h2 className="eyebrow mb-3">
             Mandatory Site Visit
           </h2>
-          <p className="text-sm text-[#a0977e] mb-4">
+          <p className="text-sm text-[#9aa5bd] mb-4">
             Before submitting a tender, all interested vendors must attend a mandatory site
             inspection to view the project scope and conditions. Only vendors who attend
             the site visit will be eligible to submit a bid.
@@ -102,26 +102,26 @@ export default async function RegisterPage({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-[#0f1626] rounded-lg p-4">
             <div>
-              <p className="text-[10px] text-[#6b6454] uppercase mb-0.5">Date & Time</p>
-              <p className="text-sm font-medium text-[#f0ece4]">
+              <p className="text-[10px] text-[#5d6880] uppercase mb-0.5">Date & Time</p>
+              <p className="text-sm font-medium text-[#eef1f6]">
                 {visitDate ? visitDate.toLocaleString() : "To be announced"}
               </p>
             </div>
             <div>
-              <p className="text-[10px] text-[#6b6454] uppercase mb-0.5">Location / Meeting Point</p>
-              <p className="text-sm font-medium text-[#f0ece4]">
+              <p className="text-[10px] text-[#5d6880] uppercase mb-0.5">Location / Meeting Point</p>
+              <p className="text-sm font-medium text-[#eef1f6]">
                 {tender.site_visit_location ?? "To be confirmed"}
               </p>
             </div>
             {tender.property && (
               <div>
-                <p className="text-[10px] text-[#6b6454] uppercase mb-0.5">Property</p>
-                <p className="text-sm text-[#f0ece4]">{(tender.property as { name: string }).name}</p>
+                <p className="text-[10px] text-[#5d6880] uppercase mb-0.5">Property</p>
+                <p className="text-sm text-[#eef1f6]">{(tender.property as { name: string }).name}</p>
               </div>
             )}
           </div>
           {tender.site_visit_notes && (
-            <p className="text-xs text-[#a0977e] mt-3 bg-[#0f1626] rounded-lg px-3 py-2">
+            <p className="text-xs text-[#9aa5bd] mt-3 bg-[#0f1626] rounded-lg px-3 py-2">
               {tender.site_visit_notes}
             </p>
           )}
@@ -131,7 +131,7 @@ export default async function RegisterPage({
           <h2 className="eyebrow mb-3">
             Project Overview
           </h2>
-          <p className="text-sm text-[#a0977e] whitespace-pre-wrap">{tender.scope_of_work}</p>
+          <p className="text-sm text-[#9aa5bd] whitespace-pre-wrap">{tender.scope_of_work}</p>
         </section>
 
         <SiteVisitRegistrationForm tenderId={tender.id} />

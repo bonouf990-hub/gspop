@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 type CommonArea = { id: string; name: string; category: string; property_id: string };
 type Property = { id: string; name: string };
@@ -78,31 +79,23 @@ export default function CreateBookingForm({
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input =
+    "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + New Booking
       </button>
-    );
-  }
 
-  const input =
-    "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
-
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="lux-card p-5 space-y-3 max-w-lg absolute right-8 top-20 z-10"
-    >
-      <h3 className="eyebrow mb-2">
-        New Booking
-      </h3>
-
+      {open && (
+        <Modal title="New Booking" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Property *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Property *</label>
         <select
           className={input}
           value={propertyId}
@@ -119,7 +112,7 @@ export default function CreateBookingForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Facility *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Facility *</label>
         <select
           className={input}
           value={commonAreaId}
@@ -136,7 +129,7 @@ export default function CreateBookingForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Resident *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Resident *</label>
         <select
           className={input}
           value={residentId}
@@ -153,7 +146,7 @@ export default function CreateBookingForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Date *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Date *</label>
         <input
           className={input}
           type="date"
@@ -165,7 +158,7 @@ export default function CreateBookingForm({
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Start Time *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Start Time *</label>
           <input
             className={input}
             type="time"
@@ -175,7 +168,7 @@ export default function CreateBookingForm({
           />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">End Time *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">End Time *</label>
           <input
             className={input}
             type="time"
@@ -199,11 +192,14 @@ export default function CreateBookingForm({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]"
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]"
         >
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

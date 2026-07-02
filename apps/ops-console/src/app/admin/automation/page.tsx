@@ -16,7 +16,7 @@ export default async function AutomationSettingsPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">You don&apos;t have access to Automation Settings.</p>
+        <p className="text-[#5d6880]">You don&apos;t have access to Automation Settings.</p>
       </main>
     );
   }
@@ -29,9 +29,9 @@ export default async function AutomationSettingsPage() {
 
   return (
     <main className="p-8 max-w-3xl mx-auto">
-      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
       <h1 className="text-2xl font-extrabold mt-1 mb-1">Automation Settings</h1>
-      <p className="text-[#a0977e] mb-8">
+      <p className="text-[#9aa5bd] mb-8">
         Control when reminders go out and which automations run. Changes take effect from the next daily run.
       </p>
 

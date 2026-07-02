@@ -89,8 +89,8 @@ body {
 
 /* ── Gold button ────────────────────────────────────────────────────── */
 .btn-gold {
-  background: linear-gradient(135deg, #d9647f 0%, #b01b42 55%, #8c1434 100%);
-  color: #0f1626;
+  background: linear-gradient(135deg, #c94a68 0%, #b01b42 55%, #8c1434 100%);
+  color: #ffffff;
   font-weight: 700;
   letter-spacing: 0.06em;
   border-radius: 0.75rem;

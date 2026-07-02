@@ -73,7 +73,7 @@ export default function InvoiceActions({
   }
 
   if (showPay) {
-    const input = "bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-1.5 text-xs text-[#f0ece4]";
+    const input = "bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-1.5 text-xs text-[#eef1f6]";
     return (
       <form onSubmit={handlePay} className="flex flex-col gap-1">
         <select className={input} value={payForm.method}
@@ -90,7 +90,7 @@ export default function InvoiceActions({
             Confirm
           </button>
           <button type="button" onClick={() => setShowPay(false)}
-            className="text-[10px] px-2 py-1 rounded bg-[#213052] text-[#a0977e]">
+            className="text-[10px] px-2 py-1 rounded bg-[#213052] text-[#9aa5bd]">
             Cancel
           </button>
         </div>
@@ -115,7 +115,7 @@ export default function InvoiceActions({
       )}
       {currentStatus === "verified" && (
         <button onClick={() => updateStatus("approved")} disabled={acting}
-          className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[rgba(184,144,47,0.2)] text-[#d4af5a] disabled:opacity-50">
+          className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[rgba(176,27,66,0.2)] text-[#d9647f] disabled:opacity-50">
           Approve
         </button>
       )}

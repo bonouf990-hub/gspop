@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
 import { checkWorkflow } from "@/lib/workflow";
+import Modal from "@/components/Modal";
 
 type Property = { id: string; name: string };
 type Unit = { id: string; label: string; property_id: string };
@@ -118,54 +119,49 @@ export default function CreateSchedule({
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + New Schedule
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
-
-  return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 space-y-3 max-w-md">
-      <h3 className="eyebrow mb-2">
-        New Maintenance Schedule
-      </h3>
-
+      {open && (
+        <Modal title="New Maintenance Schedule" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Title *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Title *</label>
         <input className={input} placeholder="e.g. HVAC Filter Replacement"
           value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Description</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Description</label>
         <textarea className={input} rows={2} placeholder="Task details and instructions…"
           value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
       </div>
 
       <div className="grid grid-cols-3 gap-2">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Type *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Type *</label>
           <select className={input} value={form.type}
             onChange={(e) => setForm({ ...form, type: e.target.value })}>
             {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Frequency *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Frequency *</label>
           <select className={input} value={form.frequency}
             onChange={(e) => setForm({ ...form, frequency: e.target.value })}>
             {FREQUENCIES.map((f) => <option key={f} value={f}>{f}</option>)}
           </select>
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Priority *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Priority *</label>
           <select className={input} value={form.priority}
             onChange={(e) => setForm({ ...form, priority: e.target.value })}>
             {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
@@ -174,7 +170,7 @@ export default function CreateSchedule({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Property *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Property *</label>
         <select className={input} value={form.propertyId}
           onChange={(e) => setForm({ ...form, propertyId: e.target.value })} required>
           <option value="">Select property…</option>
@@ -184,7 +180,7 @@ export default function CreateSchedule({
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Unit (optional)</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Unit (optional)</label>
           <select className={input} value={form.unitId}
             onChange={(e) => setForm({ ...form, unitId: e.target.value })}>
             <option value="">All units</option>
@@ -192,7 +188,7 @@ export default function CreateSchedule({
           </select>
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Asset (optional)</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Asset (optional)</label>
           <select className={input} value={form.assetId}
             onChange={(e) => setForm({ ...form, assetId: e.target.value })}>
             <option value="">No asset</option>
@@ -203,12 +199,12 @@ export default function CreateSchedule({
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Trade</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Trade</label>
           <input className={input} placeholder="e.g. HVAC, Electrical"
             value={form.trade} onChange={(e) => setForm({ ...form, trade: e.target.value })} />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Est. Hours</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Est. Hours</label>
           <input className={input} type="number" step="0.25" placeholder="2.5"
             value={form.estimatedHours} onChange={(e) => setForm({ ...form, estimatedHours: e.target.value })} />
         </div>
@@ -216,7 +212,7 @@ export default function CreateSchedule({
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Technician</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Technician</label>
           <select className={input} value={form.technicianId}
             onChange={(e) => setForm({ ...form, technicianId: e.target.value })}>
             <option value="">Unassigned</option>
@@ -228,7 +224,7 @@ export default function CreateSchedule({
           </select>
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Vendor</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Vendor</label>
           <select className={input} value={form.vendorId}
             onChange={(e) => setForm({ ...form, vendorId: e.target.value })}>
             <option value="">No vendor</option>
@@ -238,7 +234,7 @@ export default function CreateSchedule({
       </div>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Next Due Date *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Next Due Date *</label>
         <input className={input} type="date" value={form.nextDueDate}
           onChange={(e) => setForm({ ...form, nextDueDate: e.target.value })} required />
       </div>
@@ -251,10 +247,13 @@ export default function CreateSchedule({
           {submitting ? "Creating…" : "Create Schedule"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
           Cancel
         </button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

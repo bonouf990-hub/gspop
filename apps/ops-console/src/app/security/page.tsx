@@ -29,37 +29,42 @@ export default async function SecurityConsolePage() {
   const history = visitors.filter((v) => v.status === "checked_out" || v.status === "declined");
 
   return (
-    <main className="p-8">
-      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
-      <h1 className="text-2xl font-extrabold mt-1 mb-1">Security Console</h1>
-      <p className="text-[#a0977e] mb-8">
-        Pre-authorized visitors awaiting arrival, who's on site now, and recent activity.
-      </p>
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+        <div>
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <h1 className="mt-1">Security Console</h1>
+          <p className="text-[#9aa5bd] mt-1">
+            Pre-authorized visitors awaiting arrival, who's on site now, and recent activity.
+          </p>
+        </div>
+      </div>
 
       <section className="mb-8">
         <h2 className="text-lg font-bold mb-3">Expected ({invited.length})</h2>
+        <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-              <th className="py-2">Name</th>
-              <th className="py-2">Purpose</th>
-              <th className="py-2">Window</th>
-              <th className="py-2">ID</th>
-              <th className="py-2">Action</th>
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <th className="px-5 py-3.5">Name</th>
+              <th className="px-5 py-3.5">Purpose</th>
+              <th className="px-5 py-3.5">Window</th>
+              <th className="px-5 py-3.5">ID</th>
+              <th className="px-5 py-3.5">Action</th>
             </tr>
           </thead>
           <tbody>
             {invited.map((v) => (
-              <tr key={v.id} className="border-b border-[rgba(184,144,47,0.08)]">
-                <td className="py-2">{v.fullName || v.brandName}</td>
-                <td className="py-2 capitalize">{v.purpose}</td>
-                <td className="py-2 text-[#a0977e]">
+              <tr key={v.id} className="border-b border-[rgba(176,27,66,0.08)]">
+                <td className="px-5 py-3.5">{v.fullName || v.brandName}</td>
+                <td className="px-5 py-3.5 capitalize">{v.purpose}</td>
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {v.expectedWindowStart ? new Date(v.expectedWindowStart).toLocaleTimeString() : "—"} –{" "}
                   {v.expectedWindowEnd ? new Date(v.expectedWindowEnd).toLocaleTimeString() : "—"}
                 </td>
-                <td className="py-2 text-[#a0977e]">{v.emiratesIdNumber ?? "—"}</td>
-                <td className="py-2">
+                <td className="px-5 py-3.5 text-[#9aa5bd]">{v.emiratesIdNumber ?? "—"}</td>
+                <td className="px-5 py-3.5">
                   <VisitorActions
                     visitorId={v.id}
                     hostResidentId={v.hostResidentId}
@@ -71,7 +76,7 @@ export default async function SecurityConsolePage() {
             ))}
             {invited.length === 0 && (
               <tr>
-                <td className="py-4 text-[#6b6454]" colSpan={5}>
+                <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={5}>
                   No visitors expected.
                 </td>
               </tr>
@@ -79,29 +84,31 @@ export default async function SecurityConsolePage() {
           </tbody>
         </table>
         </div>
+        </div>
       </section>
 
       <section className="mb-8">
         <h2 className="text-lg font-bold mb-3">On Site ({onSite.length})</h2>
+        <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-              <th className="py-2">Name</th>
-              <th className="py-2">Purpose</th>
-              <th className="py-2">Checked In</th>
-              <th className="py-2">Action</th>
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <th className="px-5 py-3.5">Name</th>
+              <th className="px-5 py-3.5">Purpose</th>
+              <th className="px-5 py-3.5">Checked In</th>
+              <th className="px-5 py-3.5">Action</th>
             </tr>
           </thead>
           <tbody>
             {onSite.map((v) => (
-              <tr key={v.id} className="border-b border-[rgba(184,144,47,0.08)]">
-                <td className="py-2">{v.fullName || v.brandName}</td>
-                <td className="py-2 capitalize">{v.purpose}</td>
-                <td className="py-2 text-[#a0977e]">
+              <tr key={v.id} className="border-b border-[rgba(176,27,66,0.08)]">
+                <td className="px-5 py-3.5">{v.fullName || v.brandName}</td>
+                <td className="px-5 py-3.5 capitalize">{v.purpose}</td>
+                <td className="px-5 py-3.5 text-[#9aa5bd]">
                   {v.checkedInAt ? new Date(v.checkedInAt).toLocaleTimeString() : "—"}
                 </td>
-                <td className="py-2">
+                <td className="px-5 py-3.5">
                   <VisitorActions
                     visitorId={v.id}
                     hostResidentId={v.hostResidentId}
@@ -113,7 +120,7 @@ export default async function SecurityConsolePage() {
             ))}
             {onSite.length === 0 && (
               <tr>
-                <td className="py-4 text-[#6b6454]" colSpan={4}>
+                <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={4}>
                   No one currently on site.
                 </td>
               </tr>
@@ -121,36 +128,39 @@ export default async function SecurityConsolePage() {
           </tbody>
         </table>
         </div>
+        </div>
       </section>
 
       <section>
         <h2 className="text-lg font-bold mb-3">Recent Activity</h2>
+        <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-              <th className="py-2">Name</th>
-              <th className="py-2">Purpose</th>
-              <th className="py-2">Status</th>
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <th className="px-5 py-3.5">Name</th>
+              <th className="px-5 py-3.5">Purpose</th>
+              <th className="px-5 py-3.5">Status</th>
             </tr>
           </thead>
           <tbody>
             {history.map((v) => (
-              <tr key={v.id} className="border-b border-[rgba(184,144,47,0.08)]">
-                <td className="py-2">{v.fullName || v.brandName}</td>
-                <td className="py-2 capitalize">{v.purpose}</td>
-                <td className="py-2 text-[#a0977e]">{STATUS_LABEL[v.status]}</td>
+              <tr key={v.id} className="border-b border-[rgba(176,27,66,0.08)]">
+                <td className="px-5 py-3.5">{v.fullName || v.brandName}</td>
+                <td className="px-5 py-3.5 capitalize">{v.purpose}</td>
+                <td className="px-5 py-3.5 text-[#9aa5bd]">{STATUS_LABEL[v.status]}</td>
               </tr>
             ))}
             {history.length === 0 && (
               <tr>
-                <td className="py-4 text-[#6b6454]" colSpan={3}>
+                <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={3}>
                   No recent activity.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+        </div>
         </div>
       </section>
     </main>

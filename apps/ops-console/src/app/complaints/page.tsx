@@ -16,20 +16,20 @@ export default async function ComplaintsPage() {
 
   return (
     <main className="p-8">
-      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+      <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
       <h1 className="text-2xl font-extrabold mt-1 mb-6">Tenant Complaints</h1>
       <ul className="space-y-3">
         {complaints.map((c) => (
           <li key={c.id} className="lux-card p-4">
-            <Link href={`/complaints/${c.id}`} className="font-medium text-[#d4af5a] hover:underline">
+            <Link href={`/complaints/${c.id}`} className="font-medium text-[#d9647f] hover:underline">
               {c.title}
             </Link>
-            <p className="text-sm text-[#a0977e]">
+            <p className="text-sm text-[#9aa5bd]">
               {c.status.replace(/_/g, " ")} · {c.priority} · submitted {new Date(c.submittedAt).toLocaleString()}
             </p>
           </li>
         ))}
-        {complaints.length === 0 && <p className="text-[#6b6454]">No complaints submitted yet.</p>}
+        {complaints.length === 0 && <p className="text-[#5d6880]">No complaints submitted yet.</p>}
       </ul>
     </main>
   );

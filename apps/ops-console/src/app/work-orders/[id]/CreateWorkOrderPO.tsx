@@ -63,26 +63,26 @@ export default function CreateWorkOrderPO({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
       >
         + Create PO
       </button>
     );
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
 
   return (
     <form onSubmit={handleSubmit} className="lux-card p-4 space-y-3">
       <h3 className="eyebrow mb-2">
         Create Purchase Order
       </h3>
-      <p className="text-xs text-[#a0977e]">
+      <p className="text-xs text-[#9aa5bd]">
         For: {workOrderTitle}
       </p>
 
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Description</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Description</label>
         <input
           className={input}
           placeholder="What needs to be purchased?"
@@ -93,7 +93,7 @@ export default function CreateWorkOrderPO({
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Amount (AED) *</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Amount (AED) *</label>
           <input
             className={input}
             type="number"
@@ -105,7 +105,7 @@ export default function CreateWorkOrderPO({
           />
         </div>
         <div>
-          <label className="text-xs text-[#a0977e] mb-1 block">Vendor (optional)</label>
+          <label className="text-xs text-[#9aa5bd] mb-1 block">Vendor (optional)</label>
           <select
             className={input}
             value={form.vendorId}
@@ -134,7 +134,7 @@ export default function CreateWorkOrderPO({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]"
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]"
         >
           Cancel
         </button>

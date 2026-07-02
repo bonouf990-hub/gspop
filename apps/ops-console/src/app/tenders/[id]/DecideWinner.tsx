@@ -66,18 +66,18 @@ export default function DecideWinner({
   }
 
   return (
-    <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4">
+    <div className="border border-[#b01b42] bg-[rgba(176,27,66,0.08)] rounded-xl p-4">
       <h3 className="eyebrow mb-2">
         Select Tender Winner
       </h3>
-      <p className="text-xs text-[#a0977e] mb-3">
+      <p className="text-xs text-[#9aa5bd] mb-3">
         Confirming a winner will notify the purchasing department to issue a purchase order.
       </p>
       <div className="flex gap-2 items-center">
         <select
           value={winnerId}
           onChange={(e) => setWinnerId(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm flex-1"
+          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm flex-1"
         >
           <option value="">Select winning vendor…</option>
           {submissions.map((s) => (

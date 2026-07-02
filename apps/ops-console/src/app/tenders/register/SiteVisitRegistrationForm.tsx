@@ -50,11 +50,11 @@ export default function SiteVisitRegistrationForm({ tenderId }: { tenderId: stri
     return (
       <div className="border border-green-700 bg-green-950/30 rounded-xl p-8 text-center">
         <p className="text-2xl font-extrabold text-green-400 mb-2">Registration Confirmed</p>
-        <p className="text-[#a0977e]">
-          Thank you, {vendorName}. Your representative <strong className="text-[#f0ece4]">{repName}</strong> has
+        <p className="text-[#9aa5bd]">
+          Thank you, {vendorName}. Your representative <strong className="text-[#eef1f6]">{repName}</strong> has
           been registered for the site visit. Please arrive on time at the designated meeting point.
         </p>
-        <p className="text-sm text-[#6b6454] mt-4">
+        <p className="text-sm text-[#5d6880] mt-4">
           After attending the site visit, you will receive a link to submit your tender online.
         </p>
       </div>
@@ -62,7 +62,7 @@ export default function SiteVisitRegistrationForm({ tenderId }: { tenderId: stri
   }
 
   return (
-    <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-6">
+    <div className="border border-[#b01b42] bg-[#1a2640] rounded-xl p-6">
       <h2 className="eyebrow mb-4">
         Register for Site Visit
       </h2>
@@ -75,38 +75,38 @@ export default function SiteVisitRegistrationForm({ tenderId }: { tenderId: stri
 
       <div className="space-y-4">
         <div>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-2">Company Details</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Company Details</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input
               placeholder="Company Name *"
               value={vendorName}
               onChange={(e) => setVendorName(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Email Address *"
               type="email"
               value={vendorEmail}
               onChange={(e) => setVendorEmail(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Phone Number"
               value={vendorPhone}
               onChange={(e) => setVendorPhone(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Trade License / Registration No."
               value={companyReg}
               onChange={(e) => setCompanyReg(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
           </div>
         </div>
 
         <div>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider font-bold mb-2">
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">
             Representative Attending
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -114,13 +114,13 @@ export default function SiteVisitRegistrationForm({ tenderId }: { tenderId: stri
               placeholder="Representative Name *"
               value={repName}
               onChange={(e) => setRepName(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
             <input
               placeholder="Role / Title (e.g. Project Manager)"
               value={repRole}
               onChange={(e) => setRepRole(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2.5 text-sm"
+              className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2.5 text-sm"
             />
           </div>
         </div>

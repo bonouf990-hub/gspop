@@ -42,7 +42,7 @@ export default function ComplaintStatusControl({
   return (
     <div className="flex items-center gap-2">
       <select
-        className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm capitalize text-[#f0ece4]"
+        className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm capitalize text-[#eef1f6]"
         value={status}
         onChange={(e) => setStatus(e.target.value)}
       >

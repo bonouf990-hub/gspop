@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 export default function SetBudget({
   propertyId,
@@ -76,31 +77,26 @@ export default function SetBudget({
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
         className={`text-xs font-bold px-3 py-1.5 rounded-lg ${
           currentBudget > 0
-            ? "bg-[#213052] text-[#d4af5a] hover:bg-[rgba(184,144,47,0.15)]"
+            ? "bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             : "btn-gold"
         }`}
       >
         {currentBudget > 0 ? "Edit Budget" : "Set Budget"}
       </button>
-    );
-  }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
-
-  return (
-    <div className="border border-[rgba(184,144,47,0.15)] bg-[#0f1626] rounded-xl p-4 min-w-[280px]">
-      <h4 className="eyebrow mb-2">
-        {propertyName} — {year} Budget
-      </h4>
-
+      {open && (
+        <Modal title={`${propertyName} — ${year} Budget`} onClose={() => setOpen(false)}>
+          <div>
       <div className="mb-3">
-        <label className="text-xs text-[#a0977e] mb-1 block">Annual Budget (AED) *</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Annual Budget (AED) *</label>
         <input
           className={input}
           type="number"
@@ -114,7 +110,7 @@ export default function SetBudget({
       </div>
 
       <div className="mb-3">
-        <label className="text-xs text-[#a0977e] mb-1 block">Notes (optional)</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Notes (optional)</label>
         <input
           className={input}
           placeholder="e.g. Approved by GM, includes HVAC overhaul"
@@ -135,11 +131,14 @@ export default function SetBudget({
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-[#a0977e] text-xs font-medium px-4 py-2 rounded-lg"
+          className="bg-[#213052] text-[#9aa5bd] text-xs font-medium px-4 py-2 rounded-lg"
         >
           Cancel
         </button>
       </div>
-    </div>
+          </div>
+        </Modal>
+      )}
+    </>
   );
 }

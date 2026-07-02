@@ -55,14 +55,14 @@ export default function AIChat({ userRole }: { userRole: string }) {
     <div className="flex flex-col h-full">
       {messages.length === 0 && (
         <div className="mb-4">
-          <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">Try asking</p>
+          <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Try asking</p>
           <div className="flex flex-wrap gap-2">
             {EXAMPLE_QUESTIONS.map((q) => (
               <button
                 key={q}
                 onClick={() => handleAsk(q)}
                 disabled={loading}
-                className="text-xs px-3 py-1.5 rounded-lg border border-[rgba(184,144,47,0.15)] text-[#a0977e] hover:border-[#b8902f] hover:text-[#d4af5a] transition-colors disabled:opacity-50"
+                className="text-xs px-3 py-1.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-[#9aa5bd] hover:border-[#b01b42] hover:text-[#d9647f] transition-colors disabled:opacity-50"
               >
                 {q}
               </button>
@@ -77,19 +77,19 @@ export default function AIChat({ userRole }: { userRole: string }) {
             key={i}
             className={`rounded-lg p-3 text-sm ${
               msg.role === "user"
-                ? "bg-[rgba(184,144,47,0.12)] ml-8"
+                ? "bg-[rgba(176,27,66,0.12)] ml-8"
                 : "bg-[#0f1626] mr-8"
             }`}
           >
-            <p className="text-[10px] text-[#6b6454] mb-1">
+            <p className="text-[10px] text-[#5d6880] mb-1">
               {msg.role === "user" ? "You" : "AI Brain"} · {msg.timestamp.toLocaleTimeString()}
             </p>
-            <div className="text-[#f0ece4] whitespace-pre-wrap">{msg.content}</div>
+            <div className="text-[#eef1f6] whitespace-pre-wrap">{msg.content}</div>
           </div>
         ))}
         {loading && (
           <div className="bg-[#0f1626] rounded-lg p-3 mr-8">
-            <p className="text-sm text-[#a0977e] animate-pulse">Analyzing your data…</p>
+            <p className="text-sm text-[#9aa5bd] animate-pulse">Analyzing your data…</p>
           </div>
         )}
       </div>
@@ -101,7 +101,7 @@ export default function AIChat({ userRole }: { userRole: string }) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleAsk()}
           placeholder="Ask anything about your operations data…"
-          className="flex-1 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm placeholder:text-[#6b6454]"
+          className="flex-1 bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm placeholder:text-[#5d6880]"
           disabled={loading}
         />
         <button

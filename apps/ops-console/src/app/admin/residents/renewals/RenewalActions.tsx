@@ -71,7 +71,7 @@ export default function RenewalActions({
             onChange={(e) => setNotes(e.target.value)}
             placeholder={`Notes about ${residentName}'s renewal...`}
             rows={2}
-            className="w-full rounded-lg bg-[#0f1626] border border-[rgba(184,144,47,0.15)] p-2 text-sm resize-none"
+            className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2 text-sm resize-none"
           />
         </div>
       )}
@@ -79,7 +79,7 @@ export default function RenewalActions({
         {!showNotes && (
           <button
             onClick={() => setShowNotes(true)}
-            className="text-xs font-bold px-3 py-2 rounded-lg bg-[#213052] text-[#a0977e] hover:bg-[rgba(184,144,47,0.12)]"
+            className="text-xs font-bold px-3 py-2 rounded-lg bg-[#213052] text-[#9aa5bd] hover:bg-[rgba(176,27,66,0.12)]"
           >
             + Add Note
           </button>
@@ -94,7 +94,7 @@ export default function RenewalActions({
                 ? "bg-red-900/50 text-red-300 hover:bg-red-900"
                 : a.value === "renewed"
                 ? "bg-green-900/50 text-green-300 hover:bg-green-900"
-                : "bg-[#b8902f]/20 text-[#d4af5a] hover:bg-[#b8902f]/30"
+                : "bg-[#b01b42]/20 text-[#d9647f] hover:bg-[#b01b42]/30"
             }`}
           >
             {a.label}

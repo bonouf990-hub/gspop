@@ -28,7 +28,7 @@ export default async function TeamManagementPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">You don&apos;t have access to Team Management.</p>
+        <p className="text-[#5d6880]">You don&apos;t have access to Team Management.</p>
       </main>
     );
   }
@@ -56,65 +56,69 @@ export default async function TeamManagementPage() {
   );
 
   return (
-    <main className="p-8">
-      <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
-      <h1 className="text-2xl font-extrabold mt-1 mb-2">Team Management</h1>
-      <p className="text-[#a0977e] mb-6">
-        Create staff logins, assign roles, reporting lines, and which buildings they cover.
-      </p>
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
+        <div>
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <h1 className="mt-1">Team Management</h1>
+          <p className="text-[#9aa5bd] mt-1">
+            Create staff logins, assign roles, reporting lines, and which buildings they cover.
+          </p>
+        </div>
+        <CreateStaffForm
+          managers={(managers ?? []).map((m) => ({ id: m.id, full_name: m.full_name }))}
+          properties={(properties ?? []).map((p) => ({ id: p.id, name: p.name }))}
+        />
+      </div>
 
       <details className="mb-6 lux-card p-4">
-        <summary className="cursor-pointer font-medium text-sm text-[#d4af5a]">Role reference — who can do what</summary>
+        <summary className="cursor-pointer font-medium text-sm text-[#d9647f]">Role reference — who can do what</summary>
         <table className="w-full text-sm mt-3 border-collapse">
           <tbody>
             {Object.entries(ROLE_DESCRIPTIONS).map(([role, desc]) => (
-              <tr key={role} className="border-b border-[rgba(184,144,47,0.08)]">
+              <tr key={role} className="border-b border-[rgba(176,27,66,0.08)]">
                 <td className="py-2 pr-4 font-medium capitalize whitespace-nowrap">{role.replace(/_/g, " ")}</td>
-                <td className="py-2 text-[#a0977e]">{desc}</td>
+                <td className="py-2 text-[#9aa5bd]">{desc}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </details>
 
-      <CreateStaffForm
-        managers={(managers ?? []).map((m) => ({ id: m.id, full_name: m.full_name }))}
-        properties={(properties ?? []).map((p) => ({ id: p.id, name: p.name }))}
-      />
-
+      <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[1000px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-            <th className="py-2">Name</th>
-            <th className="py-2">Role</th>
-            <th className="py-2">Trade</th>
-            <th className="py-2">Phone</th>
-            <th className="py-2">Monthly Salary</th>
-            <th className="py-2">Hourly Rate</th>
-            <th className="py-2">Reports To</th>
-            <th className="py-2">Buildings</th>
-            <th className="py-2"></th>
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <th className="px-5 py-3.5">Name</th>
+            <th className="px-5 py-3.5">Role</th>
+            <th className="px-5 py-3.5">Trade</th>
+            <th className="px-5 py-3.5">Phone</th>
+            <th className="px-5 py-3.5">Monthly Salary</th>
+            <th className="px-5 py-3.5">Hourly Rate</th>
+            <th className="px-5 py-3.5">Reports To</th>
+            <th className="px-5 py-3.5">Buildings</th>
+            <th className="px-5 py-3.5"></th>
           </tr>
         </thead>
         <tbody>
           {(staff ?? []).map((s) => (
-            <tr key={s.id} className="border-b border-[rgba(184,144,47,0.08)]">
-              <td className="py-2">{s.full_name}</td>
-              <td className="py-2 capitalize">{s.role.replace(/_/g, " ")}</td>
-              <td className="py-2 text-[#a0977e] capitalize">{s.trade ?? "—"}</td>
-              <td className="py-2 text-[#a0977e]">{s.phone ?? "—"}</td>
-              <td className="py-2 text-[#d4af5a]">
+            <tr key={s.id} className="border-b border-[rgba(176,27,66,0.08)]">
+              <td className="px-5 py-3.5">{s.full_name}</td>
+              <td className="px-5 py-3.5 capitalize">{s.role.replace(/_/g, " ")}</td>
+              <td className="px-5 py-3.5 text-[#9aa5bd] capitalize">{s.trade ?? "—"}</td>
+              <td className="px-5 py-3.5 text-[#9aa5bd]">{s.phone ?? "—"}</td>
+              <td className="px-5 py-3.5 text-[#d9647f]">
                 {s.monthly_salary ? `AED ${Number(s.monthly_salary).toLocaleString()}` : "—"}
               </td>
-              <td className="py-2 text-[#d4af5a]">
+              <td className="px-5 py-3.5 text-[#d9647f]">
                 {s.hourly_rate ? `AED ${Number(s.hourly_rate).toLocaleString()}` : "—"}
               </td>
-              <td className="py-2 text-[#a0977e]">
+              <td className="px-5 py-3.5 text-[#9aa5bd]">
                 {s.reports_to_id ? staffById.get(s.reports_to_id)?.full_name ?? "—" : "—"}
               </td>
-              <td className="py-2 text-[#a0977e]">{(propertiesByUser.get(s.id) ?? []).join(", ") || "All"}</td>
-              <td className="py-2">
+              <td className="px-5 py-3.5 text-[#9aa5bd]">{(propertiesByUser.get(s.id) ?? []).join(", ") || "All"}</td>
+              <td className="px-5 py-3.5">
                 <EditSalary
                   userId={s.id}
                   currentSalary={s.monthly_salary ? Number(s.monthly_salary) : null}
@@ -125,6 +129,7 @@ export default async function TeamManagementPage() {
           ))}
         </tbody>
       </table>
+      </div>
       </div>
     </main>
   );

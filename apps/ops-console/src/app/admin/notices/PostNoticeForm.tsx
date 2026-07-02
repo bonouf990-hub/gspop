@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 type PropertyOption = { id: string; name: string };
 
@@ -46,20 +47,18 @@ export default function PostNoticeForm({
     router.refresh();
   }
 
-  if (!open) {
-    return (
-      <button onClick={() => setOpen(true)}
-        className="btn-gold text-sm px-4 py-2 mb-6">
-        + Post Notice
-      </button>
-    );
-  }
-
-  const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2 text-sm text-[#f0ece4]";
+  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
 
   return (
-    <form onSubmit={handleSubmit} className="lux-card p-5 mb-6 space-y-3 max-w-lg">
-      <h3 className="eyebrow mb-2">New Building Notice</h3>
+    <>
+      <button onClick={() => setOpen(true)}
+        className="btn-gold text-sm px-5 py-2.5">
+        + Post Notice
+      </button>
+
+      {open && (
+        <Modal title="New Building Notice" onClose={() => setOpen(false)}>
+          <form onSubmit={handleSubmit} className="space-y-3">
       <select className={input} value={propertyId} onChange={(e) => setPropertyId(e.target.value)} required>
         <option value="">Select building…</option>
         {properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
@@ -69,7 +68,7 @@ export default function PostNoticeForm({
       <textarea className={`${input} h-28`} placeholder="Message to residents…" value={body}
         onChange={(e) => setBody(e.target.value)} required />
       <div>
-        <label className="text-xs text-[#a0977e] mb-1 block">Expires (optional)</label>
+        <label className="text-xs text-[#9aa5bd] mb-1 block">Expires (optional)</label>
         <input className={input} type="date" value={expiresAt} onChange={(e) => setExpiresAt(e.target.value)} />
       </div>
       {error && <p className="text-red-400 text-xs">{error}</p>}
@@ -79,8 +78,11 @@ export default function PostNoticeForm({
           {submitting ? "Posting..." : "Post to Residents"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#a0977e]">Cancel</button>
+          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">Cancel</button>
       </div>
-    </form>
+          </form>
+        </Modal>
+      )}
+    </>
   );
 }

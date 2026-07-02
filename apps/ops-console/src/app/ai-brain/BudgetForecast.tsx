@@ -52,7 +52,7 @@ export default function BudgetForecast() {
       {result && (
         <div className="mt-4 space-y-4">
           <div className="bg-[#0f1626] rounded-lg p-3">
-            <p className="text-sm text-[#f0ece4]">{result.summary}</p>
+            <p className="text-sm text-[#eef1f6]">{result.summary}</p>
           </div>
 
           {result.warnings?.length > 0 && (
@@ -66,7 +66,7 @@ export default function BudgetForecast() {
 
           {result.building_forecasts?.length > 0 && (
             <div>
-              <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">Building Forecasts — Next Quarter</p>
+              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Building Forecasts — Next Quarter</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {result.building_forecasts.map((b, i) => (
                   <div key={i} className="bg-[#0f1626] rounded-lg p-3">
@@ -76,8 +76,8 @@ export default function BudgetForecast() {
                         {b.risk_level} risk
                       </span>
                     </div>
-                    <p className="text-[#d4af5a] font-bold">AED {b.next_quarter_estimate?.toLocaleString()}</p>
-                    <p className="text-xs text-[#a0977e] mt-1">{b.reason}</p>
+                    <p className="text-[#d9647f] font-bold">AED {b.next_quarter_estimate?.toLocaleString()}</p>
+                    <p className="text-xs text-[#9aa5bd] mt-1">{b.reason}</p>
                   </div>
                 ))}
               </div>
@@ -86,16 +86,16 @@ export default function BudgetForecast() {
 
           {result.monthly_trend?.length > 0 && (
             <div>
-              <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">Monthly Trend</p>
+              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Monthly Trend</p>
               <div className="bg-[#0f1626] rounded-lg p-3 overflow-x-auto">
                 <div className="flex gap-2 min-w-max">
                   {result.monthly_trend.map((m, i) => (
                     <div key={i} className="text-center px-3">
-                      <p className="text-xs text-[#6b6454]">{m.month}</p>
-                      <p className="text-sm font-bold text-[#d4af5a]">
+                      <p className="text-xs text-[#5d6880]">{m.month}</p>
+                      <p className="text-sm font-bold text-[#d9647f]">
                         {m.predicted_cost?.toLocaleString()}
                       </p>
-                      <p className={`text-[10px] ${m.confidence === "high" ? "text-green-400" : m.confidence === "medium" ? "text-amber-400" : "text-[#6b6454]"}`}>
+                      <p className={`text-[10px] ${m.confidence === "high" ? "text-green-400" : m.confidence === "medium" ? "text-amber-400" : "text-[#5d6880]"}`}>
                         {m.confidence}
                       </p>
                     </div>
@@ -107,10 +107,10 @@ export default function BudgetForecast() {
 
           {result.seasonal_insights?.length > 0 && (
             <div className="bg-[#0f1626] rounded-lg p-3">
-              <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">Seasonal Insights</p>
-              <ul className="text-sm text-[#f0ece4] space-y-1">
+              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Seasonal Insights</p>
+              <ul className="text-sm text-[#eef1f6] space-y-1">
                 {result.seasonal_insights.map((s, i) => (
-                  <li key={i} className="flex gap-2"><span className="text-[#b8902f]">•</span>{s}</li>
+                  <li key={i} className="flex gap-2"><span className="text-[#b01b42]">•</span>{s}</li>
                 ))}
               </ul>
             </div>
@@ -119,7 +119,7 @@ export default function BudgetForecast() {
           {result.cost_saving_opportunities?.length > 0 && (
             <div className="bg-[#0f1626] rounded-lg p-3">
               <p className="text-xs text-green-400 uppercase tracking-wider font-bold mb-2">Cost Saving Opportunities</p>
-              <ul className="text-sm text-[#f0ece4] space-y-1">
+              <ul className="text-sm text-[#eef1f6] space-y-1">
                 {result.cost_saving_opportunities.map((o, i) => (
                   <li key={i} className="flex gap-2"><span className="text-green-400">•</span>{o}</li>
                 ))}

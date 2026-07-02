@@ -33,10 +33,10 @@ async function sendEmail(to: string, subject: string, message: string, link: str
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return false;
 
-  const from = process.env.NOTIFY_FROM_EMAIL ?? "GSPOP <onboarding@resend.dev>";
+  const from = process.env.NOTIFY_FROM_EMAIL ?? "ARENCO GSPOP <onboarding@resend.dev>";
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
   const cta = link && appUrl
-    ? `<p style="margin-top:24px"><a href="${appUrl}${link}" style="background:#b8902f;color:#0f1626;font-weight:bold;padding:10px 24px;border-radius:8px;text-decoration:none">View details</a></p>`
+    ? `<p style="margin-top:24px"><a href="${appUrl}${link}" style="background:#b01b42;color:#0f1626;font-weight:bold;padding:10px 24px;border-radius:8px;text-decoration:none">View details</a></p>`
     : "";
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -46,10 +46,10 @@ async function sendEmail(to: string, subject: string, message: string, link: str
       from,
       to,
       subject,
-      html: `<div style="font-family:Arial,sans-serif;background:#0f1626;color:#f0ece4;padding:32px;border-radius:12px">
-        <p style="color:#b8902f;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin:0 0 12px">Golden Sands</p>
+      html: `<div style="font-family:Arial,sans-serif;background:#0f1626;color:#eef1f6;padding:32px;border-radius:12px">
+        <p style="color:#b01b42;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;margin:0 0 12px">ARENCO Real Estate</p>
         <h2 style="margin:0 0 16px;font-size:18px">${subject}</h2>
-        <p style="color:#a0977e;line-height:1.6;margin:0">${message}</p>
+        <p style="color:#9aa5bd;line-height:1.6;margin:0">${message}</p>
         ${cta}
       </div>`,
     }),
@@ -73,7 +73,7 @@ async function sendWhatsApp(phone: string, subject: string, message: string) {
     body: new URLSearchParams({
       From: fromNumber,
       To: to,
-      Body: `*Golden Sands — ${subject}*\n\n${message}`,
+      Body: `*ARENCO Real Estate — ${subject}*\n\n${message}`,
     }),
   });
   return res.ok;

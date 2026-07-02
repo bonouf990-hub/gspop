@@ -42,7 +42,7 @@ export default function ExportCsv({
     <button
       type="button"
       onClick={handleExport}
-      className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"
+      className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.12)]"
     >
       {label ?? "Export CSV"}
     </button>

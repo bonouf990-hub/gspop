@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import Modal from "@/components/Modal";
 
 export default function AddAssignment({
   vendors,
@@ -49,27 +50,23 @@ export default function AddAssignment({
     router.refresh();
   }
 
-  if (!open) {
-    return (
+  return (
+    <>
       <button
         onClick={() => setOpen(true)}
-        className="text-xs btn-gold px-4 py-2"
+        className="btn-gold text-sm px-5 py-2.5"
       >
         + New Project Assignment
       </button>
-    );
-  }
 
-  return (
-    <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-5">
-      <h3 className="eyebrow mb-4">
-        Assign Contractor to Project
-      </h3>
+      {open && (
+        <Modal title="Assign Contractor to Project" onClose={() => setOpen(false)}>
+          <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <select
           value={vendorId}
           onChange={(e) => setVendorId(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         >
           <option value="">Select Vendor…</option>
           {vendors.map((v) => (
@@ -79,7 +76,7 @@ export default function AddAssignment({
         <select
           value={propertyId}
           onChange={(e) => setPropertyId(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         >
           <option value="">Select Building…</option>
           {properties.map((p) => (
@@ -90,33 +87,33 @@ export default function AddAssignment({
           placeholder="Project Name"
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
         <input
           placeholder="SLA (days)"
           value={slaDays}
           onChange={(e) => setSlaDays(e.target.value)}
           type="number"
-          className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
         <input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
         <input
           type="date"
           value={expectedEnd}
           onChange={(e) => setExpectedEnd(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
       </div>
       <input
         placeholder="Scope of work (optional)"
         value={scope}
         onChange={(e) => setScope(e.target.value)}
-        className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm mb-3"
+        className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm mb-3"
       />
       <div className="flex gap-2">
         <button
@@ -128,11 +125,14 @@ export default function AddAssignment({
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="text-xs font-bold px-4 py-2 rounded-lg bg-[#0f1626] text-[#a0977e] border border-[rgba(184,144,47,0.15)]"
+          className="text-xs font-bold px-4 py-2 rounded-lg bg-[#0f1626] text-[#9aa5bd] border border-[rgba(176,27,66,0.15)]"
         >
           Cancel
         </button>
       </div>
-    </div>
+          </div>
+        </Modal>
+      )}
+    </>
   );
 }

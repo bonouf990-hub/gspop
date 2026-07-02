@@ -42,19 +42,19 @@ async function getRenewalsData() {
 }
 
 const RENEWAL_STATUS_STYLE: Record<string, { bg: string; label: string }> = {
-  not_started: { bg: "bg-[#213052] text-[#a0977e]", label: "Not Started" },
+  not_started: { bg: "bg-[#213052] text-[#9aa5bd]", label: "Not Started" },
   notice_sent: { bg: "bg-blue-900/50 text-blue-300", label: "Notice Sent" },
   negotiating: { bg: "bg-amber-900/50 text-amber-300", label: "Negotiating" },
   renewed: { bg: "bg-green-900/50 text-green-300", label: "Renewed" },
   not_renewing: { bg: "bg-red-900/50 text-red-300", label: "Not Renewing" },
-  expired: { bg: "bg-[#213052] text-[#6b6454]", label: "Expired" },
+  expired: { bg: "bg-[#213052] text-[#5d6880]", label: "Expired" },
 };
 
 export default async function LeaseRenewalsPage() {
   const data = await getRenewalsData();
 
   if (!data) {
-    return <main className="p-8"><p className="text-[#6b6454]">Not authorized.</p></main>;
+    return <main className="p-8"><p className="text-[#5d6880]">Not authorized.</p></main>;
   }
 
   const { leases } = data;
@@ -77,11 +77,11 @@ export default async function LeaseRenewalsPage() {
     <main className="p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/admin/residents" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          <Link href="/admin/residents" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
             ← Residents & Leases
           </Link>
           <h1 className="text-2xl font-extrabold mt-1">Lease Renewals</h1>
-          <p className="text-[#a0977e] text-sm mt-1">
+          <p className="text-[#9aa5bd] text-sm mt-1">
             Track upcoming expirations and manage renewal workflows.
           </p>
         </div>
@@ -90,20 +90,20 @@ export default async function LeaseRenewalsPage() {
       {/* Summary KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="lux-card p-4 text-center">
-          <p className="text-xl font-extrabold text-[#d4af5a]">{leases.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active with End Date</p>
+          <p className="text-xl font-extrabold text-[#d9647f]">{leases.length}</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Active with End Date</p>
         </div>
         <div className="border border-red-500/30 bg-red-950/20 rounded-xl p-4 text-center">
           <p className="text-xl font-extrabold text-red-400">{urgent.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Expiring ≤ 30 Days</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Expiring ≤ 30 Days</p>
         </div>
         <div className="border border-amber-500/30 bg-amber-950/20 rounded-xl p-4 text-center">
           <p className="text-xl font-extrabold text-amber-400">{upcoming.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Expiring 31–90 Days</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Expiring 31–90 Days</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-amber-400">{needsAction.length}</p>
-          <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Needs Action</p>
+          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Needs Action</p>
         </div>
       </div>
 
@@ -138,7 +138,7 @@ export default async function LeaseRenewalsPage() {
       )}
 
       {leases.length === 0 && (
-        <p className="text-[#6b6454] text-center py-8">No active leases with end dates found.</p>
+        <p className="text-[#5d6880] text-center py-8">No active leases with end dates found.</p>
       )}
     </main>
   );
@@ -159,7 +159,7 @@ function LeaseTable({ leases, now }: { leases: LeaseRow[]; now: Date }) {
             <div className="flex items-start justify-between mb-2">
               <div>
                 <p className="font-bold">{l.tenant_full_name}</p>
-                <p className="text-xs text-[#a0977e]">
+                <p className="text-xs text-[#9aa5bd]">
                   {unit?.properties?.name ? `${unit.properties.name} — ` : ""}{unit?.label ?? "—"}
                   {l.rent_amount && ` · ${l.rent_amount} AED${l.rent_frequency ? `/${l.rent_frequency}` : ""}`}
                 </p>
@@ -170,14 +170,14 @@ function LeaseTable({ leases, now }: { leases: LeaseRow[]; now: Date }) {
                 </span>
                 {daysLeft !== null && (
                   <span className={`text-xs font-bold ${
-                    daysLeft <= 30 ? "text-red-400" : daysLeft <= 60 ? "text-amber-400" : "text-[#a0977e]"
+                    daysLeft <= 30 ? "text-red-400" : daysLeft <= 60 ? "text-amber-400" : "text-[#9aa5bd]"
                   }`}>
                     {daysLeft}d left
                   </span>
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-4 text-xs text-[#6b6454] mb-2">
+            <div className="flex items-center gap-4 text-xs text-[#5d6880] mb-2">
               <span>Start: {l.start_date}</span>
               <span>End: {l.end_date}</span>
               {l.renewal_notice_sent_at && (
@@ -187,7 +187,7 @@ function LeaseTable({ leases, now }: { leases: LeaseRow[]; now: Date }) {
               )}
             </div>
             {l.renewal_notes && (
-              <p className="text-xs text-[#a0977e] mb-2">{l.renewal_notes}</p>
+              <p className="text-xs text-[#9aa5bd] mb-2">{l.renewal_notes}</p>
             )}
             <RenewalActions
               leaseId={l.id}

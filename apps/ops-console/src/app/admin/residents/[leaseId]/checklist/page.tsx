@@ -31,7 +31,7 @@ export default async function ChecklistPage({ params }: { params: Promise<{ leas
     .single();
 
   if (!profile || !["tenant_admin", "property_manager", "supervisor"].includes(profile.role)) {
-    return <main className="p-8"><p className="text-[#6b6454]">Not authorized.</p></main>;
+    return <main className="p-8"><p className="text-[#5d6880]">Not authorized.</p></main>;
   }
 
   const [{ data: lease }, { data: checklists }, { data: items }] = await Promise.all([
@@ -58,7 +58,7 @@ export default async function ChecklistPage({ params }: { params: Promise<{ leas
   ]);
 
   if (!lease) {
-    return <main className="p-8"><p className="text-[#6b6454]">Lease not found.</p></main>;
+    return <main className="p-8"><p className="text-[#5d6880]">Lease not found.</p></main>;
   }
 
   const unit = lease.units as unknown as { label: string; properties: { name: string } | null } | null;
@@ -71,11 +71,11 @@ export default async function ChecklistPage({ params }: { params: Promise<{ leas
 
   return (
     <main className="p-8 max-w-3xl">
-      <Link href={`/admin/residents/${leaseId}`} className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+      <Link href={`/admin/residents/${leaseId}`} className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
         ← Lease Details
       </Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-1">Move Checklists</h1>
-      <p className="text-[#a0977e] mb-6">
+      <p className="text-[#9aa5bd] mb-6">
         {lease.tenant_full_name} · {unit?.properties?.name ? `${unit.properties.name} — ` : ""}{unit?.label ?? "—"}
       </p>
 

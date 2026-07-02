@@ -88,8 +88,8 @@ const FREQ_LABEL: Record<string, string> = {
 
 const PRIORITY_STYLE: Record<string, string> = {
   high: "bg-red-900/60 text-red-300",
-  medium: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
-  low: "bg-[#213052] text-[#a0977e]",
+  medium: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
+  low: "bg-[#213052] text-[#9aa5bd]",
 };
 
 const TYPE_STYLE: Record<string, string> = {
@@ -119,21 +119,21 @@ export default async function MaintenancePage() {
 
   const kpis = [
     { label: "Active Schedules", value: active.length, color: "text-green-400" },
-    { label: "Paused", value: paused.length, color: "text-[#6b6454]" },
+    { label: "Paused", value: paused.length, color: "text-[#5d6880]" },
     { label: "Overdue", value: overdue.length, color: "text-red-400" },
     { label: "Due in 7 Days", value: upcoming7.length, color: "text-amber-400" },
-    { label: "WOs Generated", value: recentWOs.length, color: "text-[#d4af5a]" },
+    { label: "WOs Generated", value: recentWOs.length, color: "text-[#d9647f]" },
   ];
 
   return (
-    <main className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <main className="p-8 max-w-6xl mx-auto">
+      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">
+          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
-          <h1 className="text-2xl font-extrabold mt-1">Preventive Maintenance</h1>
-          <p className="text-[#a0977e] text-sm mt-1">
+          <h1 className="mt-1">Preventive Maintenance</h1>
+          <p className="text-[#9aa5bd] text-sm mt-1">
             Recurring schedules that auto-generate work orders on a set cadence.
           </p>
         </div>
@@ -150,7 +150,7 @@ export default async function MaintenancePage() {
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-2xl font-extrabold ${k.color}`}>{k.value}</p>
-            <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
+            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
       </div>
@@ -185,19 +185,20 @@ export default async function MaintenancePage() {
         <h2 className="eyebrow mb-3">
           All Schedules ({schedules.length})
         </h2>
+        <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[900px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
-                <th className="py-2 font-medium">Title</th>
-                <th className="py-2 font-medium">Type</th>
-                <th className="py-2 font-medium">Frequency</th>
-                <th className="py-2 font-medium">Property</th>
-                <th className="py-2 font-medium">Priority</th>
-                <th className="py-2 font-medium">Next Due</th>
-                <th className="py-2 font-medium">Assigned To</th>
-                <th className="py-2 font-medium">Status</th>
-                <th className="py-2 font-medium">Actions</th>
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                <th className="px-5 py-3.5 font-medium">Title</th>
+                <th className="px-5 py-3.5 font-medium">Type</th>
+                <th className="px-5 py-3.5 font-medium">Frequency</th>
+                <th className="px-5 py-3.5 font-medium">Property</th>
+                <th className="px-5 py-3.5 font-medium">Priority</th>
+                <th className="px-5 py-3.5 font-medium">Next Due</th>
+                <th className="px-5 py-3.5 font-medium">Assigned To</th>
+                <th className="px-5 py-3.5 font-medium">Status</th>
+                <th className="px-5 py-3.5 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -210,42 +211,42 @@ export default async function MaintenancePage() {
                 return (
                   <tr
                     key={s.id}
-                    className={`border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052] ${!s.is_active ? "opacity-50" : ""}`}
+                    className={`border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052] ${!s.is_active ? "opacity-50" : ""}`}
                   >
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       <p className="font-medium">{s.title}</p>
-                      {s.description && <p className="text-[10px] text-[#6b6454]">{s.description}</p>}
-                      {s.trade && <p className="text-[10px] text-[#a0977e]">Trade: {s.trade}</p>}
+                      {s.description && <p className="text-[10px] text-[#5d6880]">{s.description}</p>}
+                      {s.trade && <p className="text-[10px] text-[#9aa5bd]">Trade: {s.trade}</p>}
                     </td>
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${TYPE_STYLE[s.type] ?? ""}`}>
                         {s.type}
                       </span>
                     </td>
-                    <td className="py-2">{FREQ_LABEL[s.frequency] ?? s.frequency}</td>
-                    <td className="py-2 text-[#a0977e]">
+                    <td className="px-5 py-3.5">{FREQ_LABEL[s.frequency] ?? s.frequency}</td>
+                    <td className="px-5 py-3.5 text-[#9aa5bd]">
                       {[prop?.name, unit?.label].filter(Boolean).join(" · ") || "—"}
                     </td>
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       <span className={`text-xs font-medium px-2 py-0.5 rounded ${PRIORITY_STYLE[s.priority] ?? ""}`}>
                         {s.priority}
                       </span>
                     </td>
-                    <td className={`py-2 ${isOverdue ? "text-red-400 font-bold" : "text-[#a0977e]"}`}>
+                    <td className={`px-5 py-3.5 ${isOverdue ? "text-red-400 font-bold" : "text-[#9aa5bd]"}`}>
                       {new Date(s.next_due_date).toLocaleDateString()}
                       {isOverdue && <span className="text-[10px] block">OVERDUE</span>}
                     </td>
-                    <td className="py-2 text-[#a0977e]">
+                    <td className="px-5 py-3.5 text-[#9aa5bd]">
                       {tech?.full_name ?? vendor?.name ?? "Unassigned"}
                     </td>
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       {s.is_active ? (
                         <span className="text-green-400 text-xs font-medium">Active</span>
                       ) : (
-                        <span className="text-[#6b6454] text-xs font-medium">Paused</span>
+                        <span className="text-[#5d6880] text-xs font-medium">Paused</span>
                       )}
                     </td>
-                    <td className="py-2">
+                    <td className="px-5 py-3.5">
                       <ScheduleActions scheduleId={s.id} isActive={s.is_active} />
                     </td>
                   </tr>
@@ -253,13 +254,14 @@ export default async function MaintenancePage() {
               })}
               {schedules.length === 0 && (
                 <tr>
-                  <td className="py-4 text-[#6b6454]" colSpan={9}>
+                  <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={9}>
                     No maintenance schedules yet.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
+        </div>
         </div>
       </section>
     </main>
@@ -288,14 +290,14 @@ function ScheduleCard({ s, woCount, overdue }: { s: ScheduleRow; woCount: number
           <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${PRIORITY_STYLE[s.priority] ?? ""}`}>
             {s.priority}
           </span>
-          <span className="text-[10px] text-[#a0977e]">{FREQ_LABEL[s.frequency] ?? s.frequency}</span>
+          <span className="text-[10px] text-[#9aa5bd]">{FREQ_LABEL[s.frequency] ?? s.frequency}</span>
         </div>
-        <p className="text-sm text-[#a0977e] mt-0.5">
+        <p className="text-sm text-[#9aa5bd] mt-0.5">
           {[prop?.name, tech?.full_name ?? vendor?.name].filter(Boolean).join(" · ")}
           {` · Due ${new Date(s.next_due_date).toLocaleDateString()}`}
         </p>
         {woCount > 0 && (
-          <p className="text-[10px] text-[#6b6454]">{woCount} work orders generated</p>
+          <p className="text-[10px] text-[#5d6880]">{woCount} work orders generated</p>
         )}
       </div>
       <ScheduleActions scheduleId={s.id} isActive={s.is_active} />

@@ -63,7 +63,7 @@ export default async function ComplaintDetailPage({
   if (!context) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">Complaint not found.</p>
+        <p className="text-[#5d6880]">Complaint not found.</p>
       </main>
     );
   }
@@ -73,9 +73,9 @@ export default async function ComplaintDetailPage({
 
   return (
     <main className="p-8 max-w-2xl">
-      <Link href="/complaints" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Complaints</Link>
+      <Link href="/complaints" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Complaints</Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-2">{context.title}</h1>
-      <p className="text-[#a0977e] mb-6">{context.description}</p>
+      <p className="text-[#9aa5bd] mb-6">{context.description}</p>
 
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Status</h2>
@@ -103,7 +103,7 @@ export default async function ComplaintDetailPage({
             {photoUrls.map((url, i) => (
               // eslint-disable-next-line @next/next/no-img-element
               <a key={i} href={url} target="_blank" rel="noopener noreferrer">
-                <img src={url} alt={`Attachment ${i + 1}`} className="aspect-square w-full object-cover rounded-lg border border-[rgba(184,144,47,0.15)]" />
+                <img src={url} alt={`Attachment ${i + 1}`} className="aspect-square w-full object-cover rounded-lg border border-[rgba(176,27,66,0.15)]" />
               </a>
             ))}
           </div>
@@ -123,7 +123,7 @@ export default async function ComplaintDetailPage({
 
       <section
         className={`border rounded-xl p-4 ${
-          context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-[rgba(184,144,47,0.15)] bg-[#1a2640]"
+          context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-[rgba(176,27,66,0.15)] bg-[#1a2640]"
         }`}
       >
         <h2 className="eyebrow mb-3">
@@ -147,7 +147,7 @@ export default async function ComplaintDetailPage({
             )}
           </>
         ) : (
-          <p className="text-[#6b6454]">No specific asset linked to this complaint yet.</p>
+          <p className="text-[#5d6880]">No specific asset linked to this complaint yet.</p>
         )}
       </section>
     </main>
