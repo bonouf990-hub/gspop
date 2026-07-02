@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, Snowflake, Lightbulb, Flame, Lock, Droplets, Wifi, Bug, Sparkles, Volume2, FileQuestion, Camera, X } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
+import { compressImage } from "@/lib/image";
 import { camelCaseKeys, type ComplaintCategory, type ComplaintSubissue } from "@gspop/shared";
 
 const CATEGORY_ICONS: Record<string, typeof Snowflake> = {
@@ -137,11 +138,13 @@ export default function NewComplaintPage() {
     // Upload each attached photo, then record it against the complaint. The complaint
     // is submitted even if a photo upload fails — the resident isn't blocked by a bad photo.
     for (const { file } of photos) {
-      const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      // Shrink the damage photo on the resident's phone before uploading.
+      const upload = await compressImage(file);
+      const ext = upload.name.split(".").pop()?.toLowerCase() || "jpg";
       const path = `${complaint.id}/${crypto.randomUUID()}.${ext}`;
       const { error: uploadError } = await supabase.storage
         .from("complaint-photos")
-        .upload(path, file, { contentType: file.type || "image/jpeg" });
+        .upload(path, upload, { contentType: upload.type || "image/jpeg" });
       if (!uploadError) {
         await supabase.from("complaint_photos").insert({
           complaint_id: complaint.id,
