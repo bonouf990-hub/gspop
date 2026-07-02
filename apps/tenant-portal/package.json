@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.109.1",
     "@gspop/shared": "*",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.45.0",
