@@ -64,5 +64,9 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  // Skip static assets (images/icons/manifest) and API routes — API routes
+  // enforce their own auth (the cron dispatch endpoint uses a bearer secret).
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|api/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|txt|webmanifest)$).*)",
+  ],
 };
