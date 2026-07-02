@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { requireManagementRole } from "@/lib/check-permission";
+import ExportCsv from "@/components/ExportCsv";
 
 type WORow = {
   id: string;
@@ -264,6 +265,18 @@ export default async function MaintenanceCostReport() {
 
   const { buildingList, techData, grandTotals } = await getReportData();
 
+  const csvRows = buildingList.flatMap((bldg) =>
+    [...bldg.apartments.values()].map((apt) => ({
+      Building: bldg.propertyName,
+      Unit: apt.unitLabel,
+      "Work Orders": apt.totalWorkOrders,
+      "Parts (AED)": Math.round(apt.partsCost),
+      "Labor (AED)": Math.round(apt.laborCost),
+      "External (AED)": Math.round(apt.externalCost),
+      "Total (AED)": Math.round(apt.totalCost),
+    }))
+  );
+
   const kpis = [
     { label: "Work Orders", value: grandTotals.workOrders, color: "text-[#d4af5a]" },
     { label: "Parts Cost", value: fmtAED(grandTotals.partsCost), color: "text-[#d4af5a]" },
@@ -286,6 +299,7 @@ export default async function MaintenanceCostReport() {
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <ExportCsv rows={csvRows} filename="maintenance-costs" />
           <Link
             href="/reports/budgets"
             className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"

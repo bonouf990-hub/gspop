@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import ExportCsv from "@/components/ExportCsv";
 
 type ActivityRow = {
   id: string;
@@ -79,6 +80,14 @@ export default async function ActivityLogPage() {
     grouped.get(day)!.push(log);
   }
 
+  const csvRows = logs.map((log) => ({
+    Timestamp: new Date(log.created_at).toISOString(),
+    User: log.user?.full_name ?? log.user_name ?? "System",
+    Action: log.action,
+    "Entity Type": log.entity_type,
+    "Entity Label": log.entity_label ?? "",
+  }));
+
   return (
     <main className="p-8 max-w-4xl mx-auto">
       <div className="mb-6">
@@ -89,6 +98,9 @@ export default async function ActivityLogPage() {
         <p className="text-[#a0977e] text-sm mt-1">
           Complete audit trail of all operations across the platform.
         </p>
+        <div className="mt-3 mb-4">
+          <ExportCsv rows={csvRows} filename="activity-log" />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">

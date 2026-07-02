@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { checkWorkflow } from "@/lib/workflow";
 
 type Tech = { id: string; fullName: string; trade: string | null };
 
@@ -24,6 +25,13 @@ export default function AssignTechnicianControl({
     setSaving(true);
     setError(null);
     const supabase = createClient();
+
+    const wf = await checkWorkflow(supabase, "work_orders", "assign");
+    if (!wf.allowed) {
+      setSaving(false);
+      return setError(wf.reason);
+    }
+
     const update: Record<string, unknown> = {
       assigned_technician_id: selected || null,
     };

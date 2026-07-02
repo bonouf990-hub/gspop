@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import CreateResidentForm from "./CreateResidentForm";
+import ExportCsv from "@/components/ExportCsv";
 
 export default async function ResidentsPage() {
   const supabase = await createClient();
@@ -34,6 +35,21 @@ export default async function ResidentsPage() {
     return { id: u.id as string, label: propName ? `${propName} — ${u.label}` : (u.label as string) };
   });
 
+  const csvRows = (leases ?? []).map((l) => {
+    const unit = l.units as unknown as { label: string; properties: { name: string } | null } | null;
+    return {
+      Resident: l.tenant_full_name as string,
+      Unit: unit
+        ? `${unit.properties?.name ? `${unit.properties.name} — ` : ""}${unit.label}`
+        : "",
+      "Rent (AED)": l.rent_amount != null ? Number(l.rent_amount) : "",
+      Frequency: (l.rent_frequency as string | null) ?? "",
+      "Start Date": (l.start_date as string | null) ?? "",
+      "End Date": (l.end_date as string | null) ?? "",
+      Status: l.status as string,
+    };
+  });
+
   return (
     <main className="p-8">
       <div className="flex items-center gap-3 mb-2">
@@ -51,6 +67,7 @@ export default async function ResidentsPage() {
         >
           Lease Renewals
         </Link>
+        <ExportCsv rows={csvRows} filename="leases" />
       </div>
 
       <CreateResidentForm units={unitOptions} />

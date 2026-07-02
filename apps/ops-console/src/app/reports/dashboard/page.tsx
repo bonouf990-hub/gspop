@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { requireManagementRole } from "@/lib/check-permission";
+import ExportCsv from "@/components/ExportCsv";
 
 type WORow = {
   id: string;
@@ -289,6 +290,17 @@ export default async function AnalyticsDashboard() {
   const collectionTrend = trendArrow(data.thisMonthCollectionRate, data.lastMonthCollectionRate);
   const maxWOByType = data.woByType.length > 0 ? data.woByType[0][1] : 1;
 
+  const csvRows = data.buildingStats.map((b) => ({
+    Building: b.name,
+    Units: b.totalUnits,
+    Occupied: b.occupied,
+    "Occupancy (%)": b.occupancyRate,
+    "Open Work Orders": b.openWOs,
+    "Completed Work Orders": b.completedWOs,
+    "Open Complaints": b.openComplaints,
+    "Total Complaints": b.totalComplaints,
+  }));
+
   return (
     <main className="p-8">
       <div className="flex items-center justify-between mb-6">
@@ -302,6 +314,7 @@ export default async function AnalyticsDashboard() {
           </p>
         </div>
         <div className="flex gap-2">
+          <ExportCsv rows={csvRows} filename="building-performance" />
           <Link
             href="/reports/maintenance-costs"
             className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(184,144,47,0.15)] text-[#a0977e] hover:bg-[rgba(184,144,47,0.12)]"

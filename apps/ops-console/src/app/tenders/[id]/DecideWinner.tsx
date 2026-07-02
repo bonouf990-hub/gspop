@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { checkWorkflow } from "@/lib/workflow";
 
 export default function DecideWinner({
   tenderId,
@@ -22,12 +23,23 @@ export default function DecideWinner({
   const router = useRouter();
   const [winnerId, setWinnerId] = useState("");
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleDecide() {
     if (!winnerId) return;
     setSaving(true);
+    setError(null);
     const supabase = createClient();
     const winner = submissions.find((s) => s.id === winnerId);
+
+    const wf = await checkWorkflow(supabase, "tenders", "decide_winner", {
+      amount: winner ? Number(winner.proposed_amount) : undefined,
+    });
+    if (!wf.allowed) {
+      setError(wf.reason);
+      setSaving(false);
+      return;
+    }
 
     await supabase
       .from("tender_submissions")
@@ -84,6 +96,7 @@ export default function DecideWinner({
           {saving ? "Deciding…" : "Confirm Winner"}
         </button>
       </div>
+      {error && <p className="text-[#e08a8a] text-xs mt-2">{error}</p>}
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { checkWorkflow } from "@/lib/workflow";
 
 export default function PurchaseOrderActions({
   orderId,
@@ -16,10 +17,26 @@ export default function PurchaseOrderActions({
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
   const [showEscalate, setShowEscalate] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function updateStatus(status: string) {
     setUpdating(true);
+    setError(null);
     const supabase = createClient();
+
+    if (status === "approved" || status === "rejected") {
+      const wf = await checkWorkflow(
+        supabase,
+        "purchase_orders",
+        status === "approved" ? "approve" : "reject",
+        status === "approved" ? { amount } : undefined
+      );
+      if (!wf.allowed) {
+        setError(wf.reason);
+        setUpdating(false);
+        return;
+      }
+    }
 
     const updateData: Record<string, unknown> = { status };
 
@@ -78,6 +95,7 @@ export default function PurchaseOrderActions({
             Confirm Escalation
           </button>
         )}
+        {error && <span className="text-[#e08a8a] text-xs w-full text-right">{error}</span>}
       </div>
     );
   }
@@ -111,6 +129,7 @@ export default function PurchaseOrderActions({
         >
           Reject
         </button>
+        {error && <span className="text-[#e08a8a] text-xs">{error}</span>}
       </div>
     );
   }

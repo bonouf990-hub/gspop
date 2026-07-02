@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { checkWorkflow } from "@/lib/workflow";
 
 export default function CreateTender({
   properties,
@@ -12,6 +13,7 @@ export default function CreateTender({
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -48,10 +50,18 @@ export default function CreateTender({
   async function handleSubmit() {
     if (!title || !description || !scopeOfWork || !deadline) return;
     setSaving(true);
+    setError(null);
     const supabase = createClient();
     const { data: userData } = await supabase.auth.getUser();
 
-    const { data: tender, error } = await supabase
+    const wf = await checkWorkflow(supabase, "tenders", "create");
+    if (!wf.allowed) {
+      setError(wf.reason);
+      setSaving(false);
+      return;
+    }
+
+    const { data: tender, error: insErr } = await supabase
       .from("tenders")
       .insert({
         title,
@@ -70,7 +80,7 @@ export default function CreateTender({
       .select("id")
       .single();
 
-    if (error || !tender) {
+    if (insErr || !tender) {
       setSaving(false);
       return;
     }
@@ -279,6 +289,8 @@ export default function CreateTender({
             </p>
           )}
         </div>
+
+        {error && <p className="text-[#e08a8a] text-xs mb-2">{error}</p>}
 
         <div className="flex gap-2">
           <button

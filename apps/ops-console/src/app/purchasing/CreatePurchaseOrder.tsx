@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { checkWorkflow } from "@/lib/workflow";
 
 type Property = { id: string; name: string };
 type Vendor = { id: string; name: string; category: string | null };
@@ -35,6 +36,15 @@ export default function CreatePurchaseOrder({
     const userId = userData.user?.id;
     if (!userId) {
       setError("Not authenticated");
+      setSubmitting(false);
+      return;
+    }
+
+    const wf = await checkWorkflow(supabase, "purchase_orders", "create", {
+      amount: Number(form.amount),
+    });
+    if (!wf.allowed) {
+      setError(wf.reason);
       setSubmitting(false);
       return;
     }
