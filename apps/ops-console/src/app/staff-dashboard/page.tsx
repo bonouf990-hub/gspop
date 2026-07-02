@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import type { TechnicianJobStats } from "@gspop/shared";
+import ExportCsv from "@/components/ExportCsv";
 
 async function getTechnicianStats(): Promise<TechnicianJobStats[]> {
   const supabase = await createClient();
@@ -54,14 +55,29 @@ export default async function StaffDashboardPage({
   const departments = Array.from(new Set(allStats.map((s) => s.department).filter(Boolean)));
   const stats = department ? allStats.filter((s) => s.department === department) : allStats;
 
+  const csvRows = stats.map((s) => ({
+    Technician: s.fullName,
+    Department: s.department ?? "",
+    "Jobs In Progress": s.jobsInProgress,
+    "Jobs Completed": s.jobsCompleted,
+    "Total Jobs": s.jobsTotal,
+    "Hours Logged": Number(s.totalHoursLogged.toFixed(1)),
+    "Spend (AED)": Number(s.totalSpend.toFixed(2)),
+    "Supervisor Rating": Number(s.avgSupervisorRating.toFixed(1)),
+    "Resident Rating": Number(s.avgResidentRating.toFixed(1)),
+  }));
+
   return (
     <main className="p-8">
       <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
       <h1 className="text-2xl font-extrabold mt-1 mb-2">Staff KPI Dashboard</h1>
-      <p className="text-[#a0977e] mb-6">
+      <p className="text-[#a0977e] mb-2">
         Job load, hours on-site, spend, and quality ratings per technician — the same data feeds
         KPI scoring up through supervisor and head-of-department review.
       </p>
+      <div className="mb-4">
+        <ExportCsv rows={csvRows} filename="staff-kpis" />
+      </div>
 
       <div className="flex gap-2 mb-6">
         <a

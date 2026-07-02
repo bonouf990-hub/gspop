@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase-server";
 import { requireManagementRole } from "@/lib/check-permission";
 import CreateInvoice from "./CreateInvoice";
 import InvoiceActions from "./InvoiceActions";
+import ExportCsv from "@/components/ExportCsv";
 
 type InvoiceRow = {
   id: string;
@@ -89,6 +90,19 @@ export default async function InvoicesPage() {
     (i) => i.due_date && i.due_date < today && !["paid", "disputed"].includes(i.status)
   );
 
+  const csvRows = invoices.map((inv) => ({
+    "Invoice #": inv.invoice_number,
+    Vendor: inv.vendor?.name ?? "",
+    PO: inv.purchase_order?.description ?? (inv.purchase_order ? inv.purchase_order.id : ""),
+    "Invoice Date": inv.invoice_date,
+    "Due Date": inv.due_date ?? "",
+    "Amount (AED)": Number(inv.amount),
+    "VAT (AED)": Number(inv.vat_amount),
+    "Total (AED)": Number(inv.total_amount),
+    Status: inv.status,
+    "Paid At": inv.paid_at ? new Date(inv.paid_at).toISOString().slice(0, 10) : "",
+  }));
+
   const kpis = [
     { label: "Received", value: received.length, color: "text-[#a0977e]" },
     { label: "Verified", value: verified.length, color: "text-green-400" },
@@ -109,7 +123,10 @@ export default async function InvoicesPage() {
             Track contractor invoices, verify against POs, and record payments.
           </p>
         </div>
-        <CreateInvoice vendors={vendors} purchaseOrders={openPOs} />
+        <div className="flex items-center gap-3">
+          <ExportCsv rows={csvRows} filename="invoices" />
+          <CreateInvoice vendors={vendors} purchaseOrders={openPOs} />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-4">

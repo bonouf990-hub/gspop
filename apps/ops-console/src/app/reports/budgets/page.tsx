@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import { requireManagementRole } from "@/lib/check-permission";
 import SetBudget from "./SetBudget";
+import ExportCsv from "@/components/ExportCsv";
 
 type BudgetRow = {
   id: string;
@@ -188,6 +189,17 @@ export default async function BudgetTrackingPage({
   const buildingsWithBudget = views.filter((v) => v.totalBudget > 0);
   const overBudget = views.filter((v) => v.totalBudget > 0 && v.totalSpent > v.totalBudget);
 
+  const csvRows = views.map((v) => ({
+    Building: v.propertyName,
+    "Fiscal Year": year,
+    "Total Budget (AED)": Math.round(v.totalBudget),
+    "Parts (AED)": Math.round(v.partsCost),
+    "Labor (AED)": Math.round(v.laborCost),
+    "External (AED)": Math.round(v.externalCost),
+    "Total Spent (AED)": Math.round(v.totalSpent),
+    "Remaining (AED)": Math.round(v.remaining),
+  }));
+
   const kpis = [
     { label: "Total Budget", value: fmtAED(grandBudget), color: "text-[#d4af5a]" },
     { label: "Total Spent", value: fmtAED(grandSpent), color: grandPct >= 80 ? "text-amber-400" : "text-[#d4af5a]" },
@@ -210,6 +222,7 @@ export default async function BudgetTrackingPage({
           </p>
         </div>
         <div className="flex items-center gap-3">
+          <ExportCsv rows={csvRows} filename="building-budgets" />
           <div className="flex gap-1">
             {[currentYear - 1, currentYear, currentYear + 1].map((y) => (
               <Link
