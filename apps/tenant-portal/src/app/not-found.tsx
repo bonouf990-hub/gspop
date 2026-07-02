@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[var(--background)] px-6">
+    <main className="min-h-screen flex items-center justify-center px-6">
       <div className="w-full max-w-sm elevated-card rounded-2xl p-8 text-center">
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-3">
           Golden Sands Residences
@@ -15,7 +15,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="block w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3 font-semibold text-sm"
+          className="btn-gold block w-full p-3 text-sm"
         >
           Back to home
         </Link>

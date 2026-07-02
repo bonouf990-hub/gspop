@@ -256,7 +256,7 @@ export default async function InventoryReportPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-8">
         {kpis.map((k) => (
-          <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-2xl font-extrabold ${k.color}`}>{k.value}</p>
             <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
@@ -264,7 +264,7 @@ export default async function InventoryReportPage() {
       </div>
 
       <section className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-5 mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           AI Insights & Recommendations
         </h2>
         <ul className="space-y-2">
@@ -278,8 +278,8 @@ export default async function InventoryReportPage() {
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <section className="lux-card p-5">
+          <h2 className="eyebrow mb-3">
             Top 10 Consumed Items
           </h2>
           {topConsumed.length === 0 || topConsumed[0].totalIssued === 0 ? (
@@ -315,8 +315,8 @@ export default async function InventoryReportPage() {
           )}
         </section>
 
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <section className="lux-card p-5">
+          <h2 className="eyebrow mb-3">
             Critical Stock Levels
           </h2>
           {criticalStock.length === 0 ? (
@@ -353,8 +353,8 @@ export default async function InventoryReportPage() {
         </section>
       </div>
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+      <section className="lux-card p-5">
+        <h2 className="eyebrow mb-3">
           Parts Request Summary — {monthName}
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">

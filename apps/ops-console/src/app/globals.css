@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f1626;
+  --background: #0b1120;
+  --background-raised: #0f1626;
   --foreground: #f0ece4;
   --surface: #1a2640;
   --surface-elevated: #213052;
+  --surface-inset: #0d1526;
   --gold: #b8902f;
   --gold-soft: #d4af5a;
   --gold-pale: rgba(184, 144, 47, 0.12);
@@ -26,18 +28,115 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  /* Layered luxury backdrop: warm gold aura from the top, cool navy depth below */
+  background:
+    radial-gradient(1200px 500px at 50% -10%, rgba(184, 144, 47, 0.09), transparent 60%),
+    radial-gradient(900px 600px at 85% 110%, rgba(33, 48, 82, 0.55), transparent 65%),
+    linear-gradient(180deg, #0d1424 0%, #0b1120 100%);
+  background-attachment: fixed;
 }
 
+/* ── Display typography ─────────────────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+}
+
+h1 {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  font-size: 1.75rem;
+  line-height: 1.15;
+}
+
+/* ── Ornaments ──────────────────────────────────────────────────────── */
 .gold-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   opacity: 0.5;
 }
 
-input:focus, select:focus, textarea:focus {
+.gold-rule {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold) 0%, rgba(184, 144, 47, 0.12) 70%, transparent 100%);
+}
+
+/* ── Luxury card ────────────────────────────────────────────────────── */
+.lux-card {
+  background: linear-gradient(160deg, #1c2947 0%, #16203a 55%, #131c33 100%);
+  border: 1px solid rgba(184, 144, 47, 0.18);
+  border-radius: 1rem;
+  box-shadow:
+    0 1px 0 rgba(240, 236, 228, 0.04) inset,
+    0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+.lux-card-hover {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.lux-card-hover:hover {
+  border-color: rgba(184, 144, 47, 0.55);
+  box-shadow:
+    0 1px 0 rgba(240, 236, 228, 0.05) inset,
+    0 24px 60px rgba(0, 0, 0, 0.5),
+    0 0 32px rgba(184, 144, 47, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ── Gold button ────────────────────────────────────────────────────── */
+.btn-gold {
+  background: linear-gradient(135deg, #d4af5a 0%, #b8902f 55%, #a37e26 100%);
+  color: #0f1626;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-radius: 0.75rem;
+  box-shadow:
+    0 1px 0 rgba(255, 240, 200, 0.45) inset,
+    0 8px 24px rgba(184, 144, 47, 0.28);
+  transition: box-shadow 0.25s ease, filter 0.25s ease, transform 0.15s ease;
+}
+
+.btn-gold:hover {
+  filter: brightness(1.07);
+  box-shadow:
+    0 1px 0 rgba(255, 240, 200, 0.5) inset,
+    0 10px 30px rgba(184, 144, 47, 0.4);
+}
+
+.btn-gold:active {
+  transform: translateY(1px);
+}
+
+/* ── Inputs ─────────────────────────────────────────────────────────── */
+.lux-input {
+  background: var(--surface-inset);
+  border: 1px solid var(--hairline);
+  border-radius: 0.75rem;
+  color: var(--foreground);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lux-input::placeholder {
+  color: var(--text-muted);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184, 144, 47, 0.15);
+}
+
+/* ── Eyebrow label ──────────────────────────────────────────────────── */
+.eyebrow {
+  color: var(--gold);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
 }

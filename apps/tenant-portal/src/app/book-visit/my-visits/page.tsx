@@ -70,7 +70,7 @@ export default function MyVisitsPage() {
       <div className="max-w-md mx-auto px-4">
         <Link
           href="/book-visit"
-          className="block w-full text-center py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold mb-4"
+          className="btn-gold block w-full text-center py-3 mb-4"
         >
           + Book New Visit
         </Link>

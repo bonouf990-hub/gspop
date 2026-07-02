@@ -63,7 +63,7 @@ export default function SiteVisitRegistrationForm({ tenderId }: { tenderId: stri
 
   return (
     <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-6">
-      <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+      <h2 className="eyebrow mb-4">
         Register for Site Visit
       </h2>
 
@@ -128,7 +128,7 @@ export default function SiteVisitRegistrationForm({ tenderId }: { tenderId: stri
         <button
           onClick={handleSubmit}
           disabled={submitting || !vendorName || !vendorEmail || !repName}
-          className="w-full text-sm font-bold px-4 py-3 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+          className="w-full text-sm btn-gold px-4 py-3 disabled:opacity-50"
         >
           {submitting ? "Registering…" : "Register for Site Visit"}
         </button>

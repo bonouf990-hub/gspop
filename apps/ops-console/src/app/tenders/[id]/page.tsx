@@ -213,8 +213,8 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Details</h3>
+        <div className="lux-card p-5">
+          <h3 className="eyebrow mb-3">Details</h3>
           <dl className="space-y-2 text-sm">
             {tender.property && (
               <div><dt className="text-[#6b6454]">Building</dt><dd>{(tender.property as { name: string }).name}</dd></div>
@@ -231,15 +231,15 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
           </dl>
         </div>
 
-        <div className="lg:col-span-2 border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Scope of Work</h3>
+        <div className="lg:col-span-2 lux-card p-5">
+          <h3 className="eyebrow mb-3">Scope of Work</h3>
           <p className="text-sm text-[#a0977e] whitespace-pre-wrap">{tender.scope_of_work}</p>
         </div>
       </div>
 
       {accessToken && ["published", "site_visit"].includes(tender.status) && tender.site_visit_required && (
         <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 mb-8">
-          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+          <h3 className="eyebrow mb-2">
             Site Visit Registration Link
           </h3>
           <p className="text-sm text-[#a0977e] mb-1">
@@ -253,7 +253,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
 
       {accessToken && ["submissions_open", "published"].includes(tender.status) && !tender.site_visit_required && (
         <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 mb-8">
-          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+          <h3 className="eyebrow mb-2">
             Vendor Submission Portal Link
           </h3>
           <p className="text-sm text-[#a0977e] mb-1">Share this link with vendors to submit their bids:</p>
@@ -265,7 +265,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
 
       {accessToken && tender.status === "submissions_open" && tender.site_visit_required && (
         <div className="border border-[#b8902f] bg-[rgba(184,144,47,0.08)] rounded-xl p-4 mb-8">
-          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+          <h3 className="eyebrow mb-2">
             Vendor Submission Portal Link
           </h3>
           <p className="text-sm text-[#a0977e] mb-1">
@@ -289,8 +289,8 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
       )}
 
       {requirements.length > 0 && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
-          <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <section className="lux-card p-5 mb-8">
+          <h3 className="eyebrow mb-3">
             Requirements & Evaluation Criteria ({requirements.length})
           </h3>
           <div className="space-y-2">
@@ -342,7 +342,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
 
       <section className="mb-8">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+          <h2 className="eyebrow">
             Submissions ({submissions.length})
           </h2>
           {submissions.length > 0 && submissions.some((s) => !s.ai_score) && (
@@ -403,7 +403,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                   {sub.ai_score !== null && (
                     <div className="bg-[#0f1626] rounded-lg p-4 mb-3">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-bold text-[#b8902f] uppercase tracking-wider">AI Analysis</span>
+                        <span className="eyebrow">AI Analysis</span>
                         <span className={`text-2xl font-extrabold ${
                           Number(sub.ai_score) >= 80 ? "text-green-400"
                             : Number(sub.ai_score) >= 60 ? "text-[#d4af5a]"

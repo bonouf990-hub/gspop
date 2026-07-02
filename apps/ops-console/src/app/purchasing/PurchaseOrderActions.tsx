@@ -90,7 +90,7 @@ export default function PurchaseOrderActions({
           <button
             onClick={() => updateStatus("escalated")}
             disabled={updating}
-            className="text-xs font-bold px-2 py-1 rounded bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+            className="text-xs btn-gold px-2 py-1 disabled:opacity-50"
           >
             Confirm Escalation
           </button>
@@ -105,7 +105,7 @@ export default function PurchaseOrderActions({
       <button
         onClick={() => updateStatus("fulfilled")}
         disabled={updating}
-        className="text-xs font-bold px-2 py-1 rounded bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+        className="text-xs btn-gold px-2 py-1 disabled:opacity-50"
       >
         Mark Fulfilled
       </button>

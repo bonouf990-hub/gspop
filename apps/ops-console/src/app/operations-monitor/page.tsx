@@ -84,7 +84,7 @@ export default async function OperationsMonitorPage() {
           const utilPct = util?.utilizationPct ?? 0;
 
           return (
-            <div key={trade} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
+            <div key={trade} className="lux-card p-5">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-bold flex items-center gap-2">
                   <span className="w-8 h-8 rounded-lg bg-[rgba(184,144,47,0.12)] text-[#d4af5a] text-xs font-bold flex items-center justify-center">

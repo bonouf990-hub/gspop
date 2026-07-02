@@ -104,23 +104,23 @@ export default async function ActivityLogPage() {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d4af5a]">{logs.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Total Events</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-green-400">
             {logs.filter((l) => l.action === "created").length}
           </p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Created</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d4af5a]">
             {logs.filter((l) => l.action === "updated").length}
           </p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Updated</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d4af5a]">
             {new Set(logs.map((l) => l.user_name ?? l.user?.full_name)).size}
           </p>
@@ -137,7 +137,7 @@ export default async function ActivityLogPage() {
         <div className="space-y-6">
           {[...grouped.entries()].map(([day, dayLogs]) => (
             <section key={day}>
-              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 sticky top-0 bg-[#0f1626] py-2 z-10">
+              <h2 className="eyebrow mb-3 sticky top-0 bg-[#0f1626] py-2 z-10">
                 {day} ({dayLogs.length})
               </h2>
               <div className="space-y-1">

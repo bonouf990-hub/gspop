@@ -48,7 +48,7 @@ export default async function NoticesAdminPage() {
           const prop = n.properties as unknown as { name: string } | null;
           const expired = n.expires_at && new Date(n.expires_at) < new Date();
           return (
-            <div key={n.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
+            <div key={n.id} className="lux-card p-4">
               <div className="flex justify-between items-start">
                 <p className="font-medium">{n.title}</p>
                 {expired && <span className="text-xs text-[#6b6454]">expired</span>}

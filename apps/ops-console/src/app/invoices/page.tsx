@@ -131,7 +131,7 @@ export default async function InvoicesPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-4">
         {kpis.map((k) => (
-          <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-2xl font-extrabold ${k.color}`}>{k.value}</p>
             <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
@@ -139,19 +139,19 @@ export default async function InvoicesPage() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-lg font-extrabold text-amber-400">
             AED {totalOutstanding.toLocaleString(undefined, { minimumFractionDigits: 0 })}
           </p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Outstanding</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-lg font-extrabold text-green-400">
             AED {totalPaid.toLocaleString(undefined, { minimumFractionDigits: 0 })}
           </p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Total Paid</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className={`text-lg font-extrabold ${overdue.length > 0 ? "text-red-400" : "text-[#6b6454]"}`}>
             {overdue.length}
           </p>
@@ -196,7 +196,7 @@ export default async function InvoicesPage() {
       )}
 
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           All Invoices ({invoices.length})
         </h2>
         <div className="overflow-x-auto">

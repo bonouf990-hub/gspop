@@ -167,7 +167,7 @@ export default function SubmitInvoiceForm({
         <button
           type="submit"
           disabled={submitting || !invoiceNumber.trim() || !amount}
-          className="flex-1 py-2.5 rounded-lg bg-[#b8902f] text-[#0f1626] text-sm font-bold disabled:opacity-50"
+          className="flex-1 py-2.5 btn-gold text-sm disabled:opacity-50"
         >
           {submitting ? "Submitting…" : "Submit Invoice"}
         </button>

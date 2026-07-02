@@ -294,7 +294,7 @@ export default function AnalyzeTender({ tenderId }: { tenderId: string }) {
     <button
       onClick={runAnalysis}
       disabled={analyzing}
-      className="text-xs font-bold px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+      className="text-xs btn-gold px-4 py-2 disabled:opacity-50"
     >
       {analyzing ? "Analyzing…" : "Run AI Analysis"}
     </button>

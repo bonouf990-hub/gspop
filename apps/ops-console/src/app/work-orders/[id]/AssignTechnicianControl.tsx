@@ -65,7 +65,7 @@ export default function AssignTechnicianControl({
       <button
         onClick={save}
         disabled={saving || selected === (currentTechId ?? "")}
-        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-40"
+        className="btn-gold text-sm px-4 py-2 disabled:opacity-40"
       >
         {saving ? "Saving…" : "Assign"}
       </button>

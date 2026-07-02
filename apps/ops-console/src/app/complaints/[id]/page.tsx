@@ -77,13 +77,13 @@ export default async function ComplaintDetailPage({
       <h1 className="text-2xl font-extrabold mt-2 mb-2">{context.title}</h1>
       <p className="text-[#a0977e] mb-6">{context.description}</p>
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Status</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Status</h2>
         <ComplaintStatusControl id={id} currentStatus={status} />
       </section>
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Work Order</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Work Order</h2>
         <ConvertToWorkOrder
           complaintId={id}
           propertyId={propertyId}
@@ -97,8 +97,8 @@ export default async function ComplaintDetailPage({
       </section>
 
       {photoUrls.length > 0 && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Resident Photos</h2>
+        <section className="lux-card p-4 mb-4">
+          <h2 className="eyebrow mb-3">Resident Photos</h2>
           <div className="grid grid-cols-3 gap-2">
             {photoUrls.map((url, i) => (
               // eslint-disable-next-line @next/next/no-img-element
@@ -110,8 +110,8 @@ export default async function ComplaintDetailPage({
         </section>
       )}
 
-      <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 mb-4">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Tenant / Unit</h2>
+      <section className="lux-card p-4 mb-4">
+        <h2 className="eyebrow mb-3">Tenant / Unit</h2>
         <p>Unit: {context.unitLabel ?? "Common area"}</p>
         <p>Resident: {context.residentName ?? "Unknown"}</p>
         <p>Occupants: {context.occupantCount ?? "n/a"}</p>
@@ -126,7 +126,7 @@ export default async function ComplaintDetailPage({
           context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-[rgba(184,144,47,0.15)] bg-[#1a2640]"
         }`}
       >
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Equipment History {context.isRecurringIssue && "— RECURRING ISSUE"}
         </h2>
         {context.assetName ? (

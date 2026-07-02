@@ -123,7 +123,7 @@ export default async function StorePage() {
       </p>
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Active Requests ({pending.length})
         </h2>
         {pending.length === 0 ? (
@@ -140,7 +140,7 @@ export default async function StorePage() {
               const lineCost = itemCost * Number(r.quantity);
 
               return (
-                <div key={r.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
+                <div key={r.id} className="lux-card p-5">
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <p className="font-bold text-lg">
@@ -213,7 +213,7 @@ export default async function StorePage() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Completed ({completed.length})
         </h2>
         {completed.length === 0 ? (
@@ -287,7 +287,7 @@ export default async function StorePage() {
       </section>
 
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Parts Issued by Building & Apartment
         </h2>
         <p className="text-xs text-[#a0977e] mb-3">

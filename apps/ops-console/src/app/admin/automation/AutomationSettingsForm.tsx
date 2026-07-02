@@ -21,7 +21,7 @@ function Toggle({ on, onChange, label, desc }: { on: boolean; onChange: (v: bool
     <button
       type="button"
       onClick={() => onChange(!on)}
-      className="w-full flex items-center justify-between gap-4 bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-xl p-4 text-left"
+      className="w-full flex items-center justify-between gap-4 lux-card lux-card-hover p-4 text-left"
     >
       <div>
         <p className="font-bold text-sm">{label}</p>
@@ -110,7 +110,7 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
   return (
     <div className="space-y-6">
       {/* Lease renewal reminders */}
-      <section className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-xl p-5">
+      <section className="lux-card p-5">
         <h2 className="font-bold mb-1">Lease Renewal Reminders</h2>
         <p className="text-xs text-[#a0977e] mb-4">
           Customers are reminded at each stage before their lease expires, and reminders repeat at the next
@@ -160,7 +160,7 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
       </section>
 
       {/* Rent overdue */}
-      <section className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-xl p-5">
+      <section className="lux-card p-5">
         <h2 className="font-bold mb-1">Rent Overdue Reminders</h2>
         <p className="text-xs text-[#a0977e] mb-4">
           If a cheque stays overdue, the resident is reminded again after this many days.
@@ -180,7 +180,7 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
       </section>
 
       {/* Run time */}
-      <section className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-xl p-5">
+      <section className="lux-card p-5">
         <h2 className="font-bold mb-1">Daily Run Time</h2>
         <p className="text-xs text-[#a0977e] mb-4">
           When the daily automation runs (UAE time) — rent sweep, lease reminders, maintenance generation.
@@ -227,7 +227,7 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
         type="button"
         onClick={save}
         disabled={saving}
-        className="bg-[#b8902f] text-[#0f1626] font-bold rounded-lg px-6 py-2.5 hover:bg-[#d4af5a] disabled:opacity-50"
+        className="btn-gold px-6 py-2.5 disabled:opacity-50"
       >
         {saving ? "Saving…" : "Save Settings"}
       </button>

@@ -53,7 +53,7 @@ export default function AddAssignment({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-xs font-bold px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626]"
+        className="text-xs btn-gold px-4 py-2"
       >
         + New Project Assignment
       </button>
@@ -62,7 +62,7 @@ export default function AddAssignment({
 
   return (
     <div className="border border-[#b8902f] bg-[#1a2640] rounded-xl p-5">
-      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+      <h3 className="eyebrow mb-4">
         Assign Contractor to Project
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
@@ -122,7 +122,7 @@ export default function AddAssignment({
         <button
           onClick={handleSubmit}
           disabled={saving || !vendorId || !propertyId || !projectName || !startDate}
-          className="text-xs font-bold px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+          className="text-xs btn-gold px-4 py-2 disabled:opacity-50"
         >
           {saving ? "Saving…" : "Create Assignment"}
         </button>

@@ -63,7 +63,7 @@ export default async function TeamManagementPage() {
         Create staff logins, assign roles, reporting lines, and which buildings they cover.
       </p>
 
-      <details className="mb-6 border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
+      <details className="mb-6 lux-card p-4">
         <summary className="cursor-pointer font-medium text-sm text-[#d4af5a]">Role reference — who can do what</summary>
         <table className="w-full text-sm mt-3 border-collapse">
           <tbody>

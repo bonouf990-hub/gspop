@@ -50,7 +50,7 @@ export default function ConvertToWorkOrder({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg"
+        className="btn-gold text-sm px-4 py-2"
       >
         Convert to Work Order
       </button>
@@ -151,7 +151,7 @@ export default function ConvertToWorkOrder({
         <button
           onClick={handleConvert}
           disabled={submitting}
-          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50"
+          className="btn-gold text-sm px-4 py-2 disabled:opacity-50"
         >
           {submitting ? "Creating…" : "Create Work Order"}
         </button>

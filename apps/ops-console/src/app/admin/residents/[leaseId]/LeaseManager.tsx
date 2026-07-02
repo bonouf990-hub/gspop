@@ -138,7 +138,7 @@ export default function LeaseManager({
       {error && <p className="text-red-400 text-sm">{error}</p>}
 
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Cheque Schedule</h2>
+        <h2 className="eyebrow mb-3">Cheque Schedule</h2>
         <div className="overflow-x-auto mb-4">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
@@ -205,14 +205,14 @@ export default function LeaseManager({
               onChange={(e) => setNewDue(e.target.value)} required />
           </div>
           <button type="submit" disabled={busy}
-            className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
+            className="btn-gold text-sm px-4 py-2 disabled:opacity-50">
             + Add cheque
           </button>
         </form>
       </section>
 
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Lease Documents</h2>
+        <h2 className="eyebrow mb-3">Lease Documents</h2>
         <ul className="text-sm mb-4">
           {documents.map((d) => (
             <li key={d.id} className="flex justify-between border-b border-[rgba(184,144,47,0.08)] py-2">
@@ -242,7 +242,7 @@ export default function LeaseManager({
           </label>
           {docFile && <span className="text-[#a0977e] text-xs">{docFile.name}</span>}
           <button type="submit" disabled={busy || !docFile}
-            className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
+            className="btn-gold text-sm px-4 py-2 disabled:opacity-50">
             Upload
           </button>
         </form>

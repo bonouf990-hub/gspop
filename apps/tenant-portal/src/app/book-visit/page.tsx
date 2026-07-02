@@ -150,7 +150,7 @@ export default function BookVisitPage() {
           </p>
           <button
             onClick={() => router.push("/")}
-            className="mt-6 w-full py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold"
+            className="btn-gold mt-6 w-full py-3"
           >
             Back to Home
           </button>
@@ -217,7 +217,7 @@ export default function BookVisitPage() {
             {jobType && (
               <button
                 onClick={() => setStep(2)}
-                className="mt-6 w-full py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold"
+                className="btn-gold mt-6 w-full py-3"
               >
                 Next — Describe Issue
               </button>
@@ -251,7 +251,7 @@ export default function BookVisitPage() {
               <button
                 onClick={() => setStep(3)}
                 disabled={!description.trim()}
-                className="flex-1 py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold disabled:opacity-50"
+                className="btn-gold flex-1 py-3 disabled:opacity-50"
               >
                 Next — Pick Time
               </button>
@@ -342,7 +342,7 @@ export default function BookVisitPage() {
               <button
                 onClick={handleSubmit}
                 disabled={submitting || !visitDate || !visitTime}
-                className="flex-1 py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold disabled:opacity-50"
+                className="btn-gold flex-1 py-3 disabled:opacity-50"
               >
                 {submitting ? "Booking…" : "Confirm Booking"}
               </button>

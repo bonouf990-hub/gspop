@@ -152,7 +152,7 @@ export default function CallCenterSearch({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit" className="bg-[#b8902f] text-[#0f1626] px-4 py-2 rounded-lg text-sm font-bold">
+        <button type="submit" className="btn-gold px-4 py-2 text-sm">
           Search
         </button>
       </form>
@@ -163,7 +163,7 @@ export default function CallCenterSearch({
             <li
               key={r.lease_id}
               onClick={() => selectLease(r)}
-              className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 cursor-pointer hover:border-[#b8902f]"
+              className="lux-card lux-card-hover p-4 cursor-pointer"
             >
               <p className="font-medium">{r.tenant_full_name}</p>
               <p className="text-sm text-[#a0977e]">
@@ -179,7 +179,7 @@ export default function CallCenterSearch({
       )}
 
       {selected && (
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
+        <div className="lux-card p-5">
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="font-bold text-lg">{selected.tenant_full_name}</p>
@@ -272,7 +272,7 @@ export default function CallCenterSearch({
               <button
                 onClick={handleLogComplaint}
                 disabled={!subissueId || submitting}
-                className="bg-[#b8902f] text-[#0f1626] px-4 py-2 rounded-lg text-sm font-bold disabled:opacity-50"
+                className="btn-gold px-4 py-2 text-sm disabled:opacity-50"
               >
                 {submitting ? "Logging..." : "Log Complaint & Route to Maintenance"}
               </button>

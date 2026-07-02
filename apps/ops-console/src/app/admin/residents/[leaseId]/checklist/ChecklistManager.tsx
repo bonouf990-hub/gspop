@@ -135,7 +135,7 @@ export default function ChecklistManager({
         <div className="flex gap-3">
           <button
             onClick={() => startChecklist("move_in")}
-            className="px-4 py-2.5 rounded-lg bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a] text-sm font-bold"
+            className="px-4 py-2.5 btn-gold text-sm"
           >
             + New Move-In Checklist
           </button>
@@ -149,8 +149,8 @@ export default function ChecklistManager({
       )}
 
       {creating && (
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <div className="lux-card p-5">
+          <h2 className="eyebrow mb-4">
             New {checklistType === "move_in" ? "Move-In" : "Move-Out"} Inspection
           </h2>
           <div className="space-y-2 mb-4">
@@ -203,7 +203,7 @@ export default function ChecklistManager({
             <button
               onClick={saveChecklist}
               disabled={busy}
-              className="flex-1 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] text-sm font-bold disabled:opacity-50"
+              className="flex-1 py-2 btn-gold text-sm disabled:opacity-50"
             >
               {busy ? "Saving…" : "Save Checklist"}
             </button>
@@ -214,14 +214,14 @@ export default function ChecklistManager({
       {/* Existing Checklists */}
       {checklists.length > 0 && (
         <section>
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h2 className="eyebrow mb-3">
             Previous Checklists ({checklists.length})
           </h2>
           <div className="space-y-3">
             {checklists.map((cl) => {
               const damaged = cl.items.filter((i) => i.condition === "damaged" || i.condition === "missing");
               return (
-                <div key={cl.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
+                <div key={cl.id} className="lux-card p-4">
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${

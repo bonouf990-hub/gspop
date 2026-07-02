@@ -93,10 +93,10 @@ export default async function AIBrainPage() {
       </div>
 
       {access.triage && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-4">
+        <section className="lux-card p-5 mb-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              <h2 className="eyebrow">
                 1 · Smart Work Order Triage
               </h2>
               <p className="text-xs text-[#a0977e] mt-1">
@@ -112,10 +112,10 @@ export default async function AIBrainPage() {
       )}
 
       {access.forecast && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-4">
+        <section className="lux-card p-5 mb-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              <h2 className="eyebrow">
                 2 · Budget & Cost Forecasting
               </h2>
               <p className="text-xs text-[#a0977e] mt-1">
@@ -131,10 +131,10 @@ export default async function AIBrainPage() {
       )}
 
       {access.anomaly && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-4">
+        <section className="lux-card p-5 mb-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              <h2 className="eyebrow">
                 3 · Anomaly & Fraud Detection
               </h2>
               <p className="text-xs text-[#a0977e] mt-1">
@@ -150,10 +150,10 @@ export default async function AIBrainPage() {
       )}
 
       {access.chat && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-4">
+        <section className="lux-card p-5 mb-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              <h2 className="eyebrow">
                 4 · Ask Your Data
               </h2>
               <p className="text-xs text-[#a0977e] mt-1">
@@ -169,10 +169,10 @@ export default async function AIBrainPage() {
       )}
 
       {access.preventive && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-4">
+        <section className="lux-card p-5 mb-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+              <h2 className="eyebrow">
                 5 · Preventive Maintenance Predictions
               </h2>
               <p className="text-xs text-[#a0977e] mt-1">

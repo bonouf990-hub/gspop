@@ -80,7 +80,7 @@ export default async function NotificationsPage() {
       )}
 
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           All Notifications ({notifications.length})
         </h2>
         <div className="space-y-2">

@@ -71,7 +71,7 @@ export default async function RegisterPage({
     return (
       <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
-          <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-2">GSPOP Tendering Portal</p>
+          <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
           <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
           <p className="text-[#a0977e] mt-2">Registration for the site visit is no longer open.</p>
         </div>
@@ -85,13 +85,13 @@ export default async function RegisterPage({
     <main className="min-h-screen bg-[#0f1626] p-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
-          <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-2">GSPOP Tendering Portal</p>
+          <p className="eyebrow mb-2">GSPOP Tendering Portal</p>
           <h1 className="text-2xl font-extrabold text-[#f0ece4]">{tender.title}</h1>
           <p className="text-[#a0977e] mt-1">{tender.description}</p>
         </div>
 
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <section className="lux-card p-5 mb-6">
+          <h2 className="eyebrow mb-3">
             Mandatory Site Visit
           </h2>
           <p className="text-sm text-[#a0977e] mb-4">
@@ -127,8 +127,8 @@ export default async function RegisterPage({
           )}
         </section>
 
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-6">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <section className="lux-card p-5 mb-6">
+          <h2 className="eyebrow mb-3">
             Project Overview
           </h2>
           <p className="text-sm text-[#a0977e] whitespace-pre-wrap">{tender.scope_of_work}</p>

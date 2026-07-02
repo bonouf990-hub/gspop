@@ -291,16 +291,16 @@ export default async function CommandCenterPage() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
         {kpis.map((k) => (
-          <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+          <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-3xl font-extrabold ${k.color}`}>{k.value}</p>
             <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
+      <div className="lux-card p-5 mb-8">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+          <h2 className="eyebrow">
             Financial Summary
           </h2>
           <Link href="/purchasing" className="text-xs text-[#b8902f] hover:text-[#d4af5a]">
@@ -331,8 +331,8 @@ export default async function CommandCenterPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <section className="lux-card p-5">
+          <h2 className="eyebrow mb-4">
             Buildings Overview
           </h2>
           <div className="overflow-x-auto">
@@ -365,8 +365,8 @@ export default async function CommandCenterPage() {
           </div>
         </section>
 
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <section className="lux-card p-5">
+          <h2 className="eyebrow mb-4">
             Contractor Projects
           </h2>
           {vendorProjects.length === 0 ? (
@@ -427,9 +427,9 @@ export default async function CommandCenterPage() {
       </div>
 
       {activeTenders.length > 0 && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
+        <section className="lux-card p-5 mb-8">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+            <h2 className="eyebrow">
               Active Tenders ({activeTenders.length})
             </h2>
             <Link href="/tenders" className="text-xs text-[#b8902f] hover:text-[#d4af5a]">
@@ -470,9 +470,9 @@ export default async function CommandCenterPage() {
       )}
 
       {pendingPOCount > 0 && (
-        <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
+        <section className="lux-card p-5 mb-8">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+            <h2 className="eyebrow">
               Pending Purchase Orders ({pendingPOCount})
             </h2>
             <Link href="/purchasing" className="text-xs text-[#b8902f] hover:text-[#d4af5a]">
@@ -530,7 +530,7 @@ export default async function CommandCenterPage() {
           <Link
             key={link.href}
             href={link.href}
-            className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-3 text-center text-sm font-medium hover:border-[#b8902f] transition-colors"
+            className="lux-card lux-card-hover p-3 text-center text-sm font-medium"
           >
             {link.label}
           </Link>

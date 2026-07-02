@@ -82,7 +82,7 @@ export default function CreateBookingForm({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg"
+        className="btn-gold text-sm px-4 py-2"
       >
         + New Booking
       </button>
@@ -95,9 +95,9 @@ export default function CreateBookingForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 space-y-3 max-w-lg absolute right-8 top-20 z-10 shadow-xl"
+      className="lux-card p-5 space-y-3 max-w-lg absolute right-8 top-20 z-10"
     >
-      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+      <h3 className="eyebrow mb-2">
         New Booking
       </h3>
 
@@ -192,7 +192,7 @@ export default function CreateBookingForm({
         <button
           type="submit"
           disabled={submitting}
-          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50"
+          className="btn-gold text-sm px-4 py-2 disabled:opacity-50"
         >
           {submitting ? "Booking…" : "Confirm Booking"}
         </button>

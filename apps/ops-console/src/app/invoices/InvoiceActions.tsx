@@ -127,7 +127,7 @@ export default function InvoiceActions({
       )}
       {currentStatus === "approved" && (
         <button onClick={() => setShowPay(true)} disabled={acting}
-          className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50">
+          className="text-[10px] btn-gold px-2 py-1 disabled:opacity-50">
           Record Payment
         </button>
       )}

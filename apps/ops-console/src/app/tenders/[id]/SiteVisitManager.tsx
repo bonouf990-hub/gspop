@@ -51,8 +51,8 @@ export default function SiteVisitManager({
   const visitPassed = visitDate ? visitDate < new Date() : false;
 
   return (
-    <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 mb-8">
-      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+    <section className="lux-card p-5 mb-8">
+      <h3 className="eyebrow mb-3">
         Site Visit / Inspection
       </h3>
 

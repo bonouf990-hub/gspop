@@ -42,7 +42,7 @@ export default function BudgetForecast() {
       <button
         onClick={handleForecast}
         disabled={loading}
-        className="px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] text-sm font-bold hover:bg-[#d4af5a] disabled:opacity-50"
+        className="px-4 py-2 btn-gold text-sm disabled:opacity-50"
       >
         {loading ? "Analyzing historical data…" : "Generate Forecast"}
       </button>

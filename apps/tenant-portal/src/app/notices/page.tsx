@@ -16,7 +16,7 @@ export default async function NoticesPage() {
   const notices = await getNotices();
 
   return (
-    <main className="min-h-screen bg-[var(--background)] pb-32">
+    <main className="min-h-screen pb-32">
       <div className="px-6 pt-10 pb-6">
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Community

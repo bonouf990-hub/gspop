@@ -20,7 +20,7 @@ export default async function ComplaintsPage() {
       <h1 className="text-2xl font-extrabold mt-1 mb-6">Tenant Complaints</h1>
       <ul className="space-y-3">
         {complaints.map((c) => (
-          <li key={c.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
+          <li key={c.id} className="lux-card p-4">
             <Link href={`/complaints/${c.id}`} className="font-medium text-[#d4af5a] hover:underline">
               {c.title}
             </Link>

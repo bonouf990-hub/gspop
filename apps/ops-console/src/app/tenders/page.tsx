@@ -80,7 +80,7 @@ export default async function TendersPage() {
       </div>
 
       <section className="mb-8">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Active Tenders ({active.length})
         </h2>
         {active.length === 0 ? (
@@ -97,7 +97,7 @@ export default async function TendersPage() {
                 <Link
                   key={t.id}
                   href={`/tenders/${t.id}`}
-                  className="block border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5 hover:border-[#b8902f] transition-colors"
+                  className="block lux-card lux-card-hover p-5"
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
@@ -133,7 +133,7 @@ export default async function TendersPage() {
 
       {decided.length > 0 && (
         <section>
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h2 className="eyebrow mb-3">
             Decided ({decided.length})
           </h2>
           <div className="overflow-x-auto">

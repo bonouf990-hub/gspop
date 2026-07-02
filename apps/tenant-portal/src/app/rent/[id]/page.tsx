@@ -40,7 +40,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
 
   if (!data) {
     return (
-      <main className="min-h-screen bg-[var(--background)] flex flex-col items-center justify-center p-6">
+      <main className="min-h-screen flex flex-col items-center justify-center p-6">
         <p className="text-[var(--muted)] text-center mb-4">Receipt not available.</p>
         <Link href="/rent" className="text-[var(--gold)] text-sm font-medium">
           Back to rent
@@ -53,7 +53,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
   const paidDate = invoice.clearedAt ?? invoice.paidAt;
 
   return (
-    <main className="min-h-screen bg-[var(--background)] pb-32">
+    <main className="min-h-screen pb-32">
       <div className="px-6 pt-10 pb-4 print:hidden">
         <Link href="/rent" className="inline-flex items-center text-[var(--muted)] text-sm">
           <ChevronLeft size={16} /> Rent

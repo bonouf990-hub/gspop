@@ -125,7 +125,7 @@ export default async function VendorsPage() {
           );
 
           return (
-            <div key={v.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
+            <div key={v.id} className="lux-card p-5">
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <h3 className="font-bold text-lg">{v.name}</h3>

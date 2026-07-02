@@ -174,7 +174,7 @@ export default async function VendorPortalPage() {
     <main className="p-8 max-w-5xl mx-auto">
       <div className="mb-8">
         <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
-        <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-1 mt-2">
+        <p className="eyebrow mb-1 mt-2">
           GSPOP — Vendor Portal
         </p>
         <h1 className="text-2xl font-extrabold mb-1">{vendor.name}</h1>
@@ -192,19 +192,19 @@ export default async function VendorPortalPage() {
 
       {/* KPI Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-[#d4af5a]">{activeAssignments.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active Projects</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-blue-400">{activeContracts.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active Contracts</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-amber-400">{pendingPOs.length}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Open POs</p>
         </div>
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+        <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-green-400">{fmtAED(totalRevenue)}</p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Total PO Value</p>
         </div>
@@ -212,7 +212,7 @@ export default async function VendorPortalPage() {
 
       {/* Active Projects */}
       <section className="mb-6">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Project Assignments ({assignments.length})
         </h2>
         {assignments.length === 0 ? (
@@ -268,7 +268,7 @@ export default async function VendorPortalPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Contracts */}
         <section>
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h2 className="eyebrow mb-3">
             Contracts ({contracts.length})
           </h2>
           {contracts.length === 0 ? (
@@ -278,7 +278,7 @@ export default async function VendorPortalPage() {
               {contracts.map((c) => {
                 const isExpired = c.end_date && new Date(c.end_date) < now;
                 return (
-                  <div key={c.id} className={`border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 ${isExpired ? "opacity-60" : ""}`}>
+                  <div key={c.id} className={`lux-card p-4 ${isExpired ? "opacity-60" : ""}`}>
                     <p className="font-medium text-sm">{c.title}</p>
                     <div className="flex justify-between mt-1 text-xs text-[#a0977e]">
                       <span>{c.start_date} → {c.end_date ?? "Ongoing"}</span>
@@ -294,7 +294,7 @@ export default async function VendorPortalPage() {
 
         {/* Tender Wins */}
         <section>
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+          <h2 className="eyebrow mb-3">
             Won Tenders ({tenders.length})
           </h2>
           {tenders.length === 0 ? (
@@ -302,7 +302,7 @@ export default async function VendorPortalPage() {
           ) : (
             <div className="space-y-2">
               {tenders.map((t) => (
-                <div key={t.id} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4">
+                <div key={t.id} className="lux-card p-4">
                   <p className="font-medium text-sm">{t.title}</p>
                   <div className="flex justify-between mt-1 text-xs text-[#a0977e]">
                     <span>Deadline: {t.submission_deadline}</span>
@@ -321,7 +321,7 @@ export default async function VendorPortalPage() {
 
       {/* Purchase Orders */}
       <section className="mb-6">
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Purchase Orders ({pos.length})
         </h2>
         {pos.length === 0 ? (
@@ -359,12 +359,12 @@ export default async function VendorPortalPage() {
       {/* Invoices */}
       <section className="mb-6">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase">
+          <h2 className="eyebrow">
             Invoices ({invoices.length})
           </h2>
           <Link
             href="/vendor-portal/submit-invoice"
-            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a]"
+            className="text-xs btn-gold px-3 py-1.5"
           >
             + Submit Invoice
           </Link>

@@ -76,7 +76,7 @@ export default function RequestParts({
     return (
       <button
         onClick={() => setOpen(true)}
-        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#b8902f] text-[#0f1626]"
+        className="text-xs btn-gold px-3 py-1.5"
       >
         + Request Parts
       </button>
@@ -87,8 +87,8 @@ export default function RequestParts({
   const input = "w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg p-2.5 text-sm text-[#f0ece4]";
 
   return (
-    <form onSubmit={handleSubmit} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 space-y-3">
-      <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-2">
+    <form onSubmit={handleSubmit} className="lux-card p-4 space-y-3">
+      <h3 className="eyebrow mb-2">
         Request Parts from Store
       </h3>
 
@@ -169,7 +169,7 @@ export default function RequestParts({
         <button
           type="submit"
           disabled={submitting}
-          className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50"
+          className="btn-gold text-sm px-4 py-2 disabled:opacity-50"
         >
           {submitting ? "Submitting…" : "Submit Request"}
         </button>

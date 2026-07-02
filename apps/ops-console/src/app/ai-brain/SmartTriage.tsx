@@ -94,7 +94,7 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
       <button
         onClick={handleTriage}
         disabled={loading || !description.trim()}
-        className="mt-2 px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] text-sm font-bold hover:bg-[#d4af5a] disabled:opacity-50"
+        className="mt-2 px-4 py-2 btn-gold text-sm disabled:opacity-50"
       >
         {loading ? "Analyzing…" : "Analyze & Triage"}
       </button>
@@ -150,7 +150,7 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
 
           {canCreate && !created && (
             <div className="bg-[rgba(184,144,47,0.08)] border border-[#b8902f] rounded-lg p-4">
-              <p className="text-xs text-[#b8902f] uppercase tracking-wider font-bold mb-2">
+              <p className="eyebrow mb-2">
                 Create Work Order from AI Recommendation
               </p>
               <div className="flex items-center gap-3">
@@ -167,7 +167,7 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
                 <button
                   onClick={handleCreateWO}
                   disabled={creating || !selectedProperty}
-                  className="px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] text-sm font-bold hover:bg-[#d4af5a] disabled:opacity-50 whitespace-nowrap"
+                  className="px-4 py-2 btn-gold text-sm disabled:opacity-50 whitespace-nowrap"
                 >
                   {creating ? "Creating…" : "Create Work Order"}
                 </button>

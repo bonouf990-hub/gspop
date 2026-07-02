@@ -401,8 +401,8 @@ export default async function AnalyticsDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Monthly Trend */}
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <div className="lux-card p-5">
+          <h2 className="eyebrow mb-4">
             Work Order Trend (3 Months)
           </h2>
           <div className="space-y-3">
@@ -441,8 +441,8 @@ export default async function AnalyticsDashboard() {
         </div>
 
         {/* WO by Type */}
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <div className="lux-card p-5">
+          <h2 className="eyebrow mb-4">
             Work Orders by Type
           </h2>
           <div className="space-y-2">
@@ -469,8 +469,8 @@ export default async function AnalyticsDashboard() {
 
       {/* Occupancy Ring + Lease Health */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <div className="lux-card p-5">
+          <h2 className="eyebrow mb-4">
             Occupancy Overview
           </h2>
           <div className="flex items-center gap-6">
@@ -517,8 +517,8 @@ export default async function AnalyticsDashboard() {
           </div>
         </div>
 
-        <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+        <div className="lux-card p-5">
+          <h2 className="eyebrow mb-4">
             Lease Health
           </h2>
           <div className="grid grid-cols-2 gap-3">
@@ -550,7 +550,7 @@ export default async function AnalyticsDashboard() {
 
       {/* Per-Building Breakdown */}
       <section>
-        <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
+        <h2 className="eyebrow mb-3">
           Performance by Building
         </h2>
         <div className="overflow-x-auto">
@@ -629,7 +629,7 @@ function KpiTile({
   detailColor?: string;
 }) {
   return (
-    <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
+    <div className="lux-card p-4 text-center">
       <p className={`text-xl font-extrabold ${color}`}>{value}</p>
       <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">{label}</p>
       <p className={`text-[10px] mt-1 ${detailColor ?? "text-[#6b6454]"}`}>{detail}</p>

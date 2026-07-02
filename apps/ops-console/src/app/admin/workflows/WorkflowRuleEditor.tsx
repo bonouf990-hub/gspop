@@ -74,8 +74,8 @@ export default function WorkflowRuleEditor({
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-      <div className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
-        <h3 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
+      <div className="lux-card p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+        <h3 className="eyebrow mb-4">
           Edit Rule: {rule.module.replace(/_/g, " ")} → {rule.action}
         </h3>
 
@@ -151,7 +151,7 @@ export default function WorkflowRuleEditor({
           <button
             onClick={handleSave}
             disabled={saving || roles.length === 0}
-            className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50"
+            className="btn-gold text-sm px-4 py-2 disabled:opacity-50"
           >
             {saving ? "Saving…" : "Save Rule"}
           </button>

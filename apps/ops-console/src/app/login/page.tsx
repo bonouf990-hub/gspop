@@ -27,41 +27,83 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-[#0f1626] text-[#f0ece4]">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-2xl p-8 space-y-4 shadow-xl">
-        <div className="text-center mb-2">
-          <div className="w-14 h-14 rounded-full border-2 border-[#b8902f] bg-[rgba(184,144,47,0.08)] flex items-center justify-center mx-auto mb-3">
-            <span className="text-[#b8902f] font-extrabold text-lg tracking-widest">GS</span>
+    <main className="min-h-screen flex items-center justify-center text-[#f0ece4] px-4 relative overflow-hidden">
+      {/* Ambient gold aura behind the card */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(560px 420px at 50% 42%, rgba(184,144,47,0.13), transparent 70%)",
+        }}
+      />
+
+      <div className="relative w-full max-w-md">
+        {/* Monogram crest above the card */}
+        <div className="flex flex-col items-center mb-8">
+          <div className="relative w-20 h-20 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full border border-[rgba(184,144,47,0.35)]" />
+            <div className="absolute inset-[5px] rounded-full border border-[rgba(184,144,47,0.7)] bg-[rgba(184,144,47,0.07)]" />
+            <span className="font-display text-2xl font-semibold text-[#d4af5a] tracking-[0.1em]">
+              GS
+            </span>
           </div>
-          <h1 className="text-lg font-extrabold tracking-[0.2em] text-[#f0ece4]">GOLDEN SANDS</h1>
-          <p className="text-xs text-[#a0977e] tracking-[0.15em] uppercase mt-0.5">Operations Console</p>
-          <div className="w-10 h-0.5 bg-[#b8902f] mx-auto mt-3 rounded-full" />
+          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#f0ece4]">
+            Golden Sands
+          </h1>
+          <div className="flex items-center gap-3 mt-2.5">
+            <span className="block w-8 h-px bg-gradient-to-r from-transparent to-[#b8902f]" />
+            <p className="eyebrow">Operations Console</p>
+            <span className="block w-8 h-px bg-gradient-to-l from-transparent to-[#b8902f]" />
+          </div>
         </div>
-        <input
-          className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-xl p-3 text-sm text-[#f0ece4] placeholder-[#6b6454]"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-xl p-3 text-sm text-[#f0ece4] placeholder-[#6b6454]"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {error && <p className="text-red-400 text-sm">{error}</p>}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full bg-[#b8902f] text-[#0f1626] rounded-xl p-3 font-bold tracking-wide disabled:opacity-50 shadow-md"
-        >
-          {submitting ? "Signing in..." : "Sign In"}
-        </button>
-      </form>
+
+        <form onSubmit={handleSubmit} className="lux-card p-8 space-y-5">
+          <div>
+            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#a0977e] mb-2">
+              Email
+            </label>
+            <input
+              className="lux-input w-full p-3.5 text-sm"
+              type="email"
+              placeholder="you@goldensands.ae"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#a0977e] mb-2">
+              Password
+            </label>
+            <input
+              className="lux-input w-full p-3.5 text-sm"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+            />
+          </div>
+
+          {error && <p className="text-[#e08a8a] text-sm">{error}</p>}
+
+          <button
+            type="submit"
+            disabled={submitting}
+            className="btn-gold w-full p-3.5 text-sm uppercase disabled:opacity-50"
+          >
+            {submitting ? "Signing in…" : "Sign In"}
+          </button>
+        </form>
+
+        <p className="text-center text-xs text-[#6b6454] mt-8 tracking-[0.14em] uppercase">
+          Golden Sands Property Management · Dubai
+        </p>
+      </div>
     </main>
   );
 }

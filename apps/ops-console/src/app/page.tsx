@@ -85,29 +85,30 @@ export default async function Dashboard() {
 
   return (
     <main className="p-8 max-w-5xl mx-auto w-full">
-      <div className="mb-8">
-        <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-1">GSPOP — Operations Console</p>
-        <h1 className="text-2xl font-extrabold mb-1">
+      <div className="mb-12">
+        <p className="eyebrow mb-2">Golden Sands — Operations Console</p>
+        <h1 className="font-display text-4xl text-[#f0ece4]">
           Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
         </h1>
-        <p className="text-[#a0977e] capitalize">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
-        <div className="w-10 h-0.5 bg-[#b8902f] mt-3 rounded-full" />
+        <p className="text-[#a0977e] capitalize mt-1.5">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
+        <div className="gold-rule mt-5 max-w-xs" />
       </div>
 
       {sections.map((section) => (
-        <section key={section.label} className="mb-10">
-          <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
-            {section.label}
-          </h2>
+        <section key={section.label} className="mb-12">
+          <div className="flex items-center gap-4 mb-4">
+            <h2 className="eyebrow whitespace-nowrap">{section.label}</h2>
+            <div className="gold-rule flex-1 opacity-60" />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {section.cards.map((c) => (
               <Link
                 key={c.href}
                 href={c.href}
-                className="border border-[rgba(184,144,47,0.15)] hover:border-[#b8902f] rounded-xl p-5 transition-colors bg-[#1a2640]"
+                className="lux-card lux-card-hover p-5"
               >
                 <p className="font-bold mb-1">{c.title}</p>
-                <p className="text-sm text-[#a0977e]">{c.desc}</p>
+                <p className="text-sm text-[#a0977e] leading-relaxed">{c.desc}</p>
               </Link>
             ))}
           </div>
