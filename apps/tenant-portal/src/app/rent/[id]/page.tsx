@@ -62,12 +62,12 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
 
       <div className="px-5">
         <section className="elevated-card rounded-2xl overflow-hidden">
-          <div className="bg-[#0F1626] px-6 py-6">
+          <div className="bg-[#0F1626] border-b border-[rgba(184,144,47,0.15)] px-6 py-6">
             <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold-soft)] font-medium mb-1">
               Golden Sands Residences
             </p>
             <div className="flex items-center gap-2 mt-2">
-              <span className="w-8 h-8 rounded-full bg-[#1F7A45] text-white flex items-center justify-center">
+              <span className="w-8 h-8 rounded-full bg-[rgba(45,140,90,0.3)] text-[#5cc98a] flex items-center justify-center">
                 <Check size={16} />
               </span>
               <h1 className="font-display text-white text-2xl font-semibold">Payment Receipt</h1>
@@ -77,11 +77,11 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
           <div className="p-6 space-y-4">
             <div className="flex justify-between text-sm">
               <span className="text-[var(--muted)]">Receipt No.</span>
-              <span className="text-[var(--navy)] font-medium">{receiptNo(invoice.id)}</span>
+              <span className="text-[#f0ece4] font-medium">{receiptNo(invoice.id)}</span>
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-[var(--muted)]">Date</span>
-              <span className="text-[var(--navy)] font-medium">
+              <span className="text-[#f0ece4] font-medium">
                 {paidDate ? new Date(paidDate).toLocaleDateString() : "—"}
               </span>
             </div>
@@ -90,23 +90,23 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
 
             <div className="flex justify-between text-sm">
               <span className="text-[var(--muted)]">Received from</span>
-              <span className="text-[var(--navy)] font-medium">{residentName}</span>
+              <span className="text-[#f0ece4] font-medium">{residentName}</span>
             </div>
             {propertyName && (
               <div className="flex justify-between text-sm">
                 <span className="text-[var(--muted)]">Property</span>
-                <span className="text-[var(--navy)] font-medium">{propertyName}</span>
+                <span className="text-[#f0ece4] font-medium">{propertyName}</span>
               </div>
             )}
             {unitLabel && (
               <div className="flex justify-between text-sm">
                 <span className="text-[var(--muted)]">Unit</span>
-                <span className="text-[var(--navy)] font-medium">{unitLabel}</span>
+                <span className="text-[#f0ece4] font-medium">{unitLabel}</span>
               </div>
             )}
             <div className="flex justify-between text-sm">
               <span className="text-[var(--muted)]">Method</span>
-              <span className="text-[var(--navy)] font-medium capitalize">
+              <span className="text-[#f0ece4] font-medium capitalize">
                 {invoice.paymentMethod ?? "Cheque"}
                 {invoice.chequeNumber ? ` · ${invoice.chequeNumber}` : ""}
               </span>
@@ -114,12 +114,12 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
             {invoice.chequeBank && (
               <div className="flex justify-between text-sm">
                 <span className="text-[var(--muted)]">Bank</span>
-                <span className="text-[var(--navy)] font-medium">{invoice.chequeBank}</span>
+                <span className="text-[#f0ece4] font-medium">{invoice.chequeBank}</span>
               </div>
             )}
             <div className="flex justify-between text-sm">
               <span className="text-[var(--muted)]">Due date</span>
-              <span className="text-[var(--navy)] font-medium">{invoice.dueDate}</span>
+              <span className="text-[#f0ece4] font-medium">{invoice.dueDate}</span>
             </div>
 
             <div className="gold-divider" />
@@ -128,7 +128,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ id: st
               <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold">
                 Amount Paid
               </span>
-              <span className="font-display text-3xl text-[var(--navy)]">{invoice.amount} AED</span>
+              <span className="font-display text-3xl text-[#f0ece4]">{invoice.amount} AED</span>
             </div>
           </div>
         </section>

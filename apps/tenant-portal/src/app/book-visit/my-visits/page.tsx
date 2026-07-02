@@ -19,14 +19,14 @@ type Visit = {
 };
 
 const STATUS_STYLE: Record<string, { bg: string; label: string }> = {
-  draft: { bg: "bg-amber-100 text-amber-700", label: "Pending Review" },
-  assigned: { bg: "bg-blue-100 text-blue-700", label: "Technician Assigned" },
-  in_progress: { bg: "bg-yellow-100 text-yellow-700", label: "In Progress" },
-  completed_by_technician: { bg: "bg-green-100 text-green-700", label: "Completed" },
-  verified_by_supervisor: { bg: "bg-green-100 text-green-700", label: "Verified" },
-  confirmed_by_resident: { bg: "bg-green-100 text-green-700", label: "Confirmed" },
-  closed: { bg: "bg-gray-100 text-gray-600", label: "Closed" },
-  cancelled: { bg: "bg-red-100 text-red-600", label: "Cancelled" },
+  draft: { bg: "bg-[rgba(184,144,47,0.15)] text-[#d4af5a]", label: "Pending Review" },
+  assigned: { bg: "bg-[rgba(90,140,200,0.15)] text-[#8fb4e0]", label: "Technician Assigned" },
+  in_progress: { bg: "bg-[rgba(184,144,47,0.15)] text-[#d4af5a]", label: "In Progress" },
+  completed_by_technician: { bg: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]", label: "Completed" },
+  verified_by_supervisor: { bg: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]", label: "Verified" },
+  confirmed_by_resident: { bg: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]", label: "Confirmed" },
+  closed: { bg: "bg-[rgba(255,255,255,0.06)] text-[#a0977e]", label: "Closed" },
+  cancelled: { bg: "bg-[rgba(180,60,60,0.15)] text-[#e08a8a]", label: "Cancelled" },
 };
 
 const TIME_LABELS: Record<string, string> = {
@@ -61,27 +61,27 @@ export default function MyVisitsPage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--foreground)] pb-28">
       <header className="sticky top-0 z-20 bg-[var(--bg)]/80 backdrop-blur-xl px-4 py-3 flex items-center gap-3">
-        <Link href="/" className="text-[#9A9486]">
+        <Link href="/" className="text-[#a0977e]">
           <ChevronLeft size={24} />
         </Link>
-        <h1 className="font-bold text-lg">My Visit Requests</h1>
+        <h1 className="font-display font-semibold text-lg">My Visit Requests</h1>
       </header>
 
       <div className="max-w-md mx-auto px-4">
         <Link
           href="/book-visit"
-          className="block w-full text-center py-3 rounded-2xl bg-[var(--gold)] text-[var(--navy)] font-bold mb-4"
+          className="block w-full text-center py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold mb-4"
         >
           + Book New Visit
         </Link>
 
         {loading ? (
-          <p className="text-center text-[#9A9486] py-8">Loading…</p>
+          <p className="text-center text-[#a0977e] py-8">Loading…</p>
         ) : visits.length === 0 ? (
           <div className="text-center py-12">
-            <Wrench size={40} className="text-[#9A9486] mx-auto mb-3" />
-            <p className="text-[#9A9486]">No visit requests yet.</p>
-            <p className="text-xs text-[#9A9486] mt-1">Book a technician visit for non-emergency maintenance.</p>
+            <Wrench size={40} className="text-[#a0977e] mx-auto mb-3" />
+            <p className="text-[#a0977e]">No visit requests yet.</p>
+            <p className="text-xs text-[#a0977e] mt-1">Book a technician visit for non-emergency maintenance.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -96,8 +96,8 @@ export default function MyVisitsPage() {
                       {st.label}
                     </span>
                   </div>
-                  <p className="text-xs text-[#9A9486] line-clamp-2 mb-2">{v.description}</p>
-                  <div className="flex items-center gap-4 text-xs text-[#9A9486]">
+                  <p className="text-xs text-[#a0977e] line-clamp-2 mb-2">{v.description}</p>
+                  <div className="flex items-center gap-4 text-xs text-[#a0977e]">
                     {v.preferred_visit_date && (
                       <span className="flex items-center gap-1">
                         <CalendarDays size={12} />

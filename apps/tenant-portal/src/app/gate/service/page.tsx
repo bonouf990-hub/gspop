@@ -56,7 +56,7 @@ export default function NotifyServicePage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Pre-Authorize
         </p>
-        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Notify Service</h1>
+        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Notify Service</h1>
         <p className="text-sm text-[var(--muted)] mt-1">Let security know a provider is expected.</p>
       </div>
 
@@ -73,13 +73,13 @@ export default function NotifyServicePage() {
                 onClick={() => setProvider(p)}
                 className={`flex items-center gap-2.5 rounded-xl p-3 text-sm font-medium border transition-colors ${
                   provider === p
-                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#8a6a1f]"
-                    : "bg-[var(--background)] border-[var(--hairline)] text-[var(--navy)]"
+                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d4af5a]"
+                    : "bg-[#141d33] border-[var(--hairline)] text-[#f0ece4]"
                 }`}
               >
                 <span
                   className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-semibold ${
-                    provider === p ? "bg-[var(--gold)] text-white" : "bg-white text-[var(--muted)]"
+                    provider === p ? "bg-[var(--gold)] text-[#0f1626]" : "bg-[rgba(184,144,47,0.12)] text-[var(--muted)]"
                   }`}
                 >
                   {p[0]}
@@ -98,7 +98,7 @@ export default function NotifyServicePage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Expected after</label>
             <input
               type="datetime-local"
-              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
               value={windowStart}
               onChange={(e) => setWindowStart(e.target.value)}
               required
@@ -108,7 +108,7 @@ export default function NotifyServicePage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Until</label>
             <input
               type="datetime-local"
-              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
               value={windowEnd}
               onChange={(e) => setWindowEnd(e.target.value)}
               required
@@ -119,7 +119,7 @@ export default function NotifyServicePage() {
         <button
           type="submit"
           disabled={submitting || !provider}
-          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Notify Service"}
         </button>

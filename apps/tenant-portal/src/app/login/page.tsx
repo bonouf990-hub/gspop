@@ -67,7 +67,7 @@ export default function LoginPage() {
               Email
             </label>
             <input
-              className="w-full bg-[#FAF8F4] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -79,26 +79,26 @@ export default function LoginPage() {
               Password
             </label>
             <input
-              className="w-full bg-[#FAF8F4] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          {error && <p className="text-red-500 text-xs">{error}</p>}
+          {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
           {notice && <p className="text-[var(--gold)] text-xs">{notice}</p>}
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3 font-semibold text-sm disabled:opacity-50 transition-opacity"
+            className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3 font-semibold text-sm disabled:opacity-50 transition-opacity"
           >
             {submitting ? "Signing in..." : "Sign In"}
           </button>
           <button
             type="button"
             onClick={handleForgotPassword}
-            className="w-full text-center text-xs text-[var(--muted)] hover:text-[var(--navy)] transition-colors"
+            className="w-full text-center text-xs text-[var(--muted)] hover:text-[#f0ece4] transition-colors"
           >
             Forgot password?
           </button>

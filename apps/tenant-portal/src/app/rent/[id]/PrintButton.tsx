@@ -7,7 +7,7 @@ export default function PrintButton() {
     <button
       type="button"
       onClick={() => window.print()}
-      className="print:hidden w-full flex items-center justify-center gap-2 bg-[var(--navy)] text-white rounded-xl p-3.5 font-semibold text-sm"
+      className="print:hidden w-full flex items-center justify-center gap-2 bg-[#b8902f] text-[#0f1626] rounded-xl p-3.5 font-bold text-sm"
     >
       <Printer size={16} /> Print / Save as PDF
     </button>

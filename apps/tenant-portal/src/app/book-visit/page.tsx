@@ -128,29 +128,29 @@ export default function BookVisitPage() {
     return (
       <div className="min-h-screen bg-[var(--bg)] text-[var(--foreground)]">
         <div className="max-w-md mx-auto px-4 pt-16 text-center">
-          <CheckCircle size={64} className="text-green-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold mb-2">Visit Booked!</h1>
-          <p className="text-[#9A9486] mb-2">
+          <CheckCircle size={64} className="text-[#5cc98a] mx-auto mb-4" />
+          <h1 className="font-display text-2xl font-semibold mb-2">Visit Booked!</h1>
+          <p className="text-[#a0977e] mb-2">
             Your technician visit for <strong>{selectedJob?.label}</strong> has been submitted.
           </p>
           <div className="elevated-card rounded-2xl p-4 mt-4 text-left">
             <div className="grid grid-cols-2 gap-y-2 text-sm">
-              <span className="text-[#9A9486]">Job Type</span>
+              <span className="text-[#a0977e]">Job Type</span>
               <span className="font-medium">{selectedJob?.label}</span>
-              <span className="text-[#9A9486]">Unit</span>
+              <span className="text-[#a0977e]">Unit</span>
               <span className="font-medium">{unitLabel || "—"}</span>
-              <span className="text-[#9A9486]">Preferred Date</span>
+              <span className="text-[#a0977e]">Preferred Date</span>
               <span className="font-medium">{new Date(visitDate).toLocaleDateString()}</span>
-              <span className="text-[#9A9486]">Time Slot</span>
+              <span className="text-[#a0977e]">Time Slot</span>
               <span className="font-medium">{selectedSlot?.label} ({selectedSlot?.detail})</span>
             </div>
           </div>
-          <p className="text-xs text-[#9A9486] mt-4">
+          <p className="text-xs text-[#a0977e] mt-4">
             Our team will review and assign a technician. You&apos;ll receive a notification once confirmed.
           </p>
           <button
             onClick={() => router.push("/")}
-            className="mt-6 w-full py-3 rounded-2xl bg-[var(--gold)] text-[var(--navy)] font-bold"
+            className="mt-6 w-full py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold"
           >
             Back to Home
           </button>
@@ -162,10 +162,10 @@ export default function BookVisitPage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--foreground)] pb-28">
       <header className="sticky top-0 z-20 bg-[var(--bg)]/80 backdrop-blur-xl px-4 py-3 flex items-center gap-3">
-        <Link href="/" className="text-[#9A9486]">
+        <Link href="/" className="text-[#a0977e]">
           <ChevronLeft size={24} />
         </Link>
-        <h1 className="font-bold text-lg">Book Technician Visit</h1>
+        <h1 className="font-display font-semibold text-lg">Book Technician Visit</h1>
       </header>
 
       <div className="max-w-md mx-auto px-4">
@@ -175,19 +175,19 @@ export default function BookVisitPage() {
             <div key={s} className="flex-1 flex items-center gap-1">
               <div
                 className={`h-1.5 flex-1 rounded-full transition-colors ${
-                  s <= step ? "bg-[var(--gold)]" : "bg-[#2A2520]"
+                  s <= step ? "bg-[var(--gold)]" : "bg-[rgba(184,144,47,0.15)]"
                 }`}
               />
             </div>
           ))}
-          <span className="text-xs text-[#9A9486] ml-1">Step {step}/3</span>
+          <span className="text-xs text-[#a0977e] ml-1">Step {step}/3</span>
         </div>
 
         {/* Step 1: Select Job Type */}
         {step === 1 && (
           <div>
-            <h2 className="font-bold text-lg mb-1">What do you need?</h2>
-            <p className="text-sm text-[#9A9486] mb-4">
+            <h2 className="font-display font-semibold text-lg mb-1">What do you need?</h2>
+            <p className="text-sm text-[#a0977e] mb-4">
               Select the type of maintenance work you need.
             </p>
             <div className="grid grid-cols-3 gap-3">
@@ -205,9 +205,9 @@ export default function BookVisitPage() {
                   >
                     <j.Icon
                       size={24}
-                      className={active ? "text-[var(--gold)]" : "text-[#9A9486]"}
+                      className={active ? "text-[var(--gold)]" : "text-[#a0977e]"}
                     />
-                    <span className={`text-xs text-center ${active ? "font-bold text-[var(--gold)]" : "text-[#9A9486]"}`}>
+                    <span className={`text-xs text-center ${active ? "font-bold text-[var(--gold)]" : "text-[#a0977e]"}`}>
                       {j.label}
                     </span>
                   </button>
@@ -217,7 +217,7 @@ export default function BookVisitPage() {
             {jobType && (
               <button
                 onClick={() => setStep(2)}
-                className="mt-6 w-full py-3 rounded-2xl bg-[var(--gold)] text-[var(--navy)] font-bold"
+                className="mt-6 w-full py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold"
               >
                 Next — Describe Issue
               </button>
@@ -228,10 +228,10 @@ export default function BookVisitPage() {
         {/* Step 2: Describe the Issue */}
         {step === 2 && (
           <div>
-            <h2 className="font-bold text-lg mb-1">
+            <h2 className="font-display font-semibold text-lg mb-1">
               Describe the issue
             </h2>
-            <p className="text-sm text-[#9A9486] mb-4">
+            <p className="text-sm text-[#a0977e] mb-4">
               Help the technician understand what to expect.
               {unitLabel && <> Unit: <strong>{unitLabel}</strong></>}
             </p>
@@ -239,19 +239,19 @@ export default function BookVisitPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. The AC in the bedroom is making a loud noise and not cooling properly. It started two days ago."
-              className="w-full min-h-[140px] rounded-2xl bg-[var(--card)] border border-[var(--border)] p-4 text-sm placeholder:text-[#9A9486]/60 resize-none"
+              className="w-full min-h-[140px] rounded-2xl bg-[#141d33] border border-[var(--border)] p-4 text-sm placeholder:text-[#a0977e]/60 resize-none"
             />
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setStep(1)}
-                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#9A9486]"
+                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#a0977e]"
               >
                 Back
               </button>
               <button
                 onClick={() => setStep(3)}
                 disabled={!description.trim()}
-                className="flex-1 py-3 rounded-2xl bg-[var(--gold)] text-[var(--navy)] font-bold disabled:opacity-50"
+                className="flex-1 py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold disabled:opacity-50"
               >
                 Next — Pick Time
               </button>
@@ -262,8 +262,8 @@ export default function BookVisitPage() {
         {/* Step 3: Pick Date & Time */}
         {step === 3 && (
           <div>
-            <h2 className="font-bold text-lg mb-1">When works for you?</h2>
-            <p className="text-sm text-[#9A9486] mb-4">
+            <h2 className="font-display font-semibold text-lg mb-1">When works for you?</h2>
+            <p className="text-sm text-[#a0977e] mb-4">
               Choose your preferred date and time slot.
             </p>
 
@@ -277,7 +277,7 @@ export default function BookVisitPage() {
                 value={visitDate}
                 min={minDateStr}
                 onChange={(e) => setVisitDate(e.target.value)}
-                className="w-full rounded-xl bg-[var(--bg)] border border-[var(--border)] p-3 text-sm"
+                className="w-full rounded-xl bg-[#141d33] border border-[var(--border)] p-3 text-sm"
               />
             </div>
 
@@ -302,7 +302,7 @@ export default function BookVisitPage() {
                       <span className={`text-sm ${active ? "font-bold text-[var(--gold)]" : ""}`}>
                         {slot.label}
                       </span>
-                      <span className="text-xs text-[#9A9486]">{slot.detail}</span>
+                      <span className="text-xs text-[#a0977e]">{slot.detail}</span>
                     </button>
                   );
                 })}
@@ -312,37 +312,37 @@ export default function BookVisitPage() {
             {/* Summary */}
             {visitDate && visitTime && (
               <div className="elevated-card rounded-2xl p-4 mb-4">
-                <p className="text-xs text-[#9A9486] uppercase tracking-wider font-bold mb-2">
+                <p className="text-xs text-[#a0977e] uppercase tracking-wider font-bold mb-2">
                   Visit Summary
                 </p>
                 <div className="grid grid-cols-2 gap-y-1 text-sm">
-                  <span className="text-[#9A9486]">Job Type</span>
+                  <span className="text-[#a0977e]">Job Type</span>
                   <span className="font-medium">{selectedJob?.label}</span>
-                  <span className="text-[#9A9486]">Unit</span>
+                  <span className="text-[#a0977e]">Unit</span>
                   <span className="font-medium">{unitLabel || "—"}</span>
-                  <span className="text-[#9A9486]">Date</span>
+                  <span className="text-[#a0977e]">Date</span>
                   <span className="font-medium">{new Date(visitDate).toLocaleDateString()}</span>
-                  <span className="text-[#9A9486]">Time</span>
+                  <span className="text-[#a0977e]">Time</span>
                   <span className="font-medium">{selectedSlot?.label}</span>
                 </div>
               </div>
             )}
 
             {error && (
-              <p className="text-red-500 text-sm mb-3">{error}</p>
+              <p className="text-[#e08a8a] text-sm mb-3">{error}</p>
             )}
 
             <div className="flex gap-3">
               <button
                 onClick={() => setStep(2)}
-                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#9A9486]"
+                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#a0977e]"
               >
                 Back
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={submitting || !visitDate || !visitTime}
-                className="flex-1 py-3 rounded-2xl bg-[var(--gold)] text-[var(--navy)] font-bold disabled:opacity-50"
+                className="flex-1 py-3 rounded-2xl bg-[var(--gold)] text-[#0f1626] font-bold disabled:opacity-50"
               >
                 {submitting ? "Booking…" : "Confirm Booking"}
               </button>

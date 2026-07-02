@@ -167,7 +167,7 @@ export default function NewComplaintPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Maintenance
         </p>
-        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Report an Issue</h1>
+        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Report an Issue</h1>
         <p className="text-sm text-[var(--muted)] mt-1">
           {categoryId ? `What's wrong with: ${selectedCategory?.name}?` : "Select what's wrong — we'll route it to the right technician."}
         </p>
@@ -184,12 +184,12 @@ export default function NewComplaintPage() {
                     key={cat.id}
                     type="button"
                     onClick={() => selectCategory(cat.id)}
-                    className="flex flex-col items-center gap-2 rounded-xl p-4 text-center border bg-[var(--background)] border-[var(--hairline)]"
+                    className="flex flex-col items-center gap-2 rounded-xl p-4 text-center border bg-[#141d33] border-[var(--hairline)]"
                   >
-                    <span className="w-10 h-10 rounded-full flex items-center justify-center bg-white text-[var(--gold)]">
+                    <span className="w-10 h-10 rounded-full flex items-center justify-center bg-[rgba(184,144,47,0.12)] text-[var(--gold)]">
                       <Icon size={18} strokeWidth={1.8} />
                     </span>
-                    <span className="text-xs font-medium text-[var(--navy)]">{cat.name}</span>
+                    <span className="text-xs font-medium text-[#f0ece4]">{cat.name}</span>
                   </button>
                 );
               })}
@@ -213,8 +213,8 @@ export default function NewComplaintPage() {
                   onClick={() => setSubissueId(sub.id)}
                   className={`text-left rounded-xl p-3.5 text-sm font-medium border transition-colors ${
                     subissueId === sub.id
-                      ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#8a6a1f]"
-                      : "bg-[var(--background)] border-[var(--hairline)] text-[var(--navy)]"
+                      ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d4af5a]"
+                      : "bg-[#141d33] border-[var(--hairline)] text-[#f0ece4]"
                   }`}
                 >
                   {sub.name}
@@ -228,7 +228,7 @@ export default function NewComplaintPage() {
 
           <div className="elevated-card rounded-2xl p-5 space-y-4">
             <textarea
-              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 h-28 text-sm text-[var(--navy)]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 h-28 text-sm text-[#f0ece4]"
               placeholder={isOther ? "Describe the issue..." : "Add a few details (optional)..."}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -269,7 +269,7 @@ export default function NewComplaintPage() {
             <button
               type="button"
               disabled={photos.length >= MAX_PHOTOS}
-              className="w-full flex items-center justify-center gap-2 bg-[var(--background)] border border-[var(--hairline)] text-[var(--navy)] rounded-xl p-3 text-sm font-medium disabled:opacity-40"
+              className="w-full flex items-center justify-center gap-2 bg-[#141d33] border border-[var(--hairline)] text-[#f0ece4] rounded-xl p-3 text-sm font-medium disabled:opacity-40"
               onClick={() => fileInputRef.current?.click()}
             >
               <Camera size={16} />
@@ -281,12 +281,12 @@ export default function NewComplaintPage() {
             </button>
           </div>
 
-          {error && <p className="text-red-500 text-xs text-center">{error}</p>}
+          {error && <p className="text-[#e08a8a] text-xs text-center">{error}</p>}
 
           <button
             type="submit"
             disabled={submitting || !subissueId || (isOther && !description)}
-            className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
+            className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
           >
             {submitting ? "Submitting..." : "Submit Request"}
           </button>
