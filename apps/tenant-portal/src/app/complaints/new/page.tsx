@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ChevronLeft, Snowflake, Lightbulb, Flame, Lock, Droplets, Wifi, Bug, Sparkles, Volume2, FileQuestion, Camera, X } from "lucide-react";
 import { createClient } from "@/lib/supabase-browser";
 import { compressImage } from "@/lib/image";
+import Concierge from "./Concierge";
 import { camelCaseKeys, type ComplaintCategory, type ComplaintSubissue } from "@gspop/shared";
 
 const CATEGORY_ICONS: Record<string, typeof Snowflake> = {
@@ -95,6 +96,13 @@ export default function NewComplaintPage() {
     setSubissueId(null);
   }
 
+  // The AI concierge resolved the issue — jump straight to the pre-filled form.
+  function applyConcierge(catId: string, subId: string, desc: string) {
+    setCategoryId(catId);
+    setSubissueId(subId);
+    setDescription(desc);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!selectedCategory || !selectedSubissue) return;
@@ -178,6 +186,8 @@ export default function NewComplaintPage() {
 
       {!categoryId ? (
         <div className="px-5">
+          <Concierge onApply={applyConcierge} />
+          <p className="text-center text-xs text-[var(--muted)] mb-4">or pick a category yourself</p>
           <div className="elevated-card rounded-2xl p-5">
             <div className="grid grid-cols-2 gap-2.5">
               {categories.map((cat) => {
