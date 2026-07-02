@@ -70,7 +70,7 @@ const STATUS_STYLE: Record<string, string> = {
   pending_approval: "bg-amber-900/60 text-amber-300",
   approved: "bg-green-900/40 text-green-300",
   rejected: "bg-red-900/40 text-red-300",
-  assigned: "bg-blue-900/40 text-blue-300",
+  assigned: "bg-[rgba(143,180,224,0.15)] text-[#8fb4e0]",
   in_progress: "bg-green-900/60 text-green-300",
   paused: "bg-amber-900/40 text-amber-300",
   completed_by_technician: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",

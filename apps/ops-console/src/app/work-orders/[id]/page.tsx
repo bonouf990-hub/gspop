@@ -243,7 +243,7 @@ export default async function WorkOrderDetailPage({
           {wo.visit_source === "resident_booking" && (
             <>
               <span className="text-[#a0977e]">Source</span>
-              <span className="text-blue-400 font-medium">Resident Visit Request</span>
+              <span className="text-[#8fb4e0] font-medium">Resident Visit Request</span>
               <span className="text-[#a0977e]">Preferred date</span>
               <span>{wo.preferred_visit_date ? new Date(wo.preferred_visit_date as string).toLocaleDateString() : "—"}</span>
               <span className="text-[#a0977e]">Preferred time</span>
