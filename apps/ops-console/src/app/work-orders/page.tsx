@@ -62,19 +62,19 @@ async function getPageData() {
 }
 
 const PRIORITY_COLORS: Record<string, string> = {
-  emergency: "bg-red-900/60 text-red-300",
-  high: "bg-amber-900/50 text-amber-300",
+  emergency: "bg-red-100 text-red-700",
+  high: "bg-amber-50 text-amber-700",
   medium: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  low: "bg-[#213052] text-[#9aa5bd]",
+  low: "bg-[#e9eef6] text-[#5b6b85]",
 };
 
 const STATUS_COLORS: Record<string, string> = {
   assigned: "text-[#d9647f]",
-  in_progress: "text-yellow-400",
-  completed_by_technician: "text-green-400",
-  verified_by_supervisor: "text-green-300",
-  closed: "text-[#5d6880]",
-  cancelled: "text-[#5d6880]",
+  in_progress: "text-yellow-600",
+  completed_by_technician: "text-green-700",
+  verified_by_supervisor: "text-green-700",
+  closed: "text-[#8b97ab]",
+  cancelled: "text-[#8b97ab]",
 };
 
 export default async function WorkOrdersPage() {
@@ -102,11 +102,11 @@ export default async function WorkOrdersPage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">{isTechnician ? "My Work Orders" : "Work Orders"}</h1>
-          <p className="text-[#9aa5bd] mt-1">Assign, track, and verify maintenance jobs across all buildings.</p>
+          <p className="text-[#5b6b85] mt-1">Assign, track, and verify maintenance jobs across all buildings.</p>
         </div>
         {!isTechnician && <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />}
       </div>
@@ -124,7 +124,7 @@ export default async function WorkOrdersPage() {
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5 font-medium">Title</th>
             <th className="px-5 py-3.5 font-medium">Property / Unit</th>
             <th className="px-5 py-3.5 font-medium">Type</th>
@@ -140,24 +140,24 @@ export default async function WorkOrdersPage() {
             const unit = wo.units as { label: string } | null;
             const tech = wo.technician as { full_name: string } | null;
             return (
-              <tr key={wo.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[rgba(33,48,82,0.5)]">
+              <tr key={wo.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f6f8fc]">
                 <td className="px-5 py-3.5">
                   <Link href={`/work-orders/${wo.id}`} className="text-[#d9647f] hover:underline font-medium">
                     {wo.title}
                   </Link>
                   {wo.visit_source === "resident_booking" && (
-                    <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-[rgba(143,180,224,0.15)] text-[#8fb4e0]">
+                    <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-[rgba(61,108,179,0.12)] text-[#3d6cb3]">
                       VISIT REQUEST
                     </span>
                   )}
                   {wo.preferred_visit_date && (
-                    <p className="text-[10px] text-[#9aa5bd] mt-0.5">
+                    <p className="text-[10px] text-[#5b6b85] mt-0.5">
                       Preferred: {new Date(wo.preferred_visit_date).toLocaleDateString()}
                       {wo.preferred_visit_time && ` · ${wo.preferred_visit_time}`}
                     </p>
                   )}
                 </td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {[prop?.name, unit?.label].filter(Boolean).join(" · ") || "—"}
                 </td>
                 <td className="px-5 py-3.5 capitalize">{wo.type}</td>
@@ -172,7 +172,7 @@ export default async function WorkOrdersPage() {
                   {wo.status.replace(/_/g, " ")}
                 </td>
                 <td className="px-5 py-3.5">{tech?.full_name ?? "Unassigned"}</td>
-                <td className="px-5 py-3.5 text-[#5d6880]">
+                <td className="px-5 py-3.5 text-[#8b97ab]">
                   {new Date(wo.created_at).toLocaleDateString()}
                 </td>
               </tr>
@@ -180,7 +180,7 @@ export default async function WorkOrdersPage() {
           })}
           {workOrders.length === 0 && (
             <tr>
-              <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={7}>
+              <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={7}>
                 No work orders yet.
               </td>
             </tr>

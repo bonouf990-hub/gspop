@@ -82,7 +82,7 @@ export default function StoreRequestActions({
           disabled={updating}
           className={`text-xs font-bold px-3 py-1.5 rounded-lg disabled:opacity-50 ${
             a.next === "rejected"
-              ? "bg-red-900 text-red-300 hover:bg-red-800"
+              ? "bg-red-900 text-red-700 hover:bg-red-800"
               : "btn-gold"
           }`}
         >

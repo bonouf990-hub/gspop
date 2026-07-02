@@ -70,14 +70,14 @@ export default function DecideWinner({
       <h3 className="eyebrow mb-2">
         Select Tender Winner
       </h3>
-      <p className="text-xs text-[#9aa5bd] mb-3">
+      <p className="text-xs text-[#5b6b85] mb-3">
         Confirming a winner will notify the purchasing department to issue a purchase order.
       </p>
       <div className="flex gap-2 items-center">
         <select
           value={winnerId}
           onChange={(e) => setWinnerId(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm flex-1"
+          className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm flex-1"
         >
           <option value="">Select winning vendor…</option>
           {submissions.map((s) => (
@@ -96,7 +96,7 @@ export default function DecideWinner({
           {saving ? "Deciding…" : "Confirm Winner"}
         </button>
       </div>
-      {error && <p className="text-[#e08a8a] text-xs mt-2">{error}</p>}
+      {error && <p className="text-[#c0304a] text-xs mt-2">{error}</p>}
     </div>
   );
 }

@@ -84,7 +84,7 @@ export default function RequestParts({
   }
 
   const selectedItem = items.find((i) => i.id === itemId);
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#16233c]";
 
   return (
     <form onSubmit={handleSubmit} className="lux-card p-4 space-y-3">
@@ -93,7 +93,7 @@ export default function RequestParts({
       </h3>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Item *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Item *</label>
         <select
           className={input}
           value={itemId}
@@ -113,7 +113,7 @@ export default function RequestParts({
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Quantity *</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Quantity *</label>
           <input
             className={input}
             type="number"
@@ -123,13 +123,13 @@ export default function RequestParts({
             required
           />
           {selectedItem && Number(quantity) > Number(selectedItem.quantity_on_hand) && (
-            <p className="text-[10px] text-amber-400 mt-1">
+            <p className="text-[10px] text-amber-700 mt-1">
               Exceeds available stock ({Number(selectedItem.quantity_on_hand)} available)
             </p>
           )}
         </div>
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Delivery Method *</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Delivery Method *</label>
           <select
             className={input}
             value={deliveryMethod}
@@ -143,7 +143,7 @@ export default function RequestParts({
 
       {deliveryMethod === "deliver" && (
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Delivery Location</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Delivery Location</label>
           <input
             className={input}
             placeholder="e.g. Building A, Floor 3, Unit 301"
@@ -154,7 +154,7 @@ export default function RequestParts({
       )}
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Notes</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Notes</label>
         <input
           className={input}
           placeholder="Any special instructions…"
@@ -163,7 +163,7 @@ export default function RequestParts({
         />
       </div>
 
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 text-xs">{error}</p>}
 
       <div className="flex gap-2 pt-1">
         <button
@@ -176,7 +176,7 @@ export default function RequestParts({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]"
+          className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]"
         >
           Cancel
         </button>

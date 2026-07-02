@@ -128,24 +128,24 @@ export default function BookVisitPage() {
     return (
       <div className="min-h-screen bg-[var(--bg)] text-[var(--foreground)]">
         <div className="max-w-md mx-auto px-4 pt-16 text-center">
-          <CheckCircle size={64} className="text-[#5cc98a] mx-auto mb-4" />
+          <CheckCircle size={64} className="text-[#1f8a4d] mx-auto mb-4" />
           <h1 className="font-display text-2xl font-semibold mb-2">Visit Booked!</h1>
-          <p className="text-[#9aa5bd] mb-2">
+          <p className="text-[#5b6b85] mb-2">
             Your technician visit for <strong>{selectedJob?.label}</strong> has been submitted.
           </p>
           <div className="elevated-card rounded-2xl p-4 mt-4 text-left">
             <div className="grid grid-cols-2 gap-y-2 text-sm">
-              <span className="text-[#9aa5bd]">Job Type</span>
+              <span className="text-[#5b6b85]">Job Type</span>
               <span className="font-medium">{selectedJob?.label}</span>
-              <span className="text-[#9aa5bd]">Unit</span>
+              <span className="text-[#5b6b85]">Unit</span>
               <span className="font-medium">{unitLabel || "—"}</span>
-              <span className="text-[#9aa5bd]">Preferred Date</span>
+              <span className="text-[#5b6b85]">Preferred Date</span>
               <span className="font-medium">{new Date(visitDate).toLocaleDateString()}</span>
-              <span className="text-[#9aa5bd]">Time Slot</span>
+              <span className="text-[#5b6b85]">Time Slot</span>
               <span className="font-medium">{selectedSlot?.label} ({selectedSlot?.detail})</span>
             </div>
           </div>
-          <p className="text-xs text-[#9aa5bd] mt-4">
+          <p className="text-xs text-[#5b6b85] mt-4">
             Our team will review and assign a technician. You&apos;ll receive a notification once confirmed.
           </p>
           <button
@@ -162,7 +162,7 @@ export default function BookVisitPage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--foreground)] pb-28">
       <header className="sticky top-0 z-20 bg-[var(--bg)]/80 backdrop-blur-xl px-4 py-3 flex items-center gap-3">
-        <Link href="/" className="text-[#9aa5bd]">
+        <Link href="/" className="text-[#5b6b85]">
           <ChevronLeft size={24} />
         </Link>
         <h1 className="font-display font-semibold text-lg">Book Technician Visit</h1>
@@ -180,14 +180,14 @@ export default function BookVisitPage() {
               />
             </div>
           ))}
-          <span className="text-xs text-[#9aa5bd] ml-1">Step {step}/3</span>
+          <span className="text-xs text-[#5b6b85] ml-1">Step {step}/3</span>
         </div>
 
         {/* Step 1: Select Job Type */}
         {step === 1 && (
           <div>
             <h2 className="font-display font-semibold text-lg mb-1">What do you need?</h2>
-            <p className="text-sm text-[#9aa5bd] mb-4">
+            <p className="text-sm text-[#5b6b85] mb-4">
               Select the type of maintenance work you need.
             </p>
             <div className="grid grid-cols-3 gap-3">
@@ -205,9 +205,9 @@ export default function BookVisitPage() {
                   >
                     <j.Icon
                       size={24}
-                      className={active ? "text-[var(--gold)]" : "text-[#9aa5bd]"}
+                      className={active ? "text-[var(--gold)]" : "text-[#5b6b85]"}
                     />
-                    <span className={`text-xs text-center ${active ? "font-bold text-[var(--gold)]" : "text-[#9aa5bd]"}`}>
+                    <span className={`text-xs text-center ${active ? "font-bold text-[var(--gold)]" : "text-[#5b6b85]"}`}>
                       {j.label}
                     </span>
                   </button>
@@ -231,7 +231,7 @@ export default function BookVisitPage() {
             <h2 className="font-display font-semibold text-lg mb-1">
               Describe the issue
             </h2>
-            <p className="text-sm text-[#9aa5bd] mb-4">
+            <p className="text-sm text-[#5b6b85] mb-4">
               Help the technician understand what to expect.
               {unitLabel && <> Unit: <strong>{unitLabel}</strong></>}
             </p>
@@ -239,12 +239,12 @@ export default function BookVisitPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. The AC in the bedroom is making a loud noise and not cooling properly. It started two days ago."
-              className="w-full min-h-[140px] rounded-2xl bg-[#141d33] border border-[var(--border)] p-4 text-sm placeholder:text-[#9aa5bd]/60 resize-none"
+              className="w-full min-h-[140px] rounded-2xl bg-[#f4f6fa] border border-[var(--border)] p-4 text-sm placeholder:text-[#5b6b85]/60 resize-none"
             />
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setStep(1)}
-                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#9aa5bd]"
+                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#5b6b85]"
               >
                 Back
               </button>
@@ -263,7 +263,7 @@ export default function BookVisitPage() {
         {step === 3 && (
           <div>
             <h2 className="font-display font-semibold text-lg mb-1">When works for you?</h2>
-            <p className="text-sm text-[#9aa5bd] mb-4">
+            <p className="text-sm text-[#5b6b85] mb-4">
               Choose your preferred date and time slot.
             </p>
 
@@ -277,7 +277,7 @@ export default function BookVisitPage() {
                 value={visitDate}
                 min={minDateStr}
                 onChange={(e) => setVisitDate(e.target.value)}
-                className="w-full rounded-xl bg-[#141d33] border border-[var(--border)] p-3 text-sm"
+                className="w-full rounded-xl bg-[#f4f6fa] border border-[var(--border)] p-3 text-sm"
               />
             </div>
 
@@ -302,7 +302,7 @@ export default function BookVisitPage() {
                       <span className={`text-sm ${active ? "font-bold text-[var(--gold)]" : ""}`}>
                         {slot.label}
                       </span>
-                      <span className="text-xs text-[#9aa5bd]">{slot.detail}</span>
+                      <span className="text-xs text-[#5b6b85]">{slot.detail}</span>
                     </button>
                   );
                 })}
@@ -312,30 +312,30 @@ export default function BookVisitPage() {
             {/* Summary */}
             {visitDate && visitTime && (
               <div className="elevated-card rounded-2xl p-4 mb-4">
-                <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">
+                <p className="text-xs text-[#5b6b85] uppercase tracking-wider font-bold mb-2">
                   Visit Summary
                 </p>
                 <div className="grid grid-cols-2 gap-y-1 text-sm">
-                  <span className="text-[#9aa5bd]">Job Type</span>
+                  <span className="text-[#5b6b85]">Job Type</span>
                   <span className="font-medium">{selectedJob?.label}</span>
-                  <span className="text-[#9aa5bd]">Unit</span>
+                  <span className="text-[#5b6b85]">Unit</span>
                   <span className="font-medium">{unitLabel || "—"}</span>
-                  <span className="text-[#9aa5bd]">Date</span>
+                  <span className="text-[#5b6b85]">Date</span>
                   <span className="font-medium">{new Date(visitDate).toLocaleDateString()}</span>
-                  <span className="text-[#9aa5bd]">Time</span>
+                  <span className="text-[#5b6b85]">Time</span>
                   <span className="font-medium">{selectedSlot?.label}</span>
                 </div>
               </div>
             )}
 
             {error && (
-              <p className="text-[#e08a8a] text-sm mb-3">{error}</p>
+              <p className="text-[#c0304a] text-sm mb-3">{error}</p>
             )}
 
             <div className="flex gap-3">
               <button
                 onClick={() => setStep(2)}
-                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#9aa5bd]"
+                className="flex-1 py-3 rounded-2xl border border-[var(--border)] font-bold text-[#5b6b85]"
               >
                 Back
               </button>

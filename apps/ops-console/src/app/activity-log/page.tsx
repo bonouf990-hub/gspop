@@ -26,29 +26,29 @@ const ENTITY_LINKS: Record<string, string> = {
 };
 
 const ACTION_STYLE: Record<string, string> = {
-  created: "text-green-400",
+  created: "text-green-700",
   updated: "text-[#d9647f]",
-  deleted: "text-red-400",
-  approved: "text-green-300",
-  rejected: "text-red-300",
-  escalated: "text-amber-400",
-  completed: "text-green-400",
+  deleted: "text-red-600",
+  approved: "text-green-700",
+  rejected: "text-red-700",
+  escalated: "text-amber-700",
+  completed: "text-green-700",
   assigned: "text-[#d9647f]",
-  verified: "text-green-300",
+  verified: "text-green-700",
   paid: "text-[#b01b42]",
-  disputed: "text-red-400",
+  disputed: "text-red-600",
 };
 
 const ENTITY_STYLE: Record<string, string> = {
   work_order: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  complaint: "bg-[#213052] text-[#9aa5bd]",
+  complaint: "bg-[#e9eef6] text-[#5b6b85]",
   purchase_order: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  tender: "bg-[#213052] text-[#9aa5bd]",
+  tender: "bg-[#e9eef6] text-[#5b6b85]",
   invoice: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  maintenance_schedule: "bg-[#213052] text-[#9aa5bd]",
-  visitor: "bg-[#213052] text-[#9aa5bd]",
+  maintenance_schedule: "bg-[#e9eef6] text-[#5b6b85]",
+  visitor: "bg-[#e9eef6] text-[#5b6b85]",
   booking: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  user: "bg-[#213052] text-[#9aa5bd]",
+  user: "bg-[#e9eef6] text-[#5b6b85]",
 };
 
 async function getPageData() {
@@ -91,11 +91,11 @@ export default async function ActivityLogPage() {
   return (
     <main className="p-8 max-w-4xl mx-auto">
       <div className="mb-6">
-        <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+        <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
           ← Dashboard
         </Link>
         <h1 className="text-2xl font-extrabold mt-1">Activity Log</h1>
-        <p className="text-[#9aa5bd] text-sm mt-1">
+        <p className="text-[#5b6b85] text-sm mt-1">
           Complete audit trail of all operations across the platform.
         </p>
         <div className="mt-3 mb-4">
@@ -106,30 +106,30 @@ export default async function ActivityLogPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d9647f]">{logs.length}</p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Total Events</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Total Events</p>
         </div>
         <div className="lux-card p-4 text-center">
-          <p className="text-2xl font-extrabold text-green-400">
+          <p className="text-2xl font-extrabold text-green-700">
             {logs.filter((l) => l.action === "created").length}
           </p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Created</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Created</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d9647f]">
             {logs.filter((l) => l.action === "updated").length}
           </p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Updated</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Updated</p>
         </div>
         <div className="lux-card p-4 text-center">
           <p className="text-2xl font-extrabold text-[#d9647f]">
             {new Set(logs.map((l) => l.user_name ?? l.user?.full_name)).size}
           </p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Active Users</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Active Users</p>
         </div>
       </div>
 
       {logs.length === 0 ? (
-        <div className="text-center py-12 text-[#5d6880]">
+        <div className="text-center py-12 text-[#8b97ab]">
           <p className="text-lg">No activity recorded yet.</p>
           <p className="text-sm mt-1">Events will appear here as your team uses the platform.</p>
         </div>
@@ -137,7 +137,7 @@ export default async function ActivityLogPage() {
         <div className="space-y-6">
           {[...grouped.entries()].map(([day, dayLogs]) => (
             <section key={day}>
-              <h2 className="eyebrow mb-3 sticky top-0 bg-[#0f1626] py-2 z-10">
+              <h2 className="eyebrow mb-3 sticky top-0 bg-[#f4f6fa] py-2 z-10">
                 {day} ({dayLogs.length})
               </h2>
               <div className="space-y-1">
@@ -149,9 +149,9 @@ export default async function ActivityLogPage() {
                   return (
                     <div
                       key={log.id}
-                      className="border border-[rgba(176,27,66,0.08)] rounded-lg p-3 flex items-start gap-3 hover:bg-[#1a2640]"
+                      className="border border-[rgba(176,27,66,0.08)] rounded-lg p-3 flex items-start gap-3 hover:bg-[#ffffff]"
                     >
-                      <div className="text-[10px] text-[#5d6880] w-16 shrink-0 pt-0.5">
+                      <div className="text-[10px] text-[#8b97ab] w-16 shrink-0 pt-0.5">
                         {new Date(log.created_at).toLocaleTimeString("en-AE", {
                           hour: "2-digit",
                           minute: "2-digit",
@@ -160,8 +160,8 @@ export default async function ActivityLogPage() {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm">
                           <span className="font-medium">{userName}</span>{" "}
-                          <span className={ACTION_STYLE[log.action] ?? "text-[#9aa5bd]"}>{log.action}</span>{" "}
-                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${ENTITY_STYLE[log.entity_type] ?? "bg-[#213052] text-[#9aa5bd]"}`}>
+                          <span className={ACTION_STYLE[log.action] ?? "text-[#5b6b85]"}>{log.action}</span>{" "}
+                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${ENTITY_STYLE[log.entity_type] ?? "bg-[#e9eef6] text-[#5b6b85]"}`}>
                             {log.entity_type.replace(/_/g, " ")}
                           </span>{" "}
                           {link ? (
@@ -169,11 +169,11 @@ export default async function ActivityLogPage() {
                               {log.entity_label ?? log.entity_id?.slice(0, 8)}
                             </Link>
                           ) : (
-                            <span className="text-[#9aa5bd]">{log.entity_label ?? ""}</span>
+                            <span className="text-[#5b6b85]">{log.entity_label ?? ""}</span>
                           )}
                         </p>
                         {log.details && Object.keys(log.details).length > 0 && (
-                          <p className="text-[10px] text-[#5d6880] mt-0.5 truncate">
+                          <p className="text-[10px] text-[#8b97ab] mt-0.5 truncate">
                             {Object.entries(log.details)
                               .map(([k, v]) => `${k}: ${String(v)}`)
                               .join(" · ")}

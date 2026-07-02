@@ -126,18 +126,18 @@ function fmtAED(n: number) {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  active: "bg-green-900 text-green-300",
-  completed: "bg-[#213052] text-[#9aa5bd]",
-  overdue: "bg-red-900 text-red-300",
-  cancelled: "bg-[#213052] text-[#5d6880]",
-  pending: "bg-amber-900/50 text-amber-300",
-  approved: "bg-green-900 text-green-300",
-  fulfilled: "bg-blue-900/50 text-blue-300",
-  rejected: "bg-red-900 text-red-300",
-  received: "bg-blue-900/50 text-blue-300",
-  verified: "bg-green-900 text-green-300",
-  disputed: "bg-red-900 text-red-300",
-  paid: "bg-green-900 text-green-300",
+  active: "bg-green-900 text-green-700",
+  completed: "bg-[#e9eef6] text-[#5b6b85]",
+  overdue: "bg-red-900 text-red-700",
+  cancelled: "bg-[#e9eef6] text-[#8b97ab]",
+  pending: "bg-amber-50 text-amber-700",
+  approved: "bg-green-900 text-green-700",
+  fulfilled: "bg-blue-50 text-blue-700",
+  rejected: "bg-red-900 text-red-700",
+  received: "bg-blue-50 text-blue-700",
+  verified: "bg-green-900 text-green-700",
+  disputed: "bg-red-900 text-red-700",
+  paid: "bg-green-900 text-green-700",
 };
 
 export default async function VendorPortalPage() {
@@ -146,7 +146,7 @@ export default async function VendorPortalPage() {
   if (!data) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">This portal is only accessible to vendor accounts.</p>
+        <p className="text-[#8b97ab]">This portal is only accessible to vendor accounts.</p>
       </main>
     );
   }
@@ -155,7 +155,7 @@ export default async function VendorPortalPage() {
     return (
       <main className="p-8">
         <h1 className="text-2xl font-extrabold mb-2">Vendor Portal</h1>
-        <p className="text-[#9aa5bd]">Welcome, {data.profile.full_name}. Your vendor account is being set up.</p>
+        <p className="text-[#5b6b85]">Welcome, {data.profile.full_name}. Your vendor account is being set up.</p>
       </main>
     );
   }
@@ -173,17 +173,17 @@ export default async function VendorPortalPage() {
   return (
     <main className="p-8 max-w-5xl mx-auto">
       <div className="mb-8">
-        <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+        <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
         <p className="eyebrow mb-1 mt-2">
           ARENCO — Vendor Portal
         </p>
         <h1 className="mb-1">{vendor.name}</h1>
-        <p className="text-[#9aa5bd]">
+        <p className="text-[#5b6b85]">
           {vendor.category ?? "General Contractor"}
           {vendor.rating != null && (
             <span className="ml-2 text-[#d9647f]">
               {"★".repeat(Math.round(Number(vendor.rating)))}
-              <span className="text-[#5d6880]">{"★".repeat(5 - Math.round(Number(vendor.rating)))}</span>
+              <span className="text-[#8b97ab]">{"★".repeat(5 - Math.round(Number(vendor.rating)))}</span>
             </span>
           )}
         </p>
@@ -194,19 +194,19 @@ export default async function VendorPortalPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="lux-card p-4 text-center">
           <p className="text-xl font-extrabold text-[#d9647f]">{activeAssignments.length}</p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Active Projects</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Active Projects</p>
         </div>
         <div className="lux-card p-4 text-center">
-          <p className="text-xl font-extrabold text-blue-400">{activeContracts.length}</p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Active Contracts</p>
+          <p className="text-xl font-extrabold text-blue-700">{activeContracts.length}</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Active Contracts</p>
         </div>
         <div className="lux-card p-4 text-center">
-          <p className="text-xl font-extrabold text-amber-400">{pendingPOs.length}</p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Open POs</p>
+          <p className="text-xl font-extrabold text-amber-700">{pendingPOs.length}</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Open POs</p>
         </div>
         <div className="lux-card p-4 text-center">
-          <p className="text-xl font-extrabold text-green-400">{fmtAED(totalRevenue)}</p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Total PO Value</p>
+          <p className="text-xl font-extrabold text-green-700">{fmtAED(totalRevenue)}</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Total PO Value</p>
         </div>
       </div>
 
@@ -216,7 +216,7 @@ export default async function VendorPortalPage() {
           Project Assignments ({assignments.length})
         </h2>
         {assignments.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No project assignments yet.</p>
+          <p className="text-[#8b97ab] text-sm">No project assignments yet.</p>
         ) : (
           <div className="space-y-2">
             {assignments.map((a) => {
@@ -229,24 +229,24 @@ export default async function VendorPortalPage() {
               return (
                 <div
                   key={a.id}
-                  className={`border rounded-xl p-4 bg-[#1a2640] ${
+                  className={`border rounded-xl p-4 bg-[#ffffff] ${
                     isOverdue ? "border-red-500" : "border-[rgba(176,27,66,0.15)]"
                   }`}
                 >
                   <div className="flex items-start justify-between mb-2">
                     <div>
                       <p className="font-bold">{a.project_name}</p>
-                      <p className="text-xs text-[#9aa5bd]">{prop?.name ?? "—"}</p>
+                      <p className="text-xs text-[#5b6b85]">{prop?.name ?? "—"}</p>
                     </div>
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${STATUS_COLORS[a.status] ?? STATUS_COLORS.active}`}>
                       {a.status}
                     </span>
                   </div>
-                  {a.scope && <p className="text-sm text-[#9aa5bd] mb-2">{a.scope}</p>}
-                  <div className="flex gap-4 text-xs text-[#5d6880]">
+                  {a.scope && <p className="text-sm text-[#5b6b85] mb-2">{a.scope}</p>}
+                  <div className="flex gap-4 text-xs text-[#8b97ab]">
                     <span>Start: {a.start_date}</span>
                     {a.expected_end_date && (
-                      <span className={isOverdue ? "text-red-400 font-bold" : ""}>
+                      <span className={isOverdue ? "text-red-600 font-bold" : ""}>
                         Due: {a.expected_end_date}
                         {daysLeft !== null && a.status === "active" && (
                           <span className="ml-1">
@@ -256,7 +256,7 @@ export default async function VendorPortalPage() {
                       </span>
                     )}
                     {a.sla_days && <span>SLA: {a.sla_days}d</span>}
-                    {a.actual_end_date && <span className="text-green-400">Completed: {a.actual_end_date}</span>}
+                    {a.actual_end_date && <span className="text-green-700">Completed: {a.actual_end_date}</span>}
                   </div>
                 </div>
               );
@@ -272,7 +272,7 @@ export default async function VendorPortalPage() {
             Contracts ({contracts.length})
           </h2>
           {contracts.length === 0 ? (
-            <p className="text-[#5d6880] text-sm">No contracts on file.</p>
+            <p className="text-[#8b97ab] text-sm">No contracts on file.</p>
           ) : (
             <div className="space-y-2">
               {contracts.map((c) => {
@@ -280,11 +280,11 @@ export default async function VendorPortalPage() {
                 return (
                   <div key={c.id} className={`lux-card p-4 ${isExpired ? "opacity-60" : ""}`}>
                     <p className="font-medium text-sm">{c.title}</p>
-                    <div className="flex justify-between mt-1 text-xs text-[#9aa5bd]">
+                    <div className="flex justify-between mt-1 text-xs text-[#5b6b85]">
                       <span>{c.start_date} → {c.end_date ?? "Ongoing"}</span>
                       {c.value && <span className="text-[#d9647f] font-bold">{fmtAED(Number(c.value))}</span>}
                     </div>
-                    {c.sla_hours && <p className="text-[10px] text-[#5d6880] mt-1">SLA: {c.sla_hours}h response</p>}
+                    {c.sla_hours && <p className="text-[10px] text-[#8b97ab] mt-1">SLA: {c.sla_hours}h response</p>}
                   </div>
                 );
               })}
@@ -298,13 +298,13 @@ export default async function VendorPortalPage() {
             Won Tenders ({tenders.length})
           </h2>
           {tenders.length === 0 ? (
-            <p className="text-[#5d6880] text-sm">No tenders won yet.</p>
+            <p className="text-[#8b97ab] text-sm">No tenders won yet.</p>
           ) : (
             <div className="space-y-2">
               {tenders.map((t) => (
                 <div key={t.id} className="lux-card p-4">
                   <p className="font-medium text-sm">{t.title}</p>
-                  <div className="flex justify-between mt-1 text-xs text-[#9aa5bd]">
+                  <div className="flex justify-between mt-1 text-xs text-[#5b6b85]">
                     <span>Deadline: {t.submission_deadline}</span>
                     {t.budget_estimate && (
                       <span className="text-[#d9647f] font-bold">
@@ -325,13 +325,13 @@ export default async function VendorPortalPage() {
           Purchase Orders ({pos.length})
         </h2>
         {pos.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No purchase orders yet.</p>
+          <p className="text-[#8b97ab] text-sm">No purchase orders yet.</p>
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Description</th>
                   <th className="px-5 py-3.5 font-medium">Amount</th>
                   <th className="px-5 py-3.5 font-medium">Status</th>
@@ -340,7 +340,7 @@ export default async function VendorPortalPage() {
               </thead>
               <tbody>
                 {pos.map((po) => (
-                  <tr key={po.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                  <tr key={po.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                     <td className="px-5 py-3.5">{po.description ?? "—"}</td>
                     <td className="px-5 py-3.5 text-[#d9647f] font-bold">{fmtAED(Number(po.amount))}</td>
                     <td className="px-5 py-3.5">
@@ -348,7 +348,7 @@ export default async function VendorPortalPage() {
                         {po.status}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 text-[#5d6880]">{new Date(po.created_at).toLocaleDateString()}</td>
+                    <td className="px-5 py-3.5 text-[#8b97ab]">{new Date(po.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -372,13 +372,13 @@ export default async function VendorPortalPage() {
           </Link>
         </div>
         {invoices.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No invoices submitted yet.</p>
+          <p className="text-[#8b97ab] text-sm">No invoices submitted yet.</p>
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Invoice #</th>
                   <th className="px-5 py-3.5 font-medium">Amount</th>
                   <th className="px-5 py-3.5 font-medium">Total (VAT)</th>
@@ -389,7 +389,7 @@ export default async function VendorPortalPage() {
               </thead>
               <tbody>
                 {invoices.map((inv) => (
-                  <tr key={inv.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                  <tr key={inv.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                     <td className="px-5 py-3.5 font-medium">{inv.invoice_number}</td>
                     <td className="px-5 py-3.5">{fmtAED(Number(inv.amount))}</td>
                     <td className="px-5 py-3.5 text-[#d9647f] font-bold">{fmtAED(Number(inv.total_amount))}</td>
@@ -398,8 +398,8 @@ export default async function VendorPortalPage() {
                         {inv.status}
                       </span>
                     </td>
-                    <td className="px-5 py-3.5 text-[#5d6880]">{inv.invoice_date}</td>
-                    <td className="px-5 py-3.5 text-[#5d6880]">{inv.due_date ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#8b97ab]">{inv.invoice_date}</td>
+                    <td className="px-5 py-3.5 text-[#8b97ab]">{inv.due_date ?? "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -410,14 +410,14 @@ export default async function VendorPortalPage() {
       </section>
 
       {unpaidInvoices.length > 0 && (
-        <div className="border border-amber-500/30 bg-amber-950/20 rounded-xl p-4">
-          <p className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
+        <div className="border border-amber-200 bg-amber-50/20 rounded-xl p-4">
+          <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">
             Outstanding Payments
           </p>
-          <p className="text-lg font-extrabold text-amber-300">
+          <p className="text-lg font-extrabold text-amber-700">
             {fmtAED(unpaidInvoices.reduce((s, i) => s + Number(i.total_amount), 0))}
           </p>
-          <p className="text-[10px] text-amber-400/70">{unpaidInvoices.length} invoices awaiting payment</p>
+          <p className="text-[10px] text-amber-700/70">{unpaidInvoices.length} invoices awaiting payment</p>
         </div>
       )}
     </main>

@@ -20,7 +20,7 @@ export default function Error({
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-3">
           Golden Sands Residences
         </p>
-        <h1 className="font-display text-2xl font-semibold text-[#eef1f6] mb-2">
+        <h1 className="font-display text-2xl font-semibold text-[#16233c] mb-2">
           Something went wrong
         </h1>
         <p className="text-sm text-[var(--muted)] mb-6">
@@ -35,7 +35,7 @@ export default function Error({
         </button>
         <Link
           href="/"
-          className="block mt-4 text-xs text-[var(--muted)] hover:text-[#eef1f6] transition-colors"
+          className="block mt-4 text-xs text-[var(--muted)] hover:text-[#16233c] transition-colors"
         >
           Back to home
         </Link>

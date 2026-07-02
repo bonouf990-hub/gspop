@@ -35,7 +35,7 @@ export default function ConvertToWorkOrder({
   if (existingWorkOrderId) {
     return (
       <div className="flex items-center gap-3">
-        <span className="text-xs text-[#9aa5bd]">Linked work order:</span>
+        <span className="text-xs text-[#5b6b85]">Linked work order:</span>
         <a
           href={`/work-orders/${existingWorkOrderId}`}
           className="text-[#d9647f] text-sm font-medium hover:underline"
@@ -103,16 +103,16 @@ export default function ConvertToWorkOrder({
   }
 
   const input =
-    "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+    "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#16233c]";
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-[#9aa5bd]">
+      <p className="text-xs text-[#5b6b85]">
         This creates a work order pre-filled from the complaint and links them together.
       </p>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Priority</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Priority</label>
         <select
           className={input}
           value={priority}
@@ -127,7 +127,7 @@ export default function ConvertToWorkOrder({
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">
+        <label className="text-xs text-[#5b6b85] mb-1 block">
           Assign Technician (optional)
         </label>
         <select
@@ -145,7 +145,7 @@ export default function ConvertToWorkOrder({
         </select>
       </div>
 
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 text-xs">{error}</p>}
 
       <div className="flex gap-2">
         <button
@@ -157,7 +157,7 @@ export default function ConvertToWorkOrder({
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]"
+          className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]"
         >
           Cancel
         </button>

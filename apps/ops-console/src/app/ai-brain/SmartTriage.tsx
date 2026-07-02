@@ -15,10 +15,10 @@ type TriageResult = {
 type Property = { id: string; name: string };
 
 const PRIORITY_STYLE: Record<string, string> = {
-  low: "bg-[#213052] text-[#9aa5bd]",
-  medium: "bg-amber-900 text-amber-300",
+  low: "bg-[#e9eef6] text-[#5b6b85]",
+  medium: "bg-amber-900 text-amber-700",
   high: "bg-orange-900 text-orange-300",
-  critical: "bg-red-900 text-red-300",
+  critical: "bg-red-900 text-red-700",
 };
 
 export default function SmartTriage({ userRole }: { userRole: string }) {
@@ -88,7 +88,7 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Describe the issue — e.g. 'AC not cooling in apartment 302, Building 5. Tenant says it's been warm for 2 days.'"
-          className="flex-1 bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm placeholder:text-[#5d6880] min-h-[80px] resize-none"
+          className="flex-1 bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm placeholder:text-[#8b97ab] min-h-[80px] resize-none"
         />
       </div>
       <button
@@ -99,48 +99,48 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
         {loading ? "Analyzing…" : "Analyze & Triage"}
       </button>
 
-      {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
       {result && (
         <div className="mt-4 space-y-3">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
               <span className={`text-xs font-bold px-2 py-1 rounded ${PRIORITY_STYLE[result.suggested_priority] ?? ""}`}>
                 {result.suggested_priority?.toUpperCase()}
               </span>
-              <p className="text-[10px] text-[#5d6880] uppercase mt-2">Priority</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase mt-2">Priority</p>
             </div>
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
               <p className="text-sm font-bold text-[#d9647f] capitalize">{result.suggested_type?.replace(/_/g, " ")}</p>
-              <p className="text-[10px] text-[#5d6880] uppercase mt-1">Job Type</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase mt-1">Job Type</p>
             </div>
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
               <p className="text-sm font-bold text-[#d9647f]">AED {result.estimated_cost?.total_estimate?.toLocaleString() ?? "?"}</p>
-              <p className="text-[10px] text-[#5d6880] uppercase mt-1">Est. Cost</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase mt-1">Est. Cost</p>
             </div>
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
               <p className="text-sm font-bold">{result.estimated_cost?.labor_hours ?? "?"}h</p>
-              <p className="text-[10px] text-[#5d6880] uppercase mt-1">Est. Hours</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase mt-1">Est. Hours</p>
             </div>
           </div>
 
           {result.suggested_technician && (
-            <div className="bg-[#0f1626] rounded-lg p-3">
-              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider mb-1">Recommended Technician</p>
+            <div className="bg-[#f4f6fa] rounded-lg p-3">
+              <p className="text-xs text-[#5b6b85] uppercase tracking-wider mb-1">Recommended Technician</p>
               <p className="font-bold">{result.suggested_technician.name}</p>
-              <p className="text-sm text-[#9aa5bd]">{result.suggested_technician.reason}</p>
+              <p className="text-sm text-[#5b6b85]">{result.suggested_technician.reason}</p>
             </div>
           )}
 
-          <div className="bg-[#0f1626] rounded-lg p-3">
-            <p className="text-xs text-[#9aa5bd] uppercase tracking-wider mb-1">AI Reasoning</p>
-            <p className="text-sm text-[#eef1f6]">{result.reasoning}</p>
+          <div className="bg-[#f4f6fa] rounded-lg p-3">
+            <p className="text-xs text-[#5b6b85] uppercase tracking-wider mb-1">AI Reasoning</p>
+            <p className="text-sm text-[#16233c]">{result.reasoning}</p>
           </div>
 
           {result.similar_past_jobs?.length > 0 && (
-            <div className="bg-[#0f1626] rounded-lg p-3">
-              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider mb-1">Similar Past Jobs</p>
-              <ul className="text-sm text-[#9aa5bd] list-disc list-inside">
+            <div className="bg-[#f4f6fa] rounded-lg p-3">
+              <p className="text-xs text-[#5b6b85] uppercase tracking-wider mb-1">Similar Past Jobs</p>
+              <ul className="text-sm text-[#5b6b85] list-disc list-inside">
                 {result.similar_past_jobs.map((j, i) => (
                   <li key={i}>{j}</li>
                 ))}
@@ -157,7 +157,7 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
                 <select
                   value={selectedProperty}
                   onChange={(e) => setSelectedProperty(e.target.value)}
-                  className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm flex-1"
+                  className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm flex-1"
                 >
                   <option value="">Select Property…</option>
                   {properties.map((p) => (
@@ -172,7 +172,7 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
                   {creating ? "Creating…" : "Create Work Order"}
                 </button>
               </div>
-              <p className="text-[10px] text-[#5d6880] mt-2">
+              <p className="text-[10px] text-[#8b97ab] mt-2">
                 Will create with: {result.suggested_type?.replace(/_/g, " ")} · {result.suggested_priority} priority
                 {result.suggested_technician && ` · Assigned to ${result.suggested_technician.name}`}
               </p>
@@ -180,11 +180,11 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
           )}
 
           {created && (
-            <div className="bg-green-950/30 border border-green-500/30 rounded-lg p-3">
-              <p className="text-sm text-green-400 font-bold">
+            <div className="bg-green-950/30 border border-green-200 rounded-lg p-3">
+              <p className="text-sm text-green-700 font-bold">
                 Work order created successfully from AI recommendation.
               </p>
-              <p className="text-xs text-[#9aa5bd] mt-1">
+              <p className="text-xs text-[#5b6b85] mt-1">
                 Assigned to {result.suggested_technician?.name ?? "draft"} · View it in Work Orders.
               </p>
             </div>

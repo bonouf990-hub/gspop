@@ -50,7 +50,7 @@ export default function AssignTechnicianControl({
   return (
     <div className="flex items-center gap-2">
       <select
-        className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm flex-1 text-[#eef1f6]"
+        className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm flex-1 text-[#16233c]"
         value={selected}
         onChange={(e) => setSelected(e.target.value)}
       >
@@ -69,7 +69,7 @@ export default function AssignTechnicianControl({
       >
         {saving ? "Saving…" : "Assign"}
       </button>
-      {error && <span className="text-red-400 text-xs">{error}</span>}
+      {error && <span className="text-red-600 text-xs">{error}</span>}
     </div>
   );
 }

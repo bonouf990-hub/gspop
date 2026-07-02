@@ -141,7 +141,7 @@ export default function ProfilePage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Account
         </p>
-        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">My Profile</h1>
+        <h1 className="font-display text-3xl text-[#16233c] font-semibold">My Profile</h1>
       </div>
 
       <div className="px-5 space-y-5">
@@ -163,7 +163,7 @@ export default function ProfilePage() {
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
               aria-label="Change photo"
-              className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[var(--gold)] text-[#0f1626] flex items-center justify-center shadow-md disabled:opacity-50"
+              className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[var(--gold)] text-[#f4f6fa] flex items-center justify-center shadow-md disabled:opacity-50"
             >
               <Camera size={16} />
             </button>
@@ -188,7 +188,7 @@ export default function ProfilePage() {
               Full Name
             </label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#f4f6fa] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#16233c] focus:border-[var(--gold)] outline-none transition-colors"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Your name"
@@ -201,7 +201,7 @@ export default function ProfilePage() {
               Phone
             </label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#f4f6fa] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#16233c] focus:border-[var(--gold)] outline-none transition-colors"
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -217,7 +217,7 @@ export default function ProfilePage() {
               Email
             </label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#f4f6fa] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#16233c] focus:border-[var(--gold)] outline-none transition-colors"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -226,7 +226,7 @@ export default function ProfilePage() {
           </div>
 
           {notice && <p className="text-[var(--gold)] text-xs">{notice}</p>}
-          {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
+          {error && <p className="text-[#c0304a] text-xs">{error}</p>}
 
           <button
             type="submit"
@@ -253,16 +253,16 @@ export default function ProfilePage() {
             <FileText size={18} strokeWidth={1.8} />
           </span>
           <div className="flex-1">
-            <p className="text-sm font-medium text-[#eef1f6]">My Documents</p>
+            <p className="text-sm font-medium text-[#16233c]">My Documents</p>
             <p className="text-xs text-[var(--muted)]">Tenancy contract, Ejari, receipts</p>
           </div>
-          <ChevronRight size={18} className="text-[#5d6880]" />
+          <ChevronRight size={18} className="text-[#8b97ab]" />
         </Link>
 
         <button
           type="button"
           onClick={handleSignOut}
-          className="w-full flex items-center justify-center gap-2 bg-[#141d33] border border-[rgba(180,60,60,0.3)] text-[#e08a8a] rounded-xl p-3.5 font-medium text-sm"
+          className="w-full flex items-center justify-center gap-2 bg-[#f4f6fa] border border-[rgba(180,60,60,0.3)] text-[#c0304a] rounded-xl p-3.5 font-medium text-sm"
         >
           <LogOut size={16} /> Sign Out
         </button>

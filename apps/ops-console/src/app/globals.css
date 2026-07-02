@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b1120;
-  --background-raised: #0f1626;
-  --foreground: #eef1f6;
-  --surface: #1a2640;
-  --surface-elevated: #213052;
-  --surface-inset: #0d1526;
+  --background: #f5f7fb;
+  --background-raised: #ffffff;
+  --foreground: #16233c;
+  --surface: #ffffff;
+  --surface-elevated: #e9eef6;
+  --surface-inset: #f4f6fa;
   --gold: #b01b42;
   --gold-soft: #d9647f;
-  --gold-pale: rgba(176, 27, 66, 0.12);
-  --hairline: rgba(176, 27, 66, 0.15);
-  --text-secondary: #9aa5bd;
-  --text-muted: #5d6880;
+  --gold-pale: rgba(176, 27, 66, 0.08);
+  --hairline: #e4e9f2;
+  --text-secondary: #5b6b85;
+  --text-muted: #8b97ab;
 }
 
 @theme inline {
@@ -30,11 +30,10 @@
 body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  /* Layered luxury backdrop: warm gold aura from the top, cool navy depth below */
+  /* Bright, airy backdrop with a whisper of ARENCO blue */
   background:
-    radial-gradient(1200px 500px at 50% -10%, rgba(176, 27, 66, 0.09), transparent 60%),
-    radial-gradient(900px 600px at 85% 110%, rgba(33, 48, 82, 0.55), transparent 65%),
-    linear-gradient(180deg, #0d1424 0%, #0b1120 100%);
+    radial-gradient(1000px 420px at 50% -10%, rgba(22, 74, 147, 0.06), transparent 60%),
+    linear-gradient(180deg, #fbfcfe 0%, #f3f6fa 100%);
   background-attachment: fixed;
 }
 
@@ -49,6 +48,7 @@ h1 {
   letter-spacing: 0.01em;
   font-size: 1.75rem;
   line-height: 1.15;
+  color: #16233c;
 }
 
 /* ── Ornaments ──────────────────────────────────────────────────────── */
@@ -61,50 +61,41 @@ h1 {
 .gold-rule {
   position: relative;
   height: 1px;
-  background: linear-gradient(90deg, var(--gold) 0%, rgba(176, 27, 66, 0.12) 70%, transparent 100%);
+  background: linear-gradient(90deg, var(--gold) 0%, rgba(176, 27, 66, 0.15) 70%, transparent 100%);
 }
 
-/* ── Luxury card ────────────────────────────────────────────────────── */
+/* ── Card ───────────────────────────────────────────────────────────── */
 .lux-card {
-  background: linear-gradient(160deg, #1c2947 0%, #16203a 55%, #131c33 100%);
-  border: 1px solid rgba(176, 27, 66, 0.18);
+  background: #ffffff;
+  border: 1px solid #e4e9f2;
   border-radius: 1rem;
-  box-shadow:
-    0 1px 0 rgba(240, 236, 228, 0.04) inset,
-    0 24px 60px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 6px 24px rgba(22, 35, 60, 0.07);
 }
 
 .lux-card-hover {
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .lux-card-hover:hover {
-  border-color: rgba(176, 27, 66, 0.55);
-  box-shadow:
-    0 1px 0 rgba(240, 236, 228, 0.05) inset,
-    0 24px 60px rgba(0, 0, 0, 0.5),
-    0 0 32px rgba(176, 27, 66, 0.1);
+  border-color: rgba(176, 27, 66, 0.4);
+  box-shadow: 0 10px 32px rgba(22, 35, 60, 0.12);
   transform: translateY(-2px);
 }
 
-/* ── Gold button ────────────────────────────────────────────────────── */
+/* ── Primary button (ARENCO crimson) ────────────────────────────────── */
 .btn-gold {
-  background: linear-gradient(135deg, #c94a68 0%, #b01b42 55%, #8c1434 100%);
+  background: linear-gradient(135deg, #c92c52 0%, #b01b42 60%, #97173a 100%);
   color: #ffffff;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   border-radius: 0.75rem;
-  box-shadow:
-    0 1px 0 rgba(255, 216, 226, 0.45) inset,
-    0 8px 24px rgba(176, 27, 66, 0.28);
-  transition: box-shadow 0.25s ease, filter 0.25s ease, transform 0.15s ease;
+  box-shadow: 0 6px 18px rgba(176, 27, 66, 0.28);
+  transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.15s ease;
 }
 
 .btn-gold:hover {
-  filter: brightness(1.07);
-  box-shadow:
-    0 1px 0 rgba(255, 216, 226, 0.5) inset,
-    0 10px 30px rgba(176, 27, 66, 0.4);
+  filter: brightness(1.06);
+  box-shadow: 0 8px 24px rgba(176, 27, 66, 0.38);
 }
 
 .btn-gold:active {
@@ -113,8 +104,8 @@ h1 {
 
 /* ── Inputs ─────────────────────────────────────────────────────────── */
 .lux-input {
-  background: var(--surface-inset);
-  border: 1px solid var(--hairline);
+  background: #ffffff;
+  border: 1px solid #d8dfeb;
   border-radius: 0.75rem;
   color: var(--foreground);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -129,7 +120,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(176, 27, 66, 0.15);
+  box-shadow: 0 0 0 3px rgba(176, 27, 66, 0.12);
 }
 
 /* ── Eyebrow label ──────────────────────────────────────────────────── */

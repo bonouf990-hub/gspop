@@ -4,11 +4,11 @@ import { requireManagementRole } from "@/lib/check-permission";
 import PurchaseOrderActions from "../PurchaseOrderActions";
 
 const STATUS_STYLE: Record<string, string> = {
-  pending: "bg-amber-900 text-amber-300",
-  approved: "bg-green-900 text-green-300",
-  rejected: "bg-red-900 text-red-300",
+  pending: "bg-amber-900 text-amber-700",
+  approved: "bg-green-900 text-green-700",
+  rejected: "bg-red-900 text-red-700",
   escalated: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  fulfilled: "bg-[#213052] text-[#9aa5bd]",
+  fulfilled: "bg-[#e9eef6] text-[#5b6b85]",
 };
 
 async function getPurchaseOrder(id: string) {
@@ -55,7 +55,7 @@ export default async function PurchaseOrderDetailPage({
 }) {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to Purchasing.</p></main>;
+    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Purchasing.</p></main>;
   }
 
   const { id } = await params;
@@ -67,7 +67,7 @@ export default async function PurchaseOrderDetailPage({
   if (!po) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">Purchase order not found.</p>
+        <p className="text-[#8b97ab]">Purchase order not found.</p>
       </main>
     );
   }
@@ -84,22 +84,22 @@ export default async function PurchaseOrderDetailPage({
   const paidTotal = invoicesPaid.reduce((s, i) => s + Number(i.total_amount), 0);
 
   const INV_STATUS: Record<string, string> = {
-    received: "bg-amber-900 text-amber-300",
+    received: "bg-amber-900 text-amber-700",
     verified: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-    disputed: "bg-red-900 text-red-300",
-    approved: "bg-green-900 text-green-300",
-    paid: "bg-[#213052] text-[#9aa5bd]",
+    disputed: "bg-red-900 text-red-700",
+    approved: "bg-green-900 text-green-700",
+    paid: "bg-[#e9eef6] text-[#5b6b85]",
   };
 
   return (
     <main className="p-8 max-w-3xl">
-      <Link href="/purchasing" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+      <Link href="/purchasing" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
         ← Purchase Orders
       </Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-1">
         {po.description ?? "Purchase Order"}
       </h1>
-      <p className="text-[#9aa5bd] mb-6">PO #{(po.id as string).slice(0, 8).toUpperCase()}</p>
+      <p className="text-[#5b6b85] mb-6">PO #{(po.id as string).slice(0, 8).toUpperCase()}</p>
 
       {/* Status & Actions */}
       <section className="lux-card p-4 mb-4">
@@ -116,43 +116,43 @@ export default async function PurchaseOrderDetailPage({
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-y-1 text-sm">
-          <span className="text-[#9aa5bd]">Amount</span>
+          <span className="text-[#5b6b85]">Amount</span>
           <span className="font-bold text-[#d9647f]">AED {Number(po.amount).toLocaleString()}</span>
-          <span className="text-[#9aa5bd]">Property</span>
+          <span className="text-[#5b6b85]">Property</span>
           <span>{property?.name ?? "—"}</span>
-          <span className="text-[#9aa5bd]">Vendor</span>
+          <span className="text-[#5b6b85]">Vendor</span>
           <span>
             {vendor ? (
               <>
                 {vendor.name}
-                {vendor.category && <span className="text-[#5d6880] ml-1">({vendor.category})</span>}
+                {vendor.category && <span className="text-[#8b97ab] ml-1">({vendor.category})</span>}
                 {vendor.rating && <span className="text-[#d9647f] ml-1">{"★".repeat(Math.round(Number(vendor.rating)))}</span>}
               </>
             ) : "—"}
           </span>
-          <span className="text-[#9aa5bd]">Requested by</span>
+          <span className="text-[#5b6b85]">Requested by</span>
           <span>{requester?.full_name ?? "—"}</span>
-          <span className="text-[#9aa5bd]">Approved by</span>
+          <span className="text-[#5b6b85]">Approved by</span>
           <span>{approver?.full_name ?? "—"}</span>
           {po.urgency && (
             <>
-              <span className="text-[#9aa5bd]">Urgency</span>
-              <span className="capitalize font-medium text-amber-400">{po.urgency as string}</span>
+              <span className="text-[#5b6b85]">Urgency</span>
+              <span className="capitalize font-medium text-amber-700">{po.urgency as string}</span>
             </>
           )}
-          <span className="text-[#9aa5bd]">Created</span>
+          <span className="text-[#5b6b85]">Created</span>
           <span>{new Date(po.created_at as string).toLocaleString()}</span>
           {po.approved_at && (
             <>
-              <span className="text-[#9aa5bd]">Approved at</span>
+              <span className="text-[#5b6b85]">Approved at</span>
               <span>{new Date(po.approved_at as string).toLocaleString()}</span>
             </>
           )}
         </div>
         {po.notes && (
           <div className="mt-3 text-sm">
-            <span className="text-[#9aa5bd]">Notes: </span>
-            <span className="text-[#eef1f6]">{po.notes as string}</span>
+            <span className="text-[#5b6b85]">Notes: </span>
+            <span className="text-[#16233c]">{po.notes as string}</span>
           </div>
         )}
       </section>
@@ -164,13 +164,13 @@ export default async function PurchaseOrderDetailPage({
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <p className="font-medium">{workOrder.title}</p>
-              <p className="text-[10px] text-[#5d6880] capitalize">
+              <p className="text-[10px] text-[#8b97ab] capitalize">
                 {workOrder.type} · {workOrder.status.replace(/_/g, " ")}
               </p>
             </div>
             <Link
               href={`/work-orders/${workOrder.id}`}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#e9eef6] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Work Order
             </Link>
@@ -185,11 +185,11 @@ export default async function PurchaseOrderDetailPage({
           <div className="flex items-center justify-between">
             <div className="text-sm">
               <p className="font-medium">{tender.title}</p>
-              <p className="text-[10px] text-[#5d6880] capitalize">Status: {tender.status}</p>
+              <p className="text-[10px] text-[#8b97ab] capitalize">Status: {tender.status}</p>
             </div>
             <Link
               href={`/tenders/${tender.id}`}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#e9eef6] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Tender
             </Link>
@@ -203,26 +203,26 @@ export default async function PurchaseOrderDetailPage({
           Invoices ({invoices.length})
         </h2>
         {invoices.length === 0 ? (
-          <p className="text-sm text-[#5d6880]">No invoices linked to this purchase order.</p>
+          <p className="text-sm text-[#8b97ab]">No invoices linked to this purchase order.</p>
         ) : (
           <>
             <div className="grid grid-cols-3 gap-3 mb-3">
-              <div className="bg-[#0f1626] rounded-lg p-3 text-center">
+              <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
                 <p className="text-sm font-bold text-[#d9647f]">AED {Number(po.amount).toLocaleString()}</p>
-                <p className="text-[10px] text-[#5d6880] uppercase">PO Amount</p>
+                <p className="text-[10px] text-[#8b97ab] uppercase">PO Amount</p>
               </div>
-              <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-                <p className="text-sm font-bold text-amber-400">AED {invoiceTotal.toLocaleString()}</p>
-                <p className="text-[10px] text-[#5d6880] uppercase">Invoiced</p>
+              <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+                <p className="text-sm font-bold text-amber-700">AED {invoiceTotal.toLocaleString()}</p>
+                <p className="text-[10px] text-[#8b97ab] uppercase">Invoiced</p>
               </div>
-              <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-                <p className="text-sm font-bold text-green-400">AED {paidTotal.toLocaleString()}</p>
-                <p className="text-[10px] text-[#5d6880] uppercase">Paid</p>
+              <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+                <p className="text-sm font-bold text-green-700">AED {paidTotal.toLocaleString()}</p>
+                <p className="text-[10px] text-[#8b97ab] uppercase">Paid</p>
               </div>
             </div>
             <div className="space-y-2">
               {invoices.map((inv) => (
-                <div key={inv.id} className="bg-[#0f1626] rounded-lg px-3 py-2 flex items-center justify-between">
+                <div key={inv.id} className="bg-[#f4f6fa] rounded-lg px-3 py-2 flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium">
                       {inv.invoice_number}
@@ -230,7 +230,7 @@ export default async function PurchaseOrderDetailPage({
                         AED {Number(inv.total_amount).toLocaleString()}
                       </span>
                     </p>
-                    <p className="text-[10px] text-[#5d6880]">
+                    <p className="text-[10px] text-[#8b97ab]">
                       {new Date(inv.invoice_date).toLocaleDateString()}
                       {inv.due_date && ` · Due: ${new Date(inv.due_date).toLocaleDateString()}`}
                     </p>

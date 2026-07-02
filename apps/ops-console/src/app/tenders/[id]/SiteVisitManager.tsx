@@ -58,38 +58,38 @@ export default function SiteVisitManager({
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
         <div>
-          <p className="text-[10px] text-[#5d6880] uppercase">Date & Time</p>
-          <p className={`text-sm font-medium ${visitPassed ? "text-[#5d6880]" : "text-[#eef1f6]"}`}>
+          <p className="text-[10px] text-[#8b97ab] uppercase">Date & Time</p>
+          <p className={`text-sm font-medium ${visitPassed ? "text-[#8b97ab]" : "text-[#16233c]"}`}>
             {visitDate ? visitDate.toLocaleString() : "Not scheduled"}
             {visitPassed && " (Completed)"}
           </p>
         </div>
         <div>
-          <p className="text-[10px] text-[#5d6880] uppercase">Location</p>
-          <p className="text-sm text-[#eef1f6]">{siteVisitLocation ?? "TBD"}</p>
+          <p className="text-[10px] text-[#8b97ab] uppercase">Location</p>
+          <p className="text-sm text-[#16233c]">{siteVisitLocation ?? "TBD"}</p>
         </div>
         <div>
-          <p className="text-[10px] text-[#5d6880] uppercase">Attendance</p>
+          <p className="text-[10px] text-[#8b97ab] uppercase">Attendance</p>
           <p className="text-sm">
-            <span className="text-green-400 font-bold">{attendedCount}</span>
-            <span className="text-[#5d6880]"> / {registrations.length} registered</span>
+            <span className="text-green-700 font-bold">{attendedCount}</span>
+            <span className="text-[#8b97ab]"> / {registrations.length} registered</span>
           </p>
         </div>
       </div>
 
       {siteVisitNotes && (
-        <p className="text-xs text-[#9aa5bd] bg-[#0f1626] rounded-lg px-3 py-2 mb-4">
+        <p className="text-xs text-[#5b6b85] bg-[#f4f6fa] rounded-lg px-3 py-2 mb-4">
           {siteVisitNotes}
         </p>
       )}
 
       {registrations.length === 0 ? (
-        <p className="text-sm text-[#5d6880]">No vendors have registered for the site visit yet.</p>
+        <p className="text-sm text-[#8b97ab]">No vendors have registered for the site visit yet.</p>
       ) : (
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
               <th className="px-5 py-3.5 font-medium">Company</th>
               <th className="px-5 py-3.5 font-medium">Representative</th>
               <th className="px-5 py-3.5 font-medium">Contact</th>
@@ -103,20 +103,20 @@ export default function SiteVisitManager({
                 <td className="px-5 py-3.5">
                   <p className="font-medium">{reg.vendor_name}</p>
                   {reg.company_registration && (
-                    <p className="text-[10px] text-[#5d6880]">Reg: {reg.company_registration}</p>
+                    <p className="text-[10px] text-[#8b97ab]">Reg: {reg.company_registration}</p>
                   )}
                 </td>
                 <td className="px-5 py-3.5">
                   <p>{reg.representative_name}</p>
                   {reg.representative_role && (
-                    <p className="text-xs text-[#5d6880]">{reg.representative_role}</p>
+                    <p className="text-xs text-[#8b97ab]">{reg.representative_role}</p>
                   )}
                 </td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   <p>{reg.vendor_email}</p>
                   {reg.vendor_phone && <p className="text-xs">{reg.vendor_phone}</p>}
                 </td>
-                <td className="px-5 py-3.5 text-[#5d6880]">
+                <td className="px-5 py-3.5 text-[#8b97ab]">
                   {new Date(reg.registered_at).toLocaleDateString()}
                 </td>
                 <td className="px-5 py-3.5">
@@ -126,14 +126,14 @@ export default function SiteVisitManager({
                       disabled={updating === reg.id}
                       className={`text-xs font-bold px-3 py-1 rounded-lg disabled:opacity-50 ${
                         reg.attended
-                          ? "bg-green-900 text-green-300"
-                          : "bg-[#0f1626] text-[#5d6880] border border-[rgba(176,27,66,0.15)]"
+                          ? "bg-green-900 text-green-700"
+                          : "bg-[#f4f6fa] text-[#8b97ab] border border-[rgba(176,27,66,0.15)]"
                       }`}
                     >
                       {reg.attended ? "Present" : "Mark Present"}
                     </button>
                   ) : (
-                    <span className={`text-xs font-bold ${reg.attended ? "text-green-400" : "text-red-400"}`}>
+                    <span className={`text-xs font-bold ${reg.attended ? "text-green-700" : "text-red-600"}`}>
                       {reg.attended ? "Attended" : "Did not attend"}
                     </span>
                   )}

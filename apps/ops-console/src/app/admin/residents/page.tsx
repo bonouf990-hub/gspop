@@ -17,7 +17,7 @@ export default async function ResidentsPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">You don&apos;t have access to Residents &amp; Leases.</p>
+        <p className="text-[#8b97ab]">You don&apos;t have access to Residents &amp; Leases.</p>
       </main>
     );
   }
@@ -54,9 +54,9 @@ export default async function ResidentsPage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">Residents &amp; Leases</h1>
-          <p className="text-[#9aa5bd] mt-1">
+          <p className="text-[#5b6b85] mt-1">
             Onboard residents, set rent terms, and manage each lease&apos;s cheque schedule and documents.
           </p>
         </div>
@@ -76,7 +76,7 @@ export default async function ResidentsPage() {
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[700px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5">Resident</th>
             <th className="px-5 py-3.5">Unit</th>
             <th className="px-5 py-3.5">Rent</th>
@@ -91,13 +91,13 @@ export default async function ResidentsPage() {
             return (
               <tr key={l.id} className="border-b border-[rgba(176,27,66,0.08)]">
                 <td className="px-5 py-3.5">{l.tenant_full_name}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {unit?.properties?.name ? `${unit.properties.name} — ` : ""}{unit?.label ?? "—"}
                 </td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {l.rent_amount != null ? `${l.rent_amount} AED${l.rent_frequency ? ` / ${l.rent_frequency}` : ""}` : "—"}
                 </td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {l.start_date}{l.end_date ? ` – ${l.end_date}` : ""}
                 </td>
                 <td className="px-5 py-3.5 capitalize">{l.status}</td>
@@ -110,7 +110,7 @@ export default async function ResidentsPage() {
             );
           })}
           {(leases ?? []).length === 0 && (
-            <tr><td colSpan={6} className="px-5 py-10 text-[#5d6880] text-center">No leases yet.</td></tr>
+            <tr><td colSpan={6} className="px-5 py-10 text-[#8b97ab] text-center">No leases yet.</td></tr>
           )}
         </tbody>
       </table>

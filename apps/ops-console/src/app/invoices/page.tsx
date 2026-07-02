@@ -59,17 +59,17 @@ async function getPageData() {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  received: "bg-[#213052] text-[#9aa5bd]",
-  verified: "bg-green-900/50 text-green-300",
-  disputed: "bg-red-900/50 text-red-300",
+  received: "bg-[#e9eef6] text-[#5b6b85]",
+  verified: "bg-green-50 text-green-700",
+  disputed: "bg-red-50 text-red-700",
   approved: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  paid: "bg-[#213052] text-[#9aa5bd]",
+  paid: "bg-[#e9eef6] text-[#5b6b85]",
 };
 
 export default async function InvoicesPage() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to Invoices.</p></main>;
+    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Invoices.</p></main>;
   }
 
   const { invoices, vendors, openPOs } = await getPageData();
@@ -104,22 +104,22 @@ export default async function InvoicesPage() {
   }));
 
   const kpis = [
-    { label: "Received", value: received.length, color: "text-[#9aa5bd]" },
-    { label: "Verified", value: verified.length, color: "text-green-400" },
-    { label: "Disputed", value: disputed.length, color: "text-red-400" },
+    { label: "Received", value: received.length, color: "text-[#5b6b85]" },
+    { label: "Verified", value: verified.length, color: "text-green-700" },
+    { label: "Disputed", value: disputed.length, color: "text-red-600" },
     { label: "Approved", value: approved.length, color: "text-[#d9647f]" },
-    { label: "Paid", value: paid.length, color: "text-[#9aa5bd]" },
+    { label: "Paid", value: paid.length, color: "text-[#5b6b85]" },
   ];
 
   return (
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">Invoices & Payments</h1>
-          <p className="text-[#9aa5bd] text-sm mt-1">
+          <p className="text-[#5b6b85] text-sm mt-1">
             Track contractor invoices, verify against POs, and record payments.
           </p>
         </div>
@@ -133,35 +133,35 @@ export default async function InvoicesPage() {
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-2xl font-extrabold ${k.color}`}>{k.value}</p>
-            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{k.label}</p>
+            <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
         <div className="lux-card p-4 text-center">
-          <p className="text-lg font-extrabold text-amber-400">
+          <p className="text-lg font-extrabold text-amber-700">
             AED {totalOutstanding.toLocaleString(undefined, { minimumFractionDigits: 0 })}
           </p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Outstanding</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Outstanding</p>
         </div>
         <div className="lux-card p-4 text-center">
-          <p className="text-lg font-extrabold text-green-400">
+          <p className="text-lg font-extrabold text-green-700">
             AED {totalPaid.toLocaleString(undefined, { minimumFractionDigits: 0 })}
           </p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Total Paid</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Total Paid</p>
         </div>
         <div className="lux-card p-4 text-center">
-          <p className={`text-lg font-extrabold ${overdue.length > 0 ? "text-red-400" : "text-[#5d6880]"}`}>
+          <p className={`text-lg font-extrabold ${overdue.length > 0 ? "text-red-600" : "text-[#8b97ab]"}`}>
             {overdue.length}
           </p>
-          <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">Overdue</p>
+          <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Overdue</p>
         </div>
       </div>
 
       {overdue.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-xs font-bold text-red-400 tracking-[0.15em] uppercase mb-3">
+          <h2 className="text-xs font-bold text-red-600 tracking-[0.15em] uppercase mb-3">
             Overdue Invoices ({overdue.length})
           </h2>
           <div className="space-y-2">
@@ -181,9 +181,9 @@ export default async function InvoicesPage() {
                       <span className="text-[#d9647f] font-bold">
                         AED {Number(inv.total_amount).toLocaleString()}
                       </span>
-                      <span className="text-red-400 text-xs font-bold">{daysPast}d overdue</span>
+                      <span className="text-red-600 text-xs font-bold">{daysPast}d overdue</span>
                     </div>
-                    <p className="text-sm text-[#9aa5bd]">
+                    <p className="text-sm text-[#5b6b85]">
                       {vendor?.name ?? "Unknown vendor"} · Due {new Date(inv.due_date!).toLocaleDateString()}
                     </p>
                   </div>
@@ -203,7 +203,7 @@ export default async function InvoicesPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[1000px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Invoice #</th>
                 <th className="px-5 py-3.5 font-medium">Vendor</th>
                 <th className="px-5 py-3.5 font-medium">PO Link</th>
@@ -224,34 +224,34 @@ export default async function InvoicesPage() {
                 const verifier = inv.verified_by_user as { full_name: string } | null;
                 const isOverdue = inv.due_date && inv.due_date < today && !["paid", "disputed"].includes(inv.status);
                 return (
-                  <tr key={inv.id} className={`border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052] ${isOverdue ? "bg-red-950/10" : ""}`}>
+                  <tr key={inv.id} className={`border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9] ${isOverdue ? "bg-red-50" : ""}`}>
                     <td className="px-5 py-3.5 font-medium">{inv.invoice_number}</td>
-                    <td className="px-5 py-3.5 text-[#9aa5bd]">{vendor?.name ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#5b6b85]">{vendor?.name ?? "—"}</td>
                     <td className="px-5 py-3.5">
                       {po ? (
                         <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-[rgba(176,27,66,0.12)] text-[#b01b42]">
                           PO: {po.description?.slice(0, 20) ?? po.id.slice(0, 8)}
                         </span>
                       ) : (
-                        <span className="text-[10px] text-[#5d6880]">No PO</span>
+                        <span className="text-[10px] text-[#8b97ab]">No PO</span>
                       )}
                     </td>
                     <td className="px-5 py-3.5">{Number(inv.amount).toLocaleString()}</td>
-                    <td className="px-5 py-3.5 text-[#5d6880]">{Number(inv.vat_amount).toLocaleString()}</td>
+                    <td className="px-5 py-3.5 text-[#8b97ab]">{Number(inv.vat_amount).toLocaleString()}</td>
                     <td className="px-5 py-3.5 text-[#d9647f] font-medium">{Number(inv.total_amount).toLocaleString()}</td>
                     <td className="px-5 py-3.5">
                       <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[inv.status] ?? ""}`}>
                         {inv.status}
                       </span>
                       {verifier && inv.status === "verified" && (
-                        <p className="text-[10px] text-[#5d6880] mt-0.5">by {verifier.full_name}</p>
+                        <p className="text-[10px] text-[#8b97ab] mt-0.5">by {verifier.full_name}</p>
                       )}
                     </td>
-                    <td className="px-5 py-3.5 text-[#9aa5bd]">{new Date(inv.invoice_date).toLocaleDateString()}</td>
-                    <td className={`px-5 py-3.5 ${isOverdue ? "text-red-400 font-bold" : "text-[#9aa5bd]"}`}>
+                    <td className="px-5 py-3.5 text-[#5b6b85]">{new Date(inv.invoice_date).toLocaleDateString()}</td>
+                    <td className={`px-5 py-3.5 ${isOverdue ? "text-red-600 font-bold" : "text-[#5b6b85]"}`}>
                       {inv.due_date ? new Date(inv.due_date).toLocaleDateString() : "—"}
                     </td>
-                    <td className="px-5 py-3.5 text-[#5d6880] text-xs">
+                    <td className="px-5 py-3.5 text-[#8b97ab] text-xs">
                       {inv.paid_at ? (
                         <span>
                           {inv.payment_method?.replace(/_/g, " ") ?? ""}{inv.payment_reference ? ` · ${inv.payment_reference}` : ""}
@@ -267,7 +267,7 @@ export default async function InvoicesPage() {
               })}
               {invoices.length === 0 && (
                 <tr>
-                  <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={11}>
+                  <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={11}>
                     No invoices yet.
                   </td>
                 </tr>

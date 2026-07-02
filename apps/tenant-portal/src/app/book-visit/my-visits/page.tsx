@@ -20,13 +20,13 @@ type Visit = {
 
 const STATUS_STYLE: Record<string, { bg: string; label: string }> = {
   draft: { bg: "bg-[rgba(176,27,66,0.15)] text-[#d9647f]", label: "Pending Review" },
-  assigned: { bg: "bg-[rgba(90,140,200,0.15)] text-[#8fb4e0]", label: "Technician Assigned" },
+  assigned: { bg: "bg-[rgba(90,140,200,0.15)] text-[#3d6cb3]", label: "Technician Assigned" },
   in_progress: { bg: "bg-[rgba(176,27,66,0.15)] text-[#d9647f]", label: "In Progress" },
-  completed_by_technician: { bg: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]", label: "Completed" },
-  verified_by_supervisor: { bg: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]", label: "Verified" },
-  confirmed_by_resident: { bg: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]", label: "Confirmed" },
-  closed: { bg: "bg-[rgba(255,255,255,0.06)] text-[#9aa5bd]", label: "Closed" },
-  cancelled: { bg: "bg-[rgba(180,60,60,0.15)] text-[#e08a8a]", label: "Cancelled" },
+  completed_by_technician: { bg: "bg-[rgba(45,140,90,0.15)] text-[#1f8a4d]", label: "Completed" },
+  verified_by_supervisor: { bg: "bg-[rgba(45,140,90,0.15)] text-[#1f8a4d]", label: "Verified" },
+  confirmed_by_resident: { bg: "bg-[rgba(45,140,90,0.15)] text-[#1f8a4d]", label: "Confirmed" },
+  closed: { bg: "bg-[rgba(255,255,255,0.06)] text-[#5b6b85]", label: "Closed" },
+  cancelled: { bg: "bg-[rgba(180,60,60,0.15)] text-[#c0304a]", label: "Cancelled" },
 };
 
 const TIME_LABELS: Record<string, string> = {
@@ -61,7 +61,7 @@ export default function MyVisitsPage() {
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--foreground)] pb-28">
       <header className="sticky top-0 z-20 bg-[var(--bg)]/80 backdrop-blur-xl px-4 py-3 flex items-center gap-3">
-        <Link href="/" className="text-[#9aa5bd]">
+        <Link href="/" className="text-[#5b6b85]">
           <ChevronLeft size={24} />
         </Link>
         <h1 className="font-display font-semibold text-lg">My Visit Requests</h1>
@@ -76,12 +76,12 @@ export default function MyVisitsPage() {
         </Link>
 
         {loading ? (
-          <p className="text-center text-[#9aa5bd] py-8">Loading…</p>
+          <p className="text-center text-[#5b6b85] py-8">Loading…</p>
         ) : visits.length === 0 ? (
           <div className="text-center py-12">
-            <Wrench size={40} className="text-[#9aa5bd] mx-auto mb-3" />
-            <p className="text-[#9aa5bd]">No visit requests yet.</p>
-            <p className="text-xs text-[#9aa5bd] mt-1">Book a technician visit for non-emergency maintenance.</p>
+            <Wrench size={40} className="text-[#5b6b85] mx-auto mb-3" />
+            <p className="text-[#5b6b85]">No visit requests yet.</p>
+            <p className="text-xs text-[#5b6b85] mt-1">Book a technician visit for non-emergency maintenance.</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -96,8 +96,8 @@ export default function MyVisitsPage() {
                       {st.label}
                     </span>
                   </div>
-                  <p className="text-xs text-[#9aa5bd] line-clamp-2 mb-2">{v.description}</p>
-                  <div className="flex items-center gap-4 text-xs text-[#9aa5bd]">
+                  <p className="text-xs text-[#5b6b85] line-clamp-2 mb-2">{v.description}</p>
+                  <div className="flex items-center gap-4 text-xs text-[#5b6b85]">
                     {v.preferred_visit_date && (
                       <span className="flex items-center gap-1">
                         <CalendarDays size={12} />

@@ -24,11 +24,11 @@ export default function BottomNav() {
               <Icon
                 size={20}
                 strokeWidth={active ? 2.4 : 1.8}
-                className={active ? "text-[var(--gold)]" : "text-[#9aa5bd]"}
+                className={active ? "text-[var(--gold)]" : "text-[#5b6b85]"}
               />
               <span
                 className={`text-[10px] tracking-wide ${
-                  active ? "text-[#eef1f6] font-semibold" : "text-[#9aa5bd]"
+                  active ? "text-[#16233c] font-semibold" : "text-[#5b6b85]"
                 }`}
               >
                 {label}

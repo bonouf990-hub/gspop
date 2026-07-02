@@ -7,7 +7,7 @@ export default function NotFound() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-3">
           Golden Sands Residences
         </p>
-        <h1 className="font-display text-2xl font-semibold text-[#eef1f6] mb-2">
+        <h1 className="font-display text-2xl font-semibold text-[#16233c] mb-2">
           Page not found
         </h1>
         <p className="text-sm text-[var(--muted)] mb-6">

@@ -27,14 +27,14 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center text-[#eef1f6] px-4 relative overflow-hidden">
+    <main className="min-h-screen flex items-center justify-center text-[#16233c] px-4 relative overflow-hidden">
       {/* Ambient gold aura behind the card */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(560px 420px at 50% 42%, rgba(176,27,66,0.13), transparent 70%)",
+            "radial-gradient(560px 420px at 50% 42%, rgba(176,27,66,0.07), transparent 70%)",
         }}
       />
 
@@ -43,7 +43,7 @@ export default function LoginPage() {
         <div className="flex flex-col items-center mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand-mark.svg" alt="ARENCO" className="w-24 h-auto" />
-          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#eef1f6]">
+          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#16233c]">
             ARENCO
           </h1>
           <div className="flex items-center gap-3 mt-2.5">
@@ -55,7 +55,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="lux-card p-8 space-y-5">
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#9aa5bd] mb-2">
+            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#5b6b85] mb-2">
               Email
             </label>
             <input
@@ -70,7 +70,7 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#9aa5bd] mb-2">
+            <label className="block text-[11px] font-bold tracking-[0.18em] uppercase text-[#5b6b85] mb-2">
               Password
             </label>
             <input
@@ -84,7 +84,7 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && <p className="text-[#e08a8a] text-sm">{error}</p>}
+          {error && <p className="text-[#c0304a] text-sm">{error}</p>}
 
           <button
             type="submit"
@@ -95,7 +95,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <p className="text-center text-xs text-[#5d6880] mt-8 tracking-[0.14em] uppercase">
+        <p className="text-center text-xs text-[#8b97ab] mt-8 tracking-[0.14em] uppercase">
           ARENCO Real Estate · Dubai
         </p>
       </div>

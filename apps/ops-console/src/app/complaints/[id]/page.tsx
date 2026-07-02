@@ -63,7 +63,7 @@ export default async function ComplaintDetailPage({
   if (!context) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">Complaint not found.</p>
+        <p className="text-[#8b97ab]">Complaint not found.</p>
       </main>
     );
   }
@@ -73,9 +73,9 @@ export default async function ComplaintDetailPage({
 
   return (
     <main className="p-8 max-w-2xl">
-      <Link href="/complaints" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Complaints</Link>
+      <Link href="/complaints" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Complaints</Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-2">{context.title}</h1>
-      <p className="text-[#9aa5bd] mb-6">{context.description}</p>
+      <p className="text-[#5b6b85] mb-6">{context.description}</p>
 
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Status</h2>
@@ -123,7 +123,7 @@ export default async function ComplaintDetailPage({
 
       <section
         className={`border rounded-xl p-4 ${
-          context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-[rgba(176,27,66,0.15)] bg-[#1a2640]"
+          context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-[rgba(176,27,66,0.15)] bg-[#ffffff]"
         }`}
       >
         <h2 className="eyebrow mb-3">
@@ -141,13 +141,13 @@ export default async function ComplaintDetailPage({
                 : "none"}
             </p>
             {context.isRecurringIssue && (
-              <p className="text-red-400 mt-2">
+              <p className="text-red-600 mt-2">
                 This equipment has been worked on 3+ times. Consider replacement instead of repeat repair.
               </p>
             )}
           </>
         ) : (
-          <p className="text-[#5d6880]">No specific asset linked to this complaint yet.</p>
+          <p className="text-[#8b97ab]">No specific asset linked to this complaint yet.</p>
         )}
       </section>
     </main>

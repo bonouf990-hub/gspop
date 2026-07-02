@@ -45,9 +45,9 @@ async function getPageData() {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  confirmed: "bg-green-900 text-green-300",
-  cancelled: "bg-[#213052] text-[#5d6880]",
-  no_show: "bg-red-900 text-red-300",
+  confirmed: "bg-green-900 text-green-700",
+  cancelled: "bg-[#e9eef6] text-[#8b97ab]",
+  no_show: "bg-red-900 text-red-700",
 };
 
 export default async function BookingsPage() {
@@ -57,11 +57,11 @@ export default async function BookingsPage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">Common Area Bookings</h1>
-          <p className="text-[#9aa5bd] mt-1">Common-area reservations — gym, pool, and function rooms.</p>
+          <p className="text-[#5b6b85] mt-1">Common-area reservations — gym, pool, and function rooms.</p>
         </div>
         <CreateBookingForm
           commonAreas={commonAreas}
@@ -74,7 +74,7 @@ export default async function BookingsPage() {
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5 font-medium">Facility</th>
             <th className="px-5 py-3.5 font-medium">Property</th>
             <th className="px-5 py-3.5 font-medium">Resident</th>
@@ -91,25 +91,25 @@ export default async function BookingsPage() {
             const start = new Date(b.start_time);
             const end = new Date(b.end_time);
             return (
-              <tr key={b.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+              <tr key={b.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                 <td className="px-5 py-3.5">
                   <span className="font-medium">{area?.name ?? "—"}</span>
-                  <span className="text-[#5d6880] text-xs ml-2 capitalize">
+                  <span className="text-[#8b97ab] text-xs ml-2 capitalize">
                     {area?.category?.replace(/_/g, " ") ?? ""}
                   </span>
                 </td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {area?.property_id ? propertiesById.get(area.property_id) ?? "—" : "—"}
                 </td>
                 <td className="px-5 py-3.5">{resident?.full_name ?? "—"}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">{start.toLocaleDateString()}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">{start.toLocaleDateString()}</td>
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {start.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} –{" "}
                   {end.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                 </td>
                 <td className="px-5 py-3.5">
                   <span
-                    className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[b.status] ?? "bg-[#213052] text-[#9aa5bd]"}`}
+                    className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[b.status] ?? "bg-[#e9eef6] text-[#5b6b85]"}`}
                   >
                     {b.status.replace(/_/g, " ")}
                   </span>
@@ -122,7 +122,7 @@ export default async function BookingsPage() {
           })}
           {bookings.length === 0 && (
             <tr>
-              <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={7}>
+              <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={7}>
                 No bookings yet.
               </td>
             </tr>

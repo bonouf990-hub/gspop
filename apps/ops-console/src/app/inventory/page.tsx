@@ -45,11 +45,11 @@ export default async function InventoryPage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">Inventory & Store</h1>
-          <p className="text-[#9aa5bd] text-sm mt-1">
+          <p className="text-[#5b6b85] text-sm mt-1">
             Track stock levels, record movements, and flag items below reorder threshold.
           </p>
         </div>
@@ -65,15 +65,15 @@ export default async function InventoryPage() {
       </div>
 
       {lowStock.length > 0 && (
-        <div className="bg-amber-950 border border-amber-700 rounded-xl p-4 mb-6">
-          <h2 className="text-xs font-bold text-amber-400 tracking-[0.15em] uppercase mb-2">
+        <div className="bg-amber-50 border border-amber-700 rounded-xl p-4 mb-6">
+          <h2 className="text-xs font-bold text-amber-700 tracking-[0.15em] uppercase mb-2">
             Low Stock Alert ({lowStock.length})
           </h2>
           <ul className="space-y-1">
             {lowStock.map((i) => (
-              <li key={i.id} className="text-sm text-amber-200">
+              <li key={i.id} className="text-sm text-amber-800">
                 <span className="font-medium">{i.name}</span>
-                {i.sku && <span className="text-amber-400 ml-1">({i.sku})</span>} —{" "}
+                {i.sku && <span className="text-amber-700 ml-1">({i.sku})</span>} —{" "}
                 {i.quantity_on_hand} {i.unit_of_measure ?? "units"} remaining
                 (threshold: {i.reorder_threshold})
               </li>
@@ -86,7 +86,7 @@ export default async function InventoryPage() {
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5 font-medium">Item</th>
             <th className="px-5 py-3.5 font-medium">SKU</th>
             <th className="px-5 py-3.5 font-medium">Property</th>
@@ -102,23 +102,23 @@ export default async function InventoryPage() {
           {items.map((i) => {
             const isLow = i.reorder_threshold > 0 && i.quantity_on_hand <= i.reorder_threshold;
             return (
-              <tr key={i.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+              <tr key={i.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                 <td className="px-5 py-3.5 font-medium">{i.name}</td>
-                <td className="px-5 py-3.5 text-[#5d6880]">{i.sku ?? "—"}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#8b97ab]">{i.sku ?? "—"}</td>
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {i.property_id ? propertiesById.get(i.property_id) ?? "—" : "All"}
                 </td>
-                <td className={`px-5 py-3.5 font-medium ${isLow ? "text-amber-400" : ""}`}>
+                <td className={`px-5 py-3.5 font-medium ${isLow ? "text-amber-700" : ""}`}>
                   {Number(i.quantity_on_hand)}
                 </td>
-                <td className="px-5 py-3.5 text-[#5d6880]">{i.unit_of_measure ?? "—"}</td>
+                <td className="px-5 py-3.5 text-[#8b97ab]">{i.unit_of_measure ?? "—"}</td>
                 <td className="px-5 py-3.5 text-[#d9647f]">
                   {i.unit_cost && Number(i.unit_cost) > 0 ? `AED ${Number(i.unit_cost).toLocaleString()}` : "—"}
                 </td>
-                <td className="px-5 py-3.5 text-[#5d6880]">
+                <td className="px-5 py-3.5 text-[#8b97ab]">
                   {i.reorder_threshold > 0 ? Number(i.reorder_threshold) : "—"}
                 </td>
-                <td className="px-5 py-3.5 text-[#5d6880]">
+                <td className="px-5 py-3.5 text-[#8b97ab]">
                   {new Date(i.updated_at).toLocaleDateString()}
                 </td>
                 <td className="px-5 py-3.5">
@@ -129,7 +129,7 @@ export default async function InventoryPage() {
           })}
           {items.length === 0 && (
             <tr>
-              <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={9}>
+              <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={9}>
                 No inventory items yet.
               </td>
             </tr>

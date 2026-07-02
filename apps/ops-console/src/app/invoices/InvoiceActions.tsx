@@ -73,7 +73,7 @@ export default function InvoiceActions({
   }
 
   if (showPay) {
-    const input = "bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-1.5 text-xs text-[#eef1f6]";
+    const input = "bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-1.5 text-xs text-[#16233c]";
     return (
       <form onSubmit={handlePay} className="flex flex-col gap-1">
         <select className={input} value={payForm.method}
@@ -90,11 +90,11 @@ export default function InvoiceActions({
             Confirm
           </button>
           <button type="button" onClick={() => setShowPay(false)}
-            className="text-[10px] px-2 py-1 rounded bg-[#213052] text-[#9aa5bd]">
+            className="text-[10px] px-2 py-1 rounded bg-[#e9eef6] text-[#5b6b85]">
             Cancel
           </button>
         </div>
-        {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
+        {error && <p className="text-[#c0304a] text-xs">{error}</p>}
       </form>
     );
   }
@@ -131,7 +131,7 @@ export default function InvoiceActions({
           Record Payment
         </button>
       )}
-      {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
+      {error && <p className="text-[#c0304a] text-xs">{error}</p>}
     </div>
   );
 }

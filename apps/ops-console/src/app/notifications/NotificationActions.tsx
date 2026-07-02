@@ -30,7 +30,7 @@ export default function NotificationActions({
       <button
         onClick={handleMarkRead}
         disabled={acting}
-        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)] disabled:opacity-50"
+        className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#e9eef6] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)] disabled:opacity-50"
       >
         {acting ? "Marking…" : "Mark All Read"}
       </button>
@@ -41,7 +41,7 @@ export default function NotificationActions({
     <button
       onClick={handleMarkRead}
       disabled={acting}
-      className="text-[10px] font-medium px-2 py-1 rounded-lg bg-[#213052] text-[#9aa5bd] hover:text-[#d9647f] disabled:opacity-50"
+      className="text-[10px] font-medium px-2 py-1 rounded-lg bg-[#e9eef6] text-[#5b6b85] hover:text-[#d9647f] disabled:opacity-50"
     >
       {acting ? "…" : "Mark Read"}
     </button>

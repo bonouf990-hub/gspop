@@ -77,7 +77,7 @@ export default function RecordMovement({
     );
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#16233c]";
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
@@ -85,7 +85,7 @@ export default function RecordMovement({
         <h3 className="eyebrow mb-1">
           Stock Movement
         </h3>
-        <p className="text-sm text-[#9aa5bd] mb-2">{itemName}</p>
+        <p className="text-sm text-[#5b6b85] mb-2">{itemName}</p>
 
         <select className={input} value={type} onChange={(e) => setType(e.target.value)}>
           {MOVEMENT_TYPES.map((m) => (
@@ -99,7 +99,7 @@ export default function RecordMovement({
         <input className={input} placeholder="Reason (optional)"
           value={reason} onChange={(e) => setReason(e.target.value)} />
 
-        {error && <p className="text-red-400 text-xs">{error}</p>}
+        {error && <p className="text-red-600 text-xs">{error}</p>}
 
         <div className="flex gap-2 pt-1">
           <button type="submit" disabled={submitting}
@@ -107,7 +107,7 @@ export default function RecordMovement({
             {submitting ? "Saving…" : "Save"}
           </button>
           <button type="button" onClick={() => setOpen(false)}
-            className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
+            className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]">
             Cancel
           </button>
         </div>

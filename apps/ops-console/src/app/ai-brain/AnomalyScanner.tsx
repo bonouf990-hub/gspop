@@ -20,15 +20,15 @@ type AnomalyResult = {
 const SEVERITY_STYLE: Record<string, string> = {
   critical: "border-red-500 bg-red-950/20",
   high: "border-orange-500 bg-orange-950/20",
-  medium: "border-amber-500 bg-amber-950/20",
-  low: "border-[rgba(176,27,66,0.15)] bg-[#0f1626]",
+  medium: "border-amber-500 bg-amber-50/20",
+  low: "border-[rgba(176,27,66,0.15)] bg-[#f4f6fa]",
 };
 
 const SEVERITY_BADGE: Record<string, string> = {
-  critical: "bg-red-900 text-red-300",
+  critical: "bg-red-900 text-red-700",
   high: "bg-orange-900 text-orange-300",
-  medium: "bg-amber-900 text-amber-300",
-  low: "bg-[#213052] text-[#9aa5bd]",
+  medium: "bg-amber-900 text-amber-700",
+  low: "bg-[#e9eef6] text-[#5b6b85]",
 };
 
 export default function AnomalyScanner() {
@@ -51,8 +51,8 @@ export default function AnomalyScanner() {
   }
 
   const riskColor =
-    (result?.risk_score ?? 0) >= 70 ? "text-red-400" :
-    (result?.risk_score ?? 0) >= 40 ? "text-amber-400" : "text-green-400";
+    (result?.risk_score ?? 0) >= 70 ? "text-red-600" :
+    (result?.risk_score ?? 0) >= 40 ? "text-amber-700" : "text-green-700";
 
   return (
     <div>
@@ -64,21 +64,21 @@ export default function AnomalyScanner() {
         {loading ? "Scanning all records…" : "Run Anomaly Scan"}
       </button>
 
-      {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
       {result && (
         <div className="mt-4 space-y-4">
           <div className="flex items-center gap-4">
-            <div className="bg-[#0f1626] rounded-lg p-4 text-center min-w-[120px]">
+            <div className="bg-[#f4f6fa] rounded-lg p-4 text-center min-w-[120px]">
               <p className={`text-3xl font-extrabold ${riskColor}`}>{result.risk_score}</p>
-              <p className="text-[10px] text-[#5d6880] uppercase mt-1">Risk Score</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase mt-1">Risk Score</p>
             </div>
-            <p className="text-sm text-[#eef1f6] flex-1">{result.overall_assessment}</p>
+            <p className="text-sm text-[#16233c] flex-1">{result.overall_assessment}</p>
           </div>
 
           {result.anomalies?.length > 0 && (
             <div>
-              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">
+              <p className="text-xs text-[#5b6b85] uppercase tracking-wider font-bold mb-2">
                 Anomalies Found ({result.anomalies.length})
               </p>
               <div className="space-y-2">
@@ -88,12 +88,12 @@ export default function AnomalyScanner() {
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${SEVERITY_BADGE[a.severity] ?? ""}`}>
                         {a.severity?.toUpperCase()}
                       </span>
-                      <span className="text-[10px] text-[#5d6880] uppercase">{a.category}</span>
+                      <span className="text-[10px] text-[#8b97ab] uppercase">{a.category}</span>
                     </div>
                     <p className="font-bold text-sm">{a.title}</p>
-                    <p className="text-sm text-[#9aa5bd] mt-1">{a.description}</p>
+                    <p className="text-sm text-[#5b6b85] mt-1">{a.description}</p>
                     {a.affected_records?.length > 0 && (
-                      <p className="text-xs text-[#5d6880] mt-1">
+                      <p className="text-xs text-[#8b97ab] mt-1">
                         Records: {a.affected_records.join(", ")}
                       </p>
                     )}
@@ -111,15 +111,15 @@ export default function AnomalyScanner() {
 
           {result.vendor_risk_flags?.length > 0 && (
             <div>
-              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Vendor Risk Flags</p>
+              <p className="text-xs text-[#5b6b85] uppercase tracking-wider font-bold mb-2">Vendor Risk Flags</p>
               <div className="space-y-1">
                 {result.vendor_risk_flags.map((v, i) => (
-                  <div key={i} className="bg-[#0f1626] rounded-lg px-3 py-2 flex items-center justify-between">
+                  <div key={i} className="bg-[#f4f6fa] rounded-lg px-3 py-2 flex items-center justify-between">
                     <div>
                       <p className="text-sm font-medium">{v.vendor}</p>
-                      <p className="text-xs text-[#9aa5bd]">{v.reason}</p>
+                      <p className="text-xs text-[#5b6b85]">{v.reason}</p>
                     </div>
-                    <span className={`text-xs font-bold uppercase ${v.risk === "high" ? "text-red-400" : v.risk === "medium" ? "text-amber-400" : "text-[#9aa5bd]"}`}>
+                    <span className={`text-xs font-bold uppercase ${v.risk === "high" ? "text-red-600" : v.risk === "medium" ? "text-amber-700" : "text-[#5b6b85]"}`}>
                       {v.risk}
                     </span>
                   </div>

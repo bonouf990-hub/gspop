@@ -42,7 +42,7 @@ export default function AddVendor() {
     router.refresh();
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#16233c]";
 
   return (
     <>
@@ -61,7 +61,7 @@ export default function AddVendor() {
       <input className={input} placeholder="Category (e.g. HVAC, Plumbing, Electrical)"
         value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} />
 
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 text-xs">{error}</p>}
 
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting}
@@ -69,7 +69,7 @@ export default function AddVendor() {
           {submitting ? "Adding…" : "Add Vendor"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
+          className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]">
           Cancel
         </button>
       </div>

@@ -24,10 +24,10 @@ const ENTITY_LINKS: Record<string, string> = {
 };
 
 const TYPE_STYLE: Record<string, { bg: string; dot: string }> = {
-  info: { bg: "border-blue-500/30 bg-blue-950/10", dot: "bg-blue-400" },
-  warning: { bg: "border-amber-500/30 bg-amber-950/10", dot: "bg-amber-400" },
-  urgent: { bg: "border-red-500/30 bg-red-950/10", dot: "bg-red-400" },
-  success: { bg: "border-green-500/30 bg-green-950/10", dot: "bg-green-400" },
+  info: { bg: "border-blue-200 bg-blue-50", dot: "bg-blue-400" },
+  warning: { bg: "border-amber-200 bg-amber-50", dot: "bg-amber-400" },
+  urgent: { bg: "border-red-200 bg-red-50", dot: "bg-red-400" },
+  success: { bg: "border-green-200 bg-green-950/10", dot: "bg-green-400" },
 };
 
 async function getPageData() {
@@ -51,11 +51,11 @@ export default async function NotificationsPage() {
     <main className="p-8 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="text-2xl font-extrabold mt-1">Notifications</h1>
-          <p className="text-[#9aa5bd] text-sm mt-1">
+          <p className="text-[#5b6b85] text-sm mt-1">
             {unread.length > 0
               ? `${unread.length} unread notification${unread.length === 1 ? "" : "s"}`
               : "All caught up"}
@@ -68,7 +68,7 @@ export default async function NotificationsPage() {
 
       {urgent.length > 0 && (
         <section className="mb-6">
-          <h2 className="text-xs font-bold text-red-400 tracking-[0.15em] uppercase mb-3">
+          <h2 className="text-xs font-bold text-red-600 tracking-[0.15em] uppercase mb-3">
             Urgent ({urgent.length})
           </h2>
           <div className="space-y-2">
@@ -88,7 +88,7 @@ export default async function NotificationsPage() {
             <NotificationCard key={n.id} n={n} />
           ))}
           {notifications.length === 0 && (
-            <p className="text-[#5d6880] text-center py-8">No notifications yet.</p>
+            <p className="text-[#8b97ab] text-center py-8">No notifications yet.</p>
           )}
         </div>
       </section>
@@ -121,18 +121,18 @@ function NotificationCard({ n }: { n: NotificationRow }) {
         isRead ? "opacity-60" : ""
       }`}
     >
-      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${isRead ? "bg-[#5d6880]" : style.dot}`} />
+      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${isRead ? "bg-[#8b97ab]" : style.dot}`} />
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
-          <p className={`text-sm font-medium ${isRead ? "text-[#9aa5bd]" : ""}`}>{n.title ?? n.message}</p>
-          <span className="text-[10px] text-[#5d6880] shrink-0">{timeAgo}</span>
+          <p className={`text-sm font-medium ${isRead ? "text-[#5b6b85]" : ""}`}>{n.title ?? n.message}</p>
+          <span className="text-[10px] text-[#8b97ab] shrink-0">{timeAgo}</span>
         </div>
-        {n.title && <p className="text-xs text-[#9aa5bd] mt-0.5">{n.message}</p>}
+        {n.title && <p className="text-xs text-[#5b6b85] mt-0.5">{n.message}</p>}
         <div className="flex items-center gap-2 mt-2">
           {href && (
             <Link
               href={href}
-              className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
+              className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[#e9eef6] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Details
             </Link>

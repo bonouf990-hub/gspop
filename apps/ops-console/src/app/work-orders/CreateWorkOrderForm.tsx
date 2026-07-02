@@ -92,7 +92,7 @@ export default function CreateWorkOrderForm({
     router.refresh();
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#16233c]";
 
   return (
     <>
@@ -104,7 +104,7 @@ export default function CreateWorkOrderForm({
         <Modal title="New Work Order" onClose={() => setOpen(false)}>
           <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Property *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Property *</label>
         <select className={input} value={form.propertyId}
           onChange={(e) => setForm({ ...form, propertyId: e.target.value })} required>
           <option value="">Select property…</option>
@@ -114,7 +114,7 @@ export default function CreateWorkOrderForm({
 
       {filteredUnits.length > 0 && (
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Unit (optional)</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Unit (optional)</label>
           <select className={input} value={form.unitId}
             onChange={(e) => setForm({ ...form, unitId: e.target.value })}>
             <option value="">Common area / no unit</option>
@@ -124,27 +124,27 @@ export default function CreateWorkOrderForm({
       )}
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Title *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Title *</label>
         <input className={input} placeholder="e.g. AC not cooling in unit 304"
           value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Description</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Description</label>
         <textarea className={`${input} h-20`} placeholder="Details about the issue…"
           value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Type</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Type</label>
           <select className={input} value={form.type}
             onChange={(e) => setForm({ ...form, type: e.target.value })}>
             {TYPES.map((t) => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
           </select>
         </div>
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Priority</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Priority</label>
           <select className={input} value={form.priority}
             onChange={(e) => setForm({ ...form, priority: e.target.value })}>
             {PRIORITIES.map((p) => <option key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</option>)}
@@ -153,7 +153,7 @@ export default function CreateWorkOrderForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Assign Technician (optional)</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Assign Technician (optional)</label>
         <select className={input} value={form.technicianId}
           onChange={(e) => setForm({ ...form, technicianId: e.target.value })}>
           <option value="">Unassigned — save as draft</option>
@@ -166,13 +166,13 @@ export default function CreateWorkOrderForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Estimated Cost (AED) — optional, for external work only</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Estimated Cost (AED) — optional, for external work only</label>
         <input className={input} type="number" placeholder="Leave empty for internal jobs"
           value={form.estimatedCost}
           onChange={(e) => setForm({ ...form, estimatedCost: e.target.value })} />
       </div>
 
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 text-xs">{error}</p>}
 
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting}
@@ -180,7 +180,7 @@ export default function CreateWorkOrderForm({
           {submitting ? "Creating…" : "Create Work Order"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
+          className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]">
           Cancel
         </button>
       </div>

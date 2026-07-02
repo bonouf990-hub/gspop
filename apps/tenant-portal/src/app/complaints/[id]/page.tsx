@@ -5,10 +5,10 @@ import BottomNav from "@/components/BottomNav";
 import { ChevronLeft, Check, Clock } from "lucide-react";
 
 const PRIORITY_STYLE: Record<string, string> = {
-  low: "bg-[rgba(255,255,255,0.06)] text-[#9aa5bd]",
+  low: "bg-[rgba(255,255,255,0.06)] text-[#5b6b85]",
   medium: "bg-[rgba(176,27,66,0.15)] text-[#d9647f]",
-  high: "bg-[rgba(200,130,50,0.15)] text-[#e0a45c]",
-  emergency: "bg-[rgba(180,60,60,0.15)] text-[#e08a8a]",
+  high: "bg-[rgba(200,130,50,0.15)] text-[#b26a1f]",
+  emergency: "bg-[rgba(180,60,60,0.15)] text-[#c0304a]",
 };
 
 // The lifecycle a resident sees, in order. Statuses map onto these stages.
@@ -105,7 +105,7 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Maintenance
         </p>
-        <h1 className="font-display text-2xl text-[#eef1f6] font-semibold leading-tight">
+        <h1 className="font-display text-2xl text-[#16233c] font-semibold leading-tight">
           {complaint.title}
         </h1>
         <div className="flex items-center gap-2 mt-3">
@@ -129,7 +129,7 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
             Progress
           </p>
           {rejected ? (
-            <div className="rounded-xl bg-[rgba(180,60,60,0.15)] text-[#e08a8a] p-4 text-sm font-medium">
+            <div className="rounded-xl bg-[rgba(180,60,60,0.15)] text-[#c0304a] p-4 text-sm font-medium">
               This request was closed without action. If the issue persists, please submit a new request.
             </div>
           ) : (
@@ -144,10 +144,10 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
                       <span
                         className={`w-7 h-7 rounded-full flex items-center justify-center border-2 ${
                           done
-                            ? "bg-[var(--gold)] border-[var(--gold)] text-[#0f1626]"
+                            ? "bg-[var(--gold)] border-[var(--gold)] text-[#f4f6fa]"
                             : current
                               ? "bg-[rgba(176,27,66,0.12)] border-[var(--gold)] text-[var(--gold)]"
-                              : "bg-[#141d33] border-[var(--hairline)] text-[#5d6880]"
+                              : "bg-[#f4f6fa] border-[var(--hairline)] text-[#8b97ab]"
                         }`}
                       >
                         {done ? <Check size={14} /> : current ? <Clock size={14} /> : <span className="w-1.5 h-1.5 rounded-full bg-current" />}
@@ -159,7 +159,7 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
                     <div className={`pb-6 ${last ? "pb-0" : ""}`}>
                       <p
                         className={`text-sm font-medium ${
-                          done || current ? "text-[#eef1f6]" : "text-[var(--muted)]"
+                          done || current ? "text-[#16233c]" : "text-[var(--muted)]"
                         }`}
                       >
                         {stage.label}
@@ -178,13 +178,13 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
           <p className="text-[10px] tracking-[0.2em] uppercase text-[var(--gold)] font-semibold mb-3">
             Details
           </p>
-          <p className="text-sm text-[#eef1f6] leading-relaxed whitespace-pre-line">
+          <p className="text-sm text-[#16233c] leading-relaxed whitespace-pre-line">
             {complaint.description || "No additional details provided."}
           </p>
           <div className="gold-divider my-4" />
           <div className="flex justify-between text-sm">
             <span className="text-[var(--muted)]">Assigned technician</span>
-            <span className="text-[#eef1f6] font-medium">{technicianName ?? "Not yet assigned"}</span>
+            <span className="text-[#16233c] font-medium">{technicianName ?? "Not yet assigned"}</span>
           </div>
         </section>
 
