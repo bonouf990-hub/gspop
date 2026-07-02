@@ -10,7 +10,7 @@ import {
   ShoppingCart, Gavel, Briefcase, ReceiptText, Boxes, Package,
   BarChart3, Brain, Activity, LineChart, Wallet, ClipboardList,
   UserCog, GitBranch, Timer, HardHat, Store, Menu, X, LogOut,
-  LayoutDashboard, ScrollText, Building2,
+  LayoutDashboard, ScrollText, Building2, ShieldAlert,
 } from "lucide-react";
 
 type NavItem = {
@@ -18,6 +18,7 @@ type NavItem = {
   label: string;
   icon: React.ComponentType<{ size?: number | string; className?: string }>;
   adminOnly?: boolean;
+  ownerOnly?: boolean;
 };
 type NavGroup = { label: string; items: NavItem[] };
 
@@ -96,6 +97,12 @@ const NAV: NavGroup[] = [
       { href: "/vendor-portal", label: "Vendor Portal", icon: Store },
     ],
   },
+  {
+    label: "Private",
+    items: [
+      { href: "/gm/integrity", label: "Integrity Watch", icon: ShieldAlert, ownerOnly: true },
+    ],
+  },
 ];
 
 // Routes that render without the shell (public / purpose-built layouts)
@@ -106,7 +113,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [profile, setProfile] = useState<{ name: string; role: string } | null>(null);
+  const [profile, setProfile] = useState<{ name: string; role: string; isOwner: boolean } | null>(null);
   const [unread, setUnread] = useState(0);
 
   const bare = BARE_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + "/")) ||
@@ -120,14 +127,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       const uid = userData.user?.id;
       if (!uid) return;
       const [{ data: p }, { count }] = await Promise.all([
-        supabase.from("user_profiles").select("full_name, role").eq("id", uid).single(),
+        supabase.from("user_profiles").select("full_name, role, is_owner").eq("id", uid).single(),
         supabase
           .from("notifications")
           .select("id", { count: "exact", head: true })
           .eq("recipient_id", uid)
           .is("read_at", null),
       ]);
-      if (p) setProfile({ name: p.full_name as string, role: p.role as string });
+      if (p) setProfile({ name: p.full_name as string, role: p.role as string, isOwner: p.is_owner === true });
       setUnread(count ?? 0);
     })();
   }, [bare, pathname]);
@@ -140,6 +147,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   if (bare) return <>{children}</>;
 
   const isAdmin = profile ? ["super_admin", "tenant_admin", "property_manager"].includes(profile.role) : true;
+  // Owner-only items never show optimistically — only once we've confirmed the flag.
+  const isOwner = profile?.isOwner === true;
 
   async function signOut() {
     const supabase = createClient();
@@ -163,7 +172,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
         {NAV.map((group) => {
-          const items = group.items.filter((i) => !i.adminOnly || isAdmin);
+          const items = group.items.filter((i) => (!i.adminOnly || isAdmin) && (!i.ownerOnly || isOwner));
           if (items.length === 0) return null;
           return (
             <div key={group.label}>
