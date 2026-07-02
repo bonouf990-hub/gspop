@@ -7,6 +7,13 @@ create or replace function current_user_role() returns text as $$
   select role from user_profiles where id = auth.uid();
 $$ language sql stable security definer set search_path = public;
 
+-- is_resident() (0005) was not SECURITY DEFINER. The resident_own_profile
+-- policy below puts it on user_profiles itself — without definer it re-enters
+-- user_profiles RLS and recurses infinitely, breaking every profile read.
+create or replace function is_resident() returns boolean as $$
+  select role = 'resident' from user_profiles where id = auth.uid();
+$$ language sql stable security definer set search_path = public;
+
 -- ── Column the app expects but no migration ever added ────────────────────
 -- AI Brain assignment and technician views read/write work_orders.assigned_to
 -- (join hint work_orders_assigned_to_fkey). Add it alongside
