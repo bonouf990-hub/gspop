@@ -127,9 +127,11 @@ create policy tenant_isolation_checklist_items on move_checklist_items
 create policy tenant_isolation_kpi_defs on kpi_definitions
   for all using (tenant_id = current_tenant_id());
 
--- kpi_scores: tenant-scoped
+-- kpi_scores: tenant-scoped via user_id
 create policy tenant_isolation_kpi_scores on kpi_scores
-  for all using (tenant_id = current_tenant_id());
+  for all using (
+    user_id in (select id from user_profiles where tenant_id = current_tenant_id())
+  );
 
 -- complaint_photos: scoped via complaints → tenant
 create policy tenant_isolation_complaint_photos_rls on complaint_photos
@@ -207,7 +209,7 @@ create policy wo_ratings_role_scoped on work_order_ratings
 -- KPI scores: technicians see only their own
 create policy kpi_scores_own on kpi_scores
   for select using (
-    tenant_id = current_tenant_id()
+    user_id in (select id from user_profiles where tenant_id = current_tenant_id())
     and (
       current_user_role() in ('super_admin', 'tenant_admin', 'property_manager', 'supervisor')
       or user_id = auth.uid()
