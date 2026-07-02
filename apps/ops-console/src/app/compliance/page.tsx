@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { FileCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
 import { camelCaseKeys, type ComplianceDocument } from "@gspop/shared";
 
 async function getComplianceDocuments(): Promise<ComplianceDocument[]> {
@@ -21,16 +22,18 @@ export default async function CompliancePage() {
   const documents = await getComplianceDocuments();
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Compliance & Document Expiry</h1>
-          <p className="text-[#5b6b85] mt-1">Document expiry and regulatory tracking.</p>
-        </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <div className="rise-in">
+        <PageHeader
+          eyebrow="Maintenance & Engineering"
+          title="Compliance & Document Expiry"
+          icon={FileCheck}
+          description="Civil Defence, lift inspections, DM reports — document expiry and regulatory tracking."
+        />
       </div>
-      <div className="lux-card overflow-hidden">
+      <div className="lux-card overflow-hidden rise-in rise-in-1">
       <div className="overflow-x-auto">
-      <table className="w-full text-sm border-collapse min-w-[600px]">
+      <table className="lux-table w-full text-sm border-collapse min-w-[600px]">
         <thead>
           <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5">Document</th>

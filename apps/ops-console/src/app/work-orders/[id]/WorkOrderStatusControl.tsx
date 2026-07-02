@@ -22,7 +22,7 @@ const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: s
   ],
   in_progress: [
     { label: "Complete Job", next: "completed_by_technician", style: "bg-green-800 text-green-200" },
-    { label: "Pause", next: "paused", style: "bg-amber-800 text-amber-800" },
+    { label: "Pause", next: "paused", style: "bg-amber-500 text-white" },
   ],
   paused: [
     { label: "Resume Work", next: "in_progress", style: "bg-green-800 text-green-200" },
@@ -30,7 +30,7 @@ const STATUS_TRANSITIONS: Record<string, { label: string; next: string; style: s
   ],
   completed_by_technician: [
     { label: "Supervisor Verify", next: "verified_by_supervisor", style: "btn-gold" },
-    { label: "Reopen", next: "in_progress", style: "bg-amber-800 text-amber-800" },
+    { label: "Reopen", next: "in_progress", style: "bg-amber-500 text-white" },
   ],
   verified_by_supervisor: [
     { label: "Resident Confirmed", next: "confirmed_by_resident", style: "bg-green-800 text-green-200" },
@@ -68,17 +68,17 @@ const STATUS_LABEL: Record<string, string> = {
 
 const STATUS_STYLE: Record<string, string> = {
   draft: "bg-[#e9eef6] text-[#5b6b85]",
-  pending_approval: "bg-amber-900/60 text-amber-700",
+  pending_approval: "bg-amber-50 text-amber-700",
   approved: "bg-green-50 text-green-700",
   rejected: "bg-red-50 text-red-700",
   assigned: "bg-[rgba(61,108,179,0.12)] text-[#3d6cb3]",
-  in_progress: "bg-green-900/60 text-green-700",
+  in_progress: "bg-green-50 text-green-700",
   paused: "bg-amber-50 text-amber-700",
   completed_by_technician: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   verified_by_supervisor: "bg-green-50 text-green-700",
-  confirmed_by_resident: "bg-green-900/60 text-green-700",
+  confirmed_by_resident: "bg-green-50 text-green-700",
   closed: "bg-[#e9eef6] text-[#8b97ab]",
-  cancelled: "bg-red-900/20 text-red-600",
+  cancelled: "bg-red-50 text-red-600",
 };
 
 export default function WorkOrderStatusControl({ id, currentStatus, startedAt }: Props) {

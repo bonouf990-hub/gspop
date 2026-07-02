@@ -1,8 +1,23 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import {
+  Wrench, Package, ShoppingCart, Users, BarChart3, Settings2, HardHat,
+  ArrowRight, Building2, Sparkles,
+} from "lucide-react";
 
 type Card = { href: string; title: string; desc: string; adminOnly?: boolean };
 type Section = { label: string; blurb: string; cards: Card[] };
+
+type IconType = React.ComponentType<{ size?: number | string; className?: string }>;
+const SECTION_ICON: Record<string, IconType> = {
+  "Maintenance & Engineering": Wrench,
+  "Store & Inventory": Package,
+  "Purchasing & Contracts": ShoppingCart,
+  "Community & Residents": Users,
+  "Insight & Reporting": BarChart3,
+  Administration: Settings2,
+  "Role Portals": HardHat,
+};
 
 // The console mirrors ARENCO's actual operation — organised department-wise.
 // Each department owns its sections; the flow map above shows how work passes
@@ -142,38 +157,74 @@ export default async function Dashboard() {
   })).filter((s) => s.cards.length > 0);
 
   return (
-    <main className="p-8 max-w-6xl mx-auto w-full">
-      <div className="mb-10">
-        <p className="eyebrow mb-2">ARENCO One — Estate Operations Platform</p>
-        <h1 className="font-display text-4xl text-[#16233c]">
-          Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
-        </h1>
-        <p className="text-[#5b6b85] capitalize mt-1.5">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
-        <div className="gold-rule mt-5 max-w-xs" />
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto w-full">
+      {/* Hero */}
+      <div className="relative mb-12 rise-in overflow-hidden rounded-[1.5rem] border border-[#e4e9f2] bg-gradient-to-br from-white via-white to-[#fbf4f6] shadow-[var(--shadow-md)]">
+        {/* ambient crimson/navy glow */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-80"
+          style={{
+            background:
+              "radial-gradient(600px 240px at 90% -20%, rgba(176,27,66,0.10), transparent 60%), radial-gradient(520px 220px at 8% 120%, rgba(22,74,147,0.08), transparent 60%)",
+          }}
+        />
+        <div className="relative p-7 sm:p-10">
+          <div className="flex items-start gap-4">
+            <span className="icon-chip icon-chip-solid icon-chip-lg shrink-0" aria-hidden="true">
+              <Building2 size={22} />
+            </span>
+            <div className="min-w-0">
+              <p className="eyebrow mb-2 flex items-center gap-2">
+                <Sparkles size={12} className="text-[#b01b42]" />
+                ARENCO One — Estate Operations Platform
+              </p>
+              <h1 className="font-display text-4xl sm:text-[2.75rem] leading-[1.1] text-[#16233c]">
+                Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
+              </h1>
+              <p className="text-[#5b6b85] capitalize mt-2">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
+            </div>
+          </div>
+          <div className="gold-rule mt-6 max-w-xs" />
+          <p className="text-sm text-[#5b6b85] mt-4 max-w-2xl leading-relaxed">
+            One console for the entire estate operation — every asset, job card, requisition and tender,
+            flowing between Maintenance, Store and Purchasing exactly as the building runs.
+          </p>
+        </div>
       </div>
 
       {/* Operating flow — how the departments connect */}
-      <section className="mb-14">
-        <div className="flex items-center gap-4 mb-5">
+      <section className="mb-16 rise-in rise-in-1">
+        <div className="section-head mb-5">
           <h2 className="eyebrow whitespace-nowrap">How work flows</h2>
-          <div className="gold-rule flex-1 opacity-60" />
+          <div className="section-rule" />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {FLOWS.map((flow) => (
             <div key={flow.label} className="lux-card p-5">
-              <p className="text-sm font-bold text-[#16233c] mb-3">{flow.label}</p>
-              <div className="space-y-2">
+              <p className="text-sm font-bold text-[#16233c] mb-4 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#b01b42]" />
+                {flow.label}
+              </p>
+              <div className="space-y-1.5">
                 {flow.steps.map((step, i) => (
                   <div key={i}>
                     <Link
                       href={step.href ?? "#"}
-                      className={`block rounded-lg border px-3 py-2 transition-opacity hover:opacity-80 ${TONE[step.tone]}`}
+                      className={`group block rounded-xl border px-3.5 py-2.5 transition-all duration-200 hover:shadow-[var(--shadow-sm)] hover:-translate-y-px ${TONE[step.tone]}`}
                     >
-                      <p className="text-[13px] font-semibold leading-tight">{step.title}</p>
-                      <p className="text-[11px] opacity-80 leading-tight mt-0.5">{step.sub}</p>
+                      <div className="flex items-center justify-between gap-2">
+                        <div>
+                          <p className="text-[13px] font-semibold leading-tight">{step.title}</p>
+                          <p className="text-[11px] opacity-80 leading-tight mt-0.5">{step.sub}</p>
+                        </div>
+                        <ArrowRight size={13} className="opacity-0 -translate-x-1 group-hover:opacity-70 group-hover:translate-x-0 transition-all duration-200 shrink-0" />
+                      </div>
                     </Link>
                     {i < flow.steps.length - 1 && (
-                      <div className="flex justify-center py-0.5 text-[#c3ccdb] text-xs leading-none">↓</div>
+                      <div className="flex justify-center py-1 text-[#c3ccdb] leading-none">
+                        <span className="w-px h-3 bg-gradient-to-b from-[#d3dbe8] to-transparent" />
+                      </div>
                     )}
                   </div>
                 ))}
@@ -181,30 +232,41 @@ export default async function Dashboard() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-[#8b97ab] mt-3">
-          A purchase order is raised <b>only</b> for bulk stock into the Store. Routine repairs draw parts from the Store on a
+        <p className="text-xs text-[#8b97ab] mt-4 leading-relaxed">
+          A purchase order is raised <b className="text-[#5b6b85]">only</b> for bulk stock into the Store. Routine repairs draw parts from the Store on a
           requisition — never a PO. Major works go out to tender.
         </p>
       </section>
 
       {/* Departments */}
-      {sections.map((section) => (
-        <section key={section.label} className="mb-12">
-          <div className="flex items-center gap-4 mb-1">
-            <h2 className="eyebrow whitespace-nowrap">{section.label}</h2>
-            <div className="gold-rule flex-1 opacity-60" />
-          </div>
-          <p className="text-sm text-[#8b97ab] mb-4">{section.blurb}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {section.cards.map((c) => (
-              <Link key={c.href} href={c.href} className="lux-card lux-card-hover p-5">
-                <p className="font-bold mb-1">{c.title}</p>
-                <p className="text-sm text-[#5b6b85] leading-relaxed">{c.desc}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      ))}
+      {sections.map((section, si) => {
+        const SecIcon = SECTION_ICON[section.label];
+        return (
+          <section key={section.label} className={`mb-12 rise-in rise-in-${Math.min(si + 1, 4)}`}>
+            <div className="section-head mb-1">
+              {SecIcon && (
+                <span className="icon-chip !w-8 !h-8 !rounded-lg shrink-0" aria-hidden="true">
+                  <SecIcon size={15} />
+                </span>
+              )}
+              <h2 className="eyebrow whitespace-nowrap">{section.label}</h2>
+              <div className="section-rule" />
+            </div>
+            <p className="text-sm text-[#8b97ab] mb-4 ml-11">{section.blurb}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {section.cards.map((c) => (
+                <Link key={c.href} href={c.href} className="group lux-card lux-card-hover lux-card-accent p-5 flex flex-col">
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <p className="font-bold text-[#16233c] group-hover:text-[#b01b42] transition-colors">{c.title}</p>
+                    <ArrowRight size={15} className="text-[#c3ccdb] group-hover:text-[#b01b42] opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all duration-200 shrink-0 mt-0.5" />
+                  </div>
+                  <p className="text-sm text-[#5b6b85] leading-relaxed">{c.desc}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        );
+      })}
     </main>
   );
 }

@@ -144,7 +144,7 @@ export default function LeaseManager({
         <h2 className="eyebrow mb-3">Cheque Schedule</h2>
         <div className="lux-card overflow-hidden mb-4">
         <div className="overflow-x-auto">
-        <table className="w-full text-sm border-collapse min-w-[600px]">
+        <table className="lux-table w-full text-sm border-collapse min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
               <th className="px-5 py-3.5">Amount</th>

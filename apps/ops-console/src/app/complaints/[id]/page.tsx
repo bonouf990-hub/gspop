@@ -63,7 +63,7 @@ export default async function ComplaintDetailPage({
 
   if (!context) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">Complaint not found.</p>
       </main>
     );
@@ -73,7 +73,7 @@ export default async function ComplaintDetailPage({
     await getComplaintExtras(id);
 
   return (
-    <main className="p-8 max-w-2xl">
+    <main className="p-6 sm:p-8 max-w-2xl">
       <Link href="/complaints" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Complaints</Link>
       {caseNumber && (
         <div className="flex items-center gap-3 mt-2">
@@ -137,7 +137,7 @@ export default async function ComplaintDetailPage({
 
       <section
         className={`border rounded-xl p-4 ${
-          context.isRecurringIssue ? "border-red-500 bg-red-950/30" : "border-[rgba(176,27,66,0.15)] bg-[#ffffff]"
+          context.isRecurringIssue ? "border-red-500 bg-red-50" : "border-[rgba(176,27,66,0.15)] bg-[#ffffff]"
         }`}
       >
         <h2 className="eyebrow mb-3">

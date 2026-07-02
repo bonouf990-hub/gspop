@@ -27,7 +27,7 @@ const TYPE_STYLE: Record<string, { bg: string; dot: string }> = {
   info: { bg: "border-blue-200 bg-blue-50", dot: "bg-blue-400" },
   warning: { bg: "border-amber-200 bg-amber-50", dot: "bg-amber-400" },
   urgent: { bg: "border-red-200 bg-red-50", dot: "bg-red-400" },
-  success: { bg: "border-green-200 bg-green-950/10", dot: "bg-green-400" },
+  success: { bg: "border-green-200 bg-green-50", dot: "bg-green-400" },
 };
 
 async function getPageData() {
@@ -48,7 +48,7 @@ export default async function NotificationsPage() {
   const urgent = notifications.filter((n) => n.type === "urgent" && !n.read_at);
 
   return (
-    <main className="p-8 max-w-3xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-extrabold mt-1">Notifications</h1>
@@ -114,7 +114,7 @@ function NotificationCard({ n }: { n: NotificationRow }) {
 
   return (
     <div
-      className={`border rounded-xl p-4 flex items-start gap-3 ${style.bg} ${
+      className={`border rounded-xl p-4 flex items-start gap-3 shadow-[var(--shadow-xs)] transition-shadow hover:shadow-[var(--shadow-sm)] ${style.bg} ${
         isRead ? "opacity-60" : ""
       }`}
     >

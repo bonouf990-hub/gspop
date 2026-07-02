@@ -126,18 +126,18 @@ function fmtAED(n: number) {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  active: "bg-green-900 text-green-700",
+  active: "bg-green-50 text-green-700",
   completed: "bg-[#e9eef6] text-[#5b6b85]",
-  overdue: "bg-red-900 text-red-700",
+  overdue: "bg-red-50 text-red-700",
   cancelled: "bg-[#e9eef6] text-[#8b97ab]",
   pending: "bg-amber-50 text-amber-700",
-  approved: "bg-green-900 text-green-700",
+  approved: "bg-green-50 text-green-700",
   fulfilled: "bg-blue-50 text-blue-700",
-  rejected: "bg-red-900 text-red-700",
+  rejected: "bg-red-50 text-red-700",
   received: "bg-blue-50 text-blue-700",
-  verified: "bg-green-900 text-green-700",
-  disputed: "bg-red-900 text-red-700",
-  paid: "bg-green-900 text-green-700",
+  verified: "bg-green-50 text-green-700",
+  disputed: "bg-red-50 text-red-700",
+  paid: "bg-green-50 text-green-700",
 };
 
 export default async function VendorPortalPage() {
@@ -145,7 +145,7 @@ export default async function VendorPortalPage() {
 
   if (!data) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">This portal is only accessible to vendor accounts.</p>
       </main>
     );
@@ -153,7 +153,7 @@ export default async function VendorPortalPage() {
 
   if (!data.vendor) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <h1 className="text-2xl font-extrabold mb-2">Vendor Portal</h1>
         <p className="text-[#5b6b85]">Welcome, {data.profile.full_name}. Your vendor account is being set up.</p>
       </main>
@@ -171,7 +171,7 @@ export default async function VendorPortalPage() {
     .reduce((s, p) => s + Number(p.amount), 0);
 
   return (
-    <main className="p-8 max-w-5xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-5xl mx-auto">
       <div className="mb-8">
         <p className="eyebrow mb-1 mt-2">
           ARENCO — Vendor Portal
@@ -328,7 +328,7 @@ export default async function VendorPortalPage() {
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
+            <table className="lux-table w-full text-sm border-collapse">
               <thead>
                 <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Description</th>
@@ -375,7 +375,7 @@ export default async function VendorPortalPage() {
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
+            <table className="lux-table w-full text-sm border-collapse">
               <thead>
                 <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Invoice #</th>

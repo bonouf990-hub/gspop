@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { CalendarClock } from "lucide-react";
 import RenewalActions from "./RenewalActions";
 
 type LeaseRow = {
@@ -54,7 +56,7 @@ export default async function LeaseRenewalsPage() {
   const data = await getRenewalsData();
 
   if (!data) {
-    return <main className="p-8"><p className="text-[#8b97ab]">Not authorized.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">Not authorized.</p></main>;
   }
 
   const { leases } = data;
@@ -74,12 +76,13 @@ export default async function LeaseRenewalsPage() {
   );
 
   return (
-    <main className="p-8">
+    <main className="p-6 sm:p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
           <Link href="/admin/residents" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Residents & Leases
           </Link>
+          <p className="eyebrow mb-1 mt-2 flex items-center gap-2"><CalendarClock size={12} /> Community &amp; Residents</p>
           <h1 className="text-2xl font-extrabold mt-1">Lease Renewals</h1>
           <p className="text-[#5b6b85] text-sm mt-1">
             Track upcoming expirations and manage renewal workflows.
@@ -93,7 +96,7 @@ export default async function LeaseRenewalsPage() {
           <p className="text-xl font-extrabold text-[#d9647f]">{leases.length}</p>
           <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Active with End Date</p>
         </div>
-        <div className="border border-red-200 bg-red-950/20 rounded-xl p-4 text-center">
+        <div className="border border-red-200 bg-red-50 rounded-xl p-4 text-center">
           <p className="text-xl font-extrabold text-red-600">{urgent.length}</p>
           <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">Expiring ≤ 30 Days</p>
         </div>

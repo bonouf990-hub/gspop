@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { ScrollText } from "lucide-react";
 import ExportCsv from "@/components/ExportCsv";
 
 type ActivityRow = {
@@ -89,8 +91,9 @@ export default async function ActivityLogPage() {
   }));
 
   return (
-    <main className="p-8 max-w-4xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-4xl mx-auto">
       <div className="mb-6">
+        <p className="eyebrow mb-1.5 flex items-center gap-2"><ScrollText size={12} /> Insight &amp; Reporting</p>
         <h1 className="text-2xl font-extrabold mt-1">Activity Log</h1>
         <p className="text-[#5b6b85] text-sm mt-1">
           Complete audit trail of all operations across the platform.

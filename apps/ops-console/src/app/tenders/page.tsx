@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Gavel } from "lucide-react";
 import CreateTender from "./CreateTender";
 
 type TenderRow = {
@@ -51,13 +53,13 @@ async function getPageData() {
 
 const STATUS_STYLE: Record<string, string> = {
   draft: "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]",
-  published: "bg-green-900 text-green-700",
-  site_visit: "bg-amber-900 text-amber-700",
-  submissions_open: "bg-green-900 text-green-700",
-  closed: "bg-amber-900 text-amber-700",
+  published: "bg-green-50 text-green-700",
+  site_visit: "bg-amber-50 text-amber-700",
+  submissions_open: "bg-green-50 text-green-700",
+  closed: "bg-amber-50 text-amber-700",
   evaluating: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  decided: "bg-green-900 text-green-700",
-  cancelled: "bg-red-900 text-red-700",
+  decided: "bg-green-50 text-green-700",
+  cancelled: "bg-red-50 text-red-700",
 };
 
 export default async function TendersPage() {
@@ -67,16 +69,14 @@ export default async function TendersPage() {
   const decided = tenders.filter((t) => ["decided", "cancelled"].includes(t.status));
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Tender Management</h1>
-          <p className="text-[#5b6b85] text-sm mt-1">
-            Create tenders, receive vendor submissions, and let AI analyze and rank bids.
-          </p>
-        </div>
-        <CreateTender properties={properties} />
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Purchasing & Contracts"
+        title="Tender Management"
+        icon={Gavel}
+        description="Create tenders, receive vendor submissions, and let AI analyze and rank bids."
+        actions={<CreateTender properties={properties} />}
+      />
 
       <section className="mb-8">
         <h2 className="eyebrow mb-3">
@@ -137,7 +137,7 @@ export default async function TendersPage() {
           </h2>
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[700px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[700px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Tender</th>

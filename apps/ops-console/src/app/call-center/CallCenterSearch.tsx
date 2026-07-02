@@ -27,13 +27,13 @@ type ComplaintHistoryItem = {
 
 const OPEN_STATUSES = ["submitted", "acknowledged", "assigned", "in_progress"];
 const STATUS_STYLE: Record<string, string> = {
-  submitted: "bg-amber-900 text-amber-700",
-  acknowledged: "bg-amber-900 text-amber-700",
+  submitted: "bg-amber-50 text-amber-700",
+  acknowledged: "bg-amber-50 text-amber-700",
   assigned: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   in_progress: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  resolved: "bg-green-900 text-green-700",
+  resolved: "bg-green-50 text-green-700",
   closed: "bg-[#e9eef6] text-[#5b6b85]",
-  rejected: "bg-red-900 text-red-700",
+  rejected: "bg-red-50 text-red-700",
 };
 
 export default function CallCenterSearch({

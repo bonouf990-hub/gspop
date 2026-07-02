@@ -5,3 +5,6 @@ dist/
 *.env
 *.env.local
 .DS_Store
+
+# Claude Code agent worktrees (local machinery)
+.claude/worktrees/

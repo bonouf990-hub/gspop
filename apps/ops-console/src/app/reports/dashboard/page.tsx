@@ -1,7 +1,10 @@
 import Link from "next/link";
+import { BarChart3 } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
 import { requireManagementRole } from "@/lib/check-permission";
 import ExportCsv from "@/components/ExportCsv";
+import PageHeader from "@/components/PageHeader";
+import StatTile from "@/components/StatTile";
 
 type WORow = {
   id: string;
@@ -283,7 +286,7 @@ function barWidth(value: number, max: number) {
 export default async function AnalyticsDashboard() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this dashboard.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this dashboard.</p></main>;
   }
 
   const data = await getDashboardData();
@@ -302,33 +305,25 @@ export default async function AnalyticsDashboard() {
   }));
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Analytics Dashboard</h1>
-          <p className="text-[#5b6b85] text-sm mt-1">
-            Real-time KPIs across occupancy, revenue, maintenance, and operations.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <ExportCsv rows={csvRows} filename="building-performance" />
-          <Link
-            href="/reports/maintenance-costs"
-            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-[#5b6b85] hover:bg-[rgba(176,27,66,0.12)]"
-          >
-            Cost Report
-          </Link>
-          <Link
-            href="/reports/budgets"
-            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-[#5b6b85] hover:bg-[rgba(176,27,66,0.12)]"
-          >
-            Budgets
-          </Link>
-        </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <div className="rise-in">
+        <PageHeader
+          eyebrow="Insight & Reporting"
+          title="Analytics Dashboard"
+          icon={BarChart3}
+          description="Real-time KPIs across occupancy, revenue, maintenance, and operations."
+          actions={
+            <>
+              <ExportCsv rows={csvRows} filename="building-performance" />
+              <Link href="/reports/maintenance-costs" className="btn-ghost text-xs px-3 py-2">Cost Report</Link>
+              <Link href="/reports/budgets" className="btn-ghost text-xs px-3 py-2">Budgets</Link>
+            </>
+          }
+        />
       </div>
 
       {/* Primary KPIs */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6 rise-in rise-in-1">
         <KpiTile
           label="Occupancy Rate"
           value={`${data.occupancyRate}%`}
@@ -371,25 +366,25 @@ export default async function AnalyticsDashboard() {
 
       {/* Alerts Row */}
       {(data.overdueCount > 0 || data.urgentExpiringLeases > 0 || data.emergencyWOs > 0) && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6 rise-in rise-in-2">
           {data.overdueCount > 0 && (
-            <div className="bg-red-950/30 border border-red-200 rounded-xl p-4">
+            <div className="rounded-xl p-4 border border-red-200 bg-gradient-to-br from-red-50 to-white shadow-[var(--shadow-sm)]">
               <p className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Overdue Rent</p>
-              <p className="text-lg font-extrabold text-red-700">{fmtAED(data.totalOverdueAmount)}</p>
+              <p className="text-lg font-extrabold text-red-700 tabular-nums">{fmtAED(data.totalOverdueAmount)}</p>
               <p className="text-[10px] text-red-600/70">{data.overdueCount} invoices overdue</p>
             </div>
           )}
           {data.urgentExpiringLeases > 0 && (
-            <div className="bg-amber-50/30 border border-amber-200 rounded-xl p-4">
+            <div className="rounded-xl p-4 border border-amber-200 bg-gradient-to-br from-amber-50 to-white shadow-[var(--shadow-sm)]">
               <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">Leases Expiring</p>
-              <p className="text-lg font-extrabold text-amber-700">{data.urgentExpiringLeases}</p>
+              <p className="text-lg font-extrabold text-amber-700 tabular-nums">{data.urgentExpiringLeases}</p>
               <p className="text-[10px] text-amber-700/70">within 30 days · {data.expiringLeases} within 60 days</p>
             </div>
           )}
           {data.emergencyWOs > 0 && (
-            <div className="bg-red-950/30 border border-red-200 rounded-xl p-4">
+            <div className="rounded-xl p-4 border border-red-200 bg-gradient-to-br from-red-50 to-white shadow-[var(--shadow-sm)]">
               <p className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Emergency Jobs</p>
-              <p className="text-lg font-extrabold text-red-700">{data.emergencyWOs}</p>
+              <p className="text-lg font-extrabold text-red-700 tabular-nums">{data.emergencyWOs}</p>
               <p className="text-[10px] text-red-600/70">active emergency work orders</p>
             </div>
           )}
@@ -552,7 +547,7 @@ export default async function AnalyticsDashboard() {
         </h2>
         <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[800px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[800px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>
@@ -627,11 +622,22 @@ function KpiTile({
   color: string;
   detailColor?: string;
 }) {
+  // Map the semantic value color to the tile's accent-bar tone.
+  const tone = color.includes("green")
+    ? "green"
+    : color.includes("amber")
+    ? "amber"
+    : color.includes("red")
+    ? "red"
+    : "gold";
   return (
-    <div className="lux-card p-4 text-center">
-      <p className={`text-xl font-extrabold ${color}`}>{value}</p>
-      <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">{label}</p>
-      <p className={`text-[10px] mt-1 ${detailColor ?? "text-[#8b97ab]"}`}>{detail}</p>
-    </div>
+    <StatTile
+      label={label}
+      value={value}
+      detail={detail}
+      detailColor={detailColor}
+      tone={tone}
+      valueClassName={`${color} !text-[1.5rem]`}
+    />
   );
 }

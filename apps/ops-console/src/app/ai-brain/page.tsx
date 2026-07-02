@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Brain } from "lucide-react";
 import SmartTriage from "./SmartTriage";
 import BudgetForecast from "./BudgetForecast";
 import AnomalyScanner from "./AnomalyScanner";
@@ -45,7 +47,7 @@ export default async function AIBrainPage() {
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">Please log in to access AI Brain.</p>
       </main>
     );
@@ -63,7 +65,7 @@ export default async function AIBrainPage() {
 
   if (!hasAny) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">You don&apos;t have access to AI Brain.</p>
       </main>
     );
@@ -72,8 +74,9 @@ export default async function AIBrainPage() {
   const moduleCount = Object.values(access).filter(Boolean).length;
 
   return (
-    <main className="p-8 max-w-5xl">
+    <main className="p-6 sm:p-8 max-w-5xl">
       <div className="mt-2 mb-6">
+        <p className="eyebrow mb-1.5 flex items-center gap-2"><Brain size={12} /> Insight &amp; Reporting · AI</p>
         <h1 className="text-2xl font-extrabold">AI Brain</h1>
         <p className="text-[#5b6b85] text-sm mt-1">
           Unified AI intelligence — triage, forecast, detect anomalies, query data, and predict maintenance.

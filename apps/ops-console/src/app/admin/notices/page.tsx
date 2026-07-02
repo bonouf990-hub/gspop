@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Megaphone } from "lucide-react";
 import PostNoticeForm from "./PostNoticeForm";
 
 export default async function NoticesAdminPage() {
@@ -15,7 +17,7 @@ export default async function NoticesAdminPage() {
   const isAdmin = callerProfile && ["tenant_admin", "property_manager"].includes(callerProfile.role);
   if (!isAdmin || !callerProfile) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">You don&apos;t have access to Building Notices.</p>
       </main>
     );
@@ -30,20 +32,20 @@ export default async function NoticesAdminPage() {
   ]);
 
   return (
-    <main className="p-8 max-w-3xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Building Notices</h1>
-          <p className="text-[#5b6b85] mt-1">
-            Post announcements to residents. Each resident on the building is notified in their app.
-          </p>
-        </div>
-        <PostNoticeForm
-          properties={(properties ?? []).map((p) => ({ id: p.id, name: p.name }))}
-          tenantId={callerProfile.tenant_id}
-          userId={userData.user!.id}
-        />
-      </div>
+    <main className="p-6 sm:p-8 max-w-3xl mx-auto">
+      <PageHeader
+        eyebrow="Community & Residents"
+        title="Building Notices"
+        icon={Megaphone}
+        description="Post announcements to residents. Each resident on the building is notified in their app."
+        actions={
+          <PostNoticeForm
+            properties={(properties ?? []).map((p) => ({ id: p.id, name: p.name }))}
+            tenantId={callerProfile.tenant_id}
+            userId={userData.user!.id}
+          />
+        }
+      />
 
       <div className="space-y-3">
         {(notices ?? []).map((n) => {

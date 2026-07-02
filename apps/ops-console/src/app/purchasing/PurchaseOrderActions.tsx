@@ -90,7 +90,7 @@ export default function PurchaseOrderActions({
         <button
           onClick={() => updateStatus("rejected")}
           disabled={updating}
-          className="text-xs font-bold px-2 py-1 rounded bg-red-900 text-red-700 hover:bg-red-800 disabled:opacity-50"
+          className="text-xs font-bold px-2 py-1 rounded bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50"
         >
           Reject
         </button>
@@ -147,7 +147,7 @@ export default function PurchaseOrderActions({
         <button
           onClick={() => updateStatus("rejected")}
           disabled={updating}
-          className="text-xs font-bold px-2 py-1 rounded bg-red-900 text-red-700 hover:bg-red-800 disabled:opacity-50"
+          className="text-xs font-bold px-2 py-1 rounded bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50"
         >
           Reject
         </button>

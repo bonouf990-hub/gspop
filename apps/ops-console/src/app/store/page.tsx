@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Package } from "lucide-react";
 import StoreRequestActions from "./StoreRequestActions";
 
 type PartsRequestRow = {
@@ -102,28 +104,26 @@ async function getStoreData() {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  requested: "bg-amber-900 text-amber-700",
+  requested: "bg-amber-50 text-amber-700",
   approved: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   picking: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  delivering: "bg-amber-900 text-amber-700",
-  delivered: "bg-green-900 text-green-700",
-  collected: "bg-green-900 text-green-700",
-  rejected: "bg-red-900 text-red-700",
+  delivering: "bg-amber-50 text-amber-700",
+  delivered: "bg-green-50 text-green-700",
+  collected: "bg-green-50 text-green-700",
+  rejected: "bg-red-50 text-red-700",
 };
 
 export default async function StorePage() {
   const { pending, completed, apartmentParts } = await getStoreData();
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Store & Dispatch</h1>
-          <p className="text-[#5b6b85] mt-1">
-            Incoming parts requests from technicians on-site. Pick, pack, and dispatch or mark for pickup.
-          </p>
-        </div>
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Store & Inventory"
+        title="Store & Dispatch"
+        icon={Package}
+        description="Incoming parts requests from technicians on-site. Pick, pack, and dispatch or mark for pickup."
+      />
 
       <section className="mb-8">
         <h2 className="eyebrow mb-3">
@@ -224,7 +224,7 @@ export default async function StorePage() {
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse min-w-[900px]">
+            <table className="lux-table w-full text-sm border-collapse min-w-[900px]">
               <thead>
                 <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Item</th>
@@ -303,7 +303,7 @@ export default async function StorePage() {
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse min-w-[800px]">
+            <table className="lux-table w-full text-sm border-collapse min-w-[800px]">
               <thead>
                 <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Building</th>

@@ -87,7 +87,7 @@ export default function SiteVisitManager({
         <p className="text-sm text-[#8b97ab]">No vendors have registered for the site visit yet.</p>
       ) : (
         <div className="overflow-x-auto">
-        <table className="w-full text-sm border-collapse min-w-[600px]">
+        <table className="lux-table w-full text-sm border-collapse min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
               <th className="px-5 py-3.5 font-medium">Company</th>
@@ -126,7 +126,7 @@ export default function SiteVisitManager({
                       disabled={updating === reg.id}
                       className={`text-xs font-bold px-3 py-1 rounded-lg disabled:opacity-50 ${
                         reg.attended
-                          ? "bg-green-900 text-green-700"
+                          ? "bg-green-50 text-green-700"
                           : "bg-[#f4f6fa] text-[#8b97ab] border border-[rgba(176,27,66,0.15)]"
                       }`}
                     >

@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { CheckSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
 import { requireManagementRole } from "@/lib/check-permission";
+import PageHeader from "@/components/PageHeader";
 import ApprovalDecision from "./ApprovalDecision";
 
 type ApprovalRow = {
@@ -73,7 +75,7 @@ async function getApprovals() {
 export default async function ApprovalsPage() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Approvals.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Approvals.</p></main>;
   }
 
   const { pending, recent, entityMap } = await getApprovals();
@@ -100,15 +102,17 @@ export default async function ApprovalsPage() {
   }
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Approvals</h1>
-          <p className="text-[#5b6b85] mt-1">Spend requests and escalations awaiting sign-off.</p>
-        </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <div className="rise-in">
+        <PageHeader
+          eyebrow="Maintenance & Engineering"
+          title="Approvals"
+          icon={CheckSquare}
+          description="Spend requests and escalations awaiting sign-off, per the approval matrix."
+        />
       </div>
 
-      <section className="mb-8">
+      <section className="mb-8 rise-in rise-in-1">
         <h2 className="eyebrow mb-3">
           Pending ({pending.length})
         </h2>
@@ -117,7 +121,7 @@ export default async function ApprovalsPage() {
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[600px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[600px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Item</th>
@@ -143,7 +147,7 @@ export default async function ApprovalsPage() {
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[600px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[600px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Item</th>
