@@ -140,7 +140,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
     <main className="p-8 max-w-4xl mx-auto print:p-4">
       <div className="flex items-center justify-between mb-6 print:hidden">
         <div className="flex gap-3 text-sm">
-          <Link href={`/tenders/${id}`} className="text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href={`/tenders/${id}`} className="text-[#5b6b85] hover:text-[#b01b42]">
             ← Back to Tender
           </Link>
         </div>
@@ -152,8 +152,8 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
           ARENCO — Tender Evaluation Report
         </p>
         <h1 className="text-2xl font-extrabold">{tender.title}</h1>
-        <p className="text-sm text-[#9aa5bd] mt-1">{tender.description}</p>
-        <div className="flex gap-6 mt-3 text-xs text-[#5d6880]">
+        <p className="text-sm text-[#5b6b85] mt-1">{tender.description}</p>
+        <div className="flex gap-6 mt-3 text-xs text-[#8b97ab]">
           {property && <span>Building: {property.name}</span>}
           {creator && <span>Prepared by: {creator.full_name}</span>}
           <span>Report date: {new Date().toLocaleDateString()}</span>
@@ -166,31 +166,31 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
           Tender Overview
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
-          <div className="bg-[#1a2640] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
-            <p className="text-xs text-[#9aa5bd]">Total Submissions</p>
+          <div className="bg-[#ffffff] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
+            <p className="text-xs text-[#5b6b85]">Total Submissions</p>
             <p className="text-xl font-extrabold text-[#d9647f]">{submissions.length}</p>
           </div>
           {tender.budget_estimate && (
-            <div className="bg-[#1a2640] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
-              <p className="text-xs text-[#9aa5bd]">Budget Estimate</p>
+            <div className="bg-[#ffffff] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
+              <p className="text-xs text-[#5b6b85]">Budget Estimate</p>
               <p className="text-xl font-extrabold text-[#d9647f]">
                 {tender.currency} {Number(tender.budget_estimate).toLocaleString()}
               </p>
             </div>
           )}
-          <div className="bg-[#1a2640] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
-            <p className="text-xs text-[#9aa5bd]">Average Bid</p>
+          <div className="bg-[#ffffff] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
+            <p className="text-xs text-[#5b6b85]">Average Bid</p>
             <p className="text-xl font-extrabold text-[#d9647f]">
               {tender.currency} {avgAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
-          <div className="bg-[#1a2640] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
-            <p className="text-xs text-[#9aa5bd]">Mandatory Criteria</p>
+          <div className="bg-[#ffffff] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
+            <p className="text-xs text-[#5b6b85]">Mandatory Criteria</p>
             <p className="text-xl font-extrabold text-[#d9647f]">{mandatoryReqs.length}</p>
           </div>
         </div>
         {tender.site_visit_required && (
-          <p className="text-xs text-[#9aa5bd]">
+          <p className="text-xs text-[#5b6b85]">
             Site inspection conducted
             {tender.site_visit_date && ` on ${new Date(tender.site_visit_date).toLocaleDateString()}`}
             {tender.site_visit_location && ` at ${tender.site_visit_location}`}
@@ -201,7 +201,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
 
       {tender.decided_reason && (
         <section className="mb-8 border border-green-700 bg-green-950/30 rounded-xl p-5 print:border-gray-300 print:bg-green-50">
-          <h2 className="text-xs font-bold text-green-400 tracking-[0.15em] uppercase mb-3 print:text-green-800">
+          <h2 className="text-xs font-bold text-green-700 tracking-[0.15em] uppercase mb-3 print:text-green-800">
             AI Executive Summary
           </h2>
           <p className="text-sm whitespace-pre-wrap print:text-black">{tender.decided_reason}</p>
@@ -217,39 +217,39 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
             <div className="flex items-start justify-between">
               <div>
                 <h3 className="text-lg font-extrabold">{winner.vendor_name}</h3>
-                <p className="text-xs text-[#9aa5bd]">{winner.vendor_email}</p>
+                <p className="text-xs text-[#5b6b85]">{winner.vendor_email}</p>
               </div>
               <div className="text-right">
                 <p className="text-2xl font-extrabold text-[#d9647f]">
                   {tender.currency} {Number(winner.proposed_amount).toLocaleString()}
                 </p>
                 {winner.ai_score !== null && (
-                  <p className="text-sm font-bold text-green-400">Score: {Number(winner.ai_score).toFixed(1)}/100</p>
+                  <p className="text-sm font-bold text-green-700">Score: {Number(winner.ai_score).toFixed(1)}/100</p>
                 )}
                 {winner.proposed_timeline_days && (
-                  <p className="text-xs text-[#9aa5bd]">{winner.proposed_timeline_days} days timeline</p>
+                  <p className="text-xs text-[#5b6b85]">{winner.proposed_timeline_days} days timeline</p>
                 )}
               </div>
             </div>
             {winner.ai_summary && (
-              <p className="text-sm text-[#9aa5bd] mt-3">{winner.ai_summary}</p>
+              <p className="text-sm text-[#5b6b85] mt-3">{winner.ai_summary}</p>
             )}
             <div className="grid grid-cols-2 gap-4 mt-3 text-xs">
               {winner.ai_strengths && (
                 <div>
-                  <p className="font-bold text-green-400 mb-1">Key Strengths</p>
-                  <p className="text-[#9aa5bd] whitespace-pre-wrap">{winner.ai_strengths}</p>
+                  <p className="font-bold text-green-700 mb-1">Key Strengths</p>
+                  <p className="text-[#5b6b85] whitespace-pre-wrap">{winner.ai_strengths}</p>
                 </div>
               )}
               {winner.ai_weaknesses && (
                 <div>
-                  <p className="font-bold text-amber-400 mb-1">Areas of Note</p>
-                  <p className="text-[#9aa5bd] whitespace-pre-wrap">{winner.ai_weaknesses}</p>
+                  <p className="font-bold text-amber-700 mb-1">Areas of Note</p>
+                  <p className="text-[#5b6b85] whitespace-pre-wrap">{winner.ai_weaknesses}</p>
                 </div>
               )}
             </div>
             {tender.budget_estimate && (
-              <p className="text-xs text-[#5d6880] mt-3">
+              <p className="text-xs text-[#8b97ab] mt-3">
                 {Number(winner.proposed_amount) <= Number(tender.budget_estimate)
                   ? `Within budget (${((Number(winner.proposed_amount) / Number(tender.budget_estimate)) * 100).toFixed(0)}% of estimate)`
                   : `Exceeds budget by ${(((Number(winner.proposed_amount) - Number(tender.budget_estimate)) / Number(tender.budget_estimate)) * 100).toFixed(0)}%`
@@ -267,7 +267,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[900px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd]">
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85]">
               <th className="py-2 font-medium">Rank</th>
               <th className="py-2 font-medium">Vendor</th>
               <th className="py-2 font-medium">Bid Amount</th>
@@ -294,29 +294,29 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                   <td className="py-2">
                     {sub.ai_score !== null ? (
                       <span className={`font-bold ${
-                        Number(sub.ai_score) >= 80 ? "text-green-400"
+                        Number(sub.ai_score) >= 80 ? "text-green-700"
                           : Number(sub.ai_score) >= 60 ? "text-[#d9647f]"
-                          : Number(sub.ai_score) >= 40 ? "text-amber-400"
-                          : "text-red-400"
+                          : Number(sub.ai_score) >= 40 ? "text-amber-700"
+                          : "text-red-600"
                       }`}>
                         {Number(sub.ai_score).toFixed(1)}
                       </span>
                     ) : (
-                      <span className="text-[#5d6880]">—</span>
+                      <span className="text-[#8b97ab]">—</span>
                     )}
                   </td>
-                  <td className="py-2 text-[#9aa5bd]">
+                  <td className="py-2 text-[#5b6b85]">
                     {sub.proposed_timeline_days ? `${sub.proposed_timeline_days}d` : "—"}
                   </td>
                   <td className="py-2">
                     {mandatoryMet ? (
-                      <span className="text-green-400 font-bold">Pass</span>
+                      <span className="text-green-700 font-bold">Pass</span>
                     ) : (
-                      <span className="text-red-400 font-bold">Fail</span>
+                      <span className="text-red-600 font-bold">Fail</span>
                     )}
                   </td>
                   <td className="py-2">
-                    <span className={`text-xs font-medium capitalize ${sub.status === "winner" ? "text-green-400" : sub.status === "rejected" ? "text-red-400" : "text-[#9aa5bd]"}`}>
+                    <span className={`text-xs font-medium capitalize ${sub.status === "winner" ? "text-green-700" : sub.status === "rejected" ? "text-red-600" : "text-[#5b6b85]"}`}>
                       {sub.status}
                     </span>
                   </td>
@@ -333,20 +333,20 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
           Pricing Analysis
         </h2>
         <div className="grid grid-cols-3 gap-4 mb-4">
-          <div className="bg-[#1a2640] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
-            <p className="text-xs text-[#9aa5bd]">Lowest Bid</p>
-            <p className="text-lg font-extrabold text-green-400">
+          <div className="bg-[#ffffff] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
+            <p className="text-xs text-[#5b6b85]">Lowest Bid</p>
+            <p className="text-lg font-extrabold text-green-700">
               {tender.currency} {lowestBid.toLocaleString()}
             </p>
           </div>
-          <div className="bg-[#1a2640] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
-            <p className="text-xs text-[#9aa5bd]">Highest Bid</p>
-            <p className="text-lg font-extrabold text-red-400">
+          <div className="bg-[#ffffff] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
+            <p className="text-xs text-[#5b6b85]">Highest Bid</p>
+            <p className="text-lg font-extrabold text-red-600">
               {tender.currency} {highestBid.toLocaleString()}
             </p>
           </div>
-          <div className="bg-[#1a2640] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
-            <p className="text-xs text-[#9aa5bd]">Spread</p>
+          <div className="bg-[#ffffff] rounded-lg p-3 print:border print:border-gray-300 print:bg-white">
+            <p className="text-xs text-[#5b6b85]">Spread</p>
             <p className="text-lg font-extrabold text-[#d9647f]">
               {highestBid > 0
                 ? `${(((highestBid - lowestBid) / lowestBid) * 100).toFixed(0)}%`
@@ -361,10 +361,10 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
               const pct = highestBid > 0 ? (Number(sub.proposed_amount) / highestBid) * 100 : 0;
               return (
                 <div key={sub.id} className="flex items-center gap-3">
-                  <span className="text-xs text-[#9aa5bd] w-32 truncate">{sub.vendor_name}</span>
-                  <div className="flex-1 h-5 bg-[#0f1626] rounded-full overflow-hidden">
+                  <span className="text-xs text-[#5b6b85] w-32 truncate">{sub.vendor_name}</span>
+                  <div className="flex-1 h-5 bg-[#f4f6fa] rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${sub.status === "winner" ? "bg-[#b01b42]" : "bg-[#213052]"}`}
+                      className={`h-full rounded-full ${sub.status === "winner" ? "bg-[#b01b42]" : "bg-[#e9eef6]"}`}
                       style={{ width: `${pct}%` }}
                     />
                   </div>
@@ -386,7 +386,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
           <div className="overflow-x-auto">
             <table className="w-full text-xs border-collapse">
               <thead>
-                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd]">
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85]">
                   <th className="py-2 font-medium">Requirement</th>
                   <th className="py-2 font-medium">Type</th>
                   <th className="py-2 font-medium">Weight</th>
@@ -400,11 +400,11 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                   <tr key={req.id} className="border-b border-[rgba(176,27,66,0.08)]">
                     <td className="py-1.5">{req.title}</td>
                     <td className="py-1.5">
-                      <span className={req.is_mandatory ? "text-red-400 font-bold" : "text-[#5d6880]"}>
+                      <span className={req.is_mandatory ? "text-red-600 font-bold" : "text-[#8b97ab]"}>
                         {req.is_mandatory ? "M" : "O"}
                       </span>
                     </td>
-                    <td className="py-1.5 text-[#5d6880]">{req.weight}</td>
+                    <td className="py-1.5 text-[#8b97ab]">{req.weight}</td>
                     {sorted.map((sub) => {
                       const resp = sub.responses.find((r) => r.requirement_id === req.id);
                       const hasResponse = resp && (resp.response?.trim() || resp.document_url);
@@ -412,12 +412,12 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                         <td key={sub.id} className="py-1.5">
                           {hasResponse ? (
                             resp?.meets_requirement === false ? (
-                              <span className="text-red-400 font-bold">✗</span>
+                              <span className="text-red-600 font-bold">✗</span>
                             ) : (
-                              <span className="text-green-400 font-bold">✓</span>
+                              <span className="text-green-700 font-bold">✓</span>
                             )
                           ) : (
-                            <span className="text-red-400">—</span>
+                            <span className="text-red-600">—</span>
                           )}
                         </td>
                       );
@@ -436,7 +436,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
         </h2>
         <div className="space-y-4">
           {sorted.map((sub, idx) => (
-            <div key={sub.id} className="bg-[#1a2640] rounded-xl p-4 print:border print:border-gray-300 print:bg-white">
+            <div key={sub.id} className="bg-[#ffffff] rounded-xl p-4 print:border print:border-gray-300 print:bg-white">
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <p className="font-bold">
@@ -446,7 +446,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                       <span className="text-xs ml-2 bg-green-800 text-green-200 px-2 py-0.5 rounded">WINNER</span>
                     )}
                   </p>
-                  <p className="text-xs text-[#5d6880]">{sub.vendor_email}</p>
+                  <p className="text-xs text-[#8b97ab]">{sub.vendor_email}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-[#d9647f]">
@@ -454,9 +454,9 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                   </p>
                   {sub.ai_score !== null && (
                     <p className={`text-sm font-bold ${
-                      Number(sub.ai_score) >= 80 ? "text-green-400"
+                      Number(sub.ai_score) >= 80 ? "text-green-700"
                         : Number(sub.ai_score) >= 60 ? "text-[#d9647f]"
-                        : "text-amber-400"
+                        : "text-amber-700"
                     }`}>
                       {Number(sub.ai_score).toFixed(1)}/100
                     </p>
@@ -464,25 +464,25 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                 </div>
               </div>
               {sub.ai_summary && (
-                <p className="text-sm text-[#9aa5bd] mb-2">{sub.ai_summary}</p>
+                <p className="text-sm text-[#5b6b85] mb-2">{sub.ai_summary}</p>
               )}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                 {sub.ai_strengths && (
                   <div>
-                    <p className="font-bold text-green-400 mb-1">Strengths</p>
-                    <p className="text-[#9aa5bd] whitespace-pre-wrap">{sub.ai_strengths}</p>
+                    <p className="font-bold text-green-700 mb-1">Strengths</p>
+                    <p className="text-[#5b6b85] whitespace-pre-wrap">{sub.ai_strengths}</p>
                   </div>
                 )}
                 {sub.ai_weaknesses && (
                   <div>
-                    <p className="font-bold text-amber-400 mb-1">Weaknesses</p>
-                    <p className="text-[#9aa5bd] whitespace-pre-wrap">{sub.ai_weaknesses}</p>
+                    <p className="font-bold text-amber-700 mb-1">Weaknesses</p>
+                    <p className="text-[#5b6b85] whitespace-pre-wrap">{sub.ai_weaknesses}</p>
                   </div>
                 )}
                 {sub.ai_missing_items && (
                   <div>
-                    <p className="font-bold text-red-400 mb-1">Missing Items</p>
-                    <p className="text-[#9aa5bd] whitespace-pre-wrap">{sub.ai_missing_items}</p>
+                    <p className="font-bold text-red-600 mb-1">Missing Items</p>
+                    <p className="text-[#5b6b85] whitespace-pre-wrap">{sub.ai_missing_items}</p>
                   </div>
                 )}
               </div>
@@ -491,7 +491,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
         </div>
       </section>
 
-      <div className="border-t-2 border-[#b01b42] pt-4 text-xs text-[#5d6880] print:mt-8">
+      <div className="border-t-2 border-[#b01b42] pt-4 text-xs text-[#8b97ab] print:mt-8">
         <div className="flex justify-between">
           <span>ARENCO Tender Evaluation Report — {tender.title}</span>
           <span>Generated {new Date().toLocaleString()}</span>

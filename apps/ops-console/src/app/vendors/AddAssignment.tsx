@@ -66,7 +66,7 @@ export default function AddAssignment({
         <select
           value={vendorId}
           onChange={(e) => setVendorId(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         >
           <option value="">Select Vendor…</option>
           {vendors.map((v) => (
@@ -76,7 +76,7 @@ export default function AddAssignment({
         <select
           value={propertyId}
           onChange={(e) => setPropertyId(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         >
           <option value="">Select Building…</option>
           {properties.map((p) => (
@@ -87,33 +87,33 @@ export default function AddAssignment({
           placeholder="Project Name"
           value={projectName}
           onChange={(e) => setProjectName(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
         <input
           placeholder="SLA (days)"
           value={slaDays}
           onChange={(e) => setSlaDays(e.target.value)}
           type="number"
-          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
         <input
           type="date"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
         <input
           type="date"
           value={expectedEnd}
           onChange={(e) => setExpectedEnd(e.target.value)}
-          className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
+          className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
         />
       </div>
       <input
         placeholder="Scope of work (optional)"
         value={scope}
         onChange={(e) => setScope(e.target.value)}
-        className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm mb-3"
+        className="w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm mb-3"
       />
       <div className="flex gap-2">
         <button
@@ -125,7 +125,7 @@ export default function AddAssignment({
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="text-xs font-bold px-4 py-2 rounded-lg bg-[#0f1626] text-[#9aa5bd] border border-[rgba(176,27,66,0.15)]"
+          className="text-xs font-bold px-4 py-2 rounded-lg bg-[#f4f6fa] text-[#5b6b85] border border-[rgba(176,27,66,0.15)]"
         >
           Cancel
         </button>

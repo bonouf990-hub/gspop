@@ -102,13 +102,13 @@ async function getStoreData() {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  requested: "bg-amber-900 text-amber-300",
+  requested: "bg-amber-900 text-amber-700",
   approved: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   picking: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  delivering: "bg-amber-900 text-amber-300",
-  delivered: "bg-green-900 text-green-300",
-  collected: "bg-green-900 text-green-300",
-  rejected: "bg-red-900 text-red-300",
+  delivering: "bg-amber-900 text-amber-700",
+  delivered: "bg-green-900 text-green-700",
+  collected: "bg-green-900 text-green-700",
+  rejected: "bg-red-900 text-red-700",
 };
 
 export default async function StorePage() {
@@ -118,9 +118,9 @@ export default async function StorePage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">Store & Dispatch</h1>
-          <p className="text-[#9aa5bd] mt-1">
+          <p className="text-[#5b6b85] mt-1">
             Incoming parts requests from technicians on-site. Pick, pack, and dispatch or mark for pickup.
           </p>
         </div>
@@ -131,7 +131,7 @@ export default async function StorePage() {
           Active Requests ({pending.length})
         </h2>
         {pending.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No pending requests.</p>
+          <p className="text-[#8b97ab] text-sm">No pending requests.</p>
         ) : (
           <div className="space-y-3">
             {pending.map((r) => {
@@ -153,9 +153,9 @@ export default async function StorePage() {
                           × {Number(r.quantity)} {item?.unit_of_measure ?? ""}
                         </span>
                       </p>
-                      {item?.sku && <p className="text-xs text-[#5d6880]">SKU: {item.sku}</p>}
+                      {item?.sku && <p className="text-xs text-[#8b97ab]">SKU: {item.sku}</p>}
                       <div className="flex gap-4 mt-1">
-                        <p className="text-sm text-[#9aa5bd]">
+                        <p className="text-sm text-[#5b6b85]">
                           In stock: {item ? Number(item.quantity_on_hand) : "?"} {item?.unit_of_measure ?? ""}
                         </p>
                         {itemCost > 0 && (
@@ -172,27 +172,27 @@ export default async function StorePage() {
 
                   <div className="grid grid-cols-2 gap-2 text-sm mb-3">
                     <div>
-                      <span className="text-[#5d6880]">Requested by:</span>{" "}
-                      <span className="text-[#eef1f6]">{requester?.full_name ?? "—"}</span>
+                      <span className="text-[#8b97ab]">Requested by:</span>{" "}
+                      <span className="text-[#16233c]">{requester?.full_name ?? "—"}</span>
                     </div>
                     <div>
-                      <span className="text-[#5d6880]">Work order:</span>{" "}
+                      <span className="text-[#8b97ab]">Work order:</span>{" "}
                       {r.work_order_id ? (
                         <Link href={`/work-orders/${r.work_order_id}`} className="text-[#d9647f] hover:text-[#b01b42]">
                           {wo?.title ?? "View"}
                         </Link>
                       ) : (
-                        <span className="text-[#eef1f6]">{wo?.title ?? "—"}</span>
+                        <span className="text-[#16233c]">{wo?.title ?? "—"}</span>
                       )}
                     </div>
                     <div>
-                      <span className="text-[#5d6880]">Location:</span>{" "}
-                      <span className="text-[#eef1f6]">
+                      <span className="text-[#8b97ab]">Location:</span>{" "}
+                      <span className="text-[#16233c]">
                         {[property?.name, unit?.label].filter(Boolean).join(" · ") || "—"}
                       </span>
                     </div>
                     <div>
-                      <span className="text-[#5d6880]">Method:</span>{" "}
+                      <span className="text-[#8b97ab]">Method:</span>{" "}
                       {r.delivery_method === "deliver" ? (
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[rgba(176,27,66,0.12)] text-[#d9647f]">DELIVER</span>
                       ) : (
@@ -202,10 +202,10 @@ export default async function StorePage() {
                   </div>
 
                   {r.delivery_location && (
-                    <p className="text-sm text-[#9aa5bd] mb-2">Deliver to: {r.delivery_location}</p>
+                    <p className="text-sm text-[#5b6b85] mb-2">Deliver to: {r.delivery_location}</p>
                   )}
                   {r.notes && (
-                    <p className="text-sm text-[#5d6880] mb-3">Note: {r.notes}</p>
+                    <p className="text-sm text-[#8b97ab] mb-3">Note: {r.notes}</p>
                   )}
 
                   <StoreRequestActions requestId={r.id} currentStatus={r.status} inventoryItemId={item?.id ?? ""} quantity={Number(r.quantity)} unitCost={itemCost} />
@@ -221,13 +221,13 @@ export default async function StorePage() {
           Completed ({completed.length})
         </h2>
         {completed.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No completed requests yet.</p>
+          <p className="text-[#8b97ab] text-sm">No completed requests yet.</p>
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse min-w-[900px]">
               <thead>
-                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Item</th>
                   <th className="px-5 py-3.5 font-medium">Qty</th>
                   <th className="px-5 py-3.5 font-medium">Cost</th>
@@ -251,14 +251,14 @@ export default async function StorePage() {
                     <tr key={r.id} className="border-b border-[rgba(176,27,66,0.08)]">
                       <td className="px-5 py-3.5">
                         {item?.name ?? "—"}
-                        {item?.sku && <span className="text-[#5d6880] text-[10px] ml-1">({item.sku})</span>}
+                        {item?.sku && <span className="text-[#8b97ab] text-[10px] ml-1">({item.sku})</span>}
                       </td>
                       <td className="px-5 py-3.5 font-medium">{Number(r.quantity)}</td>
                       <td className="px-5 py-3.5">
                         {cost !== null ? (
                           <span className="text-[#d9647f] font-medium">AED {cost.toLocaleString()}</span>
                         ) : (
-                          <span className="text-[#5d6880]">—</span>
+                          <span className="text-[#8b97ab]">—</span>
                         )}
                       </td>
                       <td className="px-5 py-3.5">
@@ -272,8 +272,8 @@ export default async function StorePage() {
                           </Link>
                         ) : "—"}
                       </td>
-                      <td className="px-5 py-3.5 text-[#9aa5bd]">{requester?.full_name ?? "—"}</td>
-                      <td className="px-5 py-3.5 text-[#9aa5bd]">
+                      <td className="px-5 py-3.5 text-[#5b6b85]">{requester?.full_name ?? "—"}</td>
+                      <td className="px-5 py-3.5 text-[#5b6b85]">
                         {r.delivery_method === "deliver" ? "Deliver" : "Pickup"}
                       </td>
                       <td className="px-5 py-3.5">
@@ -281,7 +281,7 @@ export default async function StorePage() {
                           {r.status}
                         </span>
                       </td>
-                      <td className="px-5 py-3.5 text-[#5d6880]">{new Date(r.created_at).toLocaleDateString()}</td>
+                      <td className="px-5 py-3.5 text-[#8b97ab]">{new Date(r.created_at).toLocaleDateString()}</td>
                     </tr>
                   );
                 })}
@@ -296,17 +296,17 @@ export default async function StorePage() {
         <h2 className="eyebrow mb-3">
           Parts Issued by Building & Apartment
         </h2>
-        <p className="text-xs text-[#9aa5bd] mb-3">
+        <p className="text-xs text-[#5b6b85] mb-3">
           Complete record of all parts delivered to each apartment — track what was issued, when, and how many times.
         </p>
         {apartmentParts.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No parts issued yet.</p>
+          <p className="text-[#8b97ab] text-sm">No parts issued yet.</p>
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse min-w-[800px]">
               <thead>
-                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Building</th>
                   <th className="px-5 py-3.5 font-medium">Apartment</th>
                   <th className="px-5 py-3.5 font-medium">Part</th>
@@ -318,25 +318,25 @@ export default async function StorePage() {
               </thead>
               <tbody>
                 {apartmentParts.map((ap, i) => (
-                  <tr key={i} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                  <tr key={i} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                     <td className="px-5 py-3.5 font-medium">{ap.property_name}</td>
                     <td className="px-5 py-3.5">
                       {ap.unit_label ? (
                         <span className="text-[#d9647f] font-medium">{ap.unit_label}</span>
                       ) : (
-                        <span className="text-[#5d6880]">Common Area</span>
+                        <span className="text-[#8b97ab]">Common Area</span>
                       )}
                     </td>
                     <td className="px-5 py-3.5">
                       {ap.item_name}
-                      {ap.item_sku && <span className="text-[#5d6880] text-[10px] ml-1">({ap.item_sku})</span>}
+                      {ap.item_sku && <span className="text-[#8b97ab] text-[10px] ml-1">({ap.item_sku})</span>}
                     </td>
                     <td className="px-5 py-3.5 text-[#d9647f] font-bold">{ap.total_qty}</td>
                     <td className="px-5 py-3.5 text-[#d9647f] font-medium">
                       {ap.total_cost > 0 ? `AED ${ap.total_cost.toLocaleString()}` : "—"}
                     </td>
-                    <td className="px-5 py-3.5 text-[#9aa5bd]">{ap.request_count}</td>
-                    <td className="px-5 py-3.5 text-[#5d6880]">{new Date(ap.last_issued).toLocaleDateString()}</td>
+                    <td className="px-5 py-3.5 text-[#5b6b85]">{ap.request_count}</td>
+                    <td className="px-5 py-3.5 text-[#8b97ab]">{new Date(ap.last_issued).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>

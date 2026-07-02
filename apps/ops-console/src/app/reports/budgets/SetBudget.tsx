@@ -77,7 +77,7 @@ export default function SetBudget({
     router.refresh();
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#16233c]";
 
   return (
     <>
@@ -85,7 +85,7 @@ export default function SetBudget({
         onClick={() => setOpen(true)}
         className={`text-xs font-bold px-3 py-1.5 rounded-lg ${
           currentBudget > 0
-            ? "bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
+            ? "bg-[#e9eef6] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             : "btn-gold"
         }`}
       >
@@ -96,7 +96,7 @@ export default function SetBudget({
         <Modal title={`${propertyName} — ${year} Budget`} onClose={() => setOpen(false)}>
           <div>
       <div className="mb-3">
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Annual Budget (AED) *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Annual Budget (AED) *</label>
         <input
           className={input}
           type="number"
@@ -110,7 +110,7 @@ export default function SetBudget({
       </div>
 
       <div className="mb-3">
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Notes (optional)</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Notes (optional)</label>
         <input
           className={input}
           placeholder="e.g. Approved by GM, includes HVAC overhaul"
@@ -119,7 +119,7 @@ export default function SetBudget({
         />
       </div>
 
-      {error && <p className="text-red-400 text-xs mb-2">{error}</p>}
+      {error && <p className="text-red-600 text-xs mb-2">{error}</p>}
 
       <div className="flex gap-2">
         <button
@@ -131,7 +131,7 @@ export default function SetBudget({
         </button>
         <button
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-[#9aa5bd] text-xs font-medium px-4 py-2 rounded-lg"
+          className="bg-[#e9eef6] text-[#5b6b85] text-xs font-medium px-4 py-2 rounded-lg"
         >
           Cancel
         </button>

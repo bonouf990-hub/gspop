@@ -30,10 +30,10 @@ type CheckinRecord = {
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
-  emergency: "bg-red-900/60 text-red-300 border-red-500",
-  high: "bg-amber-900/50 text-amber-300 border-amber-500",
+  emergency: "bg-red-100 text-red-700 border-red-500",
+  high: "bg-amber-50 text-amber-700 border-amber-500",
   medium: "bg-[rgba(176,27,66,0.12)] text-[#d9647f] border-[#b01b42]",
-  low: "bg-[#213052] text-[#9aa5bd] border-[#213052]",
+  low: "bg-[#e9eef6] text-[#5b6b85] border-[#e9eef6]",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -216,17 +216,17 @@ export default function TechnicianDashboard({
   }
 
   return (
-    <div className="min-h-screen bg-[#0f1626] text-[#eef1f6] pb-20">
+    <div className="min-h-screen bg-[#f4f6fa] text-[#16233c] pb-20">
       {/* Header */}
-      <header className="sticky top-0 z-20 bg-[#0f1626]/95 backdrop-blur-lg px-4 py-3 border-b border-[rgba(176,27,66,0.15)]">
+      <header className="sticky top-0 z-20 bg-[#f4f6fa]/95 backdrop-blur-lg px-4 py-3 border-b border-[rgba(176,27,66,0.15)]">
         <div className="flex items-center justify-between">
           <div>
             <p className="eyebrow">ARENCO</p>
             <p className="font-bold">{profile.name}</p>
-            <p className="text-xs text-[#9aa5bd] capitalize">{profile.trade ?? profile.role}</p>
+            <p className="text-xs text-[#5b6b85] capitalize">{profile.trade ?? profile.role}</p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-[#9aa5bd]">{new Date().toLocaleDateString("en-AE", { weekday: "long", day: "numeric", month: "short" })}</p>
+            <p className="text-xs text-[#5b6b85]">{new Date().toLocaleDateString("en-AE", { weekday: "long", day: "numeric", month: "short" })}</p>
             <p className="text-lg font-bold text-[#d9647f]">{workOrders.length} jobs</p>
           </div>
         </div>
@@ -234,20 +234,20 @@ export default function TechnicianDashboard({
 
       <div className="px-4 pt-4">
         {error && (
-          <div className="bg-red-950/50 border border-red-500/50 rounded-xl p-3 mb-4">
-            <p className="text-sm text-red-300">{error}</p>
+          <div className="bg-red-50 border border-red-500/50 rounded-xl p-3 mb-4">
+            <p className="text-sm text-red-700">{error}</p>
           </div>
         )}
 
         {/* Active Timer */}
         {activeWO && timerRunning && (
-          <div className="bg-[#1a2640] border border-[#b01b42] rounded-2xl p-4 mb-4 text-center">
+          <div className="bg-[#ffffff] border border-[#b01b42] rounded-2xl p-4 mb-4 text-center">
             <p className="eyebrow mb-1">Job Timer</p>
             <p className="text-3xl font-mono font-bold text-[#d9647f]">{fmtTimer(timer)}</p>
             <button
               onClick={() => checkOut(activeWO)}
               disabled={busy}
-              className="mt-3 w-full py-2.5 rounded-lg bg-red-950/50 text-red-300 border border-red-500/30 font-bold text-sm disabled:opacity-50"
+              className="mt-3 w-full py-2.5 rounded-lg bg-red-50 text-red-700 border border-red-200 font-bold text-sm disabled:opacity-50"
             >
               {busy ? "Checking out…" : "Check Out & Stop Timer"}
             </button>
@@ -256,25 +256,25 @@ export default function TechnicianDashboard({
 
         {/* Summary Cards */}
         <div className="grid grid-cols-3 gap-2 mb-4">
-          <div className="bg-[#1a2640] rounded-xl p-3 text-center">
-            <p className="text-xl font-bold text-amber-400">{inProgressWOs.length}</p>
-            <p className="text-[9px] text-[#9aa5bd] uppercase">In Progress</p>
+          <div className="bg-[#ffffff] rounded-xl p-3 text-center">
+            <p className="text-xl font-bold text-amber-700">{inProgressWOs.length}</p>
+            <p className="text-[9px] text-[#5b6b85] uppercase">In Progress</p>
           </div>
-          <div className="bg-[#1a2640] rounded-xl p-3 text-center">
+          <div className="bg-[#ffffff] rounded-xl p-3 text-center">
             <p className="text-xl font-bold text-[#d9647f]">{assignedWOs.length}</p>
-            <p className="text-[9px] text-[#9aa5bd] uppercase">Assigned</p>
+            <p className="text-[9px] text-[#5b6b85] uppercase">Assigned</p>
           </div>
-          <div className="bg-[#1a2640] rounded-xl p-3 text-center">
-            <p className="text-xl font-bold text-green-400">
+          <div className="bg-[#ffffff] rounded-xl p-3 text-center">
+            <p className="text-xl font-bold text-green-700">
               {todayCheckins.filter((c) => c.type === "check_in").length}
             </p>
-            <p className="text-[9px] text-[#9aa5bd] uppercase">Check-ins Today</p>
+            <p className="text-[9px] text-[#5b6b85] uppercase">Check-ins Today</p>
           </div>
         </div>
 
         {/* In Progress */}
         {inProgressWOs.length > 0 && (
-          <Section title="In Progress" count={inProgressWOs.length} color="text-amber-400">
+          <Section title="In Progress" count={inProgressWOs.length} color="text-amber-700">
             {inProgressWOs.map((wo) => (
               <JobCard key={wo.id} wo={wo} expanded={activeWO === wo.id}>
                 <div className="flex flex-wrap gap-2 mt-3">
@@ -283,23 +283,23 @@ export default function TechnicianDashboard({
                       GPS Check In
                     </ActionBtn>
                   ) : (
-                    <ActionBtn onClick={() => checkOut(wo.id)} disabled={busy} color="bg-red-950/50 text-red-300 border border-red-500/30">
+                    <ActionBtn onClick={() => checkOut(wo.id)} disabled={busy} color="bg-red-50 text-red-700 border border-red-200">
                       GPS Check Out
                     </ActionBtn>
                   )}
-                  <ActionBtn onClick={() => completeJob(wo.id)} disabled={busy} color="bg-green-900/50 text-green-300 border border-green-500/30">
+                  <ActionBtn onClick={() => completeJob(wo.id)} disabled={busy} color="bg-green-50 text-green-700 border border-green-200">
                     Mark Complete
                   </ActionBtn>
                   <div className="w-full flex flex-wrap items-center gap-2 mt-1">
                     <select
                       value={photoStage}
                       onChange={(e) => setPhotoStage(e.target.value as "before" | "after")}
-                      className="bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
+                      className="bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm"
                     >
                       <option value="before">Before</option>
                       <option value="after">After</option>
                     </select>
-                    <label className="cursor-pointer bg-[#213052] text-[#d9647f] px-4 py-2.5 text-sm font-bold rounded-lg">
+                    <label className="cursor-pointer bg-[#e9eef6] text-[#d9647f] px-4 py-2.5 text-sm font-bold rounded-lg">
                       Choose File
                       <input
                         type="file"
@@ -310,7 +310,7 @@ export default function TechnicianDashboard({
                       />
                     </label>
                     {photoFile && (
-                      <span className="text-[#9aa5bd] text-xs flex-1 truncate">{photoFile.name}</span>
+                      <span className="text-[#5b6b85] text-xs flex-1 truncate">{photoFile.name}</span>
                     )}
                     {photoFile && (
                       <button
@@ -348,7 +348,7 @@ export default function TechnicianDashboard({
 
         {/* Other */}
         {otherWOs.length > 0 && (
-          <Section title="Other" count={otherWOs.length} color="text-[#9aa5bd]">
+          <Section title="Other" count={otherWOs.length} color="text-[#5b6b85]">
             {otherWOs.map((wo) => (
               <JobCard key={wo.id} wo={wo} />
             ))}
@@ -357,25 +357,25 @@ export default function TechnicianDashboard({
 
         {workOrders.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-[#5d6880] text-lg">No active jobs assigned.</p>
-            <p className="text-xs text-[#5d6880] mt-1">Check back later or contact your supervisor.</p>
+            <p className="text-[#8b97ab] text-lg">No active jobs assigned.</p>
+            <p className="text-xs text-[#8b97ab] mt-1">Check back later or contact your supervisor.</p>
           </div>
         )}
       </div>
 
       {/* Bottom Nav */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-[#0f1626]/95 backdrop-blur-lg border-t border-[rgba(176,27,66,0.15)] px-4 py-3 flex justify-around">
+      <nav className="fixed bottom-0 left-0 right-0 bg-[#f4f6fa]/95 backdrop-blur-lg border-t border-[rgba(176,27,66,0.15)] px-4 py-3 flex justify-around">
         <Link href="/technician" className="text-center">
           <p className="text-xs text-[#d9647f] font-bold">Jobs</p>
         </Link>
         <Link href="/work-orders" className="text-center">
-          <p className="text-xs text-[#9aa5bd]">All Orders</p>
+          <p className="text-xs text-[#5b6b85]">All Orders</p>
         </Link>
         <Link href="/store" className="text-center">
-          <p className="text-xs text-[#9aa5bd]">Parts</p>
+          <p className="text-xs text-[#5b6b85]">Parts</p>
         </Link>
         <Link href="/notifications" className="text-center">
-          <p className="text-xs text-[#9aa5bd]">Alerts</p>
+          <p className="text-xs text-[#5b6b85]">Alerts</p>
         </Link>
       </nav>
     </div>
@@ -400,11 +400,11 @@ function JobCard({ wo, expanded, children }: { wo: WO; expanded?: boolean; child
 
   return (
     <div
-      className={`border rounded-xl p-3 bg-[#1a2640] transition-all ${
+      className={`border rounded-xl p-3 bg-[#ffffff] transition-all ${
         wo.priority === "emergency"
           ? "border-red-500/50"
           : wo.priority === "high"
-          ? "border-amber-500/30"
+          ? "border-amber-200"
           : "border-[rgba(176,27,66,0.15)]"
       }`}
     >
@@ -416,26 +416,26 @@ function JobCard({ wo, expanded, children }: { wo: WO; expanded?: boolean; child
             }`}>
               {wo.priority}
             </span>
-            <span className="text-[10px] text-[#9aa5bd] capitalize">{wo.type.replace(/_/g, " ")}</span>
+            <span className="text-[10px] text-[#5b6b85] capitalize">{wo.type.replace(/_/g, " ")}</span>
             {wo.visit_source === "resident_booking" && (
-              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-900/50 text-blue-300">
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-700">
                 VISIT
               </span>
             )}
           </div>
           <p className="font-bold text-sm">{wo.title}</p>
-          <p className="text-xs text-[#9aa5bd]">
+          <p className="text-xs text-[#5b6b85]">
             {[prop?.name, unit?.label].filter(Boolean).join(" · ") || "—"}
           </p>
           {wo.preferred_visit_date && (
-            <p className="text-[10px] text-[#5d6880] mt-0.5">
+            <p className="text-[10px] text-[#8b97ab] mt-0.5">
               Preferred: {new Date(wo.preferred_visit_date).toLocaleDateString()}
               {wo.preferred_visit_time && ` · ${TIME_LABELS[wo.preferred_visit_time] ?? wo.preferred_visit_time}`}
             </p>
           )}
         </div>
         <div className="text-right ml-2">
-          <p className="text-[10px] text-[#9aa5bd]">{STATUS_LABELS[wo.status] ?? wo.status}</p>
+          <p className="text-[10px] text-[#5b6b85]">{STATUS_LABELS[wo.status] ?? wo.status}</p>
           <p className="text-lg">{open ? "▾" : "▸"}</p>
         </div>
       </div>
@@ -443,9 +443,9 @@ function JobCard({ wo, expanded, children }: { wo: WO; expanded?: boolean; child
       {open && (
         <div className="mt-2 pt-2 border-t border-[rgba(176,27,66,0.1)]">
           {wo.description && (
-            <p className="text-xs text-[#9aa5bd] mb-2">{wo.description}</p>
+            <p className="text-xs text-[#5b6b85] mb-2">{wo.description}</p>
           )}
-          <div className="flex gap-3 text-[10px] text-[#5d6880]">
+          <div className="flex gap-3 text-[10px] text-[#8b97ab]">
             <span>Created: {new Date(wo.created_at).toLocaleDateString()}</span>
             {wo.started_at && <span>Started: {new Date(wo.started_at).toLocaleDateString()}</span>}
             {wo.hours_worked && <span>Hours: {Number(wo.hours_worked).toFixed(1)}h</span>}

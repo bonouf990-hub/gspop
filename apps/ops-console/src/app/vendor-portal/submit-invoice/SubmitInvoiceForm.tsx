@@ -62,11 +62,11 @@ export default function SubmitInvoiceForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">Linked Purchase Order (optional)</label>
+        <label className="block text-sm font-medium mb-1 text-[#5b6b85]">Linked Purchase Order (optional)</label>
         <select
           value={poId}
           onChange={(e) => setPoId(e.target.value)}
-          className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
+          className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
         >
           <option value="">— No PO —</option>
           {pos.map((po) => (
@@ -79,40 +79,40 @@ export default function SubmitInvoiceForm({
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">Invoice Number *</label>
+          <label className="block text-sm font-medium mb-1 text-[#5b6b85]">Invoice Number *</label>
           <input
             value={invoiceNumber}
             onChange={(e) => setInvoiceNumber(e.target.value)}
             required
             placeholder="INV-001"
-            className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
+            className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">Invoice Date *</label>
+          <label className="block text-sm font-medium mb-1 text-[#5b6b85]">Invoice Date *</label>
           <input
             type="date"
             value={invoiceDate}
             onChange={(e) => setInvoiceDate(e.target.value)}
             required
-            className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
+            className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
           />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">Due Date</label>
+        <label className="block text-sm font-medium mb-1 text-[#5b6b85]">Due Date</label>
         <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
+          className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
         />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">Amount (AED) *</label>
+          <label className="block text-sm font-medium mb-1 text-[#5b6b85]">Amount (AED) *</label>
           <input
             type="number"
             step="0.01"
@@ -121,11 +121,11 @@ export default function SubmitInvoiceForm({
             onChange={(e) => setAmount(e.target.value)}
             required
             placeholder="0.00"
-            className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
+            className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">VAT (AED)</label>
+          <label className="block text-sm font-medium mb-1 text-[#5b6b85]">VAT (AED)</label>
           <input
             type="number"
             step="0.01"
@@ -133,34 +133,34 @@ export default function SubmitInvoiceForm({
             value={vatAmount}
             onChange={(e) => setVatAmount(e.target.value)}
             placeholder="0.00"
-            className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
+            className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">Total</label>
-          <div className="w-full rounded-lg bg-[#213052] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm font-bold text-[#d9647f]">
+          <label className="block text-sm font-medium mb-1 text-[#5b6b85]">Total</label>
+          <div className="w-full rounded-lg bg-[#e9eef6] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm font-bold text-[#d9647f]">
             AED {totalAmount.toFixed(2)}
           </div>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1 text-[#9aa5bd]">Notes</label>
+        <label className="block text-sm font-medium mb-1 text-[#5b6b85]">Notes</label>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           rows={3}
           placeholder="Additional details or payment instructions..."
-          className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm resize-none"
+          className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2.5 text-sm resize-none"
         />
       </div>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-red-600 text-sm">{error}</p>}
 
       <div className="flex gap-3">
         <Link
           href="/vendor-portal"
-          className="flex-1 py-2.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-center text-sm font-bold text-[#9aa5bd]"
+          className="flex-1 py-2.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-center text-sm font-bold text-[#5b6b85]"
         >
           Cancel
         </Link>

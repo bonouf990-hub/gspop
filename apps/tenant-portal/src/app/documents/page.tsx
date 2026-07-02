@@ -58,7 +58,7 @@ export default async function DocumentsPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Account
         </p>
-        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">My Documents</h1>
+        <h1 className="font-display text-3xl text-[#16233c] font-semibold">My Documents</h1>
       </div>
 
       <div className="px-5">
@@ -76,7 +76,7 @@ export default async function DocumentsPage() {
                     <FileText size={18} strokeWidth={1.8} />
                   </span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-[#eef1f6] truncate">{d.title}</p>
+                    <p className="text-sm font-medium text-[#16233c] truncate">{d.title}</p>
                     <p className="text-[10px] text-[var(--muted)] uppercase tracking-wide mt-0.5">
                       {DOC_LABEL[d.docType] ?? "Document"} · {new Date(d.uploadedAt).toLocaleDateString()}
                     </p>

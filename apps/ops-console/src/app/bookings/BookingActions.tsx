@@ -24,15 +24,15 @@ export default function BookingActions({ bookingId }: { bookingId: string }) {
       <button
         onClick={() => updateStatus("cancelled")}
         disabled={updating}
-        className="text-xs text-[#9aa5bd] hover:text-red-400 disabled:opacity-50"
+        className="text-xs text-[#5b6b85] hover:text-red-600 disabled:opacity-50"
       >
         Cancel
       </button>
-      <span className="text-[#5d6880]">·</span>
+      <span className="text-[#8b97ab]">·</span>
       <button
         onClick={() => updateStatus("no_show")}
         disabled={updating}
-        className="text-xs text-[#9aa5bd] hover:text-amber-400 disabled:opacity-50"
+        className="text-xs text-[#5b6b85] hover:text-amber-700 disabled:opacity-50"
       >
         No-show
       </button>

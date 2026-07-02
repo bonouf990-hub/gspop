@@ -158,10 +158,10 @@ function fmtAED(n: number) {
 }
 
 function statusColor(pct: number, hasBudget: boolean) {
-  if (!hasBudget) return "text-[#5d6880]";
-  if (pct >= 100) return "text-red-400";
-  if (pct >= 80) return "text-amber-400";
-  return "text-green-400";
+  if (!hasBudget) return "text-[#8b97ab]";
+  if (pct >= 100) return "text-red-600";
+  if (pct >= 80) return "text-amber-700";
+  return "text-green-700";
 }
 
 function barColor(pct: number) {
@@ -177,7 +177,7 @@ export default async function BudgetTrackingPage({
 }) {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to this report.</p></main>;
+    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this report.</p></main>;
   }
 
   const sp = await searchParams;
@@ -202,22 +202,22 @@ export default async function BudgetTrackingPage({
 
   const kpis = [
     { label: "Total Budget", value: fmtAED(grandBudget), color: "text-[#d9647f]" },
-    { label: "Total Spent", value: fmtAED(grandSpent), color: grandPct >= 80 ? "text-amber-400" : "text-[#d9647f]" },
-    { label: "Remaining", value: fmtAED(grandRemaining), color: grandRemaining < 0 ? "text-red-400" : "text-green-400" },
+    { label: "Total Spent", value: fmtAED(grandSpent), color: grandPct >= 80 ? "text-amber-700" : "text-[#d9647f]" },
+    { label: "Remaining", value: fmtAED(grandRemaining), color: grandRemaining < 0 ? "text-red-600" : "text-green-700" },
     { label: "Used", value: grandBudget > 0 ? `${grandPct}%` : "—", color: statusColor(grandPct, grandBudget > 0) },
-    { label: "Buildings", value: buildingsWithBudget.length, color: "text-[#9aa5bd]" },
-    { label: "Over Budget", value: overBudget.length, color: overBudget.length > 0 ? "text-red-400" : "text-green-400" },
+    { label: "Buildings", value: buildingsWithBudget.length, color: "text-[#5b6b85]" },
+    { label: "Over Budget", value: overBudget.length, color: overBudget.length > 0 ? "text-red-600" : "text-green-700" },
   ];
 
   return (
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">Building Budget Tracker</h1>
-          <p className="text-[#9aa5bd] text-sm mt-1">
+          <p className="text-[#5b6b85] text-sm mt-1">
             Annual maintenance budget per building — set budgets and track consumption in real time.
           </p>
         </div>
@@ -230,8 +230,8 @@ export default async function BudgetTrackingPage({
                 href={`/reports/budgets?year=${y}`}
                 className={`text-xs font-bold px-3 py-1.5 rounded-lg ${
                   y === year
-                    ? "bg-[#b01b42] text-[#0f1626]"
-                    : "bg-[#213052] text-[#9aa5bd] hover:bg-[rgba(176,27,66,0.12)]"
+                    ? "bg-[#b01b42] text-[#f4f6fa]"
+                    : "bg-[#e9eef6] text-[#5b6b85] hover:bg-[rgba(176,27,66,0.12)]"
                 }`}
               >
                 {y}
@@ -246,7 +246,7 @@ export default async function BudgetTrackingPage({
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-xl font-extrabold ${k.color}`}>{k.value}</p>
-            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{k.label}</p>
+            <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
       </div>
@@ -260,13 +260,13 @@ export default async function BudgetTrackingPage({
             </h2>
             <span className={`text-sm font-bold ${statusColor(grandPct, true)}`}>{grandPct}%</span>
           </div>
-          <div className="h-4 bg-[#0f1626] rounded-full overflow-hidden">
+          <div className="h-4 bg-[#f4f6fa] rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all ${barColor(grandPct)}`}
               style={{ width: `${Math.min(grandPct, 100)}%` }}
             />
           </div>
-          <div className="flex justify-between text-xs mt-2 text-[#5d6880]">
+          <div className="flex justify-between text-xs mt-2 text-[#8b97ab]">
             <span>Spent: {fmtAED(grandSpent)}</span>
             <span>Budget: {fmtAED(grandBudget)}</span>
           </div>
@@ -276,7 +276,7 @@ export default async function BudgetTrackingPage({
       {/* Over-budget alerts */}
       {overBudget.length > 0 && (
         <div className="bg-red-950 border border-red-700 rounded-xl p-4 mb-6">
-          <h2 className="text-xs font-bold text-red-400 tracking-[0.15em] uppercase mb-2">
+          <h2 className="text-xs font-bold text-red-600 tracking-[0.15em] uppercase mb-2">
             Over Budget Alert ({overBudget.length})
           </h2>
           <ul className="space-y-1">
@@ -306,17 +306,17 @@ export default async function BudgetTrackingPage({
                     {v.totalBudget > 0 && (
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
                         v.pctUsed >= 100
-                          ? "bg-red-900 text-red-300"
+                          ? "bg-red-900 text-red-700"
                           : v.pctUsed >= 80
-                          ? "bg-amber-900 text-amber-300"
-                          : "bg-green-900 text-green-300"
+                          ? "bg-amber-900 text-amber-700"
+                          : "bg-green-900 text-green-700"
                       }`}>
                         {v.pctUsed}% used
                       </span>
                     )}
                   </div>
                   {v.notes && (
-                    <p className="text-xs text-[#5d6880] mb-2">{v.notes}</p>
+                    <p className="text-xs text-[#8b97ab] mb-2">{v.notes}</p>
                   )}
                 </div>
                 <SetBudget
@@ -332,15 +332,15 @@ export default async function BudgetTrackingPage({
               {/* Progress bar */}
               {v.totalBudget > 0 && (
                 <div className="mb-4">
-                  <div className="h-3 bg-[#0f1626] rounded-full overflow-hidden">
+                  <div className="h-3 bg-[#f4f6fa] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full ${barColor(v.pctUsed)}`}
                       style={{ width: `${Math.min(v.pctUsed, 100)}%` }}
                     />
                   </div>
-                  <div className="flex justify-between text-[10px] mt-1 text-[#5d6880]">
+                  <div className="flex justify-between text-[10px] mt-1 text-[#8b97ab]">
                     <span>Spent: {fmtAED(v.totalSpent)}</span>
-                    <span>Remaining: <span className={v.remaining < 0 ? "text-red-400 font-bold" : "text-green-400"}>{fmtAED(v.remaining)}</span></span>
+                    <span>Remaining: <span className={v.remaining < 0 ? "text-red-600 font-bold" : "text-green-700"}>{fmtAED(v.remaining)}</span></span>
                     <span>Budget: {fmtAED(v.totalBudget)}</span>
                   </div>
                 </div>
@@ -348,27 +348,27 @@ export default async function BudgetTrackingPage({
 
               {/* Cost breakdown */}
               <div className="grid grid-cols-5 gap-3 text-center">
-                <div className="bg-[#0f1626] rounded-lg p-2.5">
+                <div className="bg-[#f4f6fa] rounded-lg p-2.5">
                   <p className="text-xs font-bold text-[#d9647f]">{fmtAED(v.totalBudget)}</p>
-                  <p className="text-[10px] text-[#5d6880] uppercase">Budget</p>
+                  <p className="text-[10px] text-[#8b97ab] uppercase">Budget</p>
                 </div>
-                <div className="bg-[#0f1626] rounded-lg p-2.5">
+                <div className="bg-[#f4f6fa] rounded-lg p-2.5">
                   <p className="text-xs font-bold text-[#d9647f]">{fmtAED(v.partsCost)}</p>
-                  <p className="text-[10px] text-[#5d6880] uppercase">Parts</p>
+                  <p className="text-[10px] text-[#8b97ab] uppercase">Parts</p>
                 </div>
-                <div className="bg-[#0f1626] rounded-lg p-2.5">
-                  <p className="text-xs font-bold text-[#8fb4e0]">{fmtAED(v.laborCost)}</p>
-                  <p className="text-[10px] text-[#5d6880] uppercase">Labor</p>
+                <div className="bg-[#f4f6fa] rounded-lg p-2.5">
+                  <p className="text-xs font-bold text-[#3d6cb3]">{fmtAED(v.laborCost)}</p>
+                  <p className="text-[10px] text-[#8b97ab] uppercase">Labor</p>
                 </div>
-                <div className="bg-[#0f1626] rounded-lg p-2.5">
-                  <p className="text-xs font-bold text-[#9aa5bd]">{fmtAED(v.externalCost)}</p>
-                  <p className="text-[10px] text-[#5d6880] uppercase">External</p>
+                <div className="bg-[#f4f6fa] rounded-lg p-2.5">
+                  <p className="text-xs font-bold text-[#5b6b85]">{fmtAED(v.externalCost)}</p>
+                  <p className="text-[10px] text-[#8b97ab] uppercase">External</p>
                 </div>
-                <div className="bg-[#0f1626] rounded-lg p-2.5">
-                  <p className={`text-xs font-bold ${v.remaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                <div className="bg-[#f4f6fa] rounded-lg p-2.5">
+                  <p className={`text-xs font-bold ${v.remaining < 0 ? "text-red-600" : "text-green-700"}`}>
                     {fmtAED(v.remaining)}
                   </p>
-                  <p className="text-[10px] text-[#5d6880] uppercase">Balance</p>
+                  <p className="text-[10px] text-[#8b97ab] uppercase">Balance</p>
                 </div>
               </div>
             </div>
@@ -377,14 +377,14 @@ export default async function BudgetTrackingPage({
       </section>
 
       {/* Summary Table */}
-      <section className="border border-[#b01b42] bg-[#1a2640] rounded-xl p-5">
+      <section className="border border-[#b01b42] bg-[#ffffff] rounded-xl p-5">
         <h2 className="eyebrow mb-3">
           Summary — All Buildings {year}
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[800px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>
                 <th className="px-5 py-3.5 font-medium">Budget</th>
                 <th className="px-5 py-3.5 font-medium">Parts</th>
@@ -397,21 +397,21 @@ export default async function BudgetTrackingPage({
             </thead>
             <tbody>
               {views.map((v) => (
-                <tr key={v.propertyId} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                <tr key={v.propertyId} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                   <td className="px-5 py-3.5 font-medium">{v.propertyName}</td>
                   <td className="px-5 py-3.5 text-[#d9647f]">{fmtAED(v.totalBudget)}</td>
                   <td className="px-5 py-3.5 text-[#d9647f]">{fmtAED(v.partsCost)}</td>
-                  <td className="px-5 py-3.5 text-[#8fb4e0]">{fmtAED(v.laborCost)}</td>
-                  <td className="px-5 py-3.5 text-[#9aa5bd]">{fmtAED(v.externalCost)}</td>
+                  <td className="px-5 py-3.5 text-[#3d6cb3]">{fmtAED(v.laborCost)}</td>
+                  <td className="px-5 py-3.5 text-[#5b6b85]">{fmtAED(v.externalCost)}</td>
                   <td className="px-5 py-3.5 font-bold">{fmtAED(v.totalSpent)}</td>
-                  <td className={`px-5 py-3.5 font-bold ${v.remaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                  <td className={`px-5 py-3.5 font-bold ${v.remaining < 0 ? "text-red-600" : "text-green-700"}`}>
                     {fmtAED(v.remaining)}
                   </td>
                   <td className="px-5 py-3.5">
                     {v.totalBudget > 0 ? (
                       <span className={`font-bold ${statusColor(v.pctUsed, true)}`}>{v.pctUsed}%</span>
                     ) : (
-                      <span className="text-[#5d6880]">—</span>
+                      <span className="text-[#8b97ab]">—</span>
                     )}
                   </td>
                 </tr>
@@ -422,21 +422,21 @@ export default async function BudgetTrackingPage({
                 <td className="px-5 py-3.5 font-extrabold text-[#d9647f]">
                   {fmtAED(views.reduce((s, v) => s + v.partsCost, 0))}
                 </td>
-                <td className="px-5 py-3.5 font-extrabold text-[#8fb4e0]">
+                <td className="px-5 py-3.5 font-extrabold text-[#3d6cb3]">
                   {fmtAED(views.reduce((s, v) => s + v.laborCost, 0))}
                 </td>
-                <td className="px-5 py-3.5 font-extrabold text-[#9aa5bd]">
+                <td className="px-5 py-3.5 font-extrabold text-[#5b6b85]">
                   {fmtAED(views.reduce((s, v) => s + v.externalCost, 0))}
                 </td>
                 <td className="px-5 py-3.5 font-extrabold">{fmtAED(grandSpent)}</td>
-                <td className={`px-5 py-3.5 font-extrabold ${grandRemaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                <td className={`px-5 py-3.5 font-extrabold ${grandRemaining < 0 ? "text-red-600" : "text-green-700"}`}>
                   {fmtAED(grandRemaining)}
                 </td>
                 <td className="px-5 py-3.5">
                   {grandBudget > 0 ? (
                     <span className={`font-extrabold ${statusColor(grandPct, true)}`}>{grandPct}%</span>
                   ) : (
-                    <span className="text-[#5d6880]">—</span>
+                    <span className="text-[#8b97ab]">—</span>
                   )}
                 </td>
               </tr>

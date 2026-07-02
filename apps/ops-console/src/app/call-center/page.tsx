@@ -13,9 +13,9 @@ export default async function CallCenterPage({
 
   return (
     <main className="p-8">
-      <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+      <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
       <h1 className="text-2xl font-extrabold mt-1 mb-1">Call Center</h1>
-      <p className="text-[#9aa5bd] mb-6">
+      <p className="text-[#5b6b85] mb-6">
         Search the caller by name or phone, confirm their unit, then log the complaint the same way
         the app would — it routes to maintenance identically either way.
       </p>

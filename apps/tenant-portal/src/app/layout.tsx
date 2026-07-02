@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f1626",
+  themeColor: "#f4f6fa",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col text-[#eef1f6]">{children}</body>
+      <body className="min-h-full flex flex-col text-[#16233c]">{children}</body>
     </html>
   );
 }

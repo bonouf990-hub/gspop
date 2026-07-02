@@ -46,7 +46,7 @@ export default async function AIBrainPage() {
   if (!userData.user) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">Please log in to access AI Brain.</p>
+        <p className="text-[#8b97ab]">Please log in to access AI Brain.</p>
       </main>
     );
   }
@@ -64,7 +64,7 @@ export default async function AIBrainPage() {
   if (!hasAny) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">You don&apos;t have access to AI Brain.</p>
+        <p className="text-[#8b97ab]">You don&apos;t have access to AI Brain.</p>
       </main>
     );
   }
@@ -73,19 +73,19 @@ export default async function AIBrainPage() {
 
   return (
     <main className="p-8 max-w-5xl">
-      <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+      <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
         ← Dashboard
       </Link>
       <div className="mt-2 mb-6">
         <h1 className="text-2xl font-extrabold">AI Brain</h1>
-        <p className="text-[#9aa5bd] text-sm mt-1">
+        <p className="text-[#5b6b85] text-sm mt-1">
           Unified AI intelligence — triage, forecast, detect anomalies, query data, and predict maintenance.
         </p>
         <div className="flex items-center gap-3 mt-2">
           <span className="text-xs px-2 py-1 rounded-lg bg-[rgba(176,27,66,0.12)] text-[#b01b42] font-bold">
             {ROLE_LABELS[role] ?? role}
           </span>
-          <span className="text-xs text-[#5d6880]">
+          <span className="text-xs text-[#8b97ab]">
             {moduleCount} of 5 modules available for your role
           </span>
         </div>
@@ -99,11 +99,11 @@ export default async function AIBrainPage() {
               <h2 className="eyebrow">
                 1 · Smart Work Order Triage
               </h2>
-              <p className="text-xs text-[#9aa5bd] mt-1">
+              <p className="text-xs text-[#5b6b85] mt-1">
                 Describe an issue and AI suggests priority, job type, technician, and estimated cost.
               </p>
             </div>
-            <span className="text-[10px] text-[#5d6880] text-right max-w-[200px]">
+            <span className="text-[10px] text-[#8b97ab] text-right max-w-[200px]">
               {MODULE_OWNERS.triage.roles}
             </span>
           </div>
@@ -118,11 +118,11 @@ export default async function AIBrainPage() {
               <h2 className="eyebrow">
                 2 · Budget & Cost Forecasting
               </h2>
-              <p className="text-xs text-[#9aa5bd] mt-1">
+              <p className="text-xs text-[#5b6b85] mt-1">
                 Predict next quarter&apos;s maintenance spend per building based on historical data and seasonal patterns.
               </p>
             </div>
-            <span className="text-[10px] text-[#5d6880] text-right max-w-[200px]">
+            <span className="text-[10px] text-[#8b97ab] text-right max-w-[200px]">
               {MODULE_OWNERS.forecast.roles}
             </span>
           </div>
@@ -137,11 +137,11 @@ export default async function AIBrainPage() {
               <h2 className="eyebrow">
                 3 · Anomaly & Fraud Detection
               </h2>
-              <p className="text-xs text-[#9aa5bd] mt-1">
+              <p className="text-xs text-[#5b6b85] mt-1">
                 Scan invoices, POs, and work orders for pricing outliers, duplicates, and suspicious patterns.
               </p>
             </div>
-            <span className="text-[10px] text-[#5d6880] text-right max-w-[200px]">
+            <span className="text-[10px] text-[#8b97ab] text-right max-w-[200px]">
               {MODULE_OWNERS.anomaly.roles}
             </span>
           </div>
@@ -156,11 +156,11 @@ export default async function AIBrainPage() {
               <h2 className="eyebrow">
                 4 · Ask Your Data
               </h2>
-              <p className="text-xs text-[#9aa5bd] mt-1">
+              <p className="text-xs text-[#5b6b85] mt-1">
                 Ask any question about your operations in plain English — costs, performance, trends, comparisons.
               </p>
             </div>
-            <span className="text-[10px] text-[#5d6880] text-right max-w-[200px]">
+            <span className="text-[10px] text-[#8b97ab] text-right max-w-[200px]">
               {MODULE_OWNERS.chat.roles}
             </span>
           </div>
@@ -175,11 +175,11 @@ export default async function AIBrainPage() {
               <h2 className="eyebrow">
                 5 · Preventive Maintenance Predictions
               </h2>
-              <p className="text-xs text-[#9aa5bd] mt-1">
+              <p className="text-xs text-[#5b6b85] mt-1">
                 AI analyzes repair history to predict upcoming failures and recommend proactive maintenance.
               </p>
             </div>
-            <span className="text-[10px] text-[#5d6880] text-right max-w-[200px]">
+            <span className="text-[10px] text-[#8b97ab] text-right max-w-[200px]">
               {MODULE_OWNERS.preventive.roles}
             </span>
           </div>

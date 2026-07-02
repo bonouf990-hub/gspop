@@ -47,14 +47,14 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center text-[#eef1f6] px-4 relative overflow-hidden">
+    <main className="min-h-screen flex items-center justify-center text-[#16233c] px-4 relative overflow-hidden">
       {/* Ambient gold aura behind the card */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(560px 420px at 50% 42%, rgba(176,27,66,0.13), transparent 70%)",
+            "radial-gradient(560px 420px at 50% 42%, rgba(176,27,66,0.07), transparent 70%)",
         }}
       />
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
         <div className="flex flex-col items-center mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand-mark.svg" alt="ARENCO" className="w-24 h-auto" />
-          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#eef1f6]">
+          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#16233c]">
             ARENCO
           </h1>
           <div className="flex items-center gap-3 mt-2.5">
@@ -104,7 +104,7 @@ export default function LoginPage() {
             />
           </div>
 
-          {error && <p className="text-[#e08a8a] text-sm">{error}</p>}
+          {error && <p className="text-[#c0304a] text-sm">{error}</p>}
           {notice && <p className="text-[var(--gold-soft)] text-sm">{notice}</p>}
 
           <button
@@ -118,13 +118,13 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={handleForgotPassword}
-            className="w-full text-center text-xs text-[var(--muted)] hover:text-[#eef1f6] transition-colors"
+            className="w-full text-center text-xs text-[var(--muted)] hover:text-[#16233c] transition-colors"
           >
             Forgot password?
           </button>
         </form>
 
-        <p className="text-center text-xs text-[#5d6880] mt-8 tracking-[0.14em] uppercase">
+        <p className="text-center text-xs text-[#8b97ab] mt-8 tracking-[0.14em] uppercase">
           ARENCO Real Estate · Dubai
         </p>
       </div>

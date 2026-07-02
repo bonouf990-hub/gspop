@@ -261,30 +261,30 @@ export default async function CommandCenterPage() {
   } = await getCommandCenterData();
 
   const kpis = [
-    { label: "Open Work Orders", value: totalOpenWOs, color: totalOpenWOs > 20 ? "text-amber-400" : "text-[#d9647f]" },
-    { label: "In Progress", value: totalInProgress, color: "text-green-400" },
-    { label: "Open Complaints", value: openComplaints, color: openComplaints > 10 ? "text-red-400" : "text-[#d9647f]" },
+    { label: "Open Work Orders", value: totalOpenWOs, color: totalOpenWOs > 20 ? "text-amber-700" : "text-[#d9647f]" },
+    { label: "In Progress", value: totalInProgress, color: "text-green-700" },
+    { label: "Open Complaints", value: openComplaints, color: openComplaints > 10 ? "text-red-600" : "text-[#d9647f]" },
     { label: "Parts Requests", value: pendingPartsRequests, color: "text-[#d9647f]" },
     { label: "Active Projects", value: activeProjects.length, color: "text-[#d9647f]" },
-    { label: "Overdue Projects", value: overdueProjects.length, color: overdueProjects.length > 0 ? "text-red-400" : "text-green-400" },
-    { label: "Active Tenders", value: activeTenders.length, color: activeTenders.length > 0 ? "text-[#d9647f]" : "text-[#5d6880]" },
-    { label: "Pending POs", value: pendingPOCount, color: criticalPOs > 0 ? "text-red-400" : pendingPOCount > 5 ? "text-amber-400" : "text-[#d9647f]" },
-    { label: "Low Stock Items", value: lowStockItems.length, color: lowStockItems.length > 0 ? "text-amber-400" : "text-green-400" },
-    { label: "PM Schedules", value: activeScheduleCount, color: overdueSchedules > 0 ? "text-red-400" : "text-green-400" },
-    { label: "Unpaid Invoices", value: unpaidInvoiceCount, color: overdueInvoiceCount > 0 ? "text-red-400" : "text-[#d9647f]" },
+    { label: "Overdue Projects", value: overdueProjects.length, color: overdueProjects.length > 0 ? "text-red-600" : "text-green-700" },
+    { label: "Active Tenders", value: activeTenders.length, color: activeTenders.length > 0 ? "text-[#d9647f]" : "text-[#8b97ab]" },
+    { label: "Pending POs", value: pendingPOCount, color: criticalPOs > 0 ? "text-red-600" : pendingPOCount > 5 ? "text-amber-700" : "text-[#d9647f]" },
+    { label: "Low Stock Items", value: lowStockItems.length, color: lowStockItems.length > 0 ? "text-amber-700" : "text-green-700" },
+    { label: "PM Schedules", value: activeScheduleCount, color: overdueSchedules > 0 ? "text-red-600" : "text-green-700" },
+    { label: "Unpaid Invoices", value: unpaidInvoiceCount, color: overdueInvoiceCount > 0 ? "text-red-600" : "text-[#d9647f]" },
   ];
 
   return (
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">GM Command Center</h1>
-          <p className="text-[#9aa5bd] mt-1">
+          <p className="text-[#5b6b85] mt-1">
             Live overview of all operations across buildings, contractors, and inventory.
           </p>
         </div>
-        <div className="text-xs text-[#5d6880]">
+        <div className="text-xs text-[#8b97ab]">
           Last refreshed: {new Date().toLocaleTimeString()}
         </div>
       </div>
@@ -293,7 +293,7 @@ export default async function CommandCenterPage() {
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-3xl font-extrabold ${k.color}`}>{k.value}</p>
-            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{k.label}</p>
+            <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
       </div>
@@ -309,23 +309,23 @@ export default async function CommandCenterPage() {
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <p className="text-xs text-[#9aa5bd]">This Month Approved</p>
+            <p className="text-xs text-[#5b6b85]">This Month Approved</p>
             <p className="text-xl font-extrabold text-[#d9647f]">
               AED {monthSpend.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
           <div>
-            <p className="text-xs text-[#9aa5bd]">Total Approved Spend</p>
+            <p className="text-xs text-[#5b6b85]">Total Approved Spend</p>
             <p className="text-xl font-extrabold text-[#d9647f]">
               AED {totalApprovedSpend.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
           </div>
           <div>
-            <p className="text-xs text-[#9aa5bd]">Awaiting Approval</p>
-            <p className="text-xl font-extrabold text-amber-400">
+            <p className="text-xs text-[#5b6b85]">Awaiting Approval</p>
+            <p className="text-xl font-extrabold text-amber-700">
               AED {pendingPOTotal.toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </p>
-            <p className="text-[10px] text-[#5d6880]">{pendingPOCount} order{pendingPOCount !== 1 ? "s" : ""}</p>
+            <p className="text-[10px] text-[#8b97ab]">{pendingPOCount} order{pendingPOCount !== 1 ? "s" : ""}</p>
           </div>
         </div>
       </div>
@@ -338,7 +338,7 @@ export default async function CommandCenterPage() {
           <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[600px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>
                 <th className="px-5 py-3.5 font-medium">Open</th>
                 <th className="px-5 py-3.5 font-medium">Active</th>
@@ -350,12 +350,12 @@ export default async function CommandCenterPage() {
               {propertySummaries.map((p) => (
                 <tr key={p.id} className="border-b border-[rgba(176,27,66,0.08)]">
                   <td className="px-5 py-3.5 font-medium">{p.name}</td>
-                  <td className={`px-5 py-3.5 font-bold ${p.openJobs > 10 ? "text-amber-400" : ""}`}>
+                  <td className={`px-5 py-3.5 font-bold ${p.openJobs > 10 ? "text-amber-700" : ""}`}>
                     {p.openJobs}
                   </td>
-                  <td className="px-5 py-3.5 text-green-400">{p.inProgress}</td>
-                  <td className="px-5 py-3.5 text-[#5d6880]">{p.completed}</td>
-                  <td className={`px-5 py-3.5 ${p.avgDaysOpen > 7 ? "text-red-400 font-bold" : "text-[#9aa5bd]"}`}>
+                  <td className="px-5 py-3.5 text-green-700">{p.inProgress}</td>
+                  <td className="px-5 py-3.5 text-[#8b97ab]">{p.completed}</td>
+                  <td className={`px-5 py-3.5 ${p.avgDaysOpen > 7 ? "text-red-600 font-bold" : "text-[#5b6b85]"}`}>
                     {p.avgDaysOpen}d
                   </td>
                 </tr>
@@ -370,7 +370,7 @@ export default async function CommandCenterPage() {
             Contractor Projects
           </h2>
           {vendorProjects.length === 0 ? (
-            <p className="text-[#5d6880] text-sm">No vendor projects tracked yet.</p>
+            <p className="text-[#8b97ab] text-sm">No vendor projects tracked yet.</p>
           ) : (
             <div className="space-y-2.5 max-h-80 overflow-y-auto">
               {vendorProjects
@@ -382,8 +382,8 @@ export default async function CommandCenterPage() {
                       vp.is_overdue
                         ? "border-red-500 bg-red-950/30"
                         : vp.status === "completed"
-                          ? "border-[rgba(176,27,66,0.08)] bg-[#0f1626] opacity-60"
-                          : "border-[rgba(176,27,66,0.15)] bg-[#0f1626]"
+                          ? "border-[rgba(176,27,66,0.08)] bg-[#f4f6fa] opacity-60"
+                          : "border-[rgba(176,27,66,0.15)] bg-[#f4f6fa]"
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -391,16 +391,16 @@ export default async function CommandCenterPage() {
                         <p className="font-medium text-sm">
                           {vp.project_name}
                           {vp.is_overdue && (
-                            <span className="text-red-400 text-xs ml-2 font-bold">OVERDUE</span>
+                            <span className="text-red-600 text-xs ml-2 font-bold">OVERDUE</span>
                           )}
                         </p>
-                        <p className="text-xs text-[#9aa5bd]">
+                        <p className="text-xs text-[#5b6b85]">
                           {vp.vendor_name} · {vp.property_name}
                         </p>
                       </div>
                       <div className="text-right">
                         {vp.expected_end_date && (
-                          <p className={`text-sm font-bold ${vp.is_overdue ? "text-red-400" : "text-[#d9647f]"}`}>
+                          <p className={`text-sm font-bold ${vp.is_overdue ? "text-red-600" : "text-[#d9647f]"}`}>
                             {vp.days_remaining !== null
                               ? vp.days_remaining >= 0
                                 ? `${vp.days_remaining}d left`
@@ -408,13 +408,13 @@ export default async function CommandCenterPage() {
                               : ""}
                           </p>
                         )}
-                        <p className="text-[10px] text-[#5d6880]">
+                        <p className="text-[10px] text-[#8b97ab]">
                           {vp.sla_days ? `SLA: ${vp.sla_days}d` : "No SLA"}
                         </p>
                       </div>
                     </div>
-                    {vp.scope && <p className="text-xs text-[#5d6880] mt-1">{vp.scope}</p>}
-                    <div className="flex gap-3 mt-2 text-[10px] text-[#5d6880]">
+                    {vp.scope && <p className="text-xs text-[#8b97ab] mt-1">{vp.scope}</p>}
+                    <div className="flex gap-3 mt-2 text-[10px] text-[#8b97ab]">
                       <span>Started: {vp.start_date}</span>
                       {vp.expected_end_date && <span>Due: {vp.expected_end_date}</span>}
                       <span>{vp.days_elapsed}d elapsed</span>
@@ -449,17 +449,17 @@ export default async function CommandCenterPage() {
                 <Link
                   key={t.id}
                   href={`/tenders/${t.id}`}
-                  className="bg-[#0f1626] rounded-lg px-3 py-2.5 border border-[rgba(176,27,66,0.08)] hover:border-[#b01b42] transition-colors"
+                  className="bg-[#f4f6fa] rounded-lg px-3 py-2.5 border border-[rgba(176,27,66,0.08)] hover:border-[#b01b42] transition-colors"
                 >
                   <p className="text-sm font-medium">{t.title}</p>
                   <div className="flex items-center justify-between mt-1">
-                    <span className="text-[10px] text-[#9aa5bd]">{statusLabel[t.status] ?? t.status}</span>
+                    <span className="text-[10px] text-[#5b6b85]">{statusLabel[t.status] ?? t.status}</span>
                     {t.daysToDeadline >= 0 ? (
-                      <span className={`text-xs font-bold ${t.daysToDeadline <= 3 ? "text-amber-400" : "text-[#d9647f]"}`}>
+                      <span className={`text-xs font-bold ${t.daysToDeadline <= 3 ? "text-amber-700" : "text-[#d9647f]"}`}>
                         {t.daysToDeadline}d left
                       </span>
                     ) : (
-                      <span className="text-xs text-[#5d6880]">Deadline passed</span>
+                      <span className="text-xs text-[#8b97ab]">Deadline passed</span>
                     )}
                   </div>
                 </Link>
@@ -479,32 +479,32 @@ export default async function CommandCenterPage() {
               Open Purchasing →
             </Link>
           </div>
-          <p className="text-sm text-[#9aa5bd]">
+          <p className="text-sm text-[#5b6b85]">
             <span className="text-[#d9647f] font-bold">AED {pendingPOTotal.toLocaleString()}</span> awaiting approval
             {criticalPOs > 0 && (
-              <span className="text-red-400 ml-2">({criticalPOs} urgent/critical)</span>
+              <span className="text-red-600 ml-2">({criticalPOs} urgent/critical)</span>
             )}
           </p>
         </section>
       )}
 
       {lowStockItems.length > 0 && (
-        <section className="border border-amber-700 bg-amber-950/30 rounded-xl p-5 mb-8">
+        <section className="border border-amber-700 bg-amber-50/30 rounded-xl p-5 mb-8">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-xs font-bold text-amber-400 tracking-[0.15em] uppercase">
+            <h2 className="text-xs font-bold text-amber-700 tracking-[0.15em] uppercase">
               Low Stock Alerts ({lowStockItems.length})
             </h2>
-            <Link href="/inventory/reports" className="text-xs text-amber-400 hover:text-amber-300">
+            <Link href="/inventory/reports" className="text-xs text-amber-700 hover:text-amber-700">
               View Monthly Report →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {lowStockItems.map((i, idx) => (
-              <div key={idx} className="bg-[#0f1626] rounded-lg px-3 py-2 flex justify-between text-sm">
-                <span className="text-amber-200">
-                  {i.name} {i.sku && <span className="text-amber-400">({i.sku})</span>}
+              <div key={idx} className="bg-[#f4f6fa] rounded-lg px-3 py-2 flex justify-between text-sm">
+                <span className="text-amber-800">
+                  {i.name} {i.sku && <span className="text-amber-700">({i.sku})</span>}
                 </span>
-                <span className="text-amber-400 font-bold">
+                <span className="text-amber-700 font-bold">
                   {i.quantity_on_hand} / {i.reorder_threshold}
                 </span>
               </div>

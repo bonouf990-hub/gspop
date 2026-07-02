@@ -80,7 +80,7 @@ export default function CreateBookingForm({
   }
 
   const input =
-    "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+    "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#16233c]";
 
   return (
     <>
@@ -95,7 +95,7 @@ export default function CreateBookingForm({
         <Modal title="New Booking" onClose={() => setOpen(false)}>
           <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Property *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Property *</label>
         <select
           className={input}
           value={propertyId}
@@ -112,7 +112,7 @@ export default function CreateBookingForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Facility *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Facility *</label>
         <select
           className={input}
           value={commonAreaId}
@@ -129,7 +129,7 @@ export default function CreateBookingForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Resident *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Resident *</label>
         <select
           className={input}
           value={residentId}
@@ -146,7 +146,7 @@ export default function CreateBookingForm({
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Date *</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Date *</label>
         <input
           className={input}
           type="date"
@@ -158,7 +158,7 @@ export default function CreateBookingForm({
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Start Time *</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Start Time *</label>
           <input
             className={input}
             type="time"
@@ -168,7 +168,7 @@ export default function CreateBookingForm({
           />
         </div>
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">End Time *</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">End Time *</label>
           <input
             className={input}
             type="time"
@@ -179,7 +179,7 @@ export default function CreateBookingForm({
         </div>
       </div>
 
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 text-xs">{error}</p>}
 
       <div className="flex gap-2 pt-2">
         <button
@@ -192,7 +192,7 @@ export default function CreateBookingForm({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]"
+          className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]"
         >
           Cancel
         </button>

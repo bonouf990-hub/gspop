@@ -54,7 +54,7 @@ export default function AddInventoryItem({ properties }: { properties: Property[
     router.refresh();
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2.5 text-sm text-[#16233c]";
 
   return (
     <>
@@ -77,26 +77,26 @@ export default function AddInventoryItem({ properties }: { properties: Property[
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Qty on Hand</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Qty on Hand</label>
           <input className={input} type="number" value={form.quantityOnHand}
             onChange={(e) => setForm({ ...form, quantityOnHand: e.target.value })} />
         </div>
         <div>
-          <label className="text-xs text-[#9aa5bd] mb-1 block">Reorder At</label>
+          <label className="text-xs text-[#5b6b85] mb-1 block">Reorder At</label>
           <input className={input} type="number" value={form.reorderThreshold}
             onChange={(e) => setForm({ ...form, reorderThreshold: e.target.value })} />
         </div>
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Unit Cost (AED)</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Unit Cost (AED)</label>
         <input className={input} type="number" step="0.01" min="0" placeholder="Cost per unit"
           value={form.unitCost}
           onChange={(e) => setForm({ ...form, unitCost: e.target.value })} />
       </div>
 
       <div>
-        <label className="text-xs text-[#9aa5bd] mb-1 block">Property (optional)</label>
+        <label className="text-xs text-[#5b6b85] mb-1 block">Property (optional)</label>
         <select className={input} value={form.propertyId}
           onChange={(e) => setForm({ ...form, propertyId: e.target.value })}>
           <option value="">All properties</option>
@@ -104,7 +104,7 @@ export default function AddInventoryItem({ properties }: { properties: Property[
         </select>
       </div>
 
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 text-xs">{error}</p>}
 
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting}
@@ -112,7 +112,7 @@ export default function AddInventoryItem({ properties }: { properties: Property[
           {submitting ? "Adding…" : "Add Item"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
+          className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]">
           Cancel
         </button>
       </div>

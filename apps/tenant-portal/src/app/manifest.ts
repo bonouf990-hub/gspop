@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "Golden Sands Residences by ARENCO Real Estate — manage your home, rent, requests, and visits from one place.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0f1626",
-    theme_color: "#0f1626",
+    background_color: "#f4f6fa",
+    theme_color: "#f4f6fa",
     icons: [
       {
         src: "/icon.svg",

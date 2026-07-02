@@ -32,9 +32,9 @@ export default async function SecurityConsolePage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">Security Console</h1>
-          <p className="text-[#9aa5bd] mt-1">
+          <p className="text-[#5b6b85] mt-1">
             Pre-authorized visitors awaiting arrival, who's on site now, and recent activity.
           </p>
         </div>
@@ -46,7 +46,7 @@ export default async function SecurityConsolePage() {
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
               <th className="px-5 py-3.5">Name</th>
               <th className="px-5 py-3.5">Purpose</th>
               <th className="px-5 py-3.5">Window</th>
@@ -59,11 +59,11 @@ export default async function SecurityConsolePage() {
               <tr key={v.id} className="border-b border-[rgba(176,27,66,0.08)]">
                 <td className="px-5 py-3.5">{v.fullName || v.brandName}</td>
                 <td className="px-5 py-3.5 capitalize">{v.purpose}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {v.expectedWindowStart ? new Date(v.expectedWindowStart).toLocaleTimeString() : "—"} –{" "}
                   {v.expectedWindowEnd ? new Date(v.expectedWindowEnd).toLocaleTimeString() : "—"}
                 </td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">{v.emiratesIdNumber ?? "—"}</td>
+                <td className="px-5 py-3.5 text-[#5b6b85]">{v.emiratesIdNumber ?? "—"}</td>
                 <td className="px-5 py-3.5">
                   <VisitorActions
                     visitorId={v.id}
@@ -76,7 +76,7 @@ export default async function SecurityConsolePage() {
             ))}
             {invited.length === 0 && (
               <tr>
-                <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={5}>
+                <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={5}>
                   No visitors expected.
                 </td>
               </tr>
@@ -93,7 +93,7 @@ export default async function SecurityConsolePage() {
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
               <th className="px-5 py-3.5">Name</th>
               <th className="px-5 py-3.5">Purpose</th>
               <th className="px-5 py-3.5">Checked In</th>
@@ -105,7 +105,7 @@ export default async function SecurityConsolePage() {
               <tr key={v.id} className="border-b border-[rgba(176,27,66,0.08)]">
                 <td className="px-5 py-3.5">{v.fullName || v.brandName}</td>
                 <td className="px-5 py-3.5 capitalize">{v.purpose}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {v.checkedInAt ? new Date(v.checkedInAt).toLocaleTimeString() : "—"}
                 </td>
                 <td className="px-5 py-3.5">
@@ -120,7 +120,7 @@ export default async function SecurityConsolePage() {
             ))}
             {onSite.length === 0 && (
               <tr>
-                <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={4}>
+                <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={4}>
                   No one currently on site.
                 </td>
               </tr>
@@ -137,7 +137,7 @@ export default async function SecurityConsolePage() {
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
               <th className="px-5 py-3.5">Name</th>
               <th className="px-5 py-3.5">Purpose</th>
               <th className="px-5 py-3.5">Status</th>
@@ -148,12 +148,12 @@ export default async function SecurityConsolePage() {
               <tr key={v.id} className="border-b border-[rgba(176,27,66,0.08)]">
                 <td className="px-5 py-3.5">{v.fullName || v.brandName}</td>
                 <td className="px-5 py-3.5 capitalize">{v.purpose}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">{STATUS_LABEL[v.status]}</td>
+                <td className="px-5 py-3.5 text-[#5b6b85]">{STATUS_LABEL[v.status]}</td>
               </tr>
             ))}
             {history.length === 0 && (
               <tr>
-                <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={3}>
+                <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={3}>
                   No recent activity.
                 </td>
               </tr>

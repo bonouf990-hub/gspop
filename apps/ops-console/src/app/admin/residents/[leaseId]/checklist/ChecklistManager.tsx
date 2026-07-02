@@ -45,10 +45,10 @@ const DEFAULT_ITEMS = [
 ];
 
 const CONDITION_COLORS: Record<string, string> = {
-  good: "text-green-400",
-  fair: "text-amber-400",
-  damaged: "text-red-400",
-  missing: "text-red-400",
+  good: "text-green-700",
+  fair: "text-amber-700",
+  damaged: "text-red-600",
+  missing: "text-red-600",
 };
 
 export default function ChecklistManager({
@@ -129,7 +129,7 @@ export default function ChecklistManager({
 
   return (
     <div className="space-y-6">
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-red-600 text-sm">{error}</p>}
 
       {!creating && (
         <div className="flex gap-3">
@@ -141,7 +141,7 @@ export default function ChecklistManager({
           </button>
           <button
             onClick={() => startChecklist("move_out")}
-            className="px-4 py-2.5 rounded-lg bg-[#213052] text-[#d9647f] text-sm font-bold"
+            className="px-4 py-2.5 rounded-lg bg-[#e9eef6] text-[#d9647f] text-sm font-bold"
           >
             + New Move-Out Checklist
           </button>
@@ -155,7 +155,7 @@ export default function ChecklistManager({
           </h2>
           <div className="space-y-2 mb-4">
             {items.map((item, i) => (
-              <div key={i} className="flex items-start gap-2 bg-[#0f1626] rounded-lg p-3">
+              <div key={i} className="flex items-start gap-2 bg-[#f4f6fa] rounded-lg p-3">
                 <div className="flex-1">
                   {DEFAULT_ITEMS.includes(item.name) ? (
                     <p className="text-sm font-medium">{item.name}</p>
@@ -164,20 +164,20 @@ export default function ChecklistManager({
                       value={item.name}
                       onChange={(e) => updateItemName(i, e.target.value)}
                       placeholder="Item name..."
-                      className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm font-medium mb-1"
+                      className="w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm font-medium mb-1"
                     />
                   )}
                   <input
                     value={item.notes}
                     onChange={(e) => updateItem(i, "notes", e.target.value)}
                     placeholder="Notes (optional)..."
-                    className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#9aa5bd] mt-1"
+                    className="w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#5b6b85] mt-1"
                   />
                 </div>
                 <select
                   value={item.condition}
                   onChange={(e) => updateItem(i, "condition", e.target.value)}
-                  className={`text-xs font-bold rounded-lg bg-[#1a2640] border border-[rgba(176,27,66,0.15)] px-2 py-1 ${CONDITION_COLORS[item.condition] ?? ""}`}
+                  className={`text-xs font-bold rounded-lg bg-[#ffffff] border border-[rgba(176,27,66,0.15)] px-2 py-1 ${CONDITION_COLORS[item.condition] ?? ""}`}
                 >
                   <option value="good">Good</option>
                   <option value="fair">Fair</option>
@@ -196,7 +196,7 @@ export default function ChecklistManager({
           <div className="flex gap-3">
             <button
               onClick={() => setCreating(false)}
-              className="flex-1 py-2 rounded-lg border border-[rgba(176,27,66,0.15)] text-sm font-bold text-[#9aa5bd]"
+              className="flex-1 py-2 rounded-lg border border-[rgba(176,27,66,0.15)] text-sm font-bold text-[#5b6b85]"
             >
               Cancel
             </button>
@@ -225,17 +225,17 @@ export default function ChecklistManager({
                   <div className="flex items-center justify-between mb-3">
                     <div>
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                        cl.checklist_type === "move_in" ? "bg-green-900/50 text-green-300" : "bg-amber-900/50 text-amber-300"
+                        cl.checklist_type === "move_in" ? "bg-green-50 text-green-700" : "bg-amber-50 text-amber-700"
                       }`}>
                         {cl.checklist_type === "move_in" ? "Move-In" : "Move-Out"}
                       </span>
-                      <span className="text-xs text-[#5d6880] ml-2">
+                      <span className="text-xs text-[#8b97ab] ml-2">
                         {new Date(cl.created_at).toLocaleDateString()}
                         {cl.performer && ` · by ${cl.performer.full_name}`}
                       </span>
                     </div>
                     {damaged.length > 0 && (
-                      <span className="text-xs font-bold text-red-400">
+                      <span className="text-xs font-bold text-red-600">
                         {damaged.length} issue{damaged.length !== 1 ? "s" : ""}
                       </span>
                     )}
@@ -248,14 +248,14 @@ export default function ChecklistManager({
                             : item.condition === "fair" ? "bg-amber-400"
                             : "bg-red-400"
                         }`} />
-                        <span className={item.condition === "good" ? "text-[#9aa5bd]" : ""}>
+                        <span className={item.condition === "good" ? "text-[#5b6b85]" : ""}>
                           {item.item_name}
                         </span>
                         <span className={`text-[10px] capitalize ${CONDITION_COLORS[item.condition] ?? ""}`}>
                           {item.condition !== "good" && item.condition}
                         </span>
                         {item.notes && (
-                          <span className="text-[10px] text-[#5d6880]">— {item.notes}</span>
+                          <span className="text-[10px] text-[#8b97ab]">— {item.notes}</span>
                         )}
                       </div>
                     ))}

@@ -86,10 +86,10 @@ export default async function TenderSubmitPage({
 
   if (!token) {
     return (
-      <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
+      <main className="min-h-screen bg-[#f4f6fa] flex items-center justify-center p-8">
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-[#eef1f6]">Invalid Link</h1>
-          <p className="text-[#9aa5bd] mt-2">This tender submission link is missing or invalid.</p>
+          <h1 className="text-2xl font-extrabold text-[#16233c]">Invalid Link</h1>
+          <p className="text-[#5b6b85] mt-2">This tender submission link is missing or invalid.</p>
         </div>
       </main>
     );
@@ -99,10 +99,10 @@ export default async function TenderSubmitPage({
 
   if (!data) {
     return (
-      <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
+      <main className="min-h-screen bg-[#f4f6fa] flex items-center justify-center p-8">
         <div className="text-center">
-          <h1 className="text-2xl font-extrabold text-[#eef1f6]">Tender Not Found</h1>
-          <p className="text-[#9aa5bd] mt-2">This tender link is expired or invalid.</p>
+          <h1 className="text-2xl font-extrabold text-[#16233c]">Tender Not Found</h1>
+          <p className="text-[#5b6b85] mt-2">This tender link is expired or invalid.</p>
         </div>
       </main>
     );
@@ -115,16 +115,16 @@ export default async function TenderSubmitPage({
 
   if (!acceptingSubmissions || isPast) {
     return (
-      <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
+      <main className="min-h-screen bg-[#f4f6fa] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
           <p className="eyebrow mb-2">ARENCO Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
-          <p className="text-[#9aa5bd] mt-2">
+          <h1 className="text-2xl font-extrabold text-[#16233c]">{tender.title}</h1>
+          <p className="text-[#5b6b85] mt-2">
             {isPast
               ? "The submission deadline for this tender has passed."
               : "This tender is no longer accepting submissions."}
           </p>
-          <p className="text-xs text-[#5d6880] mt-4">Deadline was: {deadline.toLocaleString()}</p>
+          <p className="text-xs text-[#8b97ab] mt-4">Deadline was: {deadline.toLocaleString()}</p>
         </div>
       </main>
     );
@@ -132,11 +132,11 @@ export default async function TenderSubmitPage({
 
   if (tender.site_visit_required && attendedVendors.length === 0) {
     return (
-      <main className="min-h-screen bg-[#0f1626] flex items-center justify-center p-8">
+      <main className="min-h-screen bg-[#f4f6fa] flex items-center justify-center p-8">
         <div className="text-center max-w-md">
           <p className="eyebrow mb-2">ARENCO Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
-          <p className="text-[#9aa5bd] mt-2">
+          <h1 className="text-2xl font-extrabold text-[#16233c]">{tender.title}</h1>
+          <p className="text-[#5b6b85] mt-2">
             This tender requires a mandatory site visit before submission. No vendors have been marked as attended yet.
             Please contact the procurement team.
           </p>
@@ -146,13 +146,13 @@ export default async function TenderSubmitPage({
   }
 
   return (
-    <main className="min-h-screen bg-[#0f1626] p-8">
+    <main className="min-h-screen bg-[#f4f6fa] p-8">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
           <p className="eyebrow mb-2">ARENCO Tendering Portal</p>
-          <h1 className="text-2xl font-extrabold text-[#eef1f6]">{tender.title}</h1>
-          <p className="text-[#9aa5bd] mt-1">{tender.description}</p>
-          <div className="flex justify-center gap-4 mt-3 text-sm text-[#5d6880]">
+          <h1 className="text-2xl font-extrabold text-[#16233c]">{tender.title}</h1>
+          <p className="text-[#5b6b85] mt-1">{tender.description}</p>
+          <div className="flex justify-center gap-4 mt-3 text-sm text-[#8b97ab]">
             {tender.property && <span>{(tender.property as { name: string }).name}</span>}
             <span>Deadline: {deadline.toLocaleDateString()}</span>
             {tender.budget_estimate && (
@@ -163,7 +163,7 @@ export default async function TenderSubmitPage({
 
         <section className="lux-card p-5 mb-6">
           <h2 className="eyebrow mb-3">Scope of Work</h2>
-          <p className="text-sm text-[#9aa5bd] whitespace-pre-wrap">{tender.scope_of_work}</p>
+          <p className="text-sm text-[#5b6b85] whitespace-pre-wrap">{tender.scope_of_work}</p>
         </section>
 
         {requirements.length > 0 && (
@@ -173,19 +173,19 @@ export default async function TenderSubmitPage({
             </h2>
             <div className="space-y-2">
               {requirements.map((req) => (
-                <div key={req.id} className="bg-[#0f1626] rounded-lg px-3 py-2">
+                <div key={req.id} className="bg-[#f4f6fa] rounded-lg px-3 py-2">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-[#eef1f6]">{req.title}</span>
+                    <span className="text-sm font-medium text-[#16233c]">{req.title}</span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                      req.is_mandatory ? "bg-red-900 text-red-300" : "bg-[rgba(176,27,66,0.12)] text-[#5d6880]"
+                      req.is_mandatory ? "bg-red-900 text-red-700" : "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]"
                     }`}>
                       {req.is_mandatory ? "REQUIRED" : "OPTIONAL"}
                     </span>
-                    <span className="text-[10px] text-[#5d6880]">
+                    <span className="text-[10px] text-[#8b97ab]">
                       {CATEGORY_LABEL[req.category] ?? req.category}
                     </span>
                   </div>
-                  {req.description && <p className="text-xs text-[#5d6880] mt-0.5">{req.description}</p>}
+                  {req.description && <p className="text-xs text-[#8b97ab] mt-0.5">{req.description}</p>}
                 </div>
               ))}
             </div>
@@ -193,9 +193,9 @@ export default async function TenderSubmitPage({
         )}
 
         {tender.site_visit_required && attendedVendors.length > 0 && (
-          <section className="border border-amber-700 bg-amber-950/30 rounded-xl p-4 mb-6">
-            <p className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Site Visit Required</p>
-            <p className="text-sm text-amber-200">
+          <section className="border border-amber-700 bg-amber-50/30 rounded-xl p-4 mb-6">
+            <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">Site Visit Required</p>
+            <p className="text-sm text-amber-800">
               Only vendors who attended the mandatory site visit can submit. You will need
               to verify your email to confirm your attendance before the form appears.
             </p>

@@ -175,7 +175,7 @@ export default async function WorkOrderDetailPage({
   if (!wo) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">Work order not found.</p>
+        <p className="text-[#8b97ab]">Work order not found.</p>
       </main>
     );
   }
@@ -193,11 +193,11 @@ export default async function WorkOrderDetailPage({
 
   return (
     <main className="p-8 max-w-3xl">
-      <Link href="/work-orders" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+      <Link href="/work-orders" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
         ← Work Orders
       </Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-1">{wo.title}</h1>
-      <p className="text-[#9aa5bd] mb-6">{wo.description}</p>
+      <p className="text-[#5b6b85] mb-6">{wo.description}</p>
 
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Status</h2>
@@ -216,37 +216,37 @@ export default async function WorkOrderDetailPage({
       <section className="lux-card p-4 mb-4">
         <h2 className="eyebrow mb-3">Details</h2>
         <div className="grid grid-cols-2 gap-y-1 text-sm">
-          <span className="text-[#9aa5bd]">Type</span>
+          <span className="text-[#5b6b85]">Type</span>
           <span className="capitalize">{wo.type as string}</span>
-          <span className="text-[#9aa5bd]">Priority</span>
+          <span className="text-[#5b6b85]">Priority</span>
           <span className="capitalize">{wo.priority as string}</span>
-          <span className="text-[#9aa5bd]">Property</span>
+          <span className="text-[#5b6b85]">Property</span>
           <span>{property?.name ?? "—"}</span>
-          <span className="text-[#9aa5bd]">Unit</span>
+          <span className="text-[#5b6b85]">Unit</span>
           <span>{unit?.label ?? "—"}</span>
-          <span className="text-[#9aa5bd]">Created by</span>
+          <span className="text-[#5b6b85]">Created by</span>
           <span>{creator?.full_name ?? "—"}</span>
-          <span className="text-[#9aa5bd]">Technician</span>
+          <span className="text-[#5b6b85]">Technician</span>
           <span>{tech?.full_name ?? "Unassigned"}</span>
-          <span className="text-[#9aa5bd]">Estimated cost</span>
+          <span className="text-[#5b6b85]">Estimated cost</span>
           <span>{wo.estimated_cost ? `AED ${wo.estimated_cost}` : "—"}</span>
-          <span className="text-[#9aa5bd]">Actual cost</span>
+          <span className="text-[#5b6b85]">Actual cost</span>
           <span>{wo.actual_cost ? `AED ${wo.actual_cost}` : "—"}</span>
-          <span className="text-[#9aa5bd]">Started</span>
+          <span className="text-[#5b6b85]">Started</span>
           <span>{wo.started_at ? new Date(wo.started_at as string).toLocaleString() : "—"}</span>
-          <span className="text-[#9aa5bd]">Completed</span>
+          <span className="text-[#5b6b85]">Completed</span>
           <span>{wo.completed_at ? new Date(wo.completed_at as string).toLocaleString() : "—"}</span>
-          <span className="text-[#9aa5bd]">Hours worked</span>
+          <span className="text-[#5b6b85]">Hours worked</span>
           <span>{wo.hours_worked ? `${Number(wo.hours_worked).toFixed(1)}h` : "—"}</span>
-          <span className="text-[#9aa5bd]">Created</span>
+          <span className="text-[#5b6b85]">Created</span>
           <span>{new Date(wo.created_at as string).toLocaleString()}</span>
           {wo.visit_source === "resident_booking" && (
             <>
-              <span className="text-[#9aa5bd]">Source</span>
-              <span className="text-[#8fb4e0] font-medium">Resident Visit Request</span>
-              <span className="text-[#9aa5bd]">Preferred date</span>
+              <span className="text-[#5b6b85]">Source</span>
+              <span className="text-[#3d6cb3] font-medium">Resident Visit Request</span>
+              <span className="text-[#5b6b85]">Preferred date</span>
               <span>{wo.preferred_visit_date ? new Date(wo.preferred_visit_date as string).toLocaleDateString() : "—"}</span>
-              <span className="text-[#9aa5bd]">Preferred time</span>
+              <span className="text-[#5b6b85]">Preferred time</span>
               <span className="capitalize">{(wo.preferred_visit_time as string) ?? "—"}</span>
             </>
           )}
@@ -262,13 +262,13 @@ export default async function WorkOrderDetailPage({
                 {linkedComplaint.category?.replace(/_/g, " ")}
                 {linkedComplaint.sub_issue && ` — ${linkedComplaint.sub_issue.replace(/_/g, " ")}`}
               </p>
-              <p className="text-[10px] text-[#5d6880]">
+              <p className="text-[10px] text-[#8b97ab]">
                 Reported: {new Date(linkedComplaint.created_at).toLocaleDateString()} · Status: {linkedComplaint.status}
               </p>
             </div>
             <Link
               href={`/complaints/${linkedComplaint.id}`}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#e9eef6] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Complaint
             </Link>
@@ -280,13 +280,13 @@ export default async function WorkOrderDetailPage({
         <section className="lux-card p-4 mb-4">
           <h2 className="eyebrow mb-3">Linked Asset</h2>
           <div className="grid grid-cols-2 gap-y-1 text-sm">
-            <span className="text-[#9aa5bd]">Name</span>
+            <span className="text-[#5b6b85]">Name</span>
             <span>{asset.name}</span>
-            <span className="text-[#9aa5bd]">Category</span>
+            <span className="text-[#5b6b85]">Category</span>
             <span className="capitalize">{asset.category}</span>
-            <span className="text-[#9aa5bd]">Status</span>
+            <span className="text-[#5b6b85]">Status</span>
             <span className="capitalize">{asset.status.replace(/_/g, " ")}</span>
-            <span className="text-[#9aa5bd]">Condition</span>
+            <span className="text-[#5b6b85]">Condition</span>
             <span className="capitalize">{asset.condition}</span>
           </div>
         </section>
@@ -308,32 +308,32 @@ export default async function WorkOrderDetailPage({
           )}
         </div>
         {partsRequests.length === 0 ? (
-          <p className="text-sm text-[#5d6880]">No parts requested for this work order.</p>
+          <p className="text-sm text-[#8b97ab]">No parts requested for this work order.</p>
         ) : (
           <div className="space-y-2">
             {partsRequests.map((pr) => {
               const item = pr.inventory_item as { name: string; sku: string | null; unit_of_measure: string | null } | null;
               const requester = pr.requester as { full_name: string } | null;
               const statusStyle: Record<string, string> = {
-                requested: "bg-amber-900 text-amber-300",
+                requested: "bg-amber-900 text-amber-700",
                 approved: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
                 picking: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-                delivering: "bg-amber-900 text-amber-300",
-                delivered: "bg-green-900 text-green-300",
-                collected: "bg-green-900 text-green-300",
-                rejected: "bg-red-900 text-red-300",
+                delivering: "bg-amber-900 text-amber-700",
+                delivered: "bg-green-900 text-green-700",
+                collected: "bg-green-900 text-green-700",
+                rejected: "bg-red-900 text-red-700",
               };
               return (
-                <div key={pr.id} className="bg-[#0f1626] rounded-lg px-3 py-2 flex items-center justify-between">
+                <div key={pr.id} className="bg-[#f4f6fa] rounded-lg px-3 py-2 flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium">
                       {item?.name ?? "Item"}
-                      {item?.sku && <span className="text-[#5d6880] ml-1">({item.sku})</span>}
+                      {item?.sku && <span className="text-[#8b97ab] ml-1">({item.sku})</span>}
                       <span className="text-[#d9647f] ml-2">
                         x{pr.quantity} {item?.unit_of_measure ?? ""}
                       </span>
                     </p>
-                    <p className="text-[10px] text-[#5d6880]">
+                    <p className="text-[10px] text-[#8b97ab]">
                       {requester?.full_name ?? "—"} · {pr.delivery_method} · {new Date(pr.created_at).toLocaleDateString()}
                       {pr.notes && ` · ${pr.notes}`}
                     </p>
@@ -363,23 +363,23 @@ export default async function WorkOrderDetailPage({
           )}
         </div>
         {purchaseOrders.length === 0 ? (
-          <p className="text-sm text-[#5d6880]">No purchase orders linked to this work order.</p>
+          <p className="text-sm text-[#8b97ab]">No purchase orders linked to this work order.</p>
         ) : (
           <div className="space-y-2">
             {purchaseOrders.map((po) => {
               const vendor = po.vendor as { name: string } | null;
               const poStatusStyle: Record<string, string> = {
-                pending: "bg-amber-900 text-amber-300",
-                approved: "bg-green-900 text-green-300",
-                rejected: "bg-red-900 text-red-300",
+                pending: "bg-amber-900 text-amber-700",
+                approved: "bg-green-900 text-green-700",
+                rejected: "bg-red-900 text-red-700",
                 escalated: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-                fulfilled: "bg-[#213052] text-[#9aa5bd]",
+                fulfilled: "bg-[#e9eef6] text-[#5b6b85]",
               };
               return (
                 <Link
                   key={po.id}
                   href={`/purchasing/${po.id}`}
-                  className="block bg-[#0f1626] rounded-lg px-3 py-2 hover:bg-[#213052]"
+                  className="block bg-[#f4f6fa] rounded-lg px-3 py-2 hover:bg-[#f0f4f9]"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -389,7 +389,7 @@ export default async function WorkOrderDetailPage({
                           AED {Number(po.amount).toLocaleString()}
                         </span>
                       </p>
-                      <p className="text-[10px] text-[#5d6880]">
+                      <p className="text-[10px] text-[#8b97ab]">
                         {vendor?.name ?? "No vendor"} · {new Date(po.created_at).toLocaleDateString()}
                       </p>
                     </div>
@@ -409,7 +409,7 @@ export default async function WorkOrderDetailPage({
           <h2 className="eyebrow mb-3">Technician Photos</h2>
           {photos.before.length > 0 && (
             <>
-              <p className="text-sm text-[#9aa5bd] mb-2">Before</p>
+              <p className="text-sm text-[#5b6b85] mb-2">Before</p>
               <div className="grid grid-cols-4 gap-2 mb-4">
                 {photos.before.map((url, i) => (
                   <a key={i} href={url} target="_blank" rel="noopener noreferrer">
@@ -426,7 +426,7 @@ export default async function WorkOrderDetailPage({
           )}
           {photos.after.length > 0 && (
             <>
-              <p className="text-sm text-[#9aa5bd] mb-2">After</p>
+              <p className="text-sm text-[#5b6b85] mb-2">After</p>
               <div className="grid grid-cols-4 gap-2">
                 {photos.after.map((url, i) => (
                   <a key={i} href={url} target="_blank" rel="noopener noreferrer">
@@ -453,11 +453,11 @@ export default async function WorkOrderDetailPage({
                 <span className="capitalize">
                   {(c.type as string).replace("_", " ")}
                 </span>
-                <span className="text-[#9aa5bd]">
+                <span className="text-[#5b6b85]">
                   {(c.latitude as number).toFixed(5)}, {(c.longitude as number).toFixed(5)}
                   {c.accuracy_meters ? ` (±${Math.round(c.accuracy_meters as number)}m)` : ""}
                 </span>
-                <span className="text-[#5d6880]">
+                <span className="text-[#8b97ab]">
                   {new Date(c.timestamp as string).toLocaleString()}
                 </span>
               </div>

@@ -33,14 +33,14 @@ export default function AssignmentActions({
       <button
         onClick={() => updateStatus("completed")}
         disabled={updating}
-        className="text-xs font-bold px-3 py-1 rounded-lg bg-green-900 text-green-300 hover:bg-green-800 disabled:opacity-50"
+        className="text-xs font-bold px-3 py-1 rounded-lg bg-green-900 text-green-700 hover:bg-green-800 disabled:opacity-50"
       >
         Mark Complete
       </button>
       <button
         onClick={() => updateStatus("cancelled")}
         disabled={updating}
-        className="text-xs font-bold px-3 py-1 rounded-lg bg-red-900 text-red-300 hover:bg-red-800 disabled:opacity-50"
+        className="text-xs font-bold px-3 py-1 rounded-lg bg-red-900 text-red-700 hover:bg-red-800 disabled:opacity-50"
       >
         Cancel
       </button>

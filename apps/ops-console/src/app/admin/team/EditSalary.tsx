@@ -43,7 +43,7 @@ export default function EditSalary({
     );
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-1.5 text-xs text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-1.5 text-xs text-[#16233c]";
 
   return (
     <div className="flex items-center gap-2">
@@ -69,7 +69,7 @@ export default function EditSalary({
       >
         {saving ? "…" : "Save"}
       </button>
-      <button onClick={() => setOpen(false)} className="text-xs px-3 py-2 text-[#5d6880]">
+      <button onClick={() => setOpen(false)} className="text-xs px-3 py-2 text-[#8b97ab]">
         ✕
       </button>
     </div>

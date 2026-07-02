@@ -36,7 +36,7 @@ export default function Modal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg text-[#5d6880] hover:text-[#eef1f6] hover:bg-[#213052]"
+            className="w-8 h-8 flex items-center justify-center rounded-lg text-[#8b97ab] hover:text-[#16233c] hover:bg-[#f0f4f9]"
             aria-label="Close"
           >
             ✕

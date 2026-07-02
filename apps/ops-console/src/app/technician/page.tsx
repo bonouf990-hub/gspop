@@ -64,8 +64,8 @@ export default async function TechnicianPage() {
 
   if (!data) {
     return (
-      <main className="p-6 min-h-screen bg-[#0f1626]">
-        <p className="text-[#5d6880]">Not authorized.</p>
+      <main className="p-6 min-h-screen bg-[#f4f6fa]">
+        <p className="text-[#8b97ab]">Not authorized.</p>
       </main>
     );
   }

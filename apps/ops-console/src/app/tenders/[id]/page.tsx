@@ -148,19 +148,19 @@ async function getTenderData(id: string) {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  draft: "bg-[rgba(176,27,66,0.12)] text-[#5d6880]",
-  published: "bg-green-900 text-green-300",
-  site_visit: "bg-amber-900 text-amber-300",
-  submissions_open: "bg-green-900 text-green-300",
-  closed: "bg-amber-900 text-amber-300",
+  draft: "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]",
+  published: "bg-green-900 text-green-700",
+  site_visit: "bg-amber-900 text-amber-700",
+  submissions_open: "bg-green-900 text-green-700",
+  closed: "bg-amber-900 text-amber-700",
   evaluating: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  decided: "bg-green-900 text-green-300",
-  cancelled: "bg-red-900 text-red-300",
+  decided: "bg-green-900 text-green-700",
+  cancelled: "bg-red-900 text-red-700",
   submitted: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  under_review: "bg-amber-900 text-amber-300",
-  shortlisted: "bg-green-900 text-green-300",
-  winner: "bg-[#b01b42] text-[#0f1626]",
-  rejected: "bg-red-900 text-red-300",
+  under_review: "bg-amber-900 text-amber-700",
+  shortlisted: "bg-green-900 text-green-700",
+  winner: "bg-[#b01b42] text-[#f4f6fa]",
+  rejected: "bg-red-900 text-red-700",
 };
 
 const CATEGORY_LABEL: Record<string, string> = {
@@ -190,11 +190,11 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
       <div className="flex items-center justify-between mb-6">
         <div>
           <div className="flex gap-3 text-sm">
-            <Link href="/" className="text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
-            <Link href="/tenders" className="text-[#9aa5bd] hover:text-[#b01b42]">← Tenders</Link>
+            <Link href="/" className="text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
+            <Link href="/tenders" className="text-[#5b6b85] hover:text-[#b01b42]">← Tenders</Link>
           </div>
           <h1 className="text-2xl font-extrabold mt-1">{tender.title}</h1>
-          <p className="text-[#9aa5bd] text-sm mt-0.5">{tender.description}</p>
+          <p className="text-[#5b6b85] text-sm mt-0.5">{tender.description}</p>
         </div>
         <div className="flex items-center gap-2">
           <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[tender.status] ?? ""}`}>
@@ -204,7 +204,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
           {["evaluating", "decided"].includes(tender.status) && submissions.some((s) => s.ai_score !== null) && (
             <Link
               href={`/tenders/${tender.id}/report`}
-              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#213052] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
+              className="text-xs font-bold px-3 py-1.5 rounded-lg bg-[#e9eef6] text-[#d9647f] hover:bg-[rgba(176,27,66,0.15)]"
             >
               View Report
             </Link>
@@ -217,23 +217,23 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
           <h3 className="eyebrow mb-3">Details</h3>
           <dl className="space-y-2 text-sm">
             {tender.property && (
-              <div><dt className="text-[#5d6880]">Building</dt><dd>{(tender.property as { name: string }).name}</dd></div>
+              <div><dt className="text-[#8b97ab]">Building</dt><dd>{(tender.property as { name: string }).name}</dd></div>
             )}
             {tender.budget_estimate && (
-              <div><dt className="text-[#5d6880]">Budget Estimate</dt><dd className="text-[#d9647f] font-bold">{tender.currency} {Number(tender.budget_estimate).toLocaleString()}</dd></div>
+              <div><dt className="text-[#8b97ab]">Budget Estimate</dt><dd className="text-[#d9647f] font-bold">{tender.currency} {Number(tender.budget_estimate).toLocaleString()}</dd></div>
             )}
             <div>
-              <dt className="text-[#5d6880]">Deadline</dt>
-              <dd className={isPast ? "text-red-400" : ""}>{deadline.toLocaleString()}</dd>
+              <dt className="text-[#8b97ab]">Deadline</dt>
+              <dd className={isPast ? "text-red-600" : ""}>{deadline.toLocaleString()}</dd>
             </div>
-            <div><dt className="text-[#5d6880]">Created by</dt><dd>{(tender.creator as { full_name: string } | null)?.full_name ?? "—"}</dd></div>
-            <div><dt className="text-[#5d6880]">Submissions</dt><dd className="font-bold text-[#d9647f]">{submissions.length}</dd></div>
+            <div><dt className="text-[#8b97ab]">Created by</dt><dd>{(tender.creator as { full_name: string } | null)?.full_name ?? "—"}</dd></div>
+            <div><dt className="text-[#8b97ab]">Submissions</dt><dd className="font-bold text-[#d9647f]">{submissions.length}</dd></div>
           </dl>
         </div>
 
         <div className="lg:col-span-2 lux-card p-5">
           <h3 className="eyebrow mb-3">Scope of Work</h3>
-          <p className="text-sm text-[#9aa5bd] whitespace-pre-wrap">{tender.scope_of_work}</p>
+          <p className="text-sm text-[#5b6b85] whitespace-pre-wrap">{tender.scope_of_work}</p>
         </div>
       </div>
 
@@ -242,10 +242,10 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
           <h3 className="eyebrow mb-2">
             Site Visit Registration Link
           </h3>
-          <p className="text-sm text-[#9aa5bd] mb-1">
+          <p className="text-sm text-[#5b6b85] mb-1">
             Share this link with vendors to register for the mandatory site inspection:
           </p>
-          <code className="text-sm text-[#d9647f] bg-[#0f1626] px-3 py-1.5 rounded block">
+          <code className="text-sm text-[#d9647f] bg-[#f4f6fa] px-3 py-1.5 rounded block">
             /tenders/register?token={accessToken}
           </code>
         </div>
@@ -256,8 +256,8 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
           <h3 className="eyebrow mb-2">
             Vendor Submission Portal Link
           </h3>
-          <p className="text-sm text-[#9aa5bd] mb-1">Share this link with vendors to submit their bids:</p>
-          <code className="text-sm text-[#d9647f] bg-[#0f1626] px-3 py-1.5 rounded block">
+          <p className="text-sm text-[#5b6b85] mb-1">Share this link with vendors to submit their bids:</p>
+          <code className="text-sm text-[#d9647f] bg-[#f4f6fa] px-3 py-1.5 rounded block">
             /tenders/submit?token={accessToken}
           </code>
         </div>
@@ -268,10 +268,10 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
           <h3 className="eyebrow mb-2">
             Vendor Submission Portal Link
           </h3>
-          <p className="text-sm text-[#9aa5bd] mb-1">
+          <p className="text-sm text-[#5b6b85] mb-1">
             Only vendors who attended the site visit can submit. Share this link:
           </p>
-          <code className="text-sm text-[#d9647f] bg-[#0f1626] px-3 py-1.5 rounded block">
+          <code className="text-sm text-[#d9647f] bg-[#f4f6fa] px-3 py-1.5 rounded block">
             /tenders/submit?token={accessToken}
           </code>
         </div>
@@ -295,18 +295,18 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
           </h3>
           <div className="space-y-2">
             {requirements.map((req) => (
-              <div key={req.id} className="bg-[#0f1626] rounded-lg px-3 py-2 flex items-center justify-between">
+              <div key={req.id} className="bg-[#f4f6fa] rounded-lg px-3 py-2 flex items-center justify-between">
                 <div>
                   <span className="text-sm font-medium">{req.title}</span>
                   <span className={`text-[10px] ml-2 px-1.5 py-0.5 rounded ${
-                    req.is_mandatory ? "bg-red-900 text-red-300" : "bg-[rgba(176,27,66,0.12)] text-[#5d6880]"
+                    req.is_mandatory ? "bg-red-900 text-red-700" : "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]"
                   }`}>
                     {req.is_mandatory ? "REQUIRED" : "OPTIONAL"}
                   </span>
-                  <span className="text-[10px] text-[#5d6880] ml-2">
+                  <span className="text-[10px] text-[#8b97ab] ml-2">
                     {CATEGORY_LABEL[req.category] ?? req.category}
                   </span>
-                  {req.description && <p className="text-xs text-[#5d6880] mt-0.5">{req.description}</p>}
+                  {req.description && <p className="text-xs text-[#8b97ab] mt-0.5">{req.description}</p>}
                 </div>
                 <span className="text-xs text-[#d9647f] font-bold">Weight: {req.weight}</span>
               </div>
@@ -317,10 +317,10 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
 
       {winner && tender.decided_reason && (
         <section className="border border-green-700 bg-green-950/30 rounded-xl p-5 mb-8">
-          <h3 className="text-xs font-bold text-green-400 tracking-[0.15em] uppercase mb-3">
+          <h3 className="text-xs font-bold text-green-700 tracking-[0.15em] uppercase mb-3">
             Decision — Winner: {winner.vendor_name}
           </h3>
-          <p className="text-sm text-[#eef1f6] whitespace-pre-wrap">{tender.decided_reason}</p>
+          <p className="text-sm text-[#16233c] whitespace-pre-wrap">{tender.decided_reason}</p>
         </section>
       )}
 
@@ -351,7 +351,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
         </div>
 
         {submissions.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No submissions received yet.</p>
+          <p className="text-[#8b97ab] text-sm">No submissions received yet.</p>
         ) : (
           <div className="space-y-4">
             {sorted.map((sub, rank) => {
@@ -367,15 +367,15 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                     sub.status === "winner"
                       ? "border-green-500 bg-green-950/20"
                       : sub.status === "rejected"
-                        ? "border-red-500/30 bg-[#1a2640] opacity-60"
-                        : "border-[rgba(176,27,66,0.15)] bg-[#1a2640]"
+                        ? "border-red-200 bg-[#ffffff] opacity-60"
+                        : "border-[rgba(176,27,66,0.15)] bg-[#ffffff]"
                   }`}
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div>
                       <div className="flex items-center gap-2">
                         {sub.ai_score !== null && (
-                          <span className="text-xs font-bold bg-[#b01b42] text-[#0f1626] px-2 py-0.5 rounded">
+                          <span className="text-xs font-bold bg-[#b01b42] text-[#f4f6fa] px-2 py-0.5 rounded">
                             #{rank + 1}
                           </span>
                         )}
@@ -384,7 +384,7 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                           {sub.status.replace(/_/g, " ")}
                         </span>
                       </div>
-                      <p className="text-xs text-[#9aa5bd] mt-0.5">
+                      <p className="text-xs text-[#5b6b85] mt-0.5">
                         {sub.vendor_email}
                         {sub.vendor_phone && ` · ${sub.vendor_phone}`}
                         {sub.company_registration && ` · Reg: ${sub.company_registration}`}
@@ -395,25 +395,25 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                         {tender.currency} {Number(sub.proposed_amount).toLocaleString()}
                       </p>
                       {sub.proposed_timeline_days && (
-                        <p className="text-xs text-[#9aa5bd]">{sub.proposed_timeline_days} days</p>
+                        <p className="text-xs text-[#5b6b85]">{sub.proposed_timeline_days} days</p>
                       )}
                     </div>
                   </div>
 
                   {sub.ai_score !== null && (
-                    <div className="bg-[#0f1626] rounded-lg p-4 mb-3">
+                    <div className="bg-[#f4f6fa] rounded-lg p-4 mb-3">
                       <div className="flex items-center justify-between mb-2">
                         <span className="eyebrow">AI Analysis</span>
                         <span className={`text-2xl font-extrabold ${
-                          Number(sub.ai_score) >= 80 ? "text-green-400"
+                          Number(sub.ai_score) >= 80 ? "text-green-700"
                             : Number(sub.ai_score) >= 60 ? "text-[#d9647f]"
-                            : Number(sub.ai_score) >= 40 ? "text-amber-400"
-                            : "text-red-400"
+                            : Number(sub.ai_score) >= 40 ? "text-amber-700"
+                            : "text-red-600"
                         }`}>
                           {Number(sub.ai_score).toFixed(0)}/100
                         </span>
                       </div>
-                      <div className="h-2 bg-[#1a2640] rounded-full overflow-hidden mb-3">
+                      <div className="h-2 bg-[#ffffff] rounded-full overflow-hidden mb-3">
                         <div
                           className={`h-full rounded-full ${
                             Number(sub.ai_score) >= 80 ? "bg-green-500"
@@ -425,25 +425,25 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                         />
                       </div>
                       {sub.ai_summary && (
-                        <p className="text-sm text-[#eef1f6] mb-2">{sub.ai_summary}</p>
+                        <p className="text-sm text-[#16233c] mb-2">{sub.ai_summary}</p>
                       )}
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                         {sub.ai_strengths && (
                           <div>
-                            <p className="font-bold text-green-400 mb-1">Strengths</p>
-                            <p className="text-[#9aa5bd] whitespace-pre-wrap">{sub.ai_strengths}</p>
+                            <p className="font-bold text-green-700 mb-1">Strengths</p>
+                            <p className="text-[#5b6b85] whitespace-pre-wrap">{sub.ai_strengths}</p>
                           </div>
                         )}
                         {sub.ai_weaknesses && (
                           <div>
-                            <p className="font-bold text-amber-400 mb-1">Weaknesses</p>
-                            <p className="text-[#9aa5bd] whitespace-pre-wrap">{sub.ai_weaknesses}</p>
+                            <p className="font-bold text-amber-700 mb-1">Weaknesses</p>
+                            <p className="text-[#5b6b85] whitespace-pre-wrap">{sub.ai_weaknesses}</p>
                           </div>
                         )}
                         {sub.ai_missing_items && (
                           <div>
-                            <p className="font-bold text-red-400 mb-1">Missing Items</p>
-                            <p className="text-[#9aa5bd] whitespace-pre-wrap">{sub.ai_missing_items}</p>
+                            <p className="font-bold text-red-600 mb-1">Missing Items</p>
+                            <p className="text-[#5b6b85] whitespace-pre-wrap">{sub.ai_missing_items}</p>
                           </div>
                         )}
                       </div>
@@ -451,8 +451,8 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
                   )}
 
                   {!mandatoryMet && requirements.some((r) => r.is_mandatory) && (
-                    <div className="bg-red-950/30 border border-red-500/30 rounded-lg px-3 py-2 mb-3">
-                      <p className="text-xs text-red-400 font-bold">
+                    <div className="bg-red-950/30 border border-red-200 rounded-lg px-3 py-2 mb-3">
+                      <p className="text-xs text-red-600 font-bold">
                         Missing mandatory requirements — may not qualify
                       </p>
                     </div>
@@ -460,28 +460,28 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
 
                   {requirements.length > 0 && sub.responses.length > 0 && (
                     <details className="mb-3">
-                      <summary className="text-xs text-[#9aa5bd] cursor-pointer font-bold">
+                      <summary className="text-xs text-[#5b6b85] cursor-pointer font-bold">
                         Requirement Responses ({sub.responses.length}/{requirements.length})
                       </summary>
                       <div className="mt-2 space-y-1.5">
                         {requirements.map((req) => {
                           const resp = reqMap.get(req.id);
                           return (
-                            <div key={req.id} className="bg-[#0f1626] rounded px-3 py-2 text-xs">
+                            <div key={req.id} className="bg-[#f4f6fa] rounded px-3 py-2 text-xs">
                               <div className="flex items-center justify-between">
                                 <span className="font-medium">
                                   {req.title}
-                                  {req.is_mandatory && <span className="text-red-400 ml-1">*</span>}
+                                  {req.is_mandatory && <span className="text-red-600 ml-1">*</span>}
                                 </span>
                                 {resp ? (
-                                  <span className={resp.meets_requirement === false ? "text-red-400" : resp.meets_requirement ? "text-green-400" : "text-[#5d6880]"}>
+                                  <span className={resp.meets_requirement === false ? "text-red-600" : resp.meets_requirement ? "text-green-700" : "text-[#8b97ab]"}>
                                     {resp.meets_requirement === true ? "Met" : resp.meets_requirement === false ? "Not Met" : "Pending"}
                                   </span>
                                 ) : (
-                                  <span className="text-red-400">No response</span>
+                                  <span className="text-red-600">No response</span>
                                 )}
                               </div>
-                              {resp?.response && <p className="text-[#9aa5bd] mt-1">{resp.response}</p>}
+                              {resp?.response && <p className="text-[#5b6b85] mt-1">{resp.response}</p>}
                             </div>
                           );
                         })}
@@ -491,18 +491,18 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
 
                   {sub.cover_letter && (
                     <details className="mb-2">
-                      <summary className="text-xs text-[#9aa5bd] cursor-pointer">Cover Letter</summary>
-                      <p className="text-sm text-[#9aa5bd] mt-1 whitespace-pre-wrap">{sub.cover_letter}</p>
+                      <summary className="text-xs text-[#5b6b85] cursor-pointer">Cover Letter</summary>
+                      <p className="text-sm text-[#5b6b85] mt-1 whitespace-pre-wrap">{sub.cover_letter}</p>
                     </details>
                   )}
                   {sub.technical_approach && (
                     <details>
-                      <summary className="text-xs text-[#9aa5bd] cursor-pointer">Technical Approach</summary>
-                      <p className="text-sm text-[#9aa5bd] mt-1 whitespace-pre-wrap">{sub.technical_approach}</p>
+                      <summary className="text-xs text-[#5b6b85] cursor-pointer">Technical Approach</summary>
+                      <p className="text-sm text-[#5b6b85] mt-1 whitespace-pre-wrap">{sub.technical_approach}</p>
                     </details>
                   )}
 
-                  <p className="text-[10px] text-[#5d6880] mt-2">
+                  <p className="text-[10px] text-[#8b97ab] mt-2">
                     Submitted: {new Date(sub.submitted_at).toLocaleString()}
                   </p>
                 </div>

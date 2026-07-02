@@ -87,10 +87,10 @@ export default async function Dashboard() {
     <main className="p-8 max-w-5xl mx-auto w-full">
       <div className="mb-12">
         <p className="eyebrow mb-2">ARENCO Real Estate — Operations Console</p>
-        <h1 className="font-display text-4xl text-[#eef1f6]">
+        <h1 className="font-display text-4xl text-[#16233c]">
           Welcome{profile?.full_name ? `, ${profile.full_name}` : ""}
         </h1>
-        <p className="text-[#9aa5bd] capitalize mt-1.5">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
+        <p className="text-[#5b6b85] capitalize mt-1.5">{profile?.role?.replace(/_/g, " ") ?? ""}</p>
         <div className="gold-rule mt-5 max-w-xs" />
       </div>
 
@@ -108,7 +108,7 @@ export default async function Dashboard() {
                 className="lux-card lux-card-hover p-5"
               >
                 <p className="font-bold mb-1">{c.title}</p>
-                <p className="text-sm text-[#9aa5bd] leading-relaxed">{c.desc}</p>
+                <p className="text-sm text-[#5b6b85] leading-relaxed">{c.desc}</p>
               </Link>
             ))}
           </div>

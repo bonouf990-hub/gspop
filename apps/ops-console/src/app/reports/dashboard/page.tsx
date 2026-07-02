@@ -271,8 +271,8 @@ function trendArrow(current: number, previous: number) {
   const diff = current - previous;
   if (Math.abs(diff) < 1) return null;
   return diff > 0
-    ? { arrow: "↑", color: "text-green-400", value: `+${Math.abs(diff)}%` }
-    : { arrow: "↓", color: "text-red-400", value: `${Math.abs(diff)}%` };
+    ? { arrow: "↑", color: "text-green-700", value: `+${Math.abs(diff)}%` }
+    : { arrow: "↓", color: "text-red-600", value: `${Math.abs(diff)}%` };
 }
 
 function barWidth(value: number, max: number) {
@@ -283,7 +283,7 @@ function barWidth(value: number, max: number) {
 export default async function AnalyticsDashboard() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to this dashboard.</p></main>;
+    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this dashboard.</p></main>;
   }
 
   const data = await getDashboardData();
@@ -305,11 +305,11 @@ export default async function AnalyticsDashboard() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">Analytics Dashboard</h1>
-          <p className="text-[#9aa5bd] text-sm mt-1">
+          <p className="text-[#5b6b85] text-sm mt-1">
             Real-time KPIs across occupancy, revenue, maintenance, and operations.
           </p>
         </div>
@@ -317,13 +317,13 @@ export default async function AnalyticsDashboard() {
           <ExportCsv rows={csvRows} filename="building-performance" />
           <Link
             href="/reports/maintenance-costs"
-            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-[#9aa5bd] hover:bg-[rgba(176,27,66,0.12)]"
+            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-[#5b6b85] hover:bg-[rgba(176,27,66,0.12)]"
           >
             Cost Report
           </Link>
           <Link
             href="/reports/budgets"
-            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-[#9aa5bd] hover:bg-[rgba(176,27,66,0.12)]"
+            className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(176,27,66,0.15)] text-[#5b6b85] hover:bg-[rgba(176,27,66,0.12)]"
           >
             Budgets
           </Link>
@@ -336,13 +336,13 @@ export default async function AnalyticsDashboard() {
           label="Occupancy Rate"
           value={`${data.occupancyRate}%`}
           detail={`${data.occupiedUnits} / ${data.totalUnitCount} units`}
-          color={data.occupancyRate >= 90 ? "text-green-400" : data.occupancyRate >= 70 ? "text-amber-400" : "text-red-400"}
+          color={data.occupancyRate >= 90 ? "text-green-700" : data.occupancyRate >= 70 ? "text-amber-700" : "text-red-600"}
         />
         <KpiTile
           label="Rent Collection"
           value={`${data.thisMonthCollectionRate}%`}
           detail={collectionTrend ? `${collectionTrend.arrow} ${collectionTrend.value} vs last month` : "this month"}
-          color={data.thisMonthCollectionRate >= 90 ? "text-green-400" : data.thisMonthCollectionRate >= 70 ? "text-amber-400" : "text-red-400"}
+          color={data.thisMonthCollectionRate >= 90 ? "text-green-700" : data.thisMonthCollectionRate >= 70 ? "text-amber-700" : "text-red-600"}
           detailColor={collectionTrend?.color}
         />
         <KpiTile
@@ -355,14 +355,14 @@ export default async function AnalyticsDashboard() {
           label="Open Work Orders"
           value={String(data.openWOs)}
           detail={`${data.emergencyWOs} emergency`}
-          color={data.emergencyWOs > 0 ? "text-red-400" : "text-[#d9647f]"}
-          detailColor={data.emergencyWOs > 0 ? "text-red-400" : undefined}
+          color={data.emergencyWOs > 0 ? "text-red-600" : "text-[#d9647f]"}
+          detailColor={data.emergencyWOs > 0 ? "text-red-600" : undefined}
         />
         <KpiTile
           label="Open Complaints"
           value={String(data.openComplaints)}
           detail={`avg ${fmtHours(data.avgComplaintResolution)} to resolve`}
-          color={data.openComplaints > 10 ? "text-red-400" : "text-[#d9647f]"}
+          color={data.openComplaints > 10 ? "text-red-600" : "text-[#d9647f]"}
         />
         <KpiTile
           label="Cost / Unit"
@@ -376,24 +376,24 @@ export default async function AnalyticsDashboard() {
       {(data.overdueCount > 0 || data.urgentExpiringLeases > 0 || data.emergencyWOs > 0) && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
           {data.overdueCount > 0 && (
-            <div className="bg-red-950/30 border border-red-500/30 rounded-xl p-4">
-              <p className="text-xs font-bold text-red-400 uppercase tracking-wider mb-1">Overdue Rent</p>
-              <p className="text-lg font-extrabold text-red-300">{fmtAED(data.totalOverdueAmount)}</p>
-              <p className="text-[10px] text-red-400/70">{data.overdueCount} invoices overdue</p>
+            <div className="bg-red-950/30 border border-red-200 rounded-xl p-4">
+              <p className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Overdue Rent</p>
+              <p className="text-lg font-extrabold text-red-700">{fmtAED(data.totalOverdueAmount)}</p>
+              <p className="text-[10px] text-red-600/70">{data.overdueCount} invoices overdue</p>
             </div>
           )}
           {data.urgentExpiringLeases > 0 && (
-            <div className="bg-amber-950/30 border border-amber-500/30 rounded-xl p-4">
-              <p className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Leases Expiring</p>
-              <p className="text-lg font-extrabold text-amber-300">{data.urgentExpiringLeases}</p>
-              <p className="text-[10px] text-amber-400/70">within 30 days · {data.expiringLeases} within 60 days</p>
+            <div className="bg-amber-50/30 border border-amber-200 rounded-xl p-4">
+              <p className="text-xs font-bold text-amber-700 uppercase tracking-wider mb-1">Leases Expiring</p>
+              <p className="text-lg font-extrabold text-amber-700">{data.urgentExpiringLeases}</p>
+              <p className="text-[10px] text-amber-700/70">within 30 days · {data.expiringLeases} within 60 days</p>
             </div>
           )}
           {data.emergencyWOs > 0 && (
-            <div className="bg-red-950/30 border border-red-500/30 rounded-xl p-4">
-              <p className="text-xs font-bold text-red-400 uppercase tracking-wider mb-1">Emergency Jobs</p>
-              <p className="text-lg font-extrabold text-red-300">{data.emergencyWOs}</p>
-              <p className="text-[10px] text-red-400/70">active emergency work orders</p>
+            <div className="bg-red-950/30 border border-red-200 rounded-xl p-4">
+              <p className="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">Emergency Jobs</p>
+              <p className="text-lg font-extrabold text-red-700">{data.emergencyWOs}</p>
+              <p className="text-[10px] text-red-600/70">active emergency work orders</p>
             </div>
           )}
         </div>
@@ -412,7 +412,7 @@ export default async function AnalyticsDashboard() {
                 <div key={m.month}>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-sm font-medium">{m.month}</span>
-                    <span className="text-xs text-[#9aa5bd]">
+                    <span className="text-xs text-[#5b6b85]">
                       {m.created} created · {m.completed} completed
                     </span>
                   </div>
@@ -434,7 +434,7 @@ export default async function AnalyticsDashboard() {
               );
             })}
           </div>
-          <div className="flex gap-4 mt-3 text-[10px] text-[#9aa5bd]">
+          <div className="flex gap-4 mt-3 text-[10px] text-[#5b6b85]">
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#d9647f]" /> Created</span>
             <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500" /> Completed</span>
           </div>
@@ -452,7 +452,7 @@ export default async function AnalyticsDashboard() {
                   <span className="text-sm capitalize">{type.replace(/_/g, " ")}</span>
                   <span className="text-xs font-bold text-[#d9647f]">{count}</span>
                 </div>
-                <div className="h-2 bg-[#0f1626] rounded-full overflow-hidden">
+                <div className="h-2 bg-[#f4f6fa] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[#b01b42] rounded-full"
                     style={{ width: barWidth(count, maxWOByType) }}
@@ -461,7 +461,7 @@ export default async function AnalyticsDashboard() {
               </div>
             ))}
             {data.woByType.length === 0 && (
-              <p className="text-[#5d6880] text-sm">No work order data available.</p>
+              <p className="text-[#8b97ab] text-sm">No work order data available.</p>
             )}
           </div>
         </div>
@@ -479,7 +479,7 @@ export default async function AnalyticsDashboard() {
                 <path
                   d="M18 2.0845a 15.9155 15.9155 0 0 1 0 31.831 15.9155 15.9155 0 0 1 0 -31.831"
                   fill="none"
-                  stroke="#0f1626"
+                  stroke="#f4f6fa"
                   strokeWidth="3"
                 />
                 <path
@@ -493,24 +493,24 @@ export default async function AnalyticsDashboard() {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-2xl font-extrabold">{data.occupancyRate}%</span>
-                <span className="text-[9px] text-[#9aa5bd] uppercase">Occupied</span>
+                <span className="text-[9px] text-[#5b6b85] uppercase">Occupied</span>
               </div>
             </div>
             <div className="space-y-2 text-sm flex-1">
               <div className="flex justify-between">
-                <span className="text-[#9aa5bd]">Total Units</span>
+                <span className="text-[#5b6b85]">Total Units</span>
                 <span className="font-medium">{data.totalUnitCount}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#9aa5bd]">Occupied</span>
-                <span className="font-medium text-green-400">{data.occupiedUnits}</span>
+                <span className="text-[#5b6b85]">Occupied</span>
+                <span className="font-medium text-green-700">{data.occupiedUnits}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#9aa5bd]">Vacant</span>
-                <span className="font-medium text-amber-400">{data.totalUnitCount - data.occupiedUnits}</span>
+                <span className="text-[#5b6b85]">Vacant</span>
+                <span className="font-medium text-amber-700">{data.totalUnitCount - data.occupiedUnits}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#9aa5bd]">Active Leases</span>
+                <span className="text-[#5b6b85]">Active Leases</span>
                 <span className="font-medium">{data.activeLeaseCount}</span>
               </div>
             </div>
@@ -522,27 +522,27 @@ export default async function AnalyticsDashboard() {
             Lease Health
           </h2>
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-              <p className="text-xl font-extrabold text-green-400">{data.activeLeaseCount}</p>
-              <p className="text-[10px] text-[#5d6880] uppercase">Active Leases</p>
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+              <p className="text-xl font-extrabold text-green-700">{data.activeLeaseCount}</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase">Active Leases</p>
             </div>
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-              <p className={`text-xl font-extrabold ${data.expiringLeases > 0 ? "text-amber-400" : "text-green-400"}`}>
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+              <p className={`text-xl font-extrabold ${data.expiringLeases > 0 ? "text-amber-700" : "text-green-700"}`}>
                 {data.expiringLeases}
               </p>
-              <p className="text-[10px] text-[#5d6880] uppercase">Expiring (60d)</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase">Expiring (60d)</p>
             </div>
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-              <p className={`text-xl font-extrabold ${data.thisMonthCollectionRate >= 90 ? "text-green-400" : "text-amber-400"}`}>
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+              <p className={`text-xl font-extrabold ${data.thisMonthCollectionRate >= 90 ? "text-green-700" : "text-amber-700"}`}>
                 {data.thisMonthCollectionRate}%
               </p>
-              <p className="text-[10px] text-[#5d6880] uppercase">Collection Rate</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase">Collection Rate</p>
             </div>
-            <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-              <p className={`text-xl font-extrabold ${data.overdueCount > 0 ? "text-red-400" : "text-green-400"}`}>
+            <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+              <p className={`text-xl font-extrabold ${data.overdueCount > 0 ? "text-red-600" : "text-green-700"}`}>
                 {data.overdueCount}
               </p>
-              <p className="text-[10px] text-[#5d6880] uppercase">Overdue Invoices</p>
+              <p className="text-[10px] text-[#8b97ab] uppercase">Overdue Invoices</p>
             </div>
           </div>
         </div>
@@ -557,7 +557,7 @@ export default async function AnalyticsDashboard() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[800px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>
                 <th className="px-5 py-3.5 font-medium">Units</th>
                 <th className="px-5 py-3.5 font-medium">Occupied</th>
@@ -572,30 +572,30 @@ export default async function AnalyticsDashboard() {
               {data.buildingStats.map((b) => {
                 const health =
                   b.occupancyRate >= 90 && b.openComplaints <= 2 && b.openWOs <= 5
-                    ? { label: "Excellent", color: "text-green-400" }
+                    ? { label: "Excellent", color: "text-green-700" }
                     : b.occupancyRate >= 70 && b.openComplaints <= 5
                     ? { label: "Good", color: "text-[#d9647f]" }
-                    : { label: "Needs Attention", color: "text-red-400" };
+                    : { label: "Needs Attention", color: "text-red-600" };
 
                 return (
-                  <tr key={b.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                  <tr key={b.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                     <td className="px-5 py-3.5 font-medium">{b.name}</td>
                     <td className="px-5 py-3.5">{b.totalUnits}</td>
-                    <td className="px-5 py-3.5 text-green-400">{b.occupied}</td>
+                    <td className="px-5 py-3.5 text-green-700">{b.occupied}</td>
                     <td className="px-5 py-3.5">
-                      <span className={b.occupancyRate >= 90 ? "text-green-400" : b.occupancyRate >= 70 ? "text-amber-400" : "text-red-400"}>
+                      <span className={b.occupancyRate >= 90 ? "text-green-700" : b.occupancyRate >= 70 ? "text-amber-700" : "text-red-600"}>
                         {b.occupancyRate}%
                       </span>
                     </td>
                     <td className="px-5 py-3.5">
-                      <span className={b.openWOs > 5 ? "text-amber-400 font-bold" : ""}>{b.openWOs}</span>
+                      <span className={b.openWOs > 5 ? "text-amber-700 font-bold" : ""}>{b.openWOs}</span>
                     </td>
-                    <td className="px-5 py-3.5 text-[#9aa5bd]">{b.completedWOs}</td>
+                    <td className="px-5 py-3.5 text-[#5b6b85]">{b.completedWOs}</td>
                     <td className="px-5 py-3.5">
-                      <span className={b.openComplaints > 3 ? "text-red-400 font-bold" : "text-[#9aa5bd]"}>
+                      <span className={b.openComplaints > 3 ? "text-red-600 font-bold" : "text-[#5b6b85]"}>
                         {b.openComplaints} open
                       </span>
-                      <span className="text-[#5d6880]"> / {b.totalComplaints}</span>
+                      <span className="text-[#8b97ab]"> / {b.totalComplaints}</span>
                     </td>
                     <td className="px-5 py-3.5">
                       <span className={`text-xs font-bold ${health.color}`}>{health.label}</span>
@@ -605,7 +605,7 @@ export default async function AnalyticsDashboard() {
               })}
               {data.buildingStats.length === 0 && (
                 <tr>
-                  <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={8}>No building data available.</td>
+                  <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={8}>No building data available.</td>
                 </tr>
               )}
             </tbody>
@@ -633,8 +633,8 @@ function KpiTile({
   return (
     <div className="lux-card p-4 text-center">
       <p className={`text-xl font-extrabold ${color}`}>{value}</p>
-      <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{label}</p>
-      <p className={`text-[10px] mt-1 ${detailColor ?? "text-[#5d6880]"}`}>{detail}</p>
+      <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">{label}</p>
+      <p className={`text-[10px] mt-1 ${detailColor ?? "text-[#8b97ab]"}`}>{detail}</p>
     </div>
   );
 }

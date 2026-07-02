@@ -16,7 +16,7 @@ export default async function NoticesAdminPage() {
   if (!isAdmin || !callerProfile) {
     return (
       <main className="p-8">
-        <p className="text-[#5d6880]">You don&apos;t have access to Building Notices.</p>
+        <p className="text-[#8b97ab]">You don&apos;t have access to Building Notices.</p>
       </main>
     );
   }
@@ -33,9 +33,9 @@ export default async function NoticesAdminPage() {
     <main className="p-8 max-w-3xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">Building Notices</h1>
-          <p className="text-[#9aa5bd] mt-1">
+          <p className="text-[#5b6b85] mt-1">
             Post announcements to residents. Each resident on the building is notified in their app.
           </p>
         </div>
@@ -54,16 +54,16 @@ export default async function NoticesAdminPage() {
             <div key={n.id} className="lux-card p-4">
               <div className="flex justify-between items-start">
                 <p className="font-medium">{n.title}</p>
-                {expired && <span className="text-xs text-[#5d6880]">expired</span>}
+                {expired && <span className="text-xs text-[#8b97ab]">expired</span>}
               </div>
-              <p className="text-sm text-[#9aa5bd] mt-1">{n.body}</p>
-              <p className="text-xs text-[#5d6880] mt-2">
+              <p className="text-sm text-[#5b6b85] mt-1">{n.body}</p>
+              <p className="text-xs text-[#8b97ab] mt-2">
                 {prop?.name ?? "—"} · {new Date(n.posted_at).toLocaleString()}
               </p>
             </div>
           );
         })}
-        {(notices ?? []).length === 0 && <p className="text-[#5d6880]">No notices yet.</p>}
+        {(notices ?? []).length === 0 && <p className="text-[#8b97ab]">No notices yet.</p>}
       </div>
     </main>
   );

@@ -71,7 +71,7 @@ export default function RenewalActions({
             onChange={(e) => setNotes(e.target.value)}
             placeholder={`Notes about ${residentName}'s renewal...`}
             rows={2}
-            className="w-full rounded-lg bg-[#0f1626] border border-[rgba(176,27,66,0.15)] p-2 text-sm resize-none"
+            className="w-full rounded-lg bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] p-2 text-sm resize-none"
           />
         </div>
       )}
@@ -79,7 +79,7 @@ export default function RenewalActions({
         {!showNotes && (
           <button
             onClick={() => setShowNotes(true)}
-            className="text-xs font-bold px-3 py-2 rounded-lg bg-[#213052] text-[#9aa5bd] hover:bg-[rgba(176,27,66,0.12)]"
+            className="text-xs font-bold px-3 py-2 rounded-lg bg-[#e9eef6] text-[#5b6b85] hover:bg-[rgba(176,27,66,0.12)]"
           >
             + Add Note
           </button>
@@ -91,9 +91,9 @@ export default function RenewalActions({
             disabled={busy}
             className={`text-xs font-bold px-3 py-2 rounded-lg disabled:opacity-50 ${
               a.value === "not_renewing"
-                ? "bg-red-900/50 text-red-300 hover:bg-red-900"
+                ? "bg-red-50 text-red-700 hover:bg-red-900"
                 : a.value === "renewed"
-                ? "bg-green-900/50 text-green-300 hover:bg-green-900"
+                ? "bg-green-50 text-green-700 hover:bg-green-900"
                 : "bg-[#b01b42]/20 text-[#d9647f] hover:bg-[#b01b42]/30"
             }`}
           >

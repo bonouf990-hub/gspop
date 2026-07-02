@@ -12,9 +12,9 @@ async function getComplianceDocuments(): Promise<ComplianceDocument[]> {
 }
 
 function statusColor(status: ComplianceDocument["status"]) {
-  if (status === "expired") return "text-red-400";
-  if (status === "expiring_soon") return "text-amber-400";
-  return "text-green-400";
+  if (status === "expired") return "text-red-600";
+  if (status === "expiring_soon") return "text-amber-700";
+  return "text-green-700";
 }
 
 export default async function CompliancePage() {
@@ -24,16 +24,16 @@ export default async function CompliancePage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">← Dashboard</Link>
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">Compliance & Document Expiry</h1>
-          <p className="text-[#9aa5bd] mt-1">Document expiry and regulatory tracking.</p>
+          <p className="text-[#5b6b85] mt-1">Document expiry and regulatory tracking.</p>
         </div>
       </div>
       <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
       <table className="w-full text-sm border-collapse min-w-[600px]">
         <thead>
-          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+          <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5">Document</th>
             <th className="px-5 py-3.5">Type</th>
             <th className="px-5 py-3.5">Expiry Date</th>
@@ -53,7 +53,7 @@ export default async function CompliancePage() {
           ))}
           {documents.length === 0 && (
             <tr>
-              <td className="px-5 py-10 text-[#5d6880] text-center" colSpan={4}>
+              <td className="px-5 py-10 text-[#8b97ab] text-center" colSpan={4}>
                 No compliance documents tracked yet.
               </td>
             </tr>

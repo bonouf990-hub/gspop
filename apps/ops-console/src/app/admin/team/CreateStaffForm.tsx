@@ -72,7 +72,7 @@ export default function CreateStaffForm({
     router.refresh();
   }
 
-  const input = "w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
+  const input = "w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#16233c]";
 
   return (
     <>
@@ -123,7 +123,7 @@ export default function CreateStaffForm({
       </select>
 
       <div>
-        <p className="text-xs text-[#9aa5bd] mb-1.5">Assigned buildings</p>
+        <p className="text-xs text-[#5b6b85] mb-1.5">Assigned buildings</p>
         <div className="flex flex-wrap gap-2">
           {properties.map((p) => (
             <button
@@ -131,7 +131,7 @@ export default function CreateStaffForm({
               key={p.id}
               onClick={() => toggleProperty(p.id)}
               className={`text-xs px-2.5 py-1 rounded-full border ${
-                propertyIds.includes(p.id) ? "bg-[#b01b42] border-[#b01b42] text-[#0f1626] font-bold" : "bg-[#213052] border-[rgba(176,27,66,0.15)] text-[#9aa5bd]"
+                propertyIds.includes(p.id) ? "bg-[#b01b42] border-[#b01b42] text-[#f4f6fa] font-bold" : "bg-[#e9eef6] border-[rgba(176,27,66,0.15)] text-[#5b6b85]"
               }`}
             >
               {p.name}
@@ -140,7 +140,7 @@ export default function CreateStaffForm({
         </div>
       </div>
 
-      {error && <p className="text-red-400 text-xs">{error}</p>}
+      {error && <p className="text-red-600 text-xs">{error}</p>}
 
       <div className="flex gap-2 pt-2">
         <button type="submit" disabled={submitting}
@@ -148,7 +148,7 @@ export default function CreateStaffForm({
           {submitting ? "Creating..." : "Create Staff Member"}
         </button>
         <button type="button" onClick={() => setOpen(false)}
-          className="bg-[#213052] text-sm font-medium px-4 py-2 rounded-lg text-[#9aa5bd]">
+          className="bg-[#e9eef6] text-sm font-medium px-4 py-2 rounded-lg text-[#5b6b85]">
           Cancel
         </button>
       </div>

@@ -14,7 +14,7 @@ type Settings = {
 };
 
 const input =
-  "bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#eef1f6]";
+  "bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg px-3 py-2 text-sm text-[#16233c]";
 
 function Toggle({ on, onChange, label, desc }: { on: boolean; onChange: (v: boolean) => void; label: string; desc: string }) {
   return (
@@ -25,13 +25,13 @@ function Toggle({ on, onChange, label, desc }: { on: boolean; onChange: (v: bool
     >
       <div>
         <p className="font-bold text-sm">{label}</p>
-        <p className="text-xs text-[#9aa5bd] mt-0.5">{desc}</p>
+        <p className="text-xs text-[#5b6b85] mt-0.5">{desc}</p>
       </div>
       <span
-        className={`shrink-0 w-11 h-6 rounded-full transition-colors relative ${on ? "bg-[#b01b42]" : "bg-[#213052]"}`}
+        className={`shrink-0 w-11 h-6 rounded-full transition-colors relative ${on ? "bg-[#b01b42]" : "bg-[#e9eef6]"}`}
       >
         <span
-          className={`absolute top-0.5 w-5 h-5 rounded-full bg-[#eef1f6] transition-all ${on ? "left-[22px]" : "left-0.5"}`}
+          className={`absolute top-0.5 w-5 h-5 rounded-full bg-[#16233c] transition-all ${on ? "left-[22px]" : "left-0.5"}`}
         />
       </span>
     </button>
@@ -112,7 +112,7 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
       {/* Lease renewal reminders */}
       <section className="lux-card p-5">
         <h2 className="font-bold mb-1">Lease Renewal Reminders</h2>
-        <p className="text-xs text-[#9aa5bd] mb-4">
+        <p className="text-xs text-[#5b6b85] mb-4">
           Customers are reminded at each stage before their lease expires, and reminders repeat at the next
           stage until the renewal is decided (marked renewed or not renewing).
         </p>
@@ -127,7 +127,7 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
               <button
                 type="button"
                 onClick={() => removeStage(d)}
-                className="text-[#9aa5bd] hover:text-[#e08a8a]"
+                className="text-[#5b6b85] hover:text-[#c0304a]"
                 aria-label={`Remove ${d}-day stage`}
               >
                 ✕
@@ -135,7 +135,7 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
             </span>
           ))}
           {s.leaseReminderDays.length === 0 && (
-            <span className="text-xs text-[#5d6880]">No stages configured.</span>
+            <span className="text-xs text-[#8b97ab]">No stages configured.</span>
           )}
         </div>
 
@@ -162,11 +162,11 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
       {/* Rent overdue */}
       <section className="lux-card p-5">
         <h2 className="font-bold mb-1">Rent Overdue Reminders</h2>
-        <p className="text-xs text-[#9aa5bd] mb-4">
+        <p className="text-xs text-[#5b6b85] mb-4">
           If a cheque stays overdue, the resident is reminded again after this many days.
         </p>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-[#9aa5bd]">Repeat every</span>
+          <span className="text-sm text-[#5b6b85]">Repeat every</span>
           <input
             type="number"
             min={1}
@@ -175,14 +175,14 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
             onChange={(e) => setS({ ...s, rentOverdueRepeatDays: parseInt(e.target.value || "7", 10) })}
             className={`${input} w-24`}
           />
-          <span className="text-sm text-[#9aa5bd]">days</span>
+          <span className="text-sm text-[#5b6b85]">days</span>
         </div>
       </section>
 
       {/* Run time */}
       <section className="lux-card p-5">
         <h2 className="font-bold mb-1">Daily Run Time</h2>
-        <p className="text-xs text-[#9aa5bd] mb-4">
+        <p className="text-xs text-[#5b6b85] mb-4">
           When the daily automation runs (UAE time) — rent sweep, lease reminders, maintenance generation.
         </p>
         <select
@@ -220,8 +220,8 @@ export default function AutomationSettingsForm({ tenantId, initial }: { tenantId
         />
       </div>
 
-      {err && <p className="text-xs text-[#e08a8a]">{err}</p>}
-      {msg && <p className="text-xs text-[#5cc98a]">{msg}</p>}
+      {err && <p className="text-xs text-[#c0304a]">{err}</p>}
+      {msg && <p className="text-xs text-[#1f8a4d]">{msg}</p>}
 
       <button
         type="button"

@@ -16,10 +16,10 @@ type Invoice = {
 type Doc = { id: string; doc_type: string; title: string; uploaded_at: string };
 
 const STATUS_COLOR: Record<string, string> = {
-  pending: "text-yellow-400",
-  overdue: "text-red-400",
-  paid: "text-green-400",
-  waived: "text-[#9aa5bd]",
+  pending: "text-yellow-600",
+  overdue: "text-red-600",
+  paid: "text-green-700",
+  waived: "text-[#5b6b85]",
 };
 
 const DOC_TYPES = ["lease_agreement", "ejari", "addendum", "receipt", "other"];
@@ -131,11 +131,11 @@ export default function LeaseManager({
     router.refresh();
   }
 
-  const input = "bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#eef1f6]";
+  const input = "bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-2 text-sm text-[#16233c]";
 
   return (
     <div className="space-y-8">
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-red-600 text-sm">{error}</p>}
 
       <section>
         <h2 className="eyebrow mb-3">Cheque Schedule</h2>
@@ -143,7 +143,7 @@ export default function LeaseManager({
         <div className="overflow-x-auto">
         <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
-            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+            <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
               <th className="px-5 py-3.5">Amount</th>
               <th className="px-5 py-3.5">Due</th>
               <th className="px-5 py-3.5">Cheque</th>
@@ -155,8 +155,8 @@ export default function LeaseManager({
             {invoices.map((i) => (
               <tr key={i.id} className="border-b border-[rgba(176,27,66,0.08)] align-top">
                 <td className="px-5 py-3.5">{i.amount} AED</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">{i.due_date}</td>
-                <td className="px-5 py-3.5 text-[#9aa5bd]">
+                <td className="px-5 py-3.5 text-[#5b6b85]">{i.due_date}</td>
+                <td className="px-5 py-3.5 text-[#5b6b85]">
                   {i.cheque_number ? `${i.cheque_number}${i.cheque_bank ? ` · ${i.cheque_bank}` : ""}` : "—"}
                 </td>
                 <td className={`px-5 py-3.5 capitalize ${STATUS_COLOR[i.status] ?? ""}`}>{i.status}</td>
@@ -170,17 +170,17 @@ export default function LeaseManager({
                           onChange={(e) => setChequeBank(e.target.value)} />
                         <div className="flex gap-2">
                           <button disabled={busy} onClick={() => markCleared(i.id)}
-                            className="bg-green-900/50 text-green-300 border border-green-500/30 text-xs px-2.5 py-1 rounded-lg">Confirm cleared</button>
+                            className="bg-green-50 text-green-700 border border-green-200 text-xs px-2.5 py-1 rounded-lg">Confirm cleared</button>
                           <button onClick={() => setClearingId(null)}
-                            className="bg-[#213052] text-[#9aa5bd] text-xs px-2.5 py-1 rounded">Cancel</button>
+                            className="bg-[#e9eef6] text-[#5b6b85] text-xs px-2.5 py-1 rounded">Cancel</button>
                         </div>
                       </div>
                     ) : (
                       <div className="flex gap-2">
                         <button onClick={() => { setClearingId(i.id); setChequeNumber(i.cheque_number ?? ""); setChequeBank(i.cheque_bank ?? ""); }}
-                          className="text-green-400 hover:underline text-xs">Mark cleared</button>
+                          className="text-green-700 hover:underline text-xs">Mark cleared</button>
                         <button onClick={() => waive(i.id)} disabled={busy}
-                          className="text-[#9aa5bd] hover:underline text-xs">Waive</button>
+                          className="text-[#5b6b85] hover:underline text-xs">Waive</button>
                       </div>
                     )
                   )}
@@ -188,7 +188,7 @@ export default function LeaseManager({
               </tr>
             ))}
             {invoices.length === 0 && (
-              <tr><td colSpan={5} className="px-5 py-10 text-[#5d6880] text-center">No cheques scheduled yet.</td></tr>
+              <tr><td colSpan={5} className="px-5 py-10 text-[#8b97ab] text-center">No cheques scheduled yet.</td></tr>
             )}
           </tbody>
         </table>
@@ -197,12 +197,12 @@ export default function LeaseManager({
 
         <form onSubmit={addInvoice} className="flex flex-wrap items-end gap-2">
           <div>
-            <label className="text-xs text-[#9aa5bd] mb-1 block">Amount (AED)</label>
+            <label className="text-xs text-[#5b6b85] mb-1 block">Amount (AED)</label>
             <input className={input} type="number" value={newAmount}
               onChange={(e) => setNewAmount(e.target.value)} required />
           </div>
           <div>
-            <label className="text-xs text-[#9aa5bd] mb-1 block">Due date</label>
+            <label className="text-xs text-[#5b6b85] mb-1 block">Due date</label>
             <input className={input} type="date" value={newDue}
               onChange={(e) => setNewDue(e.target.value)} required />
           </div>
@@ -218,31 +218,31 @@ export default function LeaseManager({
         <ul className="text-sm mb-4">
           {documents.map((d) => (
             <li key={d.id} className="flex justify-between border-b border-[rgba(176,27,66,0.08)] py-2">
-              <span>{d.title} <span className="text-[#5d6880] capitalize">· {d.doc_type.replace(/_/g, " ")}</span></span>
-              <span className="text-[#5d6880]">{new Date(d.uploaded_at).toLocaleDateString()}</span>
+              <span>{d.title} <span className="text-[#8b97ab] capitalize">· {d.doc_type.replace(/_/g, " ")}</span></span>
+              <span className="text-[#8b97ab]">{new Date(d.uploaded_at).toLocaleDateString()}</span>
             </li>
           ))}
-          {documents.length === 0 && <li className="text-[#5d6880] py-2">No documents uploaded.</li>}
+          {documents.length === 0 && <li className="text-[#8b97ab] py-2">No documents uploaded.</li>}
         </ul>
 
         <form onSubmit={uploadDoc} className="flex flex-wrap items-end gap-2">
           <div>
-            <label className="text-xs text-[#9aa5bd] mb-1 block">Title</label>
+            <label className="text-xs text-[#5b6b85] mb-1 block">Title</label>
             <input className={input} placeholder="e.g. Tenancy Contract 2026" value={docTitle}
               onChange={(e) => setDocTitle(e.target.value)} required />
           </div>
           <div>
-            <label className="text-xs text-[#9aa5bd] mb-1 block">Type</label>
+            <label className="text-xs text-[#5b6b85] mb-1 block">Type</label>
             <select className={input} value={docType} onChange={(e) => setDocType(e.target.value)}>
               {DOC_TYPES.map((t) => <option key={t} value={t}>{t.replace(/_/g, " ")}</option>)}
             </select>
           </div>
-          <label className="cursor-pointer bg-[#213052] text-[#d9647f] text-sm font-bold px-4 py-2 rounded-lg">
+          <label className="cursor-pointer bg-[#e9eef6] text-[#d9647f] text-sm font-bold px-4 py-2 rounded-lg">
             Choose File
             <input type="file" onChange={(e) => setDocFile(e.target.files?.[0] ?? null)}
               className="hidden" />
           </label>
-          {docFile && <span className="text-[#9aa5bd] text-xs">{docFile.name}</span>}
+          {docFile && <span className="text-[#5b6b85] text-xs">{docFile.name}</span>}
           <button type="submit" disabled={busy || !docFile}
             className="btn-gold text-sm px-4 py-2 disabled:opacity-50">
             Upload

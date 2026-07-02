@@ -73,7 +73,7 @@ async function getApprovals() {
 export default async function ApprovalsPage() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to Approvals.</p></main>;
+    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Approvals.</p></main>;
   }
 
   const { pending, recent, entityMap } = await getApprovals();
@@ -82,16 +82,16 @@ export default async function ApprovalsPage() {
     const entity = entityMap.get(a.entity_id);
     const approver = a.approver as { full_name: string } | null;
     return (
-      <tr key={a.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+      <tr key={a.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
         <td className="px-5 py-3.5">
           <span className="font-medium">{entity?.label ?? a.entity_id.slice(0, 8)}</span>
-          <span className="text-xs text-[#5d6880] ml-2 capitalize">
+          <span className="text-xs text-[#8b97ab] ml-2 capitalize">
             {a.entity_type.replace(/_/g, " ")}
           </span>
         </td>
-        <td className="px-5 py-3.5 text-[#9aa5bd]">Level {a.level}</td>
+        <td className="px-5 py-3.5 text-[#5b6b85]">Level {a.level}</td>
         <td className="px-5 py-3.5 text-[#d9647f] font-medium">{entity?.cost ?? "—"}</td>
-        <td className="px-5 py-3.5 text-[#9aa5bd]">{approver?.full_name ?? "—"}</td>
+        <td className="px-5 py-3.5 text-[#5b6b85]">{approver?.full_name ?? "—"}</td>
         <td className="px-5 py-3.5">
           <ApprovalDecision approvalId={a.id} currentDecision={a.decision} />
         </td>
@@ -103,11 +103,11 @@ export default async function ApprovalsPage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">Approvals</h1>
-          <p className="text-[#9aa5bd] mt-1">Spend requests and escalations awaiting sign-off.</p>
+          <p className="text-[#5b6b85] mt-1">Spend requests and escalations awaiting sign-off.</p>
         </div>
       </div>
 
@@ -116,13 +116,13 @@ export default async function ApprovalsPage() {
           Pending ({pending.length})
         </h2>
         {pending.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">Nothing pending approval.</p>
+          <p className="text-[#8b97ab] text-sm">Nothing pending approval.</p>
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[600px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Item</th>
                 <th className="px-5 py-3.5 font-medium">Level</th>
                 <th className="px-5 py-3.5 font-medium">Cost</th>
@@ -142,13 +142,13 @@ export default async function ApprovalsPage() {
           Recent Decisions
         </h2>
         {recent.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No recent decisions.</p>
+          <p className="text-[#8b97ab] text-sm">No recent decisions.</p>
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[600px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Item</th>
                 <th className="px-5 py-3.5 font-medium">Level</th>
                 <th className="px-5 py-3.5 font-medium">Cost</th>

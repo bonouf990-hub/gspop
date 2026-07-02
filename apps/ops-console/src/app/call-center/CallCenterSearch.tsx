@@ -27,13 +27,13 @@ type ComplaintHistoryItem = {
 
 const OPEN_STATUSES = ["submitted", "acknowledged", "assigned", "in_progress"];
 const STATUS_STYLE: Record<string, string> = {
-  submitted: "bg-amber-900 text-amber-300",
-  acknowledged: "bg-amber-900 text-amber-300",
+  submitted: "bg-amber-900 text-amber-700",
+  acknowledged: "bg-amber-900 text-amber-700",
   assigned: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   in_progress: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-  resolved: "bg-green-900 text-green-300",
-  closed: "bg-[#213052] text-[#9aa5bd]",
-  rejected: "bg-red-900 text-red-300",
+  resolved: "bg-green-900 text-green-700",
+  closed: "bg-[#e9eef6] text-[#5b6b85]",
+  rejected: "bg-red-900 text-red-700",
 };
 
 export default function CallCenterSearch({
@@ -147,7 +147,7 @@ export default function CallCenterSearch({
       )}
       <form onSubmit={handleSearch} className="flex gap-2 mb-6">
         <input
-          className="flex-1 bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-3 text-sm text-[#eef1f6] placeholder-[#5d6880]"
+          className="flex-1 bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-3 text-sm text-[#16233c] placeholder-[#8b97ab]"
           placeholder="Search by resident name or phone number..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -166,14 +166,14 @@ export default function CallCenterSearch({
               className="lux-card lux-card-hover p-4 cursor-pointer"
             >
               <p className="font-medium">{r.tenant_full_name}</p>
-              <p className="text-sm text-[#9aa5bd]">
+              <p className="text-sm text-[#5b6b85]">
                 {r.property_name} — Unit {r.unit_label} · {r.occupant_count} occupants
               </p>
-              {r.phone && <p className="text-xs text-[#5d6880]">{r.phone}</p>}
+              {r.phone && <p className="text-xs text-[#8b97ab]">{r.phone}</p>}
             </li>
           ))}
           {searched && results.length === 0 && (
-            <p className="text-[#5d6880] text-sm">No matching resident found.</p>
+            <p className="text-[#8b97ab] text-sm">No matching resident found.</p>
           )}
         </ul>
       )}
@@ -183,29 +183,29 @@ export default function CallCenterSearch({
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="font-bold text-lg">{selected.tenant_full_name}</p>
-              <p className="text-sm text-[#9aa5bd]">
+              <p className="text-sm text-[#5b6b85]">
                 {selected.property_name} — Unit {selected.unit_label}
               </p>
             </div>
-            <button onClick={() => setSelected(null)} className="text-xs text-[#9aa5bd] hover:text-[#b01b42]">
+            <button onClick={() => setSelected(null)} className="text-xs text-[#5b6b85] hover:text-[#b01b42]">
               Change caller
             </button>
           </div>
 
           <div className="mb-5">
-            <p className="text-xs text-[#9aa5bd] mb-2">
+            <p className="text-xs text-[#5b6b85] mb-2">
               Complaint history for this unit ({history.length})
             </p>
             {history.length === 0 ? (
-              <p className="text-sm text-[#5d6880]">No prior complaints on file for this unit.</p>
+              <p className="text-sm text-[#8b97ab]">No prior complaints on file for this unit.</p>
             ) : (
               <ul className="space-y-1.5 max-h-40 overflow-y-auto">
                 {history.map((h) => (
-                  <li key={h.id} className="flex items-center justify-between text-sm bg-[#0f1626] rounded-lg px-3 py-2">
+                  <li key={h.id} className="flex items-center justify-between text-sm bg-[#f4f6fa] rounded-lg px-3 py-2">
                     <span>{h.title}</span>
-                    <span className="flex items-center gap-2 text-xs text-[#5d6880]">
+                    <span className="flex items-center gap-2 text-xs text-[#8b97ab]">
                       {new Date(h.submitted_at).toLocaleDateString()}
-                      <span className={`px-2 py-0.5 rounded-full font-medium ${STATUS_STYLE[h.status] ?? "bg-[#213052] text-[#9aa5bd]"}`}>
+                      <span className={`px-2 py-0.5 rounded-full font-medium ${STATUS_STYLE[h.status] ?? "bg-[#e9eef6] text-[#5b6b85]"}`}>
                         {h.status.replace(/_/g, " ")}
                       </span>
                     </span>
@@ -216,17 +216,17 @@ export default function CallCenterSearch({
           </div>
 
           {submitted ? (
-            <p className="text-green-400 text-sm">Complaint logged and routed to maintenance.</p>
+            <p className="text-green-700 text-sm">Complaint logged and routed to maintenance.</p>
           ) : (
             <>
-              <p className="text-xs text-[#9aa5bd] mb-2">Category</p>
+              <p className="text-xs text-[#5b6b85] mb-2">Category</p>
               <div className="grid grid-cols-2 gap-2 mb-4">
                 {categories.map((c) => (
                   <button
                     key={c.id}
                     onClick={() => selectCategory(c.id)}
                     className={`text-sm p-2.5 rounded-lg border text-left ${
-                      categoryId === c.id ? "bg-[#b01b42] border-[#b01b42] text-[#0f1626] font-bold" : "bg-[#0f1626] border-[rgba(176,27,66,0.15)] text-[#eef1f6]"
+                      categoryId === c.id ? "bg-[#b01b42] border-[#b01b42] text-[#f4f6fa] font-bold" : "bg-[#f4f6fa] border-[rgba(176,27,66,0.15)] text-[#16233c]"
                     }`}
                   >
                     {c.name}
@@ -235,7 +235,7 @@ export default function CallCenterSearch({
               </div>
 
               {duplicateOpenComplaint && (
-                <div className="bg-amber-950 border border-amber-700 rounded-lg p-3 mb-4 text-sm">
+                <div className="bg-amber-50 border border-amber-700 rounded-lg p-3 mb-4 text-sm">
                   <strong>Already logged:</strong> "{duplicateOpenComplaint.title}" is still open
                   (status: {duplicateOpenComplaint.status.replace(/_/g, " ")}, opened{" "}
                   {new Date(duplicateOpenComplaint.submitted_at).toLocaleDateString()}). Tell the
@@ -245,14 +245,14 @@ export default function CallCenterSearch({
 
               {categoryId && (
                 <>
-                  <p className="text-xs text-[#9aa5bd] mb-2">Issue</p>
+                  <p className="text-xs text-[#5b6b85] mb-2">Issue</p>
                   <div className="flex flex-col gap-2 mb-4">
                     {subissues.map((s) => (
                       <button
                         key={s.id}
                         onClick={() => setSubissueId(s.id)}
                         className={`text-sm p-2.5 rounded-lg border text-left ${
-                          subissueId === s.id ? "bg-[#b01b42] border-[#b01b42] text-[#0f1626] font-bold" : "bg-[#0f1626] border-[rgba(176,27,66,0.15)] text-[#eef1f6]"
+                          subissueId === s.id ? "bg-[#b01b42] border-[#b01b42] text-[#f4f6fa] font-bold" : "bg-[#f4f6fa] border-[rgba(176,27,66,0.15)] text-[#16233c]"
                         }`}
                       >
                         {s.name}
@@ -263,7 +263,7 @@ export default function CallCenterSearch({
               )}
 
               <textarea
-                className="w-full bg-[#0f1626] border border-[rgba(176,27,66,0.15)] rounded-lg p-3 text-sm text-[#eef1f6] placeholder-[#5d6880] mb-4 h-20"
+                className="w-full bg-[#f4f6fa] border border-[rgba(176,27,66,0.15)] rounded-lg p-3 text-sm text-[#16233c] placeholder-[#8b97ab] mb-4 h-20"
                 placeholder="Notes from the call (optional)..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

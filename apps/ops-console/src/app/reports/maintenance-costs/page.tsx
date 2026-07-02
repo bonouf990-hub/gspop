@@ -260,7 +260,7 @@ function fmtHrs(n: number) {
 export default async function MaintenanceCostReport() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#5d6880]">You don&apos;t have access to this report.</p></main>;
+    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this report.</p></main>;
   }
 
   const { buildingList, techData, grandTotals } = await getReportData();
@@ -280,21 +280,21 @@ export default async function MaintenanceCostReport() {
   const kpis = [
     { label: "Work Orders", value: grandTotals.workOrders, color: "text-[#d9647f]" },
     { label: "Parts Cost", value: fmtAED(grandTotals.partsCost), color: "text-[#d9647f]" },
-    { label: "Labor Cost", value: fmtAED(grandTotals.laborCost), color: "text-[#8fb4e0]" },
-    { label: "External Cost", value: fmtAED(grandTotals.externalCost), color: "text-[#9aa5bd]" },
-    { label: "Total Cost", value: fmtAED(grandTotals.totalCost), color: "text-green-400" },
-    { label: "Total Hours", value: fmtHrs(grandTotals.totalHours), color: "text-[#9aa5bd]" },
+    { label: "Labor Cost", value: fmtAED(grandTotals.laborCost), color: "text-[#3d6cb3]" },
+    { label: "External Cost", value: fmtAED(grandTotals.externalCost), color: "text-[#5b6b85]" },
+    { label: "Total Cost", value: fmtAED(grandTotals.totalCost), color: "text-green-700" },
+    { label: "Total Hours", value: fmtHrs(grandTotals.totalHours), color: "text-[#5b6b85]" },
   ];
 
   return (
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#9aa5bd] hover:text-[#b01b42]">
+          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
             ← Dashboard
           </Link>
           <h1 className="mt-1">Maintenance Cost Report</h1>
-          <p className="text-[#9aa5bd] text-sm mt-1">
+          <p className="text-[#5b6b85] text-sm mt-1">
             Complete cost breakdown per building and apartment — parts, labor, and external work.
           </p>
         </div>
@@ -306,7 +306,7 @@ export default async function MaintenanceCostReport() {
           >
             Budget Tracker
           </Link>
-          <span className="text-xs text-[#5d6880]">
+          <span className="text-xs text-[#8b97ab]">
             Generated: {new Date().toLocaleString()}
           </span>
         </div>
@@ -317,7 +317,7 @@ export default async function MaintenanceCostReport() {
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-4 text-center">
             <p className={`text-xl font-extrabold ${k.color}`}>{k.value}</p>
-            <p className="text-[10px] text-[#9aa5bd] uppercase tracking-wider mt-1">{k.label}</p>
+            <p className="text-[10px] text-[#5b6b85] uppercase tracking-wider mt-1">{k.label}</p>
           </div>
         ))}
       </div>
@@ -328,7 +328,7 @@ export default async function MaintenanceCostReport() {
           <h2 className="eyebrow mb-3">
             Cost Distribution
           </h2>
-          <div className="h-4 bg-[#0f1626] rounded-full overflow-hidden flex mb-2">
+          <div className="h-4 bg-[#f4f6fa] rounded-full overflow-hidden flex mb-2">
             {grandTotals.partsCost > 0 && (
               <div
                 className="h-full bg-[#d9647f]"
@@ -337,13 +337,13 @@ export default async function MaintenanceCostReport() {
             )}
             {grandTotals.laborCost > 0 && (
               <div
-                className="h-full bg-[#8fb4e0]"
+                className="h-full bg-[#3d6cb3]"
                 style={{ width: `${(grandTotals.laborCost / grandTotals.totalCost) * 100}%` }}
               />
             )}
             {grandTotals.externalCost > 0 && (
               <div
-                className="h-full bg-[#9aa5bd]"
+                className="h-full bg-[#5b6b85]"
                 style={{ width: `${(grandTotals.externalCost / grandTotals.totalCost) * 100}%` }}
               />
             )}
@@ -354,11 +354,11 @@ export default async function MaintenanceCostReport() {
               Parts ({grandTotals.totalCost > 0 ? Math.round((grandTotals.partsCost / grandTotals.totalCost) * 100) : 0}%)
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#8fb4e0]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#3d6cb3]" />
               Labor ({grandTotals.totalCost > 0 ? Math.round((grandTotals.laborCost / grandTotals.totalCost) * 100) : 0}%)
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#9aa5bd]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#5b6b85]" />
               External ({grandTotals.totalCost > 0 ? Math.round((grandTotals.externalCost / grandTotals.totalCost) * 100) : 0}%)
             </span>
           </div>
@@ -371,7 +371,7 @@ export default async function MaintenanceCostReport() {
           Cost by Building
         </h2>
         {buildingList.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No completed work orders to report.</p>
+          <p className="text-[#8b97ab] text-sm">No completed work orders to report.</p>
         ) : (
           <div className="space-y-6">
             {buildingList.map((bldg) => {
@@ -383,44 +383,44 @@ export default async function MaintenanceCostReport() {
                   <div className="flex items-start justify-between mb-4">
                     <div>
                       <h3 className="text-lg font-bold">{bldg.propertyName}</h3>
-                      <p className="text-xs text-[#9aa5bd]">
+                      <p className="text-xs text-[#5b6b85]">
                         {bldg.totalWorkOrders} work orders · {fmtHrs(bldg.totalHours)} labor
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-xl font-extrabold text-[#d9647f]">{fmtAED(bldg.totalCost)}</p>
-                      <p className="text-[10px] text-[#9aa5bd] uppercase">Total Maintenance Cost</p>
+                      <p className="text-[10px] text-[#5b6b85] uppercase">Total Maintenance Cost</p>
                     </div>
                   </div>
 
                   {/* Building cost split */}
                   <div className="grid grid-cols-3 gap-3 mb-4">
-                    <div className="bg-[#0f1626] rounded-lg p-3 text-center">
+                    <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
                       <p className="text-sm font-bold text-[#d9647f]">{fmtAED(bldg.partsCost)}</p>
-                      <p className="text-[10px] text-[#5d6880] uppercase">Parts</p>
+                      <p className="text-[10px] text-[#8b97ab] uppercase">Parts</p>
                     </div>
-                    <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-                      <p className="text-sm font-bold text-[#8fb4e0]">{fmtAED(bldg.laborCost)}</p>
-                      <p className="text-[10px] text-[#5d6880] uppercase">Labor</p>
+                    <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+                      <p className="text-sm font-bold text-[#3d6cb3]">{fmtAED(bldg.laborCost)}</p>
+                      <p className="text-[10px] text-[#8b97ab] uppercase">Labor</p>
                     </div>
-                    <div className="bg-[#0f1626] rounded-lg p-3 text-center">
-                      <p className="text-sm font-bold text-[#9aa5bd]">{fmtAED(bldg.externalCost)}</p>
-                      <p className="text-[10px] text-[#5d6880] uppercase">External</p>
+                    <div className="bg-[#f4f6fa] rounded-lg p-3 text-center">
+                      <p className="text-sm font-bold text-[#5b6b85]">{fmtAED(bldg.externalCost)}</p>
+                      <p className="text-[10px] text-[#8b97ab] uppercase">External</p>
                     </div>
                   </div>
 
                   {/* By Job Type */}
                   {types.length > 0 && (
                     <div className="mb-4">
-                      <h4 className="text-[10px] font-bold text-[#9aa5bd] tracking-[0.15em] uppercase mb-2">
+                      <h4 className="text-[10px] font-bold text-[#5b6b85] tracking-[0.15em] uppercase mb-2">
                         By Job Type
                       </h4>
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {types.map((t) => (
-                          <div key={t.type} className="bg-[#0f1626] rounded-lg px-3 py-2">
+                          <div key={t.type} className="bg-[#f4f6fa] rounded-lg px-3 py-2">
                             <p className="text-xs font-medium capitalize">{t.type}</p>
                             <p className="text-sm font-bold text-[#d9647f]">{fmtAED(t.totalCost)}</p>
-                            <p className="text-[10px] text-[#5d6880]">{t.count} jobs</p>
+                            <p className="text-[10px] text-[#8b97ab]">{t.count} jobs</p>
                           </div>
                         ))}
                       </div>
@@ -428,13 +428,13 @@ export default async function MaintenanceCostReport() {
                   )}
 
                   {/* Per-Apartment Table */}
-                  <h4 className="text-[10px] font-bold text-[#9aa5bd] tracking-[0.15em] uppercase mb-2">
+                  <h4 className="text-[10px] font-bold text-[#5b6b85] tracking-[0.15em] uppercase mb-2">
                     Cost per Apartment
                   </h4>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm border-collapse min-w-[700px]">
                       <thead>
-                        <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                        <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                           <th className="px-5 py-3.5 font-medium">Apartment</th>
                           <th className="px-5 py-3.5 font-medium">Jobs</th>
                           <th className="px-5 py-3.5 font-medium">Hours</th>
@@ -446,29 +446,29 @@ export default async function MaintenanceCostReport() {
                       </thead>
                       <tbody>
                         {apartments.map((apt, i) => (
-                          <tr key={i} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                          <tr key={i} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                             <td className="px-5 py-3.5 font-medium">
                               {apt.unitLabel === "Common Area" ? (
-                                <span className="text-[#5d6880]">Common Area</span>
+                                <span className="text-[#8b97ab]">Common Area</span>
                               ) : (
                                 <span className="text-[#d9647f]">{apt.unitLabel}</span>
                               )}
                             </td>
                             <td className="px-5 py-3.5">{apt.totalWorkOrders}</td>
-                            <td className="px-5 py-3.5 text-[#9aa5bd]">{fmtHrs(apt.totalHours)}</td>
+                            <td className="px-5 py-3.5 text-[#5b6b85]">{fmtHrs(apt.totalHours)}</td>
                             <td className="px-5 py-3.5 text-[#d9647f]">{fmtAED(apt.partsCost)}</td>
-                            <td className="px-5 py-3.5 text-[#8fb4e0]">{fmtAED(apt.laborCost)}</td>
-                            <td className="px-5 py-3.5 text-[#9aa5bd]">{fmtAED(apt.externalCost)}</td>
+                            <td className="px-5 py-3.5 text-[#3d6cb3]">{fmtAED(apt.laborCost)}</td>
+                            <td className="px-5 py-3.5 text-[#5b6b85]">{fmtAED(apt.externalCost)}</td>
                             <td className="px-5 py-3.5 font-bold text-[#d9647f]">{fmtAED(apt.totalCost)}</td>
                           </tr>
                         ))}
                         <tr className="border-t-2 border-[rgba(176,27,66,0.3)]">
-                          <td className="px-5 py-3.5 font-bold text-[#9aa5bd]">Building Total</td>
+                          <td className="px-5 py-3.5 font-bold text-[#5b6b85]">Building Total</td>
                           <td className="px-5 py-3.5 font-bold">{bldg.totalWorkOrders}</td>
-                          <td className="px-5 py-3.5 font-bold text-[#9aa5bd]">{fmtHrs(bldg.totalHours)}</td>
+                          <td className="px-5 py-3.5 font-bold text-[#5b6b85]">{fmtHrs(bldg.totalHours)}</td>
                           <td className="px-5 py-3.5 font-bold text-[#d9647f]">{fmtAED(bldg.partsCost)}</td>
-                          <td className="px-5 py-3.5 font-bold text-[#8fb4e0]">{fmtAED(bldg.laborCost)}</td>
-                          <td className="px-5 py-3.5 font-bold text-[#9aa5bd]">{fmtAED(bldg.externalCost)}</td>
+                          <td className="px-5 py-3.5 font-bold text-[#3d6cb3]">{fmtAED(bldg.laborCost)}</td>
+                          <td className="px-5 py-3.5 font-bold text-[#5b6b85]">{fmtAED(bldg.externalCost)}</td>
                           <td className="px-5 py-3.5 font-extrabold text-[#d9647f]">{fmtAED(bldg.totalCost)}</td>
                         </tr>
                       </tbody>
@@ -486,17 +486,17 @@ export default async function MaintenanceCostReport() {
         <h2 className="eyebrow mb-3">
           Technician Manpower Cost
         </h2>
-        <p className="text-xs text-[#9aa5bd] mb-3">
+        <p className="text-xs text-[#5b6b85] mb-3">
           Labor cost per technician based on hourly rate and hours logged on completed work orders.
         </p>
         {techData.length === 0 ? (
-          <p className="text-[#5d6880] text-sm">No technician data available.</p>
+          <p className="text-[#8b97ab] text-sm">No technician data available.</p>
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse min-w-[800px]">
               <thead>
-                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+                <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Technician</th>
                   <th className="px-5 py-3.5 font-medium">Trade</th>
                   <th className="px-5 py-3.5 font-medium">Monthly Salary</th>
@@ -509,14 +509,14 @@ export default async function MaintenanceCostReport() {
               </thead>
               <tbody>
                 {techData.map((t) => (
-                  <tr key={t.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#213052]">
+                  <tr key={t.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f0f4f9]">
                     <td className="px-5 py-3.5 font-medium">{t.name}</td>
-                    <td className="px-5 py-3.5 text-[#9aa5bd] capitalize">{t.trade ?? "—"}</td>
+                    <td className="px-5 py-3.5 text-[#5b6b85] capitalize">{t.trade ?? "—"}</td>
                     <td className="px-5 py-3.5">{t.monthlySalary > 0 ? fmtAED(t.monthlySalary) : "—"}</td>
                     <td className="px-5 py-3.5">{t.hourlyRate > 0 ? fmtAED(t.hourlyRate) : "—"}</td>
                     <td className="px-5 py-3.5">{t.totalJobs}</td>
-                    <td className="px-5 py-3.5 text-[#9aa5bd]">{fmtHrs(t.totalHours)}</td>
-                    <td className="px-5 py-3.5 font-bold text-[#8fb4e0]">{fmtAED(t.laborCost)}</td>
+                    <td className="px-5 py-3.5 text-[#5b6b85]">{fmtHrs(t.totalHours)}</td>
+                    <td className="px-5 py-3.5 font-bold text-[#3d6cb3]">{fmtAED(t.laborCost)}</td>
                     <td className="px-5 py-3.5 text-[#d9647f]">
                       {t.totalJobs > 0 ? fmtAED(Math.round(t.laborCost / t.totalJobs)) : "—"}
                     </td>
@@ -524,12 +524,12 @@ export default async function MaintenanceCostReport() {
                 ))}
                 {techData.length > 1 && (
                   <tr className="border-t-2 border-[rgba(176,27,66,0.3)]">
-                    <td className="px-5 py-3.5 font-bold text-[#9aa5bd]" colSpan={4}>Total</td>
+                    <td className="px-5 py-3.5 font-bold text-[#5b6b85]" colSpan={4}>Total</td>
                     <td className="px-5 py-3.5 font-bold">{techData.reduce((s, t) => s + t.totalJobs, 0)}</td>
-                    <td className="px-5 py-3.5 font-bold text-[#9aa5bd]">
+                    <td className="px-5 py-3.5 font-bold text-[#5b6b85]">
                       {fmtHrs(techData.reduce((s, t) => s + t.totalHours, 0))}
                     </td>
-                    <td className="px-5 py-3.5 font-extrabold text-[#8fb4e0]">
+                    <td className="px-5 py-3.5 font-extrabold text-[#3d6cb3]">
                       {fmtAED(techData.reduce((s, t) => s + t.laborCost, 0))}
                     </td>
                     <td className="px-5 py-3.5" />
@@ -543,14 +543,14 @@ export default async function MaintenanceCostReport() {
       </section>
 
       {/* Grand Total Summary */}
-      <section className="border border-[#b01b42] bg-[#1a2640] rounded-xl p-5">
+      <section className="border border-[#b01b42] bg-[#ffffff] rounded-xl p-5">
         <h2 className="eyebrow mb-3">
           Grand Total — All Buildings
         </h2>
         <div className="overflow-x-auto">
           <table className="w-full text-sm border-collapse min-w-[700px]">
             <thead>
-              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#9aa5bd] bg-[rgba(176,27,66,0.04)]">
+              <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>
                 <th className="px-5 py-3.5 font-medium">Jobs</th>
                 <th className="px-5 py-3.5 font-medium">Hours</th>
@@ -565,21 +565,21 @@ export default async function MaintenanceCostReport() {
                 <tr key={b.propertyId} className="border-b border-[rgba(176,27,66,0.08)]">
                   <td className="px-5 py-3.5 font-medium">{b.propertyName}</td>
                   <td className="px-5 py-3.5">{b.totalWorkOrders}</td>
-                  <td className="px-5 py-3.5 text-[#9aa5bd]">{fmtHrs(b.totalHours)}</td>
+                  <td className="px-5 py-3.5 text-[#5b6b85]">{fmtHrs(b.totalHours)}</td>
                   <td className="px-5 py-3.5 text-[#d9647f]">{fmtAED(b.partsCost)}</td>
-                  <td className="px-5 py-3.5 text-[#8fb4e0]">{fmtAED(b.laborCost)}</td>
-                  <td className="px-5 py-3.5 text-[#9aa5bd]">{fmtAED(b.externalCost)}</td>
+                  <td className="px-5 py-3.5 text-[#3d6cb3]">{fmtAED(b.laborCost)}</td>
+                  <td className="px-5 py-3.5 text-[#5b6b85]">{fmtAED(b.externalCost)}</td>
                   <td className="px-5 py-3.5 font-bold text-[#d9647f]">{fmtAED(b.totalCost)}</td>
                 </tr>
               ))}
               <tr className="border-t-2 border-[#b01b42]">
                 <td className="px-5 py-3.5 font-extrabold text-[#b01b42]">GRAND TOTAL</td>
                 <td className="px-5 py-3.5 font-extrabold">{grandTotals.workOrders}</td>
-                <td className="px-5 py-3.5 font-extrabold text-[#9aa5bd]">{fmtHrs(grandTotals.totalHours)}</td>
+                <td className="px-5 py-3.5 font-extrabold text-[#5b6b85]">{fmtHrs(grandTotals.totalHours)}</td>
                 <td className="px-5 py-3.5 font-extrabold text-[#d9647f]">{fmtAED(grandTotals.partsCost)}</td>
-                <td className="px-5 py-3.5 font-extrabold text-[#8fb4e0]">{fmtAED(grandTotals.laborCost)}</td>
-                <td className="px-5 py-3.5 font-extrabold text-[#9aa5bd]">{fmtAED(grandTotals.externalCost)}</td>
-                <td className="px-5 py-3.5 font-extrabold text-green-400 text-lg">{fmtAED(grandTotals.totalCost)}</td>
+                <td className="px-5 py-3.5 font-extrabold text-[#3d6cb3]">{fmtAED(grandTotals.laborCost)}</td>
+                <td className="px-5 py-3.5 font-extrabold text-[#5b6b85]">{fmtAED(grandTotals.externalCost)}</td>
+                <td className="px-5 py-3.5 font-extrabold text-green-700 text-lg">{fmtAED(grandTotals.totalCost)}</td>
               </tr>
             </tbody>
           </table>

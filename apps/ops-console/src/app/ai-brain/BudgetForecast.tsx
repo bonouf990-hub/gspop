@@ -13,9 +13,9 @@ type Forecast = {
 };
 
 const RISK_STYLE: Record<string, string> = {
-  low: "text-green-400",
-  medium: "text-amber-400",
-  high: "text-red-400",
+  low: "text-green-700",
+  medium: "text-amber-700",
+  high: "text-red-600",
 };
 
 export default function BudgetForecast() {
@@ -47,29 +47,29 @@ export default function BudgetForecast() {
         {loading ? "Analyzing historical data…" : "Generate Forecast"}
       </button>
 
-      {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
       {result && (
         <div className="mt-4 space-y-4">
-          <div className="bg-[#0f1626] rounded-lg p-3">
-            <p className="text-sm text-[#eef1f6]">{result.summary}</p>
+          <div className="bg-[#f4f6fa] rounded-lg p-3">
+            <p className="text-sm text-[#16233c]">{result.summary}</p>
           </div>
 
           {result.warnings?.length > 0 && (
-            <div className="bg-red-950/20 border border-red-500/30 rounded-lg p-3">
-              <p className="text-xs text-red-400 uppercase tracking-wider font-bold mb-2">Warnings</p>
+            <div className="bg-red-950/20 border border-red-200 rounded-lg p-3">
+              <p className="text-xs text-red-600 uppercase tracking-wider font-bold mb-2">Warnings</p>
               {result.warnings.map((w, i) => (
-                <p key={i} className="text-sm text-red-300">{w}</p>
+                <p key={i} className="text-sm text-red-700">{w}</p>
               ))}
             </div>
           )}
 
           {result.building_forecasts?.length > 0 && (
             <div>
-              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Building Forecasts — Next Quarter</p>
+              <p className="text-xs text-[#5b6b85] uppercase tracking-wider font-bold mb-2">Building Forecasts — Next Quarter</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {result.building_forecasts.map((b, i) => (
-                  <div key={i} className="bg-[#0f1626] rounded-lg p-3">
+                  <div key={i} className="bg-[#f4f6fa] rounded-lg p-3">
                     <div className="flex items-center justify-between mb-1">
                       <p className="font-bold text-sm">{b.building}</p>
                       <span className={`text-xs font-bold uppercase ${RISK_STYLE[b.risk_level] ?? ""}`}>
@@ -77,7 +77,7 @@ export default function BudgetForecast() {
                       </span>
                     </div>
                     <p className="text-[#d9647f] font-bold">AED {b.next_quarter_estimate?.toLocaleString()}</p>
-                    <p className="text-xs text-[#9aa5bd] mt-1">{b.reason}</p>
+                    <p className="text-xs text-[#5b6b85] mt-1">{b.reason}</p>
                   </div>
                 ))}
               </div>
@@ -86,16 +86,16 @@ export default function BudgetForecast() {
 
           {result.monthly_trend?.length > 0 && (
             <div>
-              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Monthly Trend</p>
-              <div className="bg-[#0f1626] rounded-lg p-3 overflow-x-auto">
+              <p className="text-xs text-[#5b6b85] uppercase tracking-wider font-bold mb-2">Monthly Trend</p>
+              <div className="bg-[#f4f6fa] rounded-lg p-3 overflow-x-auto">
                 <div className="flex gap-2 min-w-max">
                   {result.monthly_trend.map((m, i) => (
                     <div key={i} className="text-center px-3">
-                      <p className="text-xs text-[#5d6880]">{m.month}</p>
+                      <p className="text-xs text-[#8b97ab]">{m.month}</p>
                       <p className="text-sm font-bold text-[#d9647f]">
                         {m.predicted_cost?.toLocaleString()}
                       </p>
-                      <p className={`text-[10px] ${m.confidence === "high" ? "text-green-400" : m.confidence === "medium" ? "text-amber-400" : "text-[#5d6880]"}`}>
+                      <p className={`text-[10px] ${m.confidence === "high" ? "text-green-700" : m.confidence === "medium" ? "text-amber-700" : "text-[#8b97ab]"}`}>
                         {m.confidence}
                       </p>
                     </div>
@@ -106,9 +106,9 @@ export default function BudgetForecast() {
           )}
 
           {result.seasonal_insights?.length > 0 && (
-            <div className="bg-[#0f1626] rounded-lg p-3">
-              <p className="text-xs text-[#9aa5bd] uppercase tracking-wider font-bold mb-2">Seasonal Insights</p>
-              <ul className="text-sm text-[#eef1f6] space-y-1">
+            <div className="bg-[#f4f6fa] rounded-lg p-3">
+              <p className="text-xs text-[#5b6b85] uppercase tracking-wider font-bold mb-2">Seasonal Insights</p>
+              <ul className="text-sm text-[#16233c] space-y-1">
                 {result.seasonal_insights.map((s, i) => (
                   <li key={i} className="flex gap-2"><span className="text-[#b01b42]">•</span>{s}</li>
                 ))}
@@ -117,11 +117,11 @@ export default function BudgetForecast() {
           )}
 
           {result.cost_saving_opportunities?.length > 0 && (
-            <div className="bg-[#0f1626] rounded-lg p-3">
-              <p className="text-xs text-green-400 uppercase tracking-wider font-bold mb-2">Cost Saving Opportunities</p>
-              <ul className="text-sm text-[#eef1f6] space-y-1">
+            <div className="bg-[#f4f6fa] rounded-lg p-3">
+              <p className="text-xs text-green-700 uppercase tracking-wider font-bold mb-2">Cost Saving Opportunities</p>
+              <ul className="text-sm text-[#16233c] space-y-1">
                 {result.cost_saving_opportunities.map((o, i) => (
-                  <li key={i} className="flex gap-2"><span className="text-green-400">•</span>{o}</li>
+                  <li key={i} className="flex gap-2"><span className="text-green-700">•</span>{o}</li>
                 ))}
               </ul>
             </div>
