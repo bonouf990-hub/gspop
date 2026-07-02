@@ -121,7 +121,7 @@ export default async function WorkOrdersPage() {
                     {wo.title}
                   </Link>
                   {wo.visit_source === "resident_booking" && (
-                    <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-900/50 text-blue-300">
+                    <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-[rgba(143,180,224,0.15)] text-[#8fb4e0]">
                       VISIT REQUEST
                     </span>
                   )}
