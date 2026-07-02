@@ -61,7 +61,11 @@ export default async function BuildingsPage() {
           <tbody>
             {buildings.map((b) => (
               <tr key={b.id} className="border-b border-[#eef1f7] hover:bg-[#f6f8fc]">
-                <td className="px-5 py-3.5 font-medium text-[#16233c]">{b.name}</td>
+                <td className="px-5 py-3.5">
+                  <Link href={`/admin/buildings/${b.id}`} className="font-medium text-[#16233c] hover:text-[#b01b42] hover:underline">
+                    {b.name}
+                  </Link>
+                </td>
                 <td className="px-5 py-3.5 text-[#5b6b85]">{b.address ?? "—"}</td>
                 <td className="px-5 py-3.5">{b.units?.[0]?.count ?? 0}</td>
                 <td className="px-5 py-3.5">{b.common_areas?.[0]?.count ?? 0}</td>
