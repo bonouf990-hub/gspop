@@ -190,7 +190,6 @@ export default async function TenderDetailPage({ params }: { params: Promise<{ i
       <div className="flex items-center justify-between mb-6">
         <div>
           <div className="flex gap-3 text-sm">
-            <Link href="/" className="text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
             <Link href="/tenders" className="text-[#5b6b85] hover:text-[#b01b42]">← Tenders</Link>
           </div>
           <h1 className="text-2xl font-extrabold mt-1">{tender.title}</h1>

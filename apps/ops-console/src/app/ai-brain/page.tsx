@@ -73,9 +73,6 @@ export default async function AIBrainPage() {
 
   return (
     <main className="p-8 max-w-5xl">
-      <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
-        ← Dashboard
-      </Link>
       <div className="mt-2 mb-6">
         <h1 className="text-2xl font-extrabold">AI Brain</h1>
         <p className="text-[#5b6b85] text-sm mt-1">

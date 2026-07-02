@@ -16,7 +16,6 @@ export default async function ComplaintsPage() {
 
   return (
     <main className="p-8">
-      <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
       <h1 className="text-2xl font-extrabold mt-1 mb-6">Tenant Complaints</h1>
       <ul className="space-y-3">
         {complaints.map((c) => (

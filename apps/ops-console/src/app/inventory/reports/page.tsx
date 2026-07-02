@@ -241,7 +241,6 @@ export default async function InventoryReportPage() {
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
           <div className="flex gap-3 text-sm">
-            <Link href="/" className="text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
             <Link href="/inventory" className="text-[#5b6b85] hover:text-[#b01b42]">← Inventory</Link>
           </div>
           <h1 className="mt-1">Inventory Report — {monthName}</h1>

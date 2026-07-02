@@ -157,9 +157,6 @@ export default async function WorkflowsPage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
-            ← Dashboard
-          </Link>
           <h1 className="mt-1">Workflow Configuration</h1>
           <p className="text-[#5b6b85] text-sm mt-1">
             Control who can perform each action, set approval thresholds, and define approval chains.
