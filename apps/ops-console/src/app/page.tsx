@@ -56,6 +56,7 @@ const SECTIONS: Section[] = [
     cards: [
       { href: "/admin/team", title: "Team Management", desc: "Create staff, roles, reporting lines.", adminOnly: true },
       { href: "/admin/workflows", title: "Workflow Configuration", desc: "Control permissions, approval chains, and task routing.", adminOnly: true },
+      { href: "/admin/automation", title: "Automation Settings", desc: "Renewal reminder stages (90/60/30/10 days), overdue repeats, run time.", adminOnly: true },
     ],
   },
   {
