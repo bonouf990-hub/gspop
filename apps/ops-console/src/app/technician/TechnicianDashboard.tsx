@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-browser";
+import { compressImage } from "@/lib/image";
 
 type WO = {
   id: string;
@@ -195,11 +196,13 @@ export default function TechnicianDashboard({
     setBusy(true);
     setError(null);
     const supabase = createClient();
-    const ext = photoFile.name.split(".").pop()?.toLowerCase() || "jpg";
+    // Shrink the photo in the browser before it ever hits the server.
+    const upload = await compressImage(photoFile);
+    const ext = upload.name.split(".").pop()?.toLowerCase() || "jpg";
     const path = `${woId}/${crypto.randomUUID()}.${ext}`;
     const { error: upErr } = await supabase.storage
       .from("work-order-photos")
-      .upload(path, photoFile, { contentType: photoFile.type });
+      .upload(path, upload, { contentType: upload.type });
     if (upErr) {
       setError(upErr.message);
       setBusy(false);
