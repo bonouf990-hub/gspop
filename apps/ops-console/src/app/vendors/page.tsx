@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import AddVendor from "./AddVendor";
 import AddAssignment from "./AddAssignment";
+import AddContract from "./AddContract";
 import AssignmentActions from "./AssignmentActions";
 
 type VendorRow = {
@@ -103,7 +104,8 @@ export default async function VendorsPage() {
             Manage external contractors, suppliers, and their service contracts.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
+          <AddContract vendors={vendors} properties={properties} />
           <AddAssignment vendors={vendors} properties={properties} />
           <AddVendor />
         </div>
