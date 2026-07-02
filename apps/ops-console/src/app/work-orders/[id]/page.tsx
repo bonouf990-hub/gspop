@@ -11,7 +11,7 @@ async function getWorkOrder(id: string) {
   const { data: wo } = await supabase
     .from("work_orders")
     .select(
-      "*, properties(name), units(label), assets(id, name, category, status, condition), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name, hourly_rate), creator:user_profiles!work_orders_created_by_fkey(full_name)"
+      "*, properties(name), units(label), assets(id, name, category, status, condition, system_type, warranty_expiry, warranty_provider), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name, hourly_rate), creator:user_profiles!work_orders_created_by_fkey(full_name)"
     )
     .eq("id", id)
     .single();
@@ -186,6 +186,23 @@ async function getHistoryCounts(unitId: string | null, assetId: string | null, e
   };
 }
 
+async function getActiveAMC(propertyId: string | null, systemType: string | null) {
+  if (!propertyId) return [];
+  const supabase = await createClient();
+  const today = new Date().toISOString().slice(0, 10);
+  const { data } = await supabase
+    .from("contracts")
+    .select("id, title, end_date, covered_system, vendor:vendors(name)")
+    .eq("property_id", propertyId)
+    .gte("end_date", today)
+    .order("end_date", { ascending: true });
+  const rows = (data ?? []) as unknown as {
+    id: string; title: string; end_date: string | null; covered_system: string | null; vendor: { name: string } | null;
+  }[];
+  // Keep AMCs covering this asset's system, or general/unspecified ones.
+  return rows.filter((c) => !c.covered_system || c.covered_system === "general" || (systemType && c.covered_system === systemType));
+}
+
 type ThreadEvent = {
   at: string;
   who: string;
@@ -232,7 +249,8 @@ export default async function WorkOrderDetailPage({
   }
 
   const propertyId = wo.property_id as string | null;
-  const [partsRequests, inventoryItems, purchaseOrders, vendors, linkedComplaint, history] =
+  const assetCoverage = wo.assets as unknown as { system_type: string | null; warranty_expiry: string | null; warranty_provider: string | null } | null;
+  const [partsRequests, inventoryItems, purchaseOrders, vendors, linkedComplaint, history, amc] =
     await Promise.all([
       getPartsRequests(id),
       propertyId ? getInventoryItems(propertyId) : Promise.resolve([]),
@@ -240,7 +258,14 @@ export default async function WorkOrderDetailPage({
       getVendors(),
       getLinkedComplaint(id),
       getHistoryCounts(wo.unit_id as string | null, wo.asset_id as string | null, id),
+      getActiveAMC(propertyId, assetCoverage?.system_type ?? null),
     ]);
+
+  // AMC / warranty guard — is this repair likely already covered?
+  const warrantyExpiry = assetCoverage?.warranty_expiry ?? null;
+  const warrantyDays = warrantyExpiry ? Math.ceil((new Date(warrantyExpiry).getTime() - Date.now()) / 86400000) : null;
+  const underWarranty = warrantyDays !== null && warrantyDays >= 0;
+  const hasCoverage = underWarranty || amc.length > 0;
 
   const property = wo.properties as unknown as { name: string } | null;
   const unit = wo.units as unknown as { label: string } | null;
@@ -381,6 +406,32 @@ export default async function WorkOrderDetailPage({
           {status.replace(/_/g, " ")}
         </span>
       </div>
+
+      {/* AMC / warranty guard — flag likely coverage before any spend */}
+      {hasCoverage && (
+        <div className="lux-card p-4 mb-6 border-l-4 border-l-amber-500 bg-amber-50/40">
+          <div className="flex items-start gap-3">
+            <span className="text-xl">🛡️</span>
+            <div className="text-sm">
+              <p className="font-bold text-amber-800">This equipment may be covered — confirm before charging.</p>
+              {underWarranty && (
+                <p className="text-[#5b6b85] mt-1">
+                  Under <b>manufacturer warranty</b> until {new Date(warrantyExpiry as string).toLocaleDateString()} ({warrantyDays} days)
+                  {assetCoverage?.warranty_provider ? ` · ${assetCoverage.warranty_provider}` : ""}.
+                </p>
+              )}
+              {amc.map((c) => (
+                <p key={c.id} className="text-[#5b6b85] mt-1">
+                  Active <b>AMC</b>: {c.title}{c.vendor?.name ? ` · ${c.vendor.name}` : ""}
+                  {c.end_date ? ` until ${new Date(c.end_date).toLocaleDateString()}` : ""}
+                  {c.covered_system && c.covered_system !== "general" ? ` (${c.covered_system})` : ""}.
+                </p>
+              ))}
+              <p className="text-xs text-amber-700 mt-1.5">Raise the repair against the provider/AMC — don&apos;t charge parts or a PO to the building without checking coverage.</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-[1.6fr_1fr] gap-6 items-start">
         {/* ── The thread ── */}
