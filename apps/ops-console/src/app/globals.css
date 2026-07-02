@@ -13,6 +13,32 @@
   --hairline: #e4e9f2;
   --text-secondary: #5b6b85;
   --text-muted: #8b97ab;
+
+  /* ── Crimson ramp (for gradients / dimensional accents) ─────────────── */
+  --gold-050: #fdf2f4;
+  --gold-100: #f9e0e6;
+  --gold-500: #c92c52;
+  --gold-600: #b01b42;
+  --gold-700: #97173a;
+  --navy: #164a93;
+
+  /* ── Elevation scale — layered soft depth (ambient + contact) ───────── */
+  --shadow-xs: 0 1px 2px rgba(22, 35, 60, 0.05);
+  --shadow-sm: 0 1px 2px rgba(22, 35, 60, 0.05), 0 2px 6px rgba(22, 35, 60, 0.05);
+  --shadow-md: 0 2px 4px rgba(22, 35, 60, 0.04), 0 6px 20px rgba(22, 35, 60, 0.07);
+  --shadow-lg: 0 4px 8px rgba(22, 35, 60, 0.05), 0 14px 40px rgba(22, 35, 60, 0.12);
+  --shadow-xl: 0 8px 16px rgba(22, 35, 60, 0.06), 0 24px 60px rgba(22, 35, 60, 0.16);
+  --shadow-gold: 0 4px 12px rgba(176, 27, 66, 0.22), 0 10px 28px rgba(176, 27, 66, 0.18);
+
+  /* ── Radius scale ───────────────────────────────────────────────────── */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+
+  /* ── Motion ─────────────────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @theme inline {
@@ -30,11 +56,21 @@
 body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
-  /* Bright, airy backdrop with a whisper of ARENCO blue */
+  /* Bright, airy backdrop with a whisper of ARENCO blue + a warm crimson lift */
   background:
-    radial-gradient(1000px 420px at 50% -10%, rgba(22, 74, 147, 0.06), transparent 60%),
+    radial-gradient(1100px 460px at 15% -8%, rgba(176, 27, 66, 0.05), transparent 55%),
+    radial-gradient(1000px 420px at 85% -10%, rgba(22, 74, 147, 0.06), transparent 60%),
     linear-gradient(180deg, #fbfcfe 0%, #f3f6fa 100%);
   background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Numeric values should always read as clean, aligned digits. */
+.tabular-nums,
+.stat-value {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "cv01" 1;
 }
 
 /* ── Display typography ─────────────────────────────────────────────── */
@@ -66,47 +102,100 @@ h1 {
 
 /* ── Card ───────────────────────────────────────────────────────────── */
 .lux-card {
-  background: #ffffff;
-  border: 1px solid #e4e9f2;
-  border-radius: 1rem;
-  box-shadow: 0 6px 24px rgba(22, 35, 60, 0.07);
+  position: relative;
+  background: linear-gradient(180deg, #ffffff 0%, #fdfdff 100%);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
 }
 
 .lux-card-hover {
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), transform 0.25s var(--ease-out);
 }
 
 .lux-card-hover:hover {
-  border-color: rgba(176, 27, 66, 0.4);
-  box-shadow: 0 10px 32px rgba(22, 35, 60, 0.12);
-  transform: translateY(-2px);
+  border-color: rgba(176, 27, 66, 0.35);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+/* A card that reveals a crimson hairline accent on the top edge when hovered. */
+.lux-card-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-soft));
+  opacity: 0;
+  transition: opacity 0.25s var(--ease-out);
+}
+.lux-card-accent:hover::before {
+  opacity: 1;
 }
 
 /* ── Primary button (ARENCO crimson) ────────────────────────────────── */
 .btn-gold {
+  position: relative;
   background: linear-gradient(135deg, #c92c52 0%, #b01b42 60%, #97173a 100%);
   color: #ffffff;
   font-weight: 700;
   letter-spacing: 0.04em;
-  border-radius: 0.75rem;
-  box-shadow: 0 6px 18px rgba(176, 27, 66, 0.28);
-  transition: box-shadow 0.2s ease, filter 0.2s ease, transform 0.15s ease;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-gold);
+  transition: box-shadow 0.25s var(--ease-out), filter 0.2s ease, transform 0.15s var(--ease-out);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Subtle glossy top highlight for dimensionality. */
+.btn-gold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 45%);
+  z-index: -1;
 }
 
 .btn-gold:hover {
-  filter: brightness(1.06);
-  box-shadow: 0 8px 24px rgba(176, 27, 66, 0.38);
+  filter: brightness(1.05);
+  box-shadow: 0 6px 16px rgba(176, 27, 66, 0.3), 0 14px 34px rgba(176, 27, 66, 0.26);
+  transform: translateY(-1px);
 }
 
 .btn-gold:active {
   transform: translateY(1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Ghost / secondary button — pairs with .btn-gold */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  color: var(--foreground);
+  font-weight: 600;
+  box-shadow: var(--shadow-xs);
+  transition: border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s var(--ease-out);
+}
+.btn-ghost:hover {
+  border-color: rgba(176, 27, 66, 0.4);
+  color: var(--gold);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+.btn-ghost:active {
+  transform: translateY(0);
 }
 
 /* ── Inputs ─────────────────────────────────────────────────────────── */
 .lux-input {
   background: #ffffff;
   border: 1px solid #d8dfeb;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-md);
   color: var(--foreground);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -123,6 +212,17 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(176, 27, 66, 0.12);
 }
 
+/* ── Focus-visible — a single, consistent, accessible ring ──────────── */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible,
+summary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px rgba(176, 27, 66, 0.55);
+  border-radius: var(--radius-sm);
+}
+
 /* ── Eyebrow label ──────────────────────────────────────────────────── */
 .eyebrow {
   color: var(--gold);
@@ -130,6 +230,173 @@ textarea:focus {
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
+}
+
+/* ── Section header — eyebrow/title + a trailing hairline ───────────── */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-head .section-rule {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(176, 27, 66, 0.45) 0%, rgba(176, 27, 66, 0.12) 40%, transparent 100%);
+}
+
+/* ── Icon chip — dimensional, duotone, glassy ───────────────────────── */
+/* Achieves a premium "3D-ish" icon treatment with pure CSS: gradient fill,
+   soft inner top highlight, crisp hairline, and an ambient drop shadow. */
+.icon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.7rem;
+  background: linear-gradient(160deg, #fdeef1 0%, #f7d9e1 100%);
+  color: var(--gold);
+  border: 1px solid rgba(176, 27, 66, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(176, 27, 66, 0.06),
+    0 2px 6px rgba(176, 27, 66, 0.14);
+  transition: transform 0.25s var(--ease-spring), box-shadow 0.25s var(--ease-out);
+}
+.icon-chip svg { position: relative; }
+
+.icon-chip-navy {
+  background: linear-gradient(160deg, #eaf1fb 0%, #d6e4f7 100%);
+  color: var(--navy);
+  border-color: rgba(22, 74, 147, 0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(22, 74, 147, 0.06),
+    0 2px 6px rgba(22, 74, 147, 0.12);
+}
+
+.icon-chip-neutral {
+  background: linear-gradient(160deg, #f6f8fc 0%, #e8edf6 100%);
+  color: var(--text-secondary);
+  border-color: var(--hairline);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(22, 35, 60, 0.04),
+    0 2px 6px rgba(22, 35, 60, 0.08);
+}
+
+/* Solid, high-emphasis chip (hero / brand lockup). */
+.icon-chip-solid {
+  background: linear-gradient(150deg, #c92c52 0%, #b01b42 55%, #8f1636 100%);
+  color: #fff;
+  border-color: rgba(143, 22, 54, 0.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.14),
+    0 6px 16px rgba(176, 27, 66, 0.32);
+}
+
+.icon-chip-lg { width: 3rem; height: 3rem; border-radius: 0.85rem; }
+
+.group:hover .icon-chip {
+  transform: translateY(-1px) scale(1.04);
+}
+
+/* ── Stat tile — the reusable KPI surface ───────────────────────────── */
+.stat-tile {
+  position: relative;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out), transform 0.25s var(--ease-out);
+}
+.stat-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--gold-500), var(--gold-soft));
+  opacity: 0.9;
+}
+.stat-tile-hover:hover {
+  border-color: rgba(176, 27, 66, 0.3);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+/* Tonal variants for the accent bar */
+.stat-tile-navy::after { background: linear-gradient(180deg, #2f6bd6, #164a93); }
+.stat-tile-green::after { background: linear-gradient(180deg, #34d399, #059669); }
+.stat-tile-amber::after { background: linear-gradient(180deg, #fbbf24, #d97706); }
+.stat-tile-red::after { background: linear-gradient(180deg, #f87171, #dc2626); }
+.stat-tile-muted::after { background: linear-gradient(180deg, #cbd5e6, #9aa8c0); }
+
+/* Big numeric readout for tiles — sans, tabular, tight. */
+.stat-value {
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--foreground);
+}
+
+/* ── Badge / pill ───────────────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  line-height: 1.4;
+}
+
+/* ── Table polish — applies to tables inside .lux-table wrappers ────── */
+.lux-table thead th {
+  position: sticky;
+  top: 0;
+  background: linear-gradient(180deg, #f9fafd 0%, #f4f7fb 100%);
+  backdrop-filter: blur(6px);
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+.lux-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+/* ── Entrance animation for flagship surfaces ───────────────────────── */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise-in {
+  animation: rise-in 0.5s var(--ease-out) both;
+}
+.rise-in-1 { animation-delay: 0.05s; }
+.rise-in-2 { animation-delay: 0.12s; }
+.rise-in-3 { animation-delay: 0.19s; }
+.rise-in-4 { animation-delay: 0.26s; }
+
+/* ── Motion preferences ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .lux-card-hover:hover,
+  .stat-tile-hover:hover,
+  .btn-gold:hover,
+  .btn-ghost:hover,
+  .group:hover .icon-chip {
+    transform: none;
+  }
 }
 
 /* ── Print: isolate the QR sticker ──────────────────────────────────── */

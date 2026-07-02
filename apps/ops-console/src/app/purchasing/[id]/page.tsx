@@ -4,9 +4,9 @@ import { requireManagementRole } from "@/lib/check-permission";
 import PurchaseOrderActions from "../PurchaseOrderActions";
 
 const STATUS_STYLE: Record<string, string> = {
-  pending: "bg-amber-900 text-amber-700",
-  approved: "bg-green-900 text-green-700",
-  rejected: "bg-red-900 text-red-700",
+  pending: "bg-amber-50 text-amber-700",
+  approved: "bg-green-50 text-green-700",
+  rejected: "bg-red-50 text-red-700",
   escalated: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   fulfilled: "bg-[#e9eef6] text-[#5b6b85]",
 };
@@ -55,7 +55,7 @@ export default async function PurchaseOrderDetailPage({
 }) {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Purchasing.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Purchasing.</p></main>;
   }
 
   const { id } = await params;
@@ -66,7 +66,7 @@ export default async function PurchaseOrderDetailPage({
 
   if (!po) {
     return (
-      <main className="p-8">
+      <main className="p-6 sm:p-8">
         <p className="text-[#8b97ab]">Purchase order not found.</p>
       </main>
     );
@@ -84,15 +84,15 @@ export default async function PurchaseOrderDetailPage({
   const paidTotal = invoicesPaid.reduce((s, i) => s + Number(i.total_amount), 0);
 
   const INV_STATUS: Record<string, string> = {
-    received: "bg-amber-900 text-amber-700",
+    received: "bg-amber-50 text-amber-700",
     verified: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
-    disputed: "bg-red-900 text-red-700",
-    approved: "bg-green-900 text-green-700",
+    disputed: "bg-red-50 text-red-700",
+    approved: "bg-green-50 text-green-700",
     paid: "bg-[#e9eef6] text-[#5b6b85]",
   };
 
   return (
-    <main className="p-8 max-w-3xl">
+    <main className="p-6 sm:p-8 max-w-3xl">
       <Link href="/purchasing" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
         ← Purchase Orders
       </Link>

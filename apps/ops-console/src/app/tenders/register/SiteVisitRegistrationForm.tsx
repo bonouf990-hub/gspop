@@ -68,7 +68,7 @@ export default function SiteVisitRegistrationForm({ tenderId }: { tenderId: stri
       </h2>
 
       {error && (
-        <div className="bg-red-950/30 border border-red-200 rounded-lg px-3 py-2 mb-4">
+        <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-4">
           <p className="text-xs text-red-600">{error}</p>
         </div>
       )}

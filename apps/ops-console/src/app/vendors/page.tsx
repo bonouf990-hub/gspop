@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Briefcase } from "lucide-react";
 import AddVendor from "./AddVendor";
 import AddAssignment from "./AddAssignment";
 import AddContract from "./AddContract";
@@ -96,20 +98,20 @@ export default async function VendorsPage() {
   const { vendors, properties, contractsByVendor, assignmentsByVendor, propertiesById, tenderWinsByVendor, poSpendByVendor } = await getPageData();
 
   return (
-    <main className="p-8">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Vendors & Contracts</h1>
-          <p className="text-[#5b6b85] text-sm mt-1">
-            Manage external contractors, suppliers, and their service contracts.
-          </p>
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          <AddContract vendors={vendors} properties={properties} />
-          <AddAssignment vendors={vendors} properties={properties} />
-          <AddVendor />
-        </div>
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Purchasing & Contracts"
+        title="Vendors & Contracts"
+        icon={Briefcase}
+        description="Manage external contractors, suppliers, and their service contracts."
+        actions={
+          <>
+            <AddContract vendors={vendors} properties={properties} />
+            <AddAssignment vendors={vendors} properties={properties} />
+            <AddVendor />
+          </>
+        }
+      />
 
       <div className="space-y-4">
         {vendors.map((v) => {

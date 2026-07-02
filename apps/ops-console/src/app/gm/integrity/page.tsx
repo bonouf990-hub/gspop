@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { ShieldAlert } from "lucide-react";
 import { getOwner } from "@/lib/require-owner";
 import { askAI } from "@/lib/ai-service";
 
@@ -190,16 +192,18 @@ export default async function IntegrityWatchPage() {
   const briefing = await brief(findings);
 
   return (
-    <main className="p-8 max-w-4xl mx-auto">
-      <div className="flex items-center gap-2">
-        <span className="text-xl">🛡️</span>
-        <p className="eyebrow">Private · Owner only</p>
-      </div>
-      <h1 className="mt-1">Integrity Watch</h1>
-      <p className="text-[#5b6b85] mt-1 mb-6">
-        A silent audit of the last {WINDOW_DAYS} days — parts, stock and purchasing. Visible only to you; no one else
-        sees this page or is alerted. Findings are <b>patterns to investigate</b>, not proof of wrongdoing.
-      </p>
+    <main className="p-6 sm:p-8 max-w-4xl mx-auto">
+      <PageHeader
+        eyebrow="Private · Owner only"
+        title="Integrity Watch"
+        icon={ShieldAlert}
+        description={
+          <>
+            A silent audit of the last {WINDOW_DAYS} days — parts, stock and purchasing. Visible only to you; no one else
+            sees this page or is alerted. Findings are <b>patterns to investigate</b>, not proof of wrongdoing.
+          </>
+        }
+      />
 
       {findings.length === 0 ? (
         <div className="lux-card p-8 text-center">

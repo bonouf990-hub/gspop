@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { LineChart } from "lucide-react";
 import { requireManagementRole } from "@/lib/check-permission";
 import ExportCsv from "@/components/ExportCsv";
 
@@ -260,7 +262,7 @@ function fmtHrs(n: number) {
 export default async function MaintenanceCostReport() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this report.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">You don&apos;t have access to this report.</p></main>;
   }
 
   const { buildingList, techData, grandTotals } = await getReportData();
@@ -287,9 +289,10 @@ export default async function MaintenanceCostReport() {
   ];
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
+          <p className="eyebrow mb-1.5 flex items-center gap-2"><LineChart size={12} /> Insight &amp; Reporting</p>
           <h1 className="mt-1">Maintenance Cost Report</h1>
           <p className="text-[#5b6b85] text-sm mt-1">
             Complete cost breakdown per building and apartment — parts, labor, and external work.
@@ -429,7 +432,7 @@ export default async function MaintenanceCostReport() {
                     Cost per Apartment
                   </h4>
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm border-collapse min-w-[700px]">
+                    <table className="lux-table w-full text-sm border-collapse min-w-[700px]">
                       <thead>
                         <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                           <th className="px-5 py-3.5 font-medium">Apartment</th>
@@ -491,7 +494,7 @@ export default async function MaintenanceCostReport() {
         ) : (
           <div className="lux-card overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse min-w-[800px]">
+            <table className="lux-table w-full text-sm border-collapse min-w-[800px]">
               <thead>
                 <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                   <th className="px-5 py-3.5 font-medium">Technician</th>
@@ -545,7 +548,7 @@ export default async function MaintenanceCostReport() {
           Grand Total — All Buildings
         </h2>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[700px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[700px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Building</th>

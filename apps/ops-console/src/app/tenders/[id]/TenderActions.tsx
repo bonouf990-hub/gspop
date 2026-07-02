@@ -7,18 +7,18 @@ import { createClient } from "@/lib/supabase-browser";
 const NEXT_ACTIONS: Record<string, { label: string; next: string; color: string }[]> = {
   draft: [
     { label: "Publish Tender", next: "published", color: "bg-green-800 text-green-200" },
-    { label: "Cancel", next: "cancelled", color: "bg-red-900 text-red-700" },
+    { label: "Cancel", next: "cancelled", color: "bg-red-50 text-red-700" },
   ],
   published: [
     { label: "Schedule Site Visit", next: "site_visit", color: "btn-gold" },
     { label: "Open Submissions", next: "submissions_open", color: "bg-green-800 text-green-200" },
-    { label: "Cancel", next: "cancelled", color: "bg-red-900 text-red-700" },
+    { label: "Cancel", next: "cancelled", color: "bg-red-50 text-red-700" },
   ],
   site_visit: [
     { label: "Open Submissions", next: "submissions_open", color: "bg-green-800 text-green-200" },
   ],
   submissions_open: [
-    { label: "Close Submissions", next: "closed", color: "bg-amber-800 text-amber-800" },
+    { label: "Close Submissions", next: "closed", color: "bg-amber-500 text-white" },
   ],
   closed: [
     { label: "Begin Evaluation", next: "evaluating", color: "btn-gold" },

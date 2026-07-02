@@ -177,7 +177,7 @@ export default async function TenderSubmitPage({
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-[#16233c]">{req.title}</span>
                     <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                      req.is_mandatory ? "bg-red-900 text-red-700" : "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]"
+                      req.is_mandatory ? "bg-red-50 text-red-700" : "bg-[rgba(176,27,66,0.12)] text-[#8b97ab]"
                     }`}>
                       {req.is_mandatory ? "REQUIRED" : "OPTIONAL"}
                     </span>

@@ -60,7 +60,7 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ id
   const { id } = await params;
   const asset = await getAsset(id);
   if (!asset) {
-    return <main className="p-8 max-w-6xl mx-auto"><p className="text-[#8b97ab]">Asset not found.</p></main>;
+    return <main className="p-6 sm:p-8 max-w-6xl mx-auto"><p className="text-[#8b97ab]">Asset not found.</p></main>;
   }
 
   const [cases, serviceHistory, lifecycle, qr] = await Promise.all([
@@ -122,7 +122,7 @@ export default async function AssetDetailPage({ params }: { params: Promise<{ id
   };
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-6 flex-wrap">
         <div>
           <Link href="/assets" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Asset Register</Link>

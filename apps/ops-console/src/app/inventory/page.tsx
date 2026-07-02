@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { Boxes } from "lucide-react";
 import AddInventoryItem from "./AddInventoryItem";
 import RecordMovement from "./RecordMovement";
 
@@ -42,33 +44,23 @@ export default async function InventoryPage() {
   );
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Inventory & Store</h1>
-          <p className="text-[#5b6b85] text-sm mt-1">
-            Track stock levels, record movements, and flag items below reorder threshold.
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Link
-            href="/inventory/reports"
-            className="text-xs font-bold px-4 py-2 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.12)]"
-          >
-            Monthly Report
-          </Link>
-          <Link
-            href="/inventory/import"
-            className="text-xs font-bold px-4 py-2 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.12)]"
-          >
-            Bulk Import
-          </Link>
-          <AddInventoryItem properties={properties} />
-        </div>
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Store & Inventory"
+        title="Inventory & Store"
+        icon={Boxes}
+        description="Track stock levels, record movements, and flag items below reorder threshold."
+        actions={
+          <>
+            <Link href="/inventory/reports" className="btn-ghost text-xs px-4 py-2">Monthly Report</Link>
+            <Link href="/inventory/import" className="btn-ghost text-xs px-4 py-2">Bulk Import</Link>
+            <AddInventoryItem properties={properties} />
+          </>
+        }
+      />
 
       {lowStock.length > 0 && (
-        <div className="bg-amber-50 border border-amber-700 rounded-xl p-4 mb-6">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 shadow-[var(--shadow-sm)]">
           <h2 className="text-xs font-bold text-amber-700 tracking-[0.15em] uppercase mb-2">
             Low Stock Alert ({lowStock.length})
           </h2>
@@ -87,7 +79,7 @@ export default async function InventoryPage() {
 
       <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
-      <table className="w-full text-sm border-collapse min-w-[900px]">
+      <table className="lux-table w-full text-sm border-collapse min-w-[900px]">
         <thead>
           <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5 font-medium">Item</th>

@@ -237,7 +237,7 @@ export default async function InventoryReportPage() {
   ];
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
           <div className="flex gap-3 text-sm">
@@ -321,7 +321,7 @@ export default async function InventoryReportPage() {
           {criticalStock.length === 0 ? (
             <p className="text-green-700 text-sm">All items above reorder threshold.</p>
           ) : (
-            <table className="w-full text-sm border-collapse">
+            <table className="lux-table w-full text-sm border-collapse">
               <thead>
                 <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85]">
                   <th className="py-2 font-medium">Item</th>

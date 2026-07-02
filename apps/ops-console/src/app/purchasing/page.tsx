@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
+import PageHeader from "@/components/PageHeader";
+import { ShoppingCart } from "lucide-react";
 import { requireManagementRole } from "@/lib/check-permission";
 import CreatePurchaseOrder from "./CreatePurchaseOrder";
 import PurchaseOrderActions from "./PurchaseOrderActions";
@@ -129,22 +131,22 @@ type LowStockItem = {
 };
 
 const STATUS_STYLE: Record<string, string> = {
-  pending: "bg-amber-900 text-amber-700",
-  approved: "bg-green-900 text-green-700",
-  rejected: "bg-red-900 text-red-700",
+  pending: "bg-amber-50 text-amber-700",
+  approved: "bg-green-50 text-green-700",
+  rejected: "bg-red-50 text-red-700",
   escalated: "bg-[rgba(176,27,66,0.12)] text-[#d9647f]",
   fulfilled: "bg-[#e9eef6] text-[#5b6b85]",
 };
 
 const URGENCY_STYLE: Record<string, string> = {
-  urgent: "bg-amber-900 text-amber-700",
-  critical: "bg-red-900 text-red-700",
+  urgent: "bg-amber-50 text-amber-700",
+  critical: "bg-red-50 text-red-700",
 };
 
 export default async function PurchasingPage() {
   const auth = await requireManagementRole();
   if (!auth.allowed) {
-    return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Purchasing.</p></main>;
+    return <main className="p-6 sm:p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Purchasing.</p></main>;
   }
 
   const { orders, properties, vendors, tendersNeedingPO, lowStock, budgets } = await getPageData();
@@ -168,16 +170,14 @@ export default async function PurchasingPage() {
   ];
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Purchasing</h1>
-          <p className="text-[#5b6b85] text-sm mt-1">
-            Create purchase orders, track approval status, and mark fulfilled orders.
-          </p>
-        </div>
-        <CreatePurchaseOrder properties={properties} vendors={vendors} budgets={budgets} />
-      </div>
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <PageHeader
+        eyebrow="Purchasing & Contracts"
+        title="Purchasing"
+        icon={ShoppingCart}
+        description="Create purchase orders, track approval status, and mark fulfilled orders."
+        actions={<CreatePurchaseOrder properties={properties} vendors={vendors} budgets={budgets} />}
+      />
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
         {kpis.map((k) => (
@@ -198,7 +198,7 @@ export default async function PurchasingPage() {
           <h2 className="eyebrow mb-3">Reorder Needed — Store Below Level ({lowStock.length})</h2>
           <div className="lux-card overflow-hidden">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm border-collapse min-w-[640px]">
+              <table className="lux-table w-full text-sm border-collapse min-w-[640px]">
                 <thead>
                   <tr className="text-left border-b border-[#e4e9f2] text-[#5b6b85] bg-[#f7f9fc]">
                     <th className="px-5 py-3 font-medium">Item</th>
@@ -299,7 +299,7 @@ export default async function PurchasingPage() {
                   key={o.id}
                   className={`border rounded-xl p-4 flex items-center justify-between ${
                     o.urgency === "critical"
-                      ? "border-red-500 bg-red-950/20"
+                      ? "border-red-500 bg-red-50"
                       : o.urgency === "urgent"
                         ? "border-amber-500 bg-amber-50/20"
                         : "border-[rgba(176,27,66,0.15)] bg-[#ffffff]"
@@ -354,7 +354,7 @@ export default async function PurchasingPage() {
         </h2>
         <div className="lux-card overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border-collapse min-w-[800px]">
+          <table className="lux-table w-full text-sm border-collapse min-w-[800px]">
             <thead>
               <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
                 <th className="px-5 py-3.5 font-medium">Description</th>

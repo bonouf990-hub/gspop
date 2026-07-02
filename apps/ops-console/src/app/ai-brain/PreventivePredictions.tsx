@@ -20,14 +20,14 @@ type Prediction = {
 };
 
 const URGENCY_STYLE: Record<string, string> = {
-  immediate: "border-red-500 bg-red-950/20",
+  immediate: "border-red-500 bg-red-50",
   next_month: "border-amber-500 bg-amber-50/20",
   next_quarter: "border-[rgba(176,27,66,0.15)] bg-[#f4f6fa]",
 };
 
 const URGENCY_BADGE: Record<string, string> = {
-  immediate: "bg-red-900 text-red-700",
-  next_month: "bg-amber-900 text-amber-700",
+  immediate: "bg-red-50 text-red-700",
+  next_month: "bg-amber-50 text-amber-700",
   next_quarter: "bg-[#e9eef6] text-[#5b6b85]",
 };
 

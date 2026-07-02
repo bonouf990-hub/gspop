@@ -225,7 +225,7 @@ export default function AssetImporter() {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse min-w-[700px]">
+            <table className="lux-table w-full text-sm border-collapse min-w-[700px]">
               <thead>
                 <tr className="text-left border-b border-[#e4e9f2] text-[#5b6b85] bg-[#f7f9fc]">
                   <th className="px-3 py-2 font-medium">#</th>

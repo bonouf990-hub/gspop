@@ -1,7 +1,8 @@
-import Link from "next/link";
+import { Users } from "lucide-react";
 import { createClient } from "@/lib/supabase-server";
 import type { TechnicianJobStats } from "@gspop/shared";
 import ExportCsv from "@/components/ExportCsv";
+import PageHeader from "@/components/PageHeader";
 
 async function getTechnicianStats(): Promise<TechnicianJobStats[]> {
   const supabase = await createClient();
@@ -68,19 +69,18 @@ export default async function StaffDashboardPage({
   }));
 
   return (
-    <main className="p-8 max-w-6xl mx-auto">
-      <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
-        <div>
-          <h1 className="mt-1">Staff KPI Dashboard</h1>
-          <p className="text-[#5b6b85] mt-1">
-            Job load, hours on-site, spend, and quality ratings per technician — the same data feeds
-            KPI scoring up through supervisor and head-of-department review.
-          </p>
-        </div>
-        <ExportCsv rows={csvRows} filename="staff-kpis" />
+    <main className="p-6 sm:p-8 max-w-6xl mx-auto">
+      <div className="rise-in">
+        <PageHeader
+          eyebrow="Insight & Reporting"
+          title="Staff KPI Dashboard"
+          icon={Users}
+          description="Job load, hours on-site, spend, and quality ratings per technician — the same data feeds KPI scoring up through supervisor and head-of-department review."
+          actions={<ExportCsv rows={csvRows} filename="staff-kpis" />}
+        />
       </div>
 
-      <div className="flex gap-2 mb-6">
+      <div className="flex gap-2 mb-6 flex-wrap rise-in rise-in-1">
         <a
           href="/staff-dashboard"
           className={`px-3 py-1 rounded-full text-sm font-medium ${!department ? "bg-[#b01b42] text-[#f4f6fa]" : "bg-[#ffffff] text-[#5b6b85] border border-[rgba(176,27,66,0.15)]"}`}
@@ -100,7 +100,7 @@ export default async function StaffDashboardPage({
 
       <div className="lux-card overflow-hidden">
       <div className="overflow-x-auto">
-      <table className="w-full text-sm border-collapse min-w-[900px]">
+      <table className="lux-table w-full text-sm border-collapse min-w-[900px]">
         <thead>
           <tr className="text-left border-b border-[rgba(176,27,66,0.15)] text-[#5b6b85] bg-[rgba(176,27,66,0.04)]">
             <th className="px-5 py-3.5">Technician</th>

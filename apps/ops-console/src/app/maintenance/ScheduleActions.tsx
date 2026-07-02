@@ -95,7 +95,7 @@ export default function ScheduleActions({
         className={`text-[10px] font-bold px-2 py-1 rounded-lg disabled:opacity-50 ${
           isActive
             ? "bg-[#e9eef6] text-[#5b6b85]"
-            : "bg-amber-800 text-amber-800"
+            : "bg-amber-500 text-white"
         }`}
       >
         {isActive ? "Pause" : "Resume"}

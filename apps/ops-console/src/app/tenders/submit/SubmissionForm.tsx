@@ -112,7 +112,7 @@ export default function SubmissionForm({
           Enter the email address you used when registering for the site visit to proceed.
         </p>
         {verifyError && (
-          <div className="bg-red-950/30 border border-red-200 rounded-lg px-3 py-2 mb-3">
+          <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-3">
             <p className="text-xs text-red-600">{verifyError}</p>
           </div>
         )}

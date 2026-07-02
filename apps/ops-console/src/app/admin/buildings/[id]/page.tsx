@@ -21,11 +21,11 @@ export default async function BuildingDetailPage({ params }: { params: Promise<{
   const { building, units, areas } = await getBuilding(id);
 
   if (!building) {
-    return <main className="p-8 max-w-5xl mx-auto"><p className="text-[#8b97ab]">Building not found.</p></main>;
+    return <main className="p-6 sm:p-8 max-w-5xl mx-auto"><p className="text-[#8b97ab]">Building not found.</p></main>;
   }
 
   return (
-    <main className="p-8 max-w-5xl mx-auto">
+    <main className="p-6 sm:p-8 max-w-5xl mx-auto">
       <Link href="/admin/buildings" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Buildings</Link>
       <p className="eyebrow mt-2">Portfolio</p>
       <h1 className="mt-0.5">{building.name}</h1>

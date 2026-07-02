@@ -38,10 +38,10 @@ export default function ApprovalDecision({
       <span
         className={`text-xs font-medium px-2 py-0.5 rounded-full ${
           currentDecision === "approved"
-            ? "bg-green-900 text-green-700"
+            ? "bg-green-50 text-green-700"
             : currentDecision === "rejected"
-              ? "bg-red-900 text-red-700"
-              : "bg-amber-900 text-amber-700"
+              ? "bg-red-50 text-red-700"
+              : "bg-amber-50 text-amber-700"
         }`}
       >
         {currentDecision}
@@ -67,7 +67,7 @@ export default function ApprovalDecision({
       <button
         onClick={() => decide("rejected")}
         disabled={saving}
-        className="text-xs font-bold px-3 py-1 rounded-lg bg-red-900 text-red-700 hover:bg-red-800 disabled:opacity-50"
+        className="text-xs font-bold px-3 py-1 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50"
       >
         Reject
       </button>
