@@ -91,9 +91,6 @@ export default async function ActivityLogPage() {
   return (
     <main className="p-8 max-w-4xl mx-auto">
       <div className="mb-6">
-        <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
-          ← Dashboard
-        </Link>
         <h1 className="text-2xl font-extrabold mt-1">Activity Log</h1>
         <p className="text-[#5b6b85] text-sm mt-1">
           Complete audit trail of all operations across the platform.

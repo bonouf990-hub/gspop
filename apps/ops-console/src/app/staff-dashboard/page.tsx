@@ -71,7 +71,6 @@ export default async function StaffDashboardPage({
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">Staff KPI Dashboard</h1>
           <p className="text-[#5b6b85] mt-1">
             Job load, hours on-site, spend, and quality ratings per technician — the same data feeds

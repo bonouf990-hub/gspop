@@ -24,7 +24,6 @@ export default async function CompliancePage() {
     <main className="p-8 max-w-6xl mx-auto">
       <div className="flex items-end justify-between gap-4 mb-8 flex-wrap">
         <div>
-          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
           <h1 className="mt-1">Compliance & Document Expiry</h1>
           <p className="text-[#5b6b85] mt-1">Document expiry and regulatory tracking.</p>
         </div>

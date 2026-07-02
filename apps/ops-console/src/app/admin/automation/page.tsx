@@ -29,7 +29,6 @@ export default async function AutomationSettingsPage() {
 
   return (
     <main className="p-8 max-w-3xl mx-auto">
-      <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
       <h1 className="text-2xl font-extrabold mt-1 mb-1">Automation Settings</h1>
       <p className="text-[#5b6b85] mb-8">
         Control when reminders go out and which automations run. Changes take effect from the next daily run.

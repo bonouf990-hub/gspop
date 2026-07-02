@@ -51,9 +51,6 @@ export default async function NotificationsPage() {
     <main className="p-8 max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">
-            ← Dashboard
-          </Link>
           <h1 className="text-2xl font-extrabold mt-1">Notifications</h1>
           <p className="text-[#5b6b85] text-sm mt-1">
             {unread.length > 0

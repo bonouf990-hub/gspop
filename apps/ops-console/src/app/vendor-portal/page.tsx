@@ -173,7 +173,6 @@ export default async function VendorPortalPage() {
   return (
     <main className="p-8 max-w-5xl mx-auto">
       <div className="mb-8">
-        <Link href="/" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Dashboard</Link>
         <p className="eyebrow mb-1 mt-2">
           ARENCO — Vendor Portal
         </p>
