@@ -114,7 +114,13 @@ create policy tenant_isolation_lease_occupants on lease_occupants
 -- move_checklist_items: scoped via move_checklists → tenant
 create policy tenant_isolation_checklist_items on move_checklist_items
   for all using (
-    checklist_id in (select id from move_checklists where tenant_id = current_tenant_id())
+    checklist_id in (
+      select mc.id from move_checklists mc
+      join leases l on l.id = mc.lease_id
+      join units u on u.id = l.unit_id
+      join properties p on p.id = u.property_id
+      where p.tenant_id = current_tenant_id()
+    )
   );
 
 -- kpi_definitions: tenant-scoped
