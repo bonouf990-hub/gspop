@@ -277,7 +277,7 @@ export default async function PurchasingPage() {
                 <th className="py-2 font-medium">Source</th>
                 <th className="py-2 font-medium">Vendor</th>
                 <th className="py-2 font-medium">Property</th>
-                <th className="py-2 font-medium text-right">Amount</th>
+                <th className="py-2 font-medium">Amount</th>
                 <th className="py-2 font-medium">Status</th>
                 <th className="py-2 font-medium">Requested By</th>
                 <th className="py-2 font-medium">Date</th>
@@ -317,7 +317,7 @@ export default async function PurchasingPage() {
                     </td>
                     <td className="py-2 text-[#a0977e]">{vendor?.name ?? "—"}</td>
                     <td className="py-2 text-[#a0977e]">{property?.name ?? "—"}</td>
-                    <td className="py-2 text-right text-[#d4af5a] font-medium">
+                    <td className="py-2 text-[#d4af5a] font-medium">
                       {Number(o.amount).toLocaleString()}
                     </td>
                     <td className="py-2">

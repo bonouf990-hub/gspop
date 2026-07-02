@@ -28,7 +28,7 @@ export default async function TeamManagementPage() {
   if (!isAdmin) {
     return (
       <main className="p-8">
-        <p className="text-[#6b6454]">You don't have access to Team Management.</p>
+        <p className="text-[#6b6454]">You don&apos;t have access to Team Management.</p>
       </main>
     );
   }
@@ -82,15 +82,16 @@ export default async function TeamManagementPage() {
         properties={(properties ?? []).map((p) => ({ id: p.id, name: p.name }))}
       />
 
-      <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[1000px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Name</th>
             <th className="py-2">Role</th>
             <th className="py-2">Trade</th>
             <th className="py-2">Phone</th>
-            <th className="py-2 text-right">Monthly Salary</th>
-            <th className="py-2 text-right">Hourly Rate</th>
+            <th className="py-2">Monthly Salary</th>
+            <th className="py-2">Hourly Rate</th>
             <th className="py-2">Reports To</th>
             <th className="py-2">Buildings</th>
             <th className="py-2"></th>
@@ -103,10 +104,10 @@ export default async function TeamManagementPage() {
               <td className="py-2 capitalize">{s.role.replace(/_/g, " ")}</td>
               <td className="py-2 text-[#a0977e] capitalize">{s.trade ?? "—"}</td>
               <td className="py-2 text-[#a0977e]">{s.phone ?? "—"}</td>
-              <td className="py-2 text-right text-[#d4af5a]">
+              <td className="py-2 text-[#d4af5a]">
                 {s.monthly_salary ? `AED ${Number(s.monthly_salary).toLocaleString()}` : "—"}
               </td>
-              <td className="py-2 text-right text-[#d4af5a]">
+              <td className="py-2 text-[#d4af5a]">
                 {s.hourly_rate ? `AED ${Number(s.hourly_rate).toLocaleString()}` : "—"}
               </td>
               <td className="py-2 text-[#a0977e]">
@@ -124,6 +125,7 @@ export default async function TeamManagementPage() {
           ))}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

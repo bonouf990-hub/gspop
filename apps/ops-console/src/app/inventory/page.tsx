@@ -82,16 +82,17 @@ export default async function InventoryPage() {
         </div>
       )}
 
-      <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2 font-medium">Item</th>
             <th className="py-2 font-medium">SKU</th>
             <th className="py-2 font-medium">Property</th>
-            <th className="py-2 font-medium text-right">On Hand</th>
+            <th className="py-2 font-medium">On Hand</th>
             <th className="py-2 font-medium">Unit</th>
-            <th className="py-2 font-medium text-right">Unit Cost</th>
-            <th className="py-2 font-medium text-right">Reorder At</th>
+            <th className="py-2 font-medium">Unit Cost</th>
+            <th className="py-2 font-medium">Reorder At</th>
             <th className="py-2 font-medium">Last Updated</th>
             <th className="py-2 font-medium">Actions</th>
           </tr>
@@ -106,14 +107,14 @@ export default async function InventoryPage() {
                 <td className="py-2 text-[#a0977e]">
                   {i.property_id ? propertiesById.get(i.property_id) ?? "—" : "All"}
                 </td>
-                <td className={`py-2 text-right font-medium ${isLow ? "text-amber-400" : ""}`}>
+                <td className={`py-2 font-medium ${isLow ? "text-amber-400" : ""}`}>
                   {Number(i.quantity_on_hand)}
                 </td>
                 <td className="py-2 text-[#6b6454]">{i.unit_of_measure ?? "—"}</td>
-                <td className="py-2 text-right text-[#d4af5a]">
+                <td className="py-2 text-[#d4af5a]">
                   {i.unit_cost && Number(i.unit_cost) > 0 ? `AED ${Number(i.unit_cost).toLocaleString()}` : "—"}
                 </td>
-                <td className="py-2 text-right text-[#6b6454]">
+                <td className="py-2 text-[#6b6454]">
                   {i.reorder_threshold > 0 ? Number(i.reorder_threshold) : "—"}
                 </td>
                 <td className="py-2 text-[#6b6454]">
@@ -134,6 +135,7 @@ export default async function InventoryPage() {
           )}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

@@ -326,9 +326,9 @@ export default async function InventoryReportPage() {
               <thead>
                 <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                   <th className="py-2 font-medium">Item</th>
-                  <th className="py-2 font-medium text-right">On Hand</th>
-                  <th className="py-2 font-medium text-right">Threshold</th>
-                  <th className="py-2 font-medium text-right">Deficit</th>
+                  <th className="py-2 font-medium">On Hand</th>
+                  <th className="py-2 font-medium">Threshold</th>
+                  <th className="py-2 font-medium">Deficit</th>
                 </tr>
               </thead>
               <tbody>
@@ -338,11 +338,11 @@ export default async function InventoryReportPage() {
                       {s.name}
                       {s.sku && <span className="text-[#6b6454] ml-1">({s.sku})</span>}
                     </td>
-                    <td className={`py-2 text-right font-bold ${s.currentStock <= 0 ? "text-red-400" : "text-amber-400"}`}>
+                    <td className={`py-2 font-bold ${s.currentStock <= 0 ? "text-red-400" : "text-amber-400"}`}>
                       {s.currentStock}
                     </td>
-                    <td className="py-2 text-right text-[#6b6454]">{s.reorderThreshold}</td>
-                    <td className="py-2 text-right text-red-400 font-bold">
+                    <td className="py-2 text-[#6b6454]">{s.reorderThreshold}</td>
+                    <td className="py-2 text-red-400 font-bold">
                       {s.reorderThreshold - s.currentStock}
                     </td>
                   </tr>

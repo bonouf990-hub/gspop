@@ -141,10 +141,10 @@ export default function ApprovalChainEditor({
         <label className="text-xs text-[#a0977e] mb-2 block">Approval Steps (in order)</label>
         <div className="space-y-2">
           {steps.map((step, idx) => (
-            <div key={idx} className="flex items-center gap-2 bg-[#0f1626] rounded-lg p-2">
+            <div key={idx} className="flex flex-wrap items-center gap-2 bg-[#0f1626] rounded-lg p-2">
               <span className="text-xs text-[#6b6454] w-6 text-center">{idx + 1}.</span>
               <select
-                className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-xs text-[#f0ece4] flex-1"
+                className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-lg px-2 py-1.5 text-xs text-[#f0ece4] flex-1 min-w-[140px]"
                 value={step.approverRole}
                 onChange={(e) => updateStep(idx, { approverRole: e.target.value })}
               >
@@ -153,7 +153,7 @@ export default function ApprovalChainEditor({
                 ))}
               </select>
               <select
-                className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-xs text-[#f0ece4] flex-1"
+                className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded-lg px-2 py-1.5 text-xs text-[#f0ece4] flex-1 min-w-[140px]"
                 value={step.approverUserId}
                 onChange={(e) => updateStep(idx, { approverUserId: e.target.value })}
               >

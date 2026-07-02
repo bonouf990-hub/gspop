@@ -86,14 +86,15 @@ export default function SiteVisitManager({
       {registrations.length === 0 ? (
         <p className="text-sm text-[#6b6454]">No vendors have registered for the site visit yet.</p>
       ) : (
-        <table className="w-full text-sm border-collapse">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2 font-medium">Company</th>
               <th className="py-2 font-medium">Representative</th>
               <th className="py-2 font-medium">Contact</th>
               <th className="py-2 font-medium">Registered</th>
-              <th className="py-2 font-medium text-center">Attended</th>
+              <th className="py-2 font-medium">Attended</th>
             </tr>
           </thead>
           <tbody>
@@ -118,7 +119,7 @@ export default function SiteVisitManager({
                 <td className="py-2 text-[#6b6454]">
                   {new Date(reg.registered_at).toLocaleDateString()}
                 </td>
-                <td className="py-2 text-center">
+                <td className="py-2">
                   {tenderStatus === "site_visit" || tenderStatus === "submissions_open" ? (
                     <button
                       onClick={() => toggleAttendance(reg.id, !reg.attended)}
@@ -141,6 +142,7 @@ export default function SiteVisitManager({
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </section>
   );

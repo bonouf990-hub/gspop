@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f4;
-  --foreground: #1a2238;
+  --background: #0f1626;
+  --foreground: #f0ece4;
   --navy: #1a2238;
   --navy-deep: #0f1626;
   --gold: #b8902f;
   --gold-soft: #d4af5a;
-  --gold-pale: #f3e6c8;
-  --card: #ffffff;
-  --muted: #8a8478;
-  --hairline: rgba(26, 34, 56, 0.08);
+  --gold-pale: rgba(184, 144, 47, 0.12);
+  --card: #1a2640;
+  --muted: #a0977e;
+  --hairline: rgba(184, 144, 47, 0.15);
+  --bg: #0f1626;
+  --border: rgba(184, 144, 47, 0.15);
+  --surface-inset: #141d33;
 }
 
 @theme inline {
@@ -36,7 +39,14 @@ body {
 .elevated-card {
   background: var(--card);
   border: 1px solid var(--hairline);
-  box-shadow: 0 1px 2px rgba(26, 34, 56, 0.04), 0 8px 24px rgba(26, 34, 56, 0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--gold);
 }
 
 .glass-card-dark {

@@ -123,27 +123,27 @@ export default function CreateTender({
             placeholder="Tender Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
           />
           <textarea
             placeholder="Brief description of what you're procuring…"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             rows={2}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
           />
           <textarea
             placeholder="Detailed scope of work — this is what vendors will bid against…"
             value={scopeOfWork}
             onChange={(e) => setScopeOfWork(e.target.value)}
             rows={4}
-            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+            className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
           />
           <div className="grid grid-cols-3 gap-3">
             <select
               value={propertyId}
               onChange={(e) => setPropertyId(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
             >
               <option value="">All Properties</option>
               {properties.map((p) => (
@@ -155,13 +155,13 @@ export default function CreateTender({
               value={budgetEstimate}
               onChange={(e) => setBudgetEstimate(e.target.value)}
               type="number"
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
             />
             <input
               type="datetime-local"
               value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
-              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
+              className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
             />
           </div>
         </div>
@@ -189,20 +189,20 @@ export default function CreateTender({
                   value={siteVisitDate}
                   onChange={(e) => setSiteVisitDate(e.target.value)}
                   placeholder="Site Visit Date & Time"
-                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm"
+                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm text-[#f0ece4]"
                 />
                 <input
                   placeholder="Meeting point / location"
                   value={siteVisitLocation}
                   onChange={(e) => setSiteVisitLocation(e.target.value)}
-                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm"
+                  className="bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm text-[#f0ece4]"
                 />
               </div>
               <input
                 placeholder="Additional instructions (PPE required, parking info, etc.)"
                 value={siteVisitNotes}
                 onChange={(e) => setSiteVisitNotes(e.target.value)}
-                className="w-full bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm"
+                className="w-full bg-[#1a2640] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm text-[#f0ece4]"
               />
             </div>
           )}
@@ -222,12 +222,12 @@ export default function CreateTender({
           </div>
           {requirements.map((req, idx) => (
             <div key={idx} className="bg-[#0f1626] rounded-lg p-3 mb-2 border border-[rgba(184,144,47,0.08)]">
-              <div className="grid grid-cols-[1fr_auto_auto_auto] gap-2 items-center">
+              <div className="flex flex-wrap gap-2 items-center">
                 <input
                   placeholder="Requirement title"
                   value={req.title}
                   onChange={(e) => updateReq(idx, "title", e.target.value)}
-                  className="bg-transparent border border-[rgba(184,144,47,0.15)] rounded px-2 py-1.5 text-sm"
+                  className="flex-1 min-w-[120px] bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
                 />
                 <select
                   value={req.category}
@@ -257,7 +257,7 @@ export default function CreateTender({
                   placeholder="Description (optional)"
                   value={req.description}
                   onChange={(e) => updateReq(idx, "description", e.target.value)}
-                  className="bg-transparent border border-[rgba(184,144,47,0.08)] rounded px-2 py-1 text-xs text-[#a0977e]"
+                  className="min-w-0 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#f0ece4]"
                 />
                 <div className="flex items-center gap-1">
                   <input
@@ -266,7 +266,7 @@ export default function CreateTender({
                     onChange={(e) => updateReq(idx, "weight", Number(e.target.value))}
                     min={1}
                     max={100}
-                    className="w-12 bg-transparent border border-[rgba(184,144,47,0.08)] rounded px-1 py-1 text-xs text-center"
+                    className="w-14 bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-2 py-2 text-sm text-[#f0ece4] text-center"
                   />
                   <span className="text-[10px] text-[#6b6454]">wt</span>
                 </div>

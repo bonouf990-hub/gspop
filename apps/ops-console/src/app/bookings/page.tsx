@@ -61,6 +61,7 @@ export default async function BookingsPage() {
             ← Dashboard
           </Link>
           <h1 className="text-2xl font-extrabold mt-1">Common Area Bookings</h1>
+          <p className="text-[#a0977e] mb-6">Common-area reservations — gym, pool, and function rooms.</p>
         </div>
         <CreateBookingForm
           commonAreas={commonAreas}
@@ -69,7 +70,8 @@ export default async function BookingsPage() {
         />
       </div>
 
-      <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2 font-medium">Facility</th>
@@ -126,6 +128,7 @@ export default async function BookingsPage() {
           )}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

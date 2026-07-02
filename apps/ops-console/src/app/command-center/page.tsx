@@ -289,7 +289,7 @@ export default async function CommandCenterPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-11 gap-3 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
         {kpis.map((k) => (
           <div key={k.label} className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
             <p className={`text-3xl font-extrabold ${k.color}`}>{k.value}</p>
@@ -335,32 +335,34 @@ export default async function CommandCenterPage() {
           <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-4">
             Buildings Overview
           </h2>
-          <table className="w-full text-sm border-collapse">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse min-w-[600px]">
             <thead>
               <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                 <th className="py-2 font-medium">Building</th>
-                <th className="py-2 font-medium text-center">Open</th>
-                <th className="py-2 font-medium text-center">Active</th>
-                <th className="py-2 font-medium text-center">Done</th>
-                <th className="py-2 font-medium text-center">Avg Days</th>
+                <th className="py-2 font-medium">Open</th>
+                <th className="py-2 font-medium">Active</th>
+                <th className="py-2 font-medium">Done</th>
+                <th className="py-2 font-medium">Avg Days</th>
               </tr>
             </thead>
             <tbody>
               {propertySummaries.map((p) => (
                 <tr key={p.id} className="border-b border-[rgba(184,144,47,0.08)]">
                   <td className="py-2 font-medium">{p.name}</td>
-                  <td className={`py-2 text-center font-bold ${p.openJobs > 10 ? "text-amber-400" : ""}`}>
+                  <td className={`py-2 font-bold ${p.openJobs > 10 ? "text-amber-400" : ""}`}>
                     {p.openJobs}
                   </td>
-                  <td className="py-2 text-center text-green-400">{p.inProgress}</td>
-                  <td className="py-2 text-center text-[#6b6454]">{p.completed}</td>
-                  <td className={`py-2 text-center ${p.avgDaysOpen > 7 ? "text-red-400 font-bold" : "text-[#a0977e]"}`}>
+                  <td className="py-2 text-green-400">{p.inProgress}</td>
+                  <td className="py-2 text-[#6b6454]">{p.completed}</td>
+                  <td className={`py-2 ${p.avgDaysOpen > 7 ? "text-red-400 font-bold" : "text-[#a0977e]"}`}>
                     {p.avgDaysOpen}d
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
         </section>
 
         <section className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-5">

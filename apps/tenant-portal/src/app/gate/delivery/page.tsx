@@ -60,7 +60,7 @@ export default function AllowDeliveryPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Pre-Authorize
         </p>
-        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Allow Delivery</h1>
+        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Allow Delivery</h1>
         <p className="text-sm text-[var(--muted)] mt-1">Select the courier and a delivery window.</p>
       </div>
 
@@ -77,13 +77,13 @@ export default function AllowDeliveryPage() {
                 onClick={() => setBrand(b)}
                 className={`flex items-center gap-2.5 rounded-xl p-3 text-sm font-medium border transition-colors ${
                   brand === b
-                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#8a6a1f]"
-                    : "bg-[var(--background)] border-[var(--hairline)] text-[var(--navy)]"
+                    ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d4af5a]"
+                    : "bg-[#141d33] border-[var(--hairline)] text-[#f0ece4]"
                 }`}
               >
                 <span
                   className={`w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-semibold ${
-                    brand === b ? "bg-[var(--gold)] text-white" : "bg-white text-[var(--muted)]"
+                    brand === b ? "bg-[var(--gold)] text-[#0f1626]" : "bg-[rgba(184,144,47,0.12)] text-[var(--muted)]"
                   }`}
                 >
                   {b[0]}
@@ -102,7 +102,7 @@ export default function AllowDeliveryPage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Expected after</label>
             <input
               type="datetime-local"
-              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
               value={windowStart}
               onChange={(e) => setWindowStart(e.target.value)}
               required
@@ -112,25 +112,25 @@ export default function AllowDeliveryPage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Until</label>
             <input
               type="datetime-local"
-              className="w-full bg-[var(--background)] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
               value={windowEnd}
               onChange={(e) => setWindowEnd(e.target.value)}
               required
             />
           </div>
           <label className="flex items-center justify-between pt-1 cursor-pointer">
-            <span className="text-sm text-[var(--navy)]">Leave with security if I'm not home</span>
+            <span className="text-sm text-[#f0ece4]">Leave with security if I'm not home</span>
             <button
               type="button"
               role="switch"
               aria-checked={leaveWithSecurity}
               onClick={() => setLeaveWithSecurity((v) => !v)}
               className={`w-11 h-6 rounded-full relative transition-colors ${
-                leaveWithSecurity ? "bg-[var(--gold)]" : "bg-[var(--hairline)]"
+                leaveWithSecurity ? "bg-[var(--gold)]" : "bg-[#213052]"
               }`}
             >
               <span
-                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow shadow-black/40 transition-transform ${
                   leaveWithSecurity ? "translate-x-[22px]" : "translate-x-0.5"
                 }`}
               />
@@ -141,7 +141,7 @@ export default function AllowDeliveryPage() {
         <button
           type="submit"
           disabled={submitting || !brand}
-          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
+          className="w-full bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
         >
           {submitting ? "Submitting..." : "Allow Delivery"}
         </button>

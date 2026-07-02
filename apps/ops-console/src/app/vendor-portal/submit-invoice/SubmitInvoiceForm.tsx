@@ -62,7 +62,7 @@ export default function SubmitInvoiceForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium mb-1">Linked Purchase Order (optional)</label>
+        <label className="block text-sm font-medium mb-1 text-[#a0977e]">Linked Purchase Order (optional)</label>
         <select
           value={poId}
           onChange={(e) => setPoId(e.target.value)}
@@ -77,9 +77,9 @@ export default function SubmitInvoiceForm({
         </select>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Invoice Number *</label>
+          <label className="block text-sm font-medium mb-1 text-[#a0977e]">Invoice Number *</label>
           <input
             value={invoiceNumber}
             onChange={(e) => setInvoiceNumber(e.target.value)}
@@ -89,7 +89,7 @@ export default function SubmitInvoiceForm({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Invoice Date *</label>
+          <label className="block text-sm font-medium mb-1 text-[#a0977e]">Invoice Date *</label>
           <input
             type="date"
             value={invoiceDate}
@@ -101,7 +101,7 @@ export default function SubmitInvoiceForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Due Date</label>
+        <label className="block text-sm font-medium mb-1 text-[#a0977e]">Due Date</label>
         <input
           type="date"
           value={dueDate}
@@ -110,9 +110,9 @@ export default function SubmitInvoiceForm({
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Amount (AED) *</label>
+          <label className="block text-sm font-medium mb-1 text-[#a0977e]">Amount (AED) *</label>
           <input
             type="number"
             step="0.01"
@@ -125,7 +125,7 @@ export default function SubmitInvoiceForm({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">VAT (AED)</label>
+          <label className="block text-sm font-medium mb-1 text-[#a0977e]">VAT (AED)</label>
           <input
             type="number"
             step="0.01"
@@ -137,7 +137,7 @@ export default function SubmitInvoiceForm({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Total</label>
+          <label className="block text-sm font-medium mb-1 text-[#a0977e]">Total</label>
           <div className="w-full rounded-lg bg-[#213052] border border-[rgba(184,144,47,0.15)] p-2.5 text-sm font-bold text-[#d4af5a]">
             AED {totalAmount.toFixed(2)}
           </div>
@@ -145,7 +145,7 @@ export default function SubmitInvoiceForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Notes</label>
+        <label className="block text-sm font-medium mb-1 text-[#a0977e]">Notes</label>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}

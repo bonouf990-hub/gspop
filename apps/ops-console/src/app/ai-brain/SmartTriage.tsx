@@ -167,7 +167,7 @@ export default function SmartTriage({ userRole }: { userRole: string }) {
                 <button
                   onClick={handleCreateWO}
                   disabled={creating || !selectedProperty}
-                  className="px-4 py-2 rounded-lg bg-green-700 text-white text-sm font-bold hover:bg-green-600 disabled:opacity-50 whitespace-nowrap"
+                  className="px-4 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] text-sm font-bold hover:bg-[#d4af5a] disabled:opacity-50 whitespace-nowrap"
                 >
                   {creating ? "Creating…" : "Create Work Order"}
                 </button>

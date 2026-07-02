@@ -141,7 +141,7 @@ export default function ProfilePage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Account
         </p>
-        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">My Profile</h1>
+        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">My Profile</h1>
       </div>
 
       <div className="px-5 space-y-5">
@@ -163,7 +163,7 @@ export default function ProfilePage() {
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
               aria-label="Change photo"
-              className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[var(--gold)] text-white flex items-center justify-center shadow-md disabled:opacity-50"
+              className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[var(--gold)] text-[#0f1626] flex items-center justify-center shadow-md disabled:opacity-50"
             >
               <Camera size={16} />
             </button>
@@ -188,7 +188,7 @@ export default function ProfilePage() {
               Full Name
             </label>
             <input
-              className="w-full bg-[#FAF8F4] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Your name"
@@ -201,7 +201,7 @@ export default function ProfilePage() {
               Phone
             </label>
             <input
-              className="w-full bg-[#FAF8F4] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
@@ -217,7 +217,7 @@ export default function ProfilePage() {
               Email
             </label>
             <input
-              className="w-full bg-[#FAF8F4] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[var(--navy)] focus:border-[var(--gold)] outline-none transition-colors"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4] focus:border-[var(--gold)] outline-none transition-colors"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -226,12 +226,12 @@ export default function ProfilePage() {
           </div>
 
           {notice && <p className="text-[var(--gold)] text-xs">{notice}</p>}
-          {error && <p className="text-red-500 text-xs">{error}</p>}
+          {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
 
           <button
             type="submit"
             disabled={saving || loading}
-            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-white rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
+            className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-[var(--gold)] to-[var(--gold-soft)] text-[#0f1626] rounded-xl p-3.5 font-semibold text-sm disabled:opacity-40"
           >
             {savedFlash ? (
               <>
@@ -253,16 +253,16 @@ export default function ProfilePage() {
             <FileText size={18} strokeWidth={1.8} />
           </span>
           <div className="flex-1">
-            <p className="text-sm font-medium text-[var(--navy)]">My Documents</p>
+            <p className="text-sm font-medium text-[#f0ece4]">My Documents</p>
             <p className="text-xs text-[var(--muted)]">Tenancy contract, Ejari, receipts</p>
           </div>
-          <ChevronRight size={18} className="text-[var(--hairline)]" />
+          <ChevronRight size={18} className="text-[#6b6454]" />
         </Link>
 
         <button
           type="button"
           onClick={handleSignOut}
-          className="w-full flex items-center justify-center gap-2 bg-[var(--background)] border border-[var(--hairline)] text-[#B23B3B] rounded-xl p-3.5 font-medium text-sm"
+          className="w-full flex items-center justify-center gap-2 bg-[#141d33] border border-[rgba(180,60,60,0.3)] text-[#e08a8a] rounded-xl p-3.5 font-medium text-sm"
         >
           <LogOut size={16} /> Sign Out
         </button>

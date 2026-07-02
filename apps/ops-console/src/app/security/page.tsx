@@ -38,7 +38,8 @@ export default async function SecurityConsolePage() {
 
       <section className="mb-8">
         <h2 className="text-lg font-bold mb-3">Expected ({invited.length})</h2>
-        <table className="w-full text-sm border-collapse">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Name</th>
@@ -77,11 +78,13 @@ export default async function SecurityConsolePage() {
             )}
           </tbody>
         </table>
+        </div>
       </section>
 
       <section className="mb-8">
         <h2 className="text-lg font-bold mb-3">On Site ({onSite.length})</h2>
-        <table className="w-full text-sm border-collapse">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Name</th>
@@ -117,11 +120,13 @@ export default async function SecurityConsolePage() {
             )}
           </tbody>
         </table>
+        </div>
       </section>
 
       <section>
         <h2 className="text-lg font-bold mb-3">Recent Activity</h2>
-        <table className="w-full text-sm border-collapse">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Name</th>
@@ -146,6 +151,7 @@ export default async function SecurityConsolePage() {
             )}
           </tbody>
         </table>
+        </div>
       </section>
     </main>
   );

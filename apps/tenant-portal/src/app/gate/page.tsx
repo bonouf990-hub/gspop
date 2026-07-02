@@ -19,11 +19,11 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 const STATUS_STYLE: Record<string, string> = {
-  invited: "bg-[var(--gold-pale)] text-[#8a6a1f]",
-  checked_in: "bg-[#E3F2E8] text-[#1F7A45]",
-  checked_out: "bg-[#F1EFE8] text-[var(--muted)]",
-  declined: "bg-[#FBE6E6] text-[#B23B3B]",
-  expired: "bg-[#F1EFE8] text-[var(--muted)]",
+  invited: "bg-[rgba(184,144,47,0.15)] text-[#d4af5a]",
+  checked_in: "bg-[rgba(45,140,90,0.15)] text-[#5cc98a]",
+  checked_out: "bg-[rgba(255,255,255,0.06)] text-[#a0977e]",
+  declined: "bg-[rgba(180,60,60,0.15)] text-[#e08a8a]",
+  expired: "bg-[rgba(255,255,255,0.06)] text-[#a0977e]",
 };
 
 async function getMyVisitors(): Promise<Visitor[]> {
@@ -47,7 +47,7 @@ export default async function GatePage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Security
         </p>
-        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Gate</h1>
+        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Gate</h1>
         <p className="text-sm text-[var(--muted)] mt-1">Pre-authorize who security should let in.</p>
       </div>
 
@@ -56,10 +56,10 @@ export default async function GatePage() {
           <div className="grid grid-cols-3 gap-3">
             {GATE_ACTIONS.map(({ href, Icon, label }) => (
               <Link key={href} href={href} className="flex flex-col items-center gap-2 group">
-                <span className="w-14 h-14 rounded-full bg-[var(--gold-pale)] flex items-center justify-center text-[var(--gold)] group-hover:bg-[var(--gold)] group-hover:text-white transition-colors">
+                <span className="w-14 h-14 rounded-full bg-[var(--gold-pale)] flex items-center justify-center text-[var(--gold)] group-hover:bg-[var(--gold)] group-hover:text-[#0f1626] transition-colors">
                   <Icon size={22} strokeWidth={1.7} />
                 </span>
-                <span className="text-[10px] text-center text-[var(--navy)] leading-tight font-medium">
+                <span className="text-[10px] text-center text-[#f0ece4] leading-tight font-medium">
                   {label}
                 </span>
               </Link>
@@ -75,7 +75,7 @@ export default async function GatePage() {
             {visitors.map((v) => (
               <li key={v.id} className="flex items-center justify-between pb-3 border-b border-[var(--hairline)] last:border-0 last:pb-0">
                 <div>
-                  <p className="text-sm font-medium text-[var(--navy)]">{v.fullName || v.brandName || "Visitor"}</p>
+                  <p className="text-sm font-medium text-[#f0ece4]">{v.fullName || v.brandName || "Visitor"}</p>
                   <p className="text-xs text-[var(--muted)] mt-0.5 capitalize">{v.purpose}</p>
                 </div>
                 <span className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${STATUS_STYLE[v.status]}`}>

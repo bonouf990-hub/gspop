@@ -189,14 +189,16 @@ export default async function StorePage() {
                     </div>
                     <div>
                       <span className="text-[#6b6454]">Method:</span>{" "}
-                      <span className="text-[#f0ece4]">
-                        {r.delivery_method === "deliver" ? "🚚 Deliver" : "🏪 Pickup"}
-                      </span>
+                      {r.delivery_method === "deliver" ? (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[rgba(184,144,47,0.12)] text-[#d4af5a]">DELIVER</span>
+                      ) : (
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[rgba(184,144,47,0.12)] text-[#d4af5a]">PICKUP</span>
+                      )}
                     </div>
                   </div>
 
                   {r.delivery_location && (
-                    <p className="text-sm text-[#a0977e] mb-2">📍 Deliver to: {r.delivery_location}</p>
+                    <p className="text-sm text-[#a0977e] mb-2">Deliver to: {r.delivery_location}</p>
                   )}
                   {r.notes && (
                     <p className="text-sm text-[#6b6454] mb-3">Note: {r.notes}</p>
@@ -223,7 +225,7 @@ export default async function StorePage() {
                 <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                   <th className="py-2 font-medium">Item</th>
                   <th className="py-2 font-medium">Qty</th>
-                  <th className="py-2 font-medium text-right">Cost</th>
+                  <th className="py-2 font-medium">Cost</th>
                   <th className="py-2 font-medium">Building / Apartment</th>
                   <th className="py-2 font-medium">Work Order</th>
                   <th className="py-2 font-medium">Requester</th>
@@ -247,7 +249,7 @@ export default async function StorePage() {
                         {item?.sku && <span className="text-[#6b6454] text-[10px] ml-1">({item.sku})</span>}
                       </td>
                       <td className="py-2 font-medium">{Number(r.quantity)}</td>
-                      <td className="py-2 text-right">
+                      <td className="py-2">
                         {cost !== null ? (
                           <span className="text-[#d4af5a] font-medium">AED {cost.toLocaleString()}</span>
                         ) : (
@@ -301,9 +303,9 @@ export default async function StorePage() {
                   <th className="py-2 font-medium">Building</th>
                   <th className="py-2 font-medium">Apartment</th>
                   <th className="py-2 font-medium">Part</th>
-                  <th className="py-2 font-medium text-right">Total Qty</th>
-                  <th className="py-2 font-medium text-right">Total Cost</th>
-                  <th className="py-2 font-medium text-right">Times Issued</th>
+                  <th className="py-2 font-medium">Total Qty</th>
+                  <th className="py-2 font-medium">Total Cost</th>
+                  <th className="py-2 font-medium">Times Issued</th>
                   <th className="py-2 font-medium">Last Issued</th>
                 </tr>
               </thead>
@@ -322,11 +324,11 @@ export default async function StorePage() {
                       {ap.item_name}
                       {ap.item_sku && <span className="text-[#6b6454] text-[10px] ml-1">({ap.item_sku})</span>}
                     </td>
-                    <td className="py-2 text-right text-[#d4af5a] font-bold">{ap.total_qty}</td>
-                    <td className="py-2 text-right text-[#d4af5a] font-medium">
+                    <td className="py-2 text-[#d4af5a] font-bold">{ap.total_qty}</td>
+                    <td className="py-2 text-[#d4af5a] font-medium">
                       {ap.total_cost > 0 ? `AED ${ap.total_cost.toLocaleString()}` : "—"}
                     </td>
-                    <td className="py-2 text-right text-[#a0977e]">{ap.request_count}</td>
+                    <td className="py-2 text-[#a0977e]">{ap.request_count}</td>
                     <td className="py-2 text-[#6b6454]">{new Date(ap.last_issued).toLocaleDateString()}</td>
                   </tr>
                 ))}

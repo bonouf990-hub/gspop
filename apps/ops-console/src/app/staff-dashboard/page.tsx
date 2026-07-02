@@ -81,7 +81,8 @@ export default async function StaffDashboardPage({
         ))}
       </div>
 
-      <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[900px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Technician</th>
@@ -118,6 +119,7 @@ export default async function StaffDashboardPage({
           )}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

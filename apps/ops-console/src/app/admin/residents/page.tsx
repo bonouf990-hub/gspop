@@ -55,7 +55,8 @@ export default async function ResidentsPage() {
 
       <CreateResidentForm units={unitOptions} />
 
-      <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[700px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Resident</th>
@@ -95,6 +96,7 @@ export default async function ResidentsPage() {
           )}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

@@ -23,8 +23,10 @@ export default async function CompliancePage() {
   return (
     <main className="p-8">
       <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
-      <h1 className="text-2xl font-extrabold mt-1 mb-6">Compliance & Document Expiry</h1>
-      <table className="w-full text-sm border-collapse">
+      <h1 className="text-2xl font-extrabold mt-1 mb-1">Compliance & Document Expiry</h1>
+      <p className="text-[#a0977e] mb-6">Document expiry and regulatory tracking.</p>
+      <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse min-w-[600px]">
         <thead>
           <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
             <th className="py-2">Document</th>
@@ -53,6 +55,7 @@ export default async function CompliancePage() {
           )}
         </tbody>
       </table>
+      </div>
     </main>
   );
 }

@@ -32,21 +32,21 @@ const ACTION_STYLE: Record<string, string> = {
   rejected: "text-red-300",
   escalated: "text-amber-400",
   completed: "text-green-400",
-  assigned: "text-blue-400",
+  assigned: "text-[#d4af5a]",
   verified: "text-green-300",
   paid: "text-[#b8902f]",
   disputed: "text-red-400",
 };
 
 const ENTITY_STYLE: Record<string, string> = {
-  work_order: "bg-blue-900/40 text-blue-300",
-  complaint: "bg-red-900/40 text-red-300",
+  work_order: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+  complaint: "bg-[#213052] text-[#a0977e]",
   purchase_order: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
-  tender: "bg-purple-900/40 text-purple-300",
-  invoice: "bg-green-900/40 text-green-300",
-  maintenance_schedule: "bg-cyan-900/40 text-cyan-300",
+  tender: "bg-[#213052] text-[#a0977e]",
+  invoice: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
+  maintenance_schedule: "bg-[#213052] text-[#a0977e]",
   visitor: "bg-[#213052] text-[#a0977e]",
-  booking: "bg-amber-900/40 text-amber-300",
+  booking: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
   user: "bg-[#213052] text-[#a0977e]",
 };
 
@@ -109,7 +109,7 @@ export default async function ActivityLogPage() {
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Updated</p>
         </div>
         <div className="border border-[rgba(184,144,47,0.15)] bg-[#1a2640] rounded-xl p-4 text-center">
-          <p className="text-2xl font-extrabold text-blue-400">
+          <p className="text-2xl font-extrabold text-[#d4af5a]">
             {new Set(logs.map((l) => l.user_name ?? l.user?.full_name)).size}
           </p>
           <p className="text-[10px] text-[#a0977e] uppercase tracking-wider mt-1">Active Users</p>

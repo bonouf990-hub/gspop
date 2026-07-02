@@ -60,7 +60,7 @@ export default function NotificationsPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Updates
         </p>
-        <h1 className="font-display text-3xl text-[var(--navy)] font-semibold">Notifications</h1>
+        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Notifications</h1>
       </div>
 
       <div className="px-5">
@@ -79,20 +79,20 @@ export default function NotificationsPage() {
                   >
                     <span
                       className={`mt-0.5 w-9 h-9 shrink-0 rounded-full flex items-center justify-center ${
-                        unread ? "bg-[var(--gold)] text-white" : "bg-[var(--gold-pale)] text-[var(--gold)]"
+                        unread ? "bg-[var(--gold)] text-[#0f1626]" : "bg-[var(--gold-pale)] text-[var(--gold)]"
                       }`}
                     >
                       <Icon size={16} strokeWidth={1.9} />
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm leading-snug ${unread ? "text-[var(--navy)] font-medium" : "text-[var(--muted)]"}`}>
+                      <p className={`text-sm leading-snug ${unread ? "text-[#f0ece4] font-medium" : "text-[var(--muted)]"}`}>
                         {n.message}
                       </p>
                       <p className="text-[10px] text-[var(--muted)] mt-1 uppercase tracking-wide">
                         {timeAgo(n.createdAt)}
                       </p>
                     </div>
-                    <ChevronRight size={16} className="text-[var(--hairline)] mt-1 shrink-0" />
+                    <ChevronRight size={16} className="text-[#6b6454] mt-1 shrink-0" />
                   </Link>
                 </li>
               );

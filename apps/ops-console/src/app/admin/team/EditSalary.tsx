@@ -65,12 +65,12 @@ export default function EditSalary({
       <button
         onClick={save}
         disabled={saving}
-        className="text-[10px] font-bold px-2 py-1 rounded bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+        className="text-xs font-bold px-3 py-2 rounded-lg bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
       >
         {saving ? "…" : "Save"}
       </button>
-      <button onClick={() => setOpen(false)} className="text-[10px] text-[#6b6454]">
-        X
+      <button onClick={() => setOpen(false)} className="text-xs px-3 py-2 text-[#6b6454]">
+        ✕
       </button>
     </div>
   );
