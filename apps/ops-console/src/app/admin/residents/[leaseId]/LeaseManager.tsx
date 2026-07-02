@@ -139,7 +139,8 @@ export default function LeaseManager({
 
       <section>
         <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">Cheque Schedule</h2>
-        <table className="w-full text-sm border-collapse mb-4">
+        <div className="overflow-x-auto mb-4">
+        <table className="w-full text-sm border-collapse min-w-[600px]">
           <thead>
             <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2">Amount</th>
@@ -168,7 +169,7 @@ export default function LeaseManager({
                           onChange={(e) => setChequeBank(e.target.value)} />
                         <div className="flex gap-2">
                           <button disabled={busy} onClick={() => markCleared(i.id)}
-                            className="bg-green-600 text-white text-xs px-2.5 py-1 rounded">Confirm cleared</button>
+                            className="bg-green-900/50 text-green-300 border border-green-500/30 text-xs px-2.5 py-1 rounded-lg">Confirm cleared</button>
                           <button onClick={() => setClearingId(null)}
                             className="bg-[#213052] text-[#a0977e] text-xs px-2.5 py-1 rounded">Cancel</button>
                         </div>
@@ -190,6 +191,7 @@ export default function LeaseManager({
             )}
           </tbody>
         </table>
+        </div>
 
         <form onSubmit={addInvoice} className="flex flex-wrap items-end gap-2">
           <div>
@@ -233,8 +235,12 @@ export default function LeaseManager({
               {DOC_TYPES.map((t) => <option key={t} value={t}>{t.replace(/_/g, " ")}</option>)}
             </select>
           </div>
-          <input type="file" onChange={(e) => setDocFile(e.target.files?.[0] ?? null)}
-            className="text-sm text-[#a0977e]" required />
+          <label className="cursor-pointer bg-[#213052] text-[#d4af5a] text-sm font-bold px-4 py-2 rounded-lg">
+            Choose File
+            <input type="file" onChange={(e) => setDocFile(e.target.files?.[0] ?? null)}
+              className="hidden" />
+          </label>
+          {docFile && <span className="text-[#a0977e] text-xs">{docFile.name}</span>}
           <button type="submit" disabled={busy || !docFile}
             className="bg-[#b8902f] text-[#0f1626] text-sm font-bold px-4 py-2 rounded-lg disabled:opacity-50">
             Upload

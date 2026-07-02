@@ -30,7 +30,7 @@ export default async function NoticesAdminPage() {
   ]);
 
   return (
-    <main className="p-8 max-w-3xl">
+    <main className="p-8 max-w-3xl mx-auto">
       <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
       <h1 className="text-2xl font-extrabold mt-2 mb-2">Building Notices</h1>
       <p className="text-[#a0977e] mb-6">

@@ -247,7 +247,7 @@ export default function TechnicianDashboard({
             <button
               onClick={() => checkOut(activeWO)}
               disabled={busy}
-              className="mt-3 w-full py-2.5 rounded-xl bg-red-600 text-white font-bold text-sm disabled:opacity-50"
+              className="mt-3 w-full py-2.5 rounded-lg bg-red-950/50 text-red-300 border border-red-500/30 font-bold text-sm disabled:opacity-50"
             >
               {busy ? "Checking out…" : "Check Out & Stop Timer"}
             </button>
@@ -279,38 +279,44 @@ export default function TechnicianDashboard({
               <JobCard key={wo.id} wo={wo} expanded={activeWO === wo.id}>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {!checkedInWOs.has(wo.id) || checkedOutWOs.has(wo.id) ? (
-                    <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="bg-green-700">
+                    <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a]">
                       GPS Check In
                     </ActionBtn>
                   ) : (
-                    <ActionBtn onClick={() => checkOut(wo.id)} disabled={busy} color="bg-red-600">
+                    <ActionBtn onClick={() => checkOut(wo.id)} disabled={busy} color="bg-red-950/50 text-red-300 border border-red-500/30">
                       GPS Check Out
                     </ActionBtn>
                   )}
-                  <ActionBtn onClick={() => completeJob(wo.id)} disabled={busy} color="bg-blue-700">
+                  <ActionBtn onClick={() => completeJob(wo.id)} disabled={busy} color="bg-green-900/50 text-green-300 border border-green-500/30">
                     Mark Complete
                   </ActionBtn>
-                  <div className="w-full flex items-center gap-2 mt-1">
+                  <div className="w-full flex flex-wrap items-center gap-2 mt-1">
                     <select
                       value={photoStage}
                       onChange={(e) => setPhotoStage(e.target.value as "before" | "after")}
-                      className="text-xs bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded px-2 py-1"
+                      className="bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm"
                     >
                       <option value="before">Before</option>
                       <option value="after">After</option>
                     </select>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      capture="environment"
-                      onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
-                      className="text-xs text-[#a0977e] flex-1"
-                    />
+                    <label className="cursor-pointer bg-[#213052] text-[#d4af5a] px-4 py-2.5 text-sm font-bold rounded-lg">
+                      Choose File
+                      <input
+                        type="file"
+                        accept="image/*"
+                        capture="environment"
+                        onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
+                        className="hidden"
+                      />
+                    </label>
+                    {photoFile && (
+                      <span className="text-[#a0977e] text-xs flex-1 truncate">{photoFile.name}</span>
+                    )}
                     {photoFile && (
                       <button
                         onClick={() => uploadPhoto(wo.id)}
                         disabled={busy}
-                        className="text-xs font-bold px-2 py-1 rounded bg-[#b8902f] text-[#0f1626] disabled:opacity-50"
+                        className="px-4 py-2.5 text-sm font-bold rounded-lg bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a] disabled:opacity-50"
                       >
                         Upload
                       </button>
@@ -327,11 +333,11 @@ export default function TechnicianDashboard({
           <Section title="Assigned to You" count={assignedWOs.length} color="text-[#d4af5a]">
             {assignedWOs.map((wo) => (
               <JobCard key={wo.id} wo={wo}>
-                <div className="flex gap-2 mt-3">
-                  <ActionBtn onClick={() => startJob(wo.id)} disabled={busy} color="bg-[#b8902f]">
+                <div className="flex flex-wrap gap-2 mt-3">
+                  <ActionBtn onClick={() => startJob(wo.id)} disabled={busy} color="bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a]">
                     Start Job
                   </ActionBtn>
-                  <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="bg-green-700">
+                  <ActionBtn onClick={() => checkIn(wo.id)} disabled={busy} color="bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a]">
                     GPS Check In & Start
                   </ActionBtn>
                 </div>
@@ -466,7 +472,7 @@ function ActionBtn({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`text-xs font-bold px-3 py-1.5 rounded-lg text-white disabled:opacity-50 ${color}`}
+      className={`px-4 py-2.5 text-sm font-bold rounded-lg disabled:opacity-50 ${color}`}
     >
       {children}
     </button>

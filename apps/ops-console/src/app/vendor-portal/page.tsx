@@ -173,7 +173,8 @@ export default async function VendorPortalPage() {
   return (
     <main className="p-8 max-w-5xl mx-auto">
       <div className="mb-8">
-        <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-1">
+        <Link href="/" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Dashboard</Link>
+        <p className="text-xs text-[#b8902f] font-bold tracking-[0.2em] uppercase mb-1 mt-2">
           GSPOP — Vendor Portal
         </p>
         <h1 className="text-2xl font-extrabold mb-1">{vendor.name}</h1>
@@ -331,7 +332,7 @@ export default async function VendorPortalPage() {
               <thead>
                 <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                   <th className="py-2 font-medium">Description</th>
-                  <th className="py-2 font-medium text-right">Amount</th>
+                  <th className="py-2 font-medium">Amount</th>
                   <th className="py-2 font-medium">Status</th>
                   <th className="py-2 font-medium">Date</th>
                 </tr>
@@ -340,7 +341,7 @@ export default async function VendorPortalPage() {
                 {pos.map((po) => (
                   <tr key={po.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
                     <td className="py-2">{po.description ?? "—"}</td>
-                    <td className="py-2 text-right text-[#d4af5a] font-bold">{fmtAED(Number(po.amount))}</td>
+                    <td className="py-2 text-[#d4af5a] font-bold">{fmtAED(Number(po.amount))}</td>
                     <td className="py-2">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${STATUS_COLORS[po.status] ?? ""}`}>
                         {po.status}
@@ -376,8 +377,8 @@ export default async function VendorPortalPage() {
               <thead>
                 <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                   <th className="py-2 font-medium">Invoice #</th>
-                  <th className="py-2 font-medium text-right">Amount</th>
-                  <th className="py-2 font-medium text-right">Total (VAT)</th>
+                  <th className="py-2 font-medium">Amount</th>
+                  <th className="py-2 font-medium">Total (VAT)</th>
                   <th className="py-2 font-medium">Status</th>
                   <th className="py-2 font-medium">Date</th>
                   <th className="py-2 font-medium">Due</th>
@@ -387,8 +388,8 @@ export default async function VendorPortalPage() {
                 {invoices.map((inv) => (
                   <tr key={inv.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
                     <td className="py-2 font-medium">{inv.invoice_number}</td>
-                    <td className="py-2 text-right">{fmtAED(Number(inv.amount))}</td>
-                    <td className="py-2 text-right text-[#d4af5a] font-bold">{fmtAED(Number(inv.total_amount))}</td>
+                    <td className="py-2">{fmtAED(Number(inv.amount))}</td>
+                    <td className="py-2 text-[#d4af5a] font-bold">{fmtAED(Number(inv.total_amount))}</td>
                     <td className="py-2">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${STATUS_COLORS[inv.status] ?? ""}`}>
                         {inv.status}

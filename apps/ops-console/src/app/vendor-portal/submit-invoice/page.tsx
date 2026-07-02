@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase-server";
 import SubmitInvoiceForm from "./SubmitInvoiceForm";
 
@@ -48,7 +49,8 @@ export default async function SubmitInvoicePage() {
 
   return (
     <main className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-2xl font-extrabold mb-2">Submit Invoice</h1>
+      <Link href="/vendor-portal" className="text-sm text-[#a0977e] hover:text-[#b8902f]">← Vendor Portal</Link>
+      <h1 className="text-2xl font-extrabold mt-2 mb-2">Submit Invoice</h1>
       <p className="text-[#a0977e] mb-6">
         Submit an invoice against an approved purchase order for payment processing.
       </p>

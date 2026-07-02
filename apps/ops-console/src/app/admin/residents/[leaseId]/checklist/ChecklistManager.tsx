@@ -135,13 +135,13 @@ export default function ChecklistManager({
         <div className="flex gap-3">
           <button
             onClick={() => startChecklist("move_in")}
-            className="px-4 py-2 rounded-lg bg-green-700 text-white text-sm font-bold"
+            className="px-4 py-2.5 rounded-lg bg-[#b8902f] text-[#0f1626] hover:bg-[#d4af5a] text-sm font-bold"
           >
             + New Move-In Checklist
           </button>
           <button
             onClick={() => startChecklist("move_out")}
-            className="px-4 py-2 rounded-lg bg-amber-700 text-white text-sm font-bold"
+            className="px-4 py-2.5 rounded-lg bg-[#213052] text-[#d4af5a] text-sm font-bold"
           >
             + New Move-Out Checklist
           </button>
@@ -164,14 +164,14 @@ export default function ChecklistManager({
                       value={item.name}
                       onChange={(e) => updateItemName(i, e.target.value)}
                       placeholder="Item name..."
-                      className="w-full bg-transparent text-sm font-medium border-b border-[rgba(184,144,47,0.15)] pb-1 mb-1"
+                      className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm font-medium mb-1"
                     />
                   )}
                   <input
                     value={item.notes}
                     onChange={(e) => updateItem(i, "notes", e.target.value)}
                     placeholder="Notes (optional)..."
-                    className="w-full text-xs text-[#a0977e] bg-transparent mt-1"
+                    className="w-full bg-[#0f1626] border border-[rgba(184,144,47,0.15)] rounded-lg px-3 py-2 text-sm text-[#a0977e] mt-1"
                   />
                 </div>
                 <select

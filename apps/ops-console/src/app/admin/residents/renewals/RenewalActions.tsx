@@ -79,7 +79,7 @@ export default function RenewalActions({
         {!showNotes && (
           <button
             onClick={() => setShowNotes(true)}
-            className="text-[10px] font-bold px-2 py-1 rounded-lg bg-[#213052] text-[#a0977e] hover:bg-[rgba(184,144,47,0.12)]"
+            className="text-xs font-bold px-3 py-2 rounded-lg bg-[#213052] text-[#a0977e] hover:bg-[rgba(184,144,47,0.12)]"
           >
             + Add Note
           </button>
@@ -89,7 +89,7 @@ export default function RenewalActions({
             key={a.value}
             onClick={() => updateStatus(a.value)}
             disabled={busy}
-            className={`text-[10px] font-bold px-2 py-1 rounded-lg disabled:opacity-50 ${
+            className={`text-xs font-bold px-3 py-2 rounded-lg disabled:opacity-50 ${
               a.value === "not_renewing"
                 ? "bg-red-900/50 text-red-300 hover:bg-red-900"
                 : a.value === "renewed"
