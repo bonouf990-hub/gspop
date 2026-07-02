@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { checkWorkflow } from "@/lib/workflow";
 
 type Props = {
   id: string;
@@ -101,6 +102,18 @@ export default function WorkOrderStatusControl({ id, currentStatus, startedAt }:
     setActing(true);
     setError(null);
     const supabase = createClient();
+
+    if (nextStatus === "closed" || nextStatus === "cancelled") {
+      const wf = await checkWorkflow(
+        supabase,
+        "work_orders",
+        nextStatus === "closed" ? "close" : "cancel"
+      );
+      if (!wf.allowed) {
+        setActing(false);
+        return setError(wf.reason);
+      }
+    }
 
     const now = new Date().toISOString();
     const update: Record<string, unknown> = { status: nextStatus, updated_at: now };

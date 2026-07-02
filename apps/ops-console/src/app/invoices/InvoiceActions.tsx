@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase-browser";
+import { checkWorkflow } from "@/lib/workflow";
 
 const PAYMENT_METHODS = ["cheque", "bank_transfer", "cash", "credit_card"];
 
@@ -17,11 +18,24 @@ export default function InvoiceActions({
   const [acting, setActing] = useState(false);
   const [showPay, setShowPay] = useState(false);
   const [payForm, setPayForm] = useState({ method: "bank_transfer", reference: "" });
+  const [error, setError] = useState<string | null>(null);
 
   async function updateStatus(status: string) {
     setActing(true);
+    setError(null);
     const supabase = createClient();
     const { data: userData } = await supabase.auth.getUser();
+
+    const wfAction =
+      status === "verified" ? "verify" : status === "approved" ? "approve" : null;
+    if (wfAction) {
+      const wf = await checkWorkflow(supabase, "invoices", wfAction);
+      if (!wf.allowed) {
+        setError(wf.reason);
+        setActing(false);
+        return;
+      }
+    }
 
     const update: Record<string, unknown> = { status };
     if (status === "verified") {
@@ -37,7 +51,16 @@ export default function InvoiceActions({
   async function handlePay(e: React.FormEvent) {
     e.preventDefault();
     setActing(true);
+    setError(null);
     const supabase = createClient();
+
+    const wf = await checkWorkflow(supabase, "invoices", "record_payment");
+    if (!wf.allowed) {
+      setError(wf.reason);
+      setActing(false);
+      return;
+    }
+
     await supabase.from("invoices").update({
       status: "paid",
       payment_method: payForm.method,
@@ -71,6 +94,7 @@ export default function InvoiceActions({
             Cancel
           </button>
         </div>
+        {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
       </form>
     );
   }
@@ -107,6 +131,7 @@ export default function InvoiceActions({
           Record Payment
         </button>
       )}
+      {error && <p className="text-[#e08a8a] text-xs">{error}</p>}
     </div>
   );
 }
