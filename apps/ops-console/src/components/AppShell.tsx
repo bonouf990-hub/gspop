@@ -101,6 +101,7 @@ const NAV: NavGroup[] = [
     label: "Private",
     items: [
       { href: "/gm/integrity", label: "Integrity Watch", icon: ShieldAlert, ownerOnly: true },
+      { href: "/gm/access", label: "Owner Access", icon: UserCog, ownerOnly: true },
     ],
   },
 ];
