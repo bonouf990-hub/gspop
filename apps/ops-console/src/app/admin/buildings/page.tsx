@@ -43,7 +43,7 @@ export default async function BuildingsPage() {
         {[["Buildings", buildings.length], ["Apartments", totalUnits], ["Common Areas", totalCommon]].map(([label, value]) => (
           <div key={label as string} className="lux-card p-4">
             <p className="eyebrow text-[10px]">{label}</p>
-            <p className="font-display text-3xl mt-1.5">{value}</p>
+            <p className="text-3xl font-extrabold text-[#16233c] mt-1.5 tabular-nums">{value}</p>
           </div>
         ))}
       </div>
