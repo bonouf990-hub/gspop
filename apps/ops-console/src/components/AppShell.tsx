@@ -10,7 +10,7 @@ import {
   ShoppingCart, Gavel, Briefcase, ReceiptText, Boxes, Package,
   BarChart3, Brain, Activity, LineChart, Wallet, ClipboardList,
   UserCog, GitBranch, Timer, HardHat, Store, Menu, X, LogOut,
-  LayoutDashboard, ScrollText,
+  LayoutDashboard, ScrollText, Building2,
 } from "lucide-react";
 
 type NavItem = {
@@ -82,6 +82,7 @@ const NAV: NavGroup[] = [
   {
     label: "Administration",
     items: [
+      { href: "/admin/buildings", label: "Buildings", icon: Building2, adminOnly: true },
       { href: "/admin/team", label: "Team Management", icon: UserCog, adminOnly: true },
       { href: "/admin/workflows", label: "Workflows", icon: GitBranch, adminOnly: true },
       { href: "/admin/automation", label: "Automation", icon: Timer, adminOnly: true },

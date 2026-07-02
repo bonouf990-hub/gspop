@@ -108,7 +108,13 @@ export default async function AssetRegisterPage({
             href="/assets/import"
             className="text-sm font-bold px-4 py-2.5 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.06)]"
           >
-            Bulk Import
+            Import Equipment
+          </Link>
+          <Link
+            href="/assets/history-import"
+            className="text-sm font-bold px-4 py-2.5 rounded-lg border border-[#d8dfeb] text-[#16233c] hover:border-[#b01b42] hover:text-[#b01b42]"
+          >
+            Import History
           </Link>
           <CreateAssetForm buildings={buildings} />
         </div>
