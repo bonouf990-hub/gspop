@@ -61,9 +61,7 @@ export default function LoginPage() {
       <div className="relative w-full max-w-md">
         {/* Monogram crest above the card */}
         <div className="flex flex-col items-center mb-8">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand-mark.svg" alt="ARENCO" className="w-24 h-auto" />
-          <h1 className="font-display text-4xl mt-5 tracking-wide text-[#16233c]">
+          <h1 className="text-5xl font-extrabold tracking-[0.12em] text-[#16233c]">
             ARENCO
           </h1>
           <div className="flex items-center gap-3 mt-2.5">
