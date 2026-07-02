@@ -37,7 +37,7 @@ type DecidedTender = {
 
 async function getPageData() {
   const supabase = await createClient();
-  const [{ data: orders }, { data: properties }, { data: vendors }, { data: decidedTenders }] = await Promise.all([
+  const [{ data: orders }, { data: properties }, { data: vendors }, { data: decidedTenders }, { data: stock }] = await Promise.all([
     supabase
       .from("purchase_orders")
       .select(
@@ -55,7 +55,16 @@ async function getPageData() {
          property:properties(id, name)`
       )
       .eq("status", "decided"),
+    supabase
+      .from("inventory_items")
+      .select("id, name, sku, quantity_on_hand, reorder_threshold, unit_of_measure, unit_cost, property:properties(name)")
+      .gt("reorder_threshold", 0),
   ]);
+
+  // Store → Purchasing signal: stock at or below its reorder level needs a bulk PO.
+  const lowStock = ((stock ?? []) as unknown as LowStockItem[])
+    .filter((i) => Number(i.quantity_on_hand) <= Number(i.reorder_threshold))
+    .sort((a, b) => Number(a.quantity_on_hand) - Number(b.quantity_on_hand));
 
   const ordersList = (orders ?? []) as unknown as PORow[];
   const tenderIdsWithPO = new Set(ordersList.filter((o) => o.tender_id).map((o) => o.tender_id));
@@ -81,8 +90,20 @@ async function getPageData() {
     properties: (properties ?? []) as Property[],
     vendors: (vendors ?? []) as Vendor[],
     tendersNeedingPO,
+    lowStock,
   };
 }
+
+type LowStockItem = {
+  id: string;
+  name: string;
+  sku: string | null;
+  quantity_on_hand: number;
+  reorder_threshold: number;
+  unit_of_measure: string | null;
+  unit_cost: number | null;
+  property: { name: string } | null;
+};
 
 const STATUS_STYLE: Record<string, string> = {
   pending: "bg-amber-900 text-amber-700",
@@ -103,7 +124,7 @@ export default async function PurchasingPage() {
     return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Purchasing.</p></main>;
   }
 
-  const { orders, properties, vendors, tendersNeedingPO } = await getPageData();
+  const { orders, properties, vendors, tendersNeedingPO, lowStock } = await getPageData();
 
   const pending = orders.filter((o) => o.status === "pending");
   const approved = orders.filter((o) => o.status === "approved");
@@ -148,6 +169,48 @@ export default async function PurchasingPage() {
           </div>
         ))}
       </div>
+
+      {lowStock.length > 0 && (
+        <section className="mb-8">
+          <h2 className="eyebrow mb-3">Reorder Needed — Store Below Level ({lowStock.length})</h2>
+          <div className="lux-card overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse min-w-[640px]">
+                <thead>
+                  <tr className="text-left border-b border-[#e4e9f2] text-[#5b6b85] bg-[#f7f9fc]">
+                    <th className="px-5 py-3 font-medium">Item</th>
+                    <th className="px-5 py-3 font-medium">Store</th>
+                    <th className="px-5 py-3 font-medium">On Hand</th>
+                    <th className="px-5 py-3 font-medium">Reorder At</th>
+                    <th className="px-5 py-3 font-medium">Est. Unit Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {lowStock.map((i) => (
+                    <tr key={i.id} className="border-b border-[#eef1f7]">
+                      <td className="px-5 py-3">
+                        <span className="font-medium text-[#16233c]">{i.name}</span>
+                        {i.sku && <span className="text-[11px] text-[#8b97ab] ml-1">({i.sku})</span>}
+                      </td>
+                      <td className="px-5 py-3 text-[#5b6b85]">{i.property?.name ?? "Central"}</td>
+                      <td className="px-5 py-3">
+                        <span className={Number(i.quantity_on_hand) <= 0 ? "text-red-600 font-bold" : "text-amber-700 font-medium"}>
+                          {Number(i.quantity_on_hand)} {i.unit_of_measure ?? ""}
+                        </span>
+                      </td>
+                      <td className="px-5 py-3 text-[#5b6b85]">{Number(i.reorder_threshold)}</td>
+                      <td className="px-5 py-3 text-[#5b6b85]">{i.unit_cost ? `AED ${Number(i.unit_cost).toLocaleString()}` : "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p className="text-xs text-[#8b97ab] mt-2">
+            These items are at or below their reorder level — raise a bulk Purchase Order to replenish the Store.
+          </p>
+        </section>
+      )}
 
       {tendersNeedingPO.length > 0 && (
         <section className="mb-8">

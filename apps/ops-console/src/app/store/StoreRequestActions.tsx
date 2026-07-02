@@ -28,12 +28,14 @@ export default function StoreRequestActions({
   inventoryItemId,
   quantity,
   unitCost,
+  workOrderId,
 }: {
   requestId: string;
   currentStatus: string;
   inventoryItemId: string;
   quantity: number;
   unitCost: number;
+  workOrderId?: string | null;
 }) {
   const router = useRouter();
   const [updating, setUpdating] = useState(false);
@@ -58,8 +60,11 @@ export default function StoreRequestActions({
     await supabase.from("parts_requests").update(update).eq("id", requestId);
 
     if (isFulfillment && inventoryItemId) {
+      // The trigger on inventory_movements deducts stock and, because we set
+      // work_order_id, rolls this cost onto the Job Card automatically.
       await supabase.from("inventory_movements").insert({
         inventory_item_id: inventoryItemId,
+        work_order_id: workOrderId ?? null,
         moved_by: userData.user?.id,
         movement_type: "issue",
         quantity: -quantity,

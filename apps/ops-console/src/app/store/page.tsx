@@ -207,7 +207,7 @@ export default async function StorePage() {
                     <p className="text-sm text-[#8b97ab] mb-3">Note: {r.notes}</p>
                   )}
 
-                  <StoreRequestActions requestId={r.id} currentStatus={r.status} inventoryItemId={item?.id ?? ""} quantity={Number(r.quantity)} unitCost={itemCost} />
+                  <StoreRequestActions requestId={r.id} currentStatus={r.status} inventoryItemId={item?.id ?? ""} quantity={Number(r.quantity)} unitCost={itemCost} workOrderId={r.work_order_id} />
                 </div>
               );
             })}
