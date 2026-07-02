@@ -131,7 +131,7 @@ export default async function WorkOrdersPage({
         {kpis.map((k) => (
           <div key={k.label} className="lux-card p-5">
             <p className="eyebrow text-[10px]">{k.label}</p>
-            <p className="font-display text-3xl mt-2">{k.value}</p>
+            <p className="text-3xl font-extrabold text-[#16233c] mt-2 tabular-nums">{k.value}</p>
           </div>
         ))}
       </div>
