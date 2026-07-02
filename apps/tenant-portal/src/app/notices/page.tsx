@@ -21,13 +21,13 @@ export default async function NoticesPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Community
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Building Notices</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">Building Notices</h1>
       </div>
 
       <div className="px-5 space-y-3">
         {notices.map((n) => (
           <div key={n.id} className="elevated-card rounded-2xl p-5">
-            <p className="text-sm font-semibold text-[#f0ece4]">{n.title}</p>
+            <p className="text-sm font-semibold text-[#eef1f6]">{n.title}</p>
             <p className="text-sm text-[var(--muted)] mt-1.5 leading-relaxed">{n.body}</p>
             <p className="text-[10px] text-[var(--muted)] mt-3 uppercase tracking-wide">
               {new Date(n.postedAt).toLocaleString()}

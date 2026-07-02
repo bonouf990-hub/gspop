@@ -2,17 +2,17 @@
 
 :root {
   --background: #0f1626;
-  --foreground: #f0ece4;
+  --foreground: #eef1f6;
   --navy: #1a2238;
   --navy-deep: #0f1626;
-  --gold: #b8902f;
-  --gold-soft: #d4af5a;
-  --gold-pale: rgba(184, 144, 47, 0.12);
+  --gold: #b01b42;
+  --gold-soft: #d9647f;
+  --gold-pale: rgba(176, 27, 66, 0.12);
   --card: #1a2640;
-  --muted: #a0977e;
-  --hairline: rgba(184, 144, 47, 0.15);
+  --muted: #9aa5bd;
+  --hairline: rgba(176, 27, 66, 0.15);
   --bg: #0f1626;
-  --border: rgba(184, 144, 47, 0.15);
+  --border: rgba(176, 27, 66, 0.15);
   --surface-inset: #141d33;
 }
 
@@ -31,7 +31,7 @@ body {
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
   /* Layered luxury backdrop: warm gold aura from the top, cool navy depth below */
   background:
-    radial-gradient(1200px 500px at 50% -10%, rgba(184, 144, 47, 0.09), transparent 60%),
+    radial-gradient(1200px 500px at 50% -10%, rgba(176, 27, 66, 0.09), transparent 60%),
     radial-gradient(900px 600px at 85% 110%, rgba(33, 48, 82, 0.55), transparent 65%),
     linear-gradient(180deg, #121a2e 0%, #0f1626 100%);
   background-attachment: fixed;
@@ -52,13 +52,13 @@ body {
 .gold-rule {
   position: relative;
   height: 1px;
-  background: linear-gradient(90deg, var(--gold) 0%, rgba(184, 144, 47, 0.12) 70%, transparent 100%);
+  background: linear-gradient(90deg, var(--gold) 0%, rgba(176, 27, 66, 0.12) 70%, transparent 100%);
 }
 
 /* ── Luxury card ────────────────────────────────────────────────────── */
 .lux-card {
   background: linear-gradient(160deg, #1f2c4a 0%, #1a2640 55%, #151f37 100%);
-  border: 1px solid rgba(184, 144, 47, 0.18);
+  border: 1px solid rgba(176, 27, 66, 0.18);
   border-radius: 1rem;
   box-shadow:
     0 1px 0 rgba(240, 236, 228, 0.04) inset,
@@ -70,18 +70,18 @@ body {
 }
 
 .lux-card-hover:hover {
-  border-color: rgba(184, 144, 47, 0.55);
+  border-color: rgba(176, 27, 66, 0.55);
   box-shadow:
     0 1px 0 rgba(240, 236, 228, 0.05) inset,
     0 24px 60px rgba(0, 0, 0, 0.5),
-    0 0 32px rgba(184, 144, 47, 0.1);
+    0 0 32px rgba(176, 27, 66, 0.1);
   transform: translateY(-2px);
 }
 
 /* Existing cards inherit the lux-card surface automatically */
 .elevated-card {
   background: linear-gradient(160deg, #1f2c4a 0%, #1a2640 55%, #151f37 100%);
-  border: 1px solid rgba(184, 144, 47, 0.18);
+  border: 1px solid rgba(176, 27, 66, 0.18);
   box-shadow:
     0 1px 0 rgba(240, 236, 228, 0.04) inset,
     0 24px 60px rgba(0, 0, 0, 0.45);
@@ -89,22 +89,22 @@ body {
 
 /* ── Gold button ────────────────────────────────────────────────────── */
 .btn-gold {
-  background: linear-gradient(135deg, #d4af5a 0%, #b8902f 55%, #a37e26 100%);
+  background: linear-gradient(135deg, #d9647f 0%, #b01b42 55%, #8c1434 100%);
   color: #0f1626;
   font-weight: 700;
   letter-spacing: 0.06em;
   border-radius: 0.75rem;
   box-shadow:
-    0 1px 0 rgba(255, 240, 200, 0.45) inset,
-    0 8px 24px rgba(184, 144, 47, 0.28);
+    0 1px 0 rgba(255, 216, 226, 0.45) inset,
+    0 8px 24px rgba(176, 27, 66, 0.28);
   transition: box-shadow 0.25s ease, filter 0.25s ease, transform 0.15s ease;
 }
 
 .btn-gold:hover {
   filter: brightness(1.07);
   box-shadow:
-    0 1px 0 rgba(255, 240, 200, 0.5) inset,
-    0 10px 30px rgba(184, 144, 47, 0.4);
+    0 1px 0 rgba(255, 216, 226, 0.5) inset,
+    0 10px 30px rgba(176, 27, 66, 0.4);
 }
 
 .btn-gold:active {
@@ -130,7 +130,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(184, 144, 47, 0.15);
+  box-shadow: 0 0 0 3px rgba(176, 27, 66, 0.15);
 }
 
 /* ── Eyebrow label ──────────────────────────────────────────────────── */

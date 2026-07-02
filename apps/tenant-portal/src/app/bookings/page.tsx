@@ -146,7 +146,7 @@ export default function BookingsPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Amenities
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Book a Facility</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">Book a Facility</h1>
         <p className="text-sm text-[var(--muted)] mt-1">
           Reserve the gym, pool, or other common areas.
         </p>
@@ -161,7 +161,7 @@ export default function BookingsPage() {
             <span className="w-10 h-10 rounded-full bg-[var(--gold-pale)] flex items-center justify-center text-[var(--gold)]">
               <Plus size={20} strokeWidth={1.8} />
             </span>
-            <span className="text-sm font-medium text-[#f0ece4]">New Booking</span>
+            <span className="text-sm font-medium text-[#eef1f6]">New Booking</span>
           </button>
         ) : (
           <form onSubmit={handleSubmit} className="elevated-card rounded-2xl p-5 space-y-4">
@@ -177,7 +177,7 @@ export default function BookingsPage() {
             <div>
               <label className="text-xs text-[var(--muted)] mb-1 block">Facility</label>
               <select
-                className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+                className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
                 value={selectedArea}
                 onChange={(e) => setSelectedArea(e.target.value)}
                 required
@@ -194,7 +194,7 @@ export default function BookingsPage() {
             <div>
               <label className="text-xs text-[var(--muted)] mb-1 block">Date</label>
               <input
-                className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+                className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
@@ -206,7 +206,7 @@ export default function BookingsPage() {
               <div>
                 <label className="text-xs text-[var(--muted)] mb-1 block">Start</label>
                 <input
-                  className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+                  className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
@@ -216,7 +216,7 @@ export default function BookingsPage() {
               <div>
                 <label className="text-xs text-[var(--muted)] mb-1 block">End</label>
                 <input
-                  className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+                  className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
                   type="time"
                   value={endTime}
                   onChange={(e) => setEndTime(e.target.value)}
@@ -253,7 +253,7 @@ export default function BookingsPage() {
                     className="flex items-center justify-between bg-[#141d33] rounded-xl p-3.5 border border-[var(--hairline)]"
                   >
                     <div className="space-y-1">
-                      <p className="text-sm font-medium text-[#f0ece4] flex items-center gap-1.5">
+                      <p className="text-sm font-medium text-[#eef1f6] flex items-center gap-1.5">
                         <MapPin size={13} className="text-[var(--gold)]" />
                         {area?.name ?? "Facility"}
                       </p>
@@ -295,7 +295,7 @@ export default function BookingsPage() {
                     className="flex items-center justify-between bg-[#141d33] rounded-xl p-3 border border-[var(--hairline)] opacity-60"
                   >
                     <div>
-                      <p className="text-sm text-[#f0ece4]">{area?.name ?? "Facility"}</p>
+                      <p className="text-sm text-[#eef1f6]">{area?.name ?? "Facility"}</p>
                       <p className="text-xs text-[var(--muted)]">
                         {start.toLocaleDateString()} · {b.status}
                       </p>

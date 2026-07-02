@@ -80,7 +80,7 @@ export default function InviteGuestPage() {
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Pre-Authorize
         </p>
-        <h1 className="font-display text-3xl text-[#f0ece4] font-semibold">Invite Guest</h1>
+        <h1 className="font-display text-3xl text-[#eef1f6] font-semibold">Invite Guest</h1>
         <p className="text-sm text-[var(--muted)] mt-1">Security will let them in within this window.</p>
       </div>
 
@@ -89,7 +89,7 @@ export default function InviteGuestPage() {
           <div>
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Guest name</label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
               placeholder="Full name"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
@@ -99,7 +99,7 @@ export default function InviteGuestPage() {
           <div>
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Emirates ID (optional)</label>
             <input
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
               placeholder="784-XXXX-XXXXXXX-X"
               value={emiratesId}
               onChange={(e) => setEmiratesId(e.target.value)}
@@ -110,8 +110,8 @@ export default function InviteGuestPage() {
             onClick={() => setIdPhotoCaptured(true)}
             className={`w-full flex items-center justify-center gap-2 rounded-xl p-3 text-sm font-medium border ${
               idPhotoCaptured
-                ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d4af5a]"
-                : "bg-[#141d33] border-[var(--hairline)] text-[#f0ece4]"
+                ? "bg-[var(--gold-pale)] border-[var(--gold)] text-[#d9647f]"
+                : "bg-[#141d33] border-[var(--hairline)] text-[#eef1f6]"
             }`}
           >
             <IdCard size={16} /> {idPhotoCaptured ? "ID photo captured" : "Capture ID photo"}
@@ -120,7 +120,7 @@ export default function InviteGuestPage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Arrives after</label>
             <input
               type="datetime-local"
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
               value={windowStart}
               onChange={(e) => setWindowStart(e.target.value)}
               required
@@ -130,7 +130,7 @@ export default function InviteGuestPage() {
             <label className="text-xs text-[var(--muted)] mb-1.5 block">Until</label>
             <input
               type="datetime-local"
-              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#f0ece4]"
+              className="w-full bg-[#141d33] border border-[var(--hairline)] rounded-xl p-3 text-sm text-[#eef1f6]"
               value={windowEnd}
               onChange={(e) => setWindowEnd(e.target.value)}
               required
