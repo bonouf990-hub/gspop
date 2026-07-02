@@ -18,7 +18,7 @@ async function getComplaintExtras(id: string) {
   const supabase = await createClient();
   const { data: complaint } = await supabase
     .from("complaints")
-    .select("status, property_id, unit_id, tenant_id, work_order_id")
+    .select("status, property_id, unit_id, tenant_id, work_order_id, case_number")
     .eq("id", id)
     .single();
 
@@ -40,13 +40,14 @@ async function getComplaintExtras(id: string) {
     .select("id, full_name, trade")
     .eq("role", "technician");
 
-  const c = complaint as { status: string; property_id: string; unit_id: string | null; tenant_id: string; work_order_id: string | null } | null;
+  const c = complaint as { status: string; property_id: string; unit_id: string | null; tenant_id: string; work_order_id: string | null; case_number: string | null } | null;
   return {
     status: c?.status ?? "submitted",
     propertyId: c?.property_id ?? "",
     unitId: c?.unit_id ?? null,
     tenantId: c?.tenant_id ?? "",
     workOrderId: c?.work_order_id ?? null,
+    caseNumber: c?.case_number ?? null,
     photoUrls,
     technicians: (technicians ?? []) as { id: string; full_name: string; trade: string | null }[],
   };
@@ -68,13 +69,26 @@ export default async function ComplaintDetailPage({
     );
   }
 
-  const { status, propertyId, unitId, tenantId, workOrderId, photoUrls, technicians } =
+  const { status, propertyId, unitId, tenantId, workOrderId, caseNumber, photoUrls, technicians } =
     await getComplaintExtras(id);
 
   return (
     <main className="p-8 max-w-2xl">
       <Link href="/complaints" className="text-sm text-[#5b6b85] hover:text-[#b01b42]">← Complaints</Link>
-      <h1 className="text-2xl font-extrabold mt-2 mb-2">{context.title}</h1>
+      {caseNumber && (
+        <div className="flex items-center gap-3 mt-2">
+          <p className="eyebrow">{caseNumber}</p>
+          {workOrderId && (
+            <Link
+              href={`/work-orders/${workOrderId}`}
+              className="text-xs font-bold px-3 py-1 rounded-full bg-[rgba(176,27,66,0.08)] text-[#b01b42] hover:bg-[rgba(176,27,66,0.15)]"
+            >
+              View full case thread →
+            </Link>
+          )}
+        </div>
+      )}
+      <h1 className="text-2xl font-extrabold mt-1 mb-2">{context.title}</h1>
       <p className="text-[#5b6b85] mb-6">{context.description}</p>
 
       <section className="lux-card p-4 mb-4">

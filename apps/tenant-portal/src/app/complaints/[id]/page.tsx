@@ -105,6 +105,9 @@ export default async function ComplaintDetailPage({ params }: { params: Promise<
         <p className="text-[10px] tracking-[0.3em] uppercase text-[var(--gold)] font-medium mb-1.5">
           Maintenance
         </p>
+        {(complaint as {case_number?: string | null}).case_number && (
+          <p className="text-[10px] font-bold tracking-[0.2em] text-[#b01b42] mb-1">CASE {(complaint as {case_number?: string | null}).case_number}</p>
+        )}
         <h1 className="font-display text-2xl text-[#16233c] font-semibold leading-tight">
           {complaint.title}
         </h1>

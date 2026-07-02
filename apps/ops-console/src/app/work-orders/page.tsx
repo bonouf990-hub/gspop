@@ -4,6 +4,7 @@ import CreateWorkOrderForm from "./CreateWorkOrderForm";
 
 type WorkOrderRow = {
   id: string;
+  case_number: string | null;
   title: string;
   type: string;
   priority: string;
@@ -17,7 +18,7 @@ type WorkOrderRow = {
   technician: { full_name: string } | null;
 };
 
-async function getPageData() {
+async function getPageData(unitFilter?: string) {
   const supabase = await createClient();
 
   const { data: userData } = await supabase.auth.getUser();
@@ -34,9 +35,13 @@ async function getPageData() {
   let woQuery = supabase
     .from("work_orders")
     .select(
-      "id, title, type, priority, status, created_at, visit_source, preferred_visit_date, preferred_visit_time, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
+      "id, case_number, title, type, priority, status, created_at, visit_source, preferred_visit_date, preferred_visit_time, properties(name), units(label), technician:user_profiles!work_orders_assigned_technician_id_fkey(full_name)"
     )
     .order("created_at", { ascending: false });
+
+  if (unitFilter) {
+    woQuery = woQuery.eq("unit_id", unitFilter);
+  }
 
   if (isTechnician && userId) {
     woQuery = woQuery.or(`assigned_to.eq.${userId},assigned_technician_id.eq.${userId}`);
@@ -77,8 +82,14 @@ const STATUS_COLORS: Record<string, string> = {
   cancelled: "text-[#8b97ab]",
 };
 
-export default async function WorkOrdersPage() {
-  const { workOrders, properties, units, technicians, role } = await getPageData();
+export default async function WorkOrdersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ unit?: string }>;
+}) {
+  const { unit: unitFilter } = await searchParams;
+  const { workOrders, properties, units, technicians, role } = await getPageData(unitFilter);
+  const filteredUnitLabel = unitFilter ? units.find((u) => u.id === unitFilter)?.label : null;
   const isTechnician = role === "technician";
 
   const OPEN_STATUSES = ["draft", "pending_approval", "approved", "assigned", "in_progress", "paused"];
@@ -104,6 +115,14 @@ export default async function WorkOrdersPage() {
         <div>
           <h1 className="mt-1">{isTechnician ? "My Work Orders" : "Work Orders"}</h1>
           <p className="text-[#5b6b85] mt-1">Assign, track, and verify maintenance jobs across all buildings.</p>
+          {filteredUnitLabel && (
+            <p className="mt-2 text-xs font-bold">
+              <span className="px-3 py-1.5 rounded-full bg-[rgba(176,27,66,0.08)] text-[#b01b42]">
+                Showing history for unit {filteredUnitLabel}
+              </span>{" "}
+              <Link href="/work-orders" className="text-[#5b6b85] underline ml-2">clear</Link>
+            </p>
+          )}
         </div>
         {!isTechnician && <CreateWorkOrderForm properties={properties} units={units} technicians={technicians} />}
       </div>
@@ -139,8 +158,9 @@ export default async function WorkOrdersPage() {
             return (
               <tr key={wo.id} className="border-b border-[rgba(176,27,66,0.08)] hover:bg-[#f6f8fc]">
                 <td className="px-5 py-3.5">
-                  <Link href={`/work-orders/${wo.id}`} className="text-[#d9647f] hover:underline font-medium">
-                    {wo.title}
+                  <Link href={`/work-orders/${wo.id}`} className="hover:underline">
+                    <span className="block text-[10px] font-bold tracking-wider text-[#b01b42]">{wo.case_number ?? ""}</span>
+                    <span className="font-medium text-[#16233c]">{wo.title}</span>
                   </Link>
                   {wo.visit_source === "resident_booking" && (
                     <span className="ml-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-[rgba(61,108,179,0.12)] text-[#3d6cb3]">
