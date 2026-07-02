@@ -9,12 +9,16 @@ import Modal from "@/components/Modal";
 type Property = { id: string; name: string };
 type Vendor = { id: string; name: string; category: string | null };
 
+type BudgetInfo = { total: number; committed: number; remaining: number };
+
 export default function CreatePurchaseOrder({
   properties,
   vendors,
+  budgets,
 }: {
   properties: Property[];
   vendors: Vendor[];
+  budgets: Record<string, BudgetInfo>;
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -107,6 +111,18 @@ export default function CreatePurchaseOrder({
           <option value="">Select property…</option>
           {properties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
         </select>
+        {(() => {
+          const bi = form.propertyId ? budgets[form.propertyId] : undefined;
+          if (!bi || bi.total <= 0) return null;
+          const amt = Number(form.amount) || 0;
+          const exceedsBy = amt - bi.remaining;
+          return (
+            <p className={`text-[11px] mt-1 ${exceedsBy > 0 ? "text-amber-700 font-medium" : "text-[#5b6b85]"}`}>
+              Budget: AED {bi.remaining.toLocaleString()} remaining of {bi.total.toLocaleString()}
+              {exceedsBy > 0 && ` · this order is AED ${exceedsBy.toLocaleString()} over — approval will warn.`}
+            </p>
+          );
+        })()}
       </div>
 
       <div>

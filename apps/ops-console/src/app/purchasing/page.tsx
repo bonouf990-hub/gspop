@@ -14,6 +14,7 @@ type PORow = {
   approved_at: string | null;
   notes: string | null;
   tender_id: string | null;
+  property_id: string | null;
   property: { name: string } | null;
   vendor: { name: string } | null;
   requester: { full_name: string } | null;
@@ -37,11 +38,11 @@ type DecidedTender = {
 
 async function getPageData() {
   const supabase = await createClient();
-  const [{ data: orders }, { data: properties }, { data: vendors }, { data: decidedTenders }, { data: stock }] = await Promise.all([
+  const [{ data: orders }, { data: properties }, { data: vendors }, { data: decidedTenders }, { data: stock }, { data: budgetRows }] = await Promise.all([
     supabase
       .from("purchase_orders")
       .select(
-        "id, description, amount, status, urgency, created_at, approved_at, notes, tender_id, property:properties(name), vendor:vendors(name), requester:user_profiles!purchase_orders_requested_by_fkey(full_name), approver:user_profiles!purchase_orders_approved_by_fkey(full_name), work_order:work_orders(title), tender:tenders(title)"
+        "id, description, amount, status, urgency, created_at, approved_at, notes, tender_id, property_id, property:properties(name), vendor:vendors(name), requester:user_profiles!purchase_orders_requested_by_fkey(full_name), approver:user_profiles!purchase_orders_approved_by_fkey(full_name), work_order:work_orders(title), tender:tenders(title)"
       )
       .order("created_at", { ascending: false })
       .limit(200),
@@ -59,6 +60,10 @@ async function getPageData() {
       .from("inventory_items")
       .select("id, name, sku, quantity_on_hand, reorder_threshold, unit_of_measure, unit_cost, property:properties(name)")
       .gt("reorder_threshold", 0),
+    supabase
+      .from("building_budgets")
+      .select("property_id, total_budget")
+      .eq("fiscal_year", new Date().getFullYear()),
   ]);
 
   // Store → Purchasing signal: stock at or below its reorder level needs a bulk PO.
@@ -85,14 +90,32 @@ async function getPageData() {
     t.winning_amount = winnerSub ? Number(winnerSub.proposed_amount) : null;
   }
 
+  // Budget guard: committed spend per building = amounts of POs already
+  // approved or fulfilled this fiscal year.
+  const committedByProperty = new Map<string, number>();
+  for (const o of ordersList) {
+    if ((o.status === "approved" || o.status === "fulfilled") && o.property_id) {
+      committedByProperty.set(o.property_id, (committedByProperty.get(o.property_id) ?? 0) + Number(o.amount));
+    }
+  }
+  const budgets: Record<string, BudgetInfo> = {};
+  for (const b of ((budgetRows ?? []) as { property_id: string; total_budget: number }[])) {
+    const total = Number(b.total_budget);
+    const committed = committedByProperty.get(b.property_id) ?? 0;
+    budgets[b.property_id] = { total, committed, remaining: total - committed };
+  }
+
   return {
     orders: ordersList,
     properties: (properties ?? []) as Property[],
     vendors: (vendors ?? []) as Vendor[],
     tendersNeedingPO,
     lowStock,
+    budgets,
   };
 }
+
+export type BudgetInfo = { total: number; committed: number; remaining: number };
 
 type LowStockItem = {
   id: string;
@@ -124,7 +147,7 @@ export default async function PurchasingPage() {
     return <main className="p-8"><p className="text-[#8b97ab]">You don&apos;t have access to Purchasing.</p></main>;
   }
 
-  const { orders, properties, vendors, tendersNeedingPO, lowStock } = await getPageData();
+  const { orders, properties, vendors, tendersNeedingPO, lowStock, budgets } = await getPageData();
 
   const pending = orders.filter((o) => o.status === "pending");
   const approved = orders.filter((o) => o.status === "approved");
@@ -153,7 +176,7 @@ export default async function PurchasingPage() {
             Create purchase orders, track approval status, and mark fulfilled orders.
           </p>
         </div>
-        <CreatePurchaseOrder properties={properties} vendors={vendors} />
+        <CreatePurchaseOrder properties={properties} vendors={vendors} budgets={budgets} />
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
@@ -317,7 +340,7 @@ export default async function PurchasingPage() {
                       </p>
                     )}
                   </div>
-                  <PurchaseOrderActions orderId={o.id} currentStatus={o.status} amount={Number(o.amount)} />
+                  <PurchaseOrderActions orderId={o.id} currentStatus={o.status} amount={Number(o.amount)} budget={o.property_id ? budgets[o.property_id] ?? null : null} />
                 </div>
               );
             })}
@@ -396,7 +419,7 @@ export default async function PurchasingPage() {
                       {new Date(o.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-5 py-3.5">
-                      <PurchaseOrderActions orderId={o.id} currentStatus={o.status} amount={Number(o.amount)} />
+                      <PurchaseOrderActions orderId={o.id} currentStatus={o.status} amount={Number(o.amount)} budget={o.property_id ? budgets[o.property_id] ?? null : null} />
                     </td>
                   </tr>
                 );
