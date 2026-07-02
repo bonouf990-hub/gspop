@@ -57,6 +57,12 @@ export default async function InventoryPage() {
           >
             Monthly Report
           </Link>
+          <Link
+            href="/inventory/import"
+            className="text-xs font-bold px-4 py-2 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.12)]"
+          >
+            Bulk Import
+          </Link>
           <AddInventoryItem properties={properties} />
         </div>
       </div>

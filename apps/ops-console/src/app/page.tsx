@@ -69,6 +69,7 @@ const SECTIONS: Section[] = [
     label: "Administration",
     blurb: "Configure how the operation runs.",
     cards: [
+      { href: "/admin/buildings", title: "Buildings", desc: "Your portfolio — buildings, floors, apartments, common areas. Bulk-uploadable.", adminOnly: true },
       { href: "/admin/team", title: "Team Management", desc: "Create staff, roles, reporting lines.", adminOnly: true },
       { href: "/admin/workflows", title: "Workflow Configuration", desc: "Permissions, approval chains, and task routing.", adminOnly: true },
       { href: "/admin/automation", title: "Automation Settings", desc: "Renewal reminder stages (90/60/30/10 days), overdue repeats, run time.", adminOnly: true },
