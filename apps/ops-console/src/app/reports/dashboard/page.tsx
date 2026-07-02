@@ -545,13 +545,13 @@ export default async function AnalyticsDashboard() {
             <thead>
               <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                 <th className="py-2 font-medium">Building</th>
-                <th className="py-2 font-medium text-right">Units</th>
-                <th className="py-2 font-medium text-right">Occupied</th>
-                <th className="py-2 font-medium text-right">Occupancy</th>
-                <th className="py-2 font-medium text-right">Open WOs</th>
-                <th className="py-2 font-medium text-right">Completed WOs</th>
-                <th className="py-2 font-medium text-right">Complaints</th>
-                <th className="py-2 font-medium text-right">Health</th>
+                <th className="py-2 font-medium">Units</th>
+                <th className="py-2 font-medium">Occupied</th>
+                <th className="py-2 font-medium">Occupancy</th>
+                <th className="py-2 font-medium">Open WOs</th>
+                <th className="py-2 font-medium">Completed WOs</th>
+                <th className="py-2 font-medium">Complaints</th>
+                <th className="py-2 font-medium">Health</th>
               </tr>
             </thead>
             <tbody>
@@ -566,24 +566,24 @@ export default async function AnalyticsDashboard() {
                 return (
                   <tr key={b.id} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
                     <td className="py-2 font-medium">{b.name}</td>
-                    <td className="py-2 text-right">{b.totalUnits}</td>
-                    <td className="py-2 text-right text-green-400">{b.occupied}</td>
-                    <td className="py-2 text-right">
+                    <td className="py-2">{b.totalUnits}</td>
+                    <td className="py-2 text-green-400">{b.occupied}</td>
+                    <td className="py-2">
                       <span className={b.occupancyRate >= 90 ? "text-green-400" : b.occupancyRate >= 70 ? "text-amber-400" : "text-red-400"}>
                         {b.occupancyRate}%
                       </span>
                     </td>
-                    <td className="py-2 text-right">
+                    <td className="py-2">
                       <span className={b.openWOs > 5 ? "text-amber-400 font-bold" : ""}>{b.openWOs}</span>
                     </td>
-                    <td className="py-2 text-right text-[#a0977e]">{b.completedWOs}</td>
-                    <td className="py-2 text-right">
+                    <td className="py-2 text-[#a0977e]">{b.completedWOs}</td>
+                    <td className="py-2">
                       <span className={b.openComplaints > 3 ? "text-red-400 font-bold" : "text-[#a0977e]"}>
                         {b.openComplaints} open
                       </span>
                       <span className="text-[#6b6454]"> / {b.totalComplaints}</span>
                     </td>
-                    <td className="py-2 text-right">
+                    <td className="py-2">
                       <span className={`text-xs font-bold ${health.color}`}>{health.label}</span>
                     </td>
                   </tr>

@@ -58,7 +58,7 @@ async function getPageData() {
 }
 
 const STATUS_STYLE: Record<string, string> = {
-  received: "bg-blue-900/50 text-blue-300",
+  received: "bg-[#213052] text-[#a0977e]",
   verified: "bg-green-900/50 text-green-300",
   disputed: "bg-red-900/50 text-red-300",
   approved: "bg-[rgba(184,144,47,0.12)] text-[#d4af5a]",
@@ -90,7 +90,7 @@ export default async function InvoicesPage() {
   );
 
   const kpis = [
-    { label: "Received", value: received.length, color: "text-blue-400" },
+    { label: "Received", value: received.length, color: "text-[#a0977e]" },
     { label: "Verified", value: verified.length, color: "text-green-400" },
     { label: "Disputed", value: disputed.length, color: "text-red-400" },
     { label: "Approved", value: approved.length, color: "text-[#d4af5a]" },
@@ -189,9 +189,9 @@ export default async function InvoicesPage() {
                 <th className="py-2 font-medium">Invoice #</th>
                 <th className="py-2 font-medium">Vendor</th>
                 <th className="py-2 font-medium">PO Link</th>
-                <th className="py-2 font-medium text-right">Amount</th>
-                <th className="py-2 font-medium text-right">VAT</th>
-                <th className="py-2 font-medium text-right">Total</th>
+                <th className="py-2 font-medium">Amount</th>
+                <th className="py-2 font-medium">VAT</th>
+                <th className="py-2 font-medium">Total</th>
                 <th className="py-2 font-medium">Status</th>
                 <th className="py-2 font-medium">Invoice Date</th>
                 <th className="py-2 font-medium">Due Date</th>
@@ -218,9 +218,9 @@ export default async function InvoicesPage() {
                         <span className="text-[10px] text-[#6b6454]">No PO</span>
                       )}
                     </td>
-                    <td className="py-2 text-right">{Number(inv.amount).toLocaleString()}</td>
-                    <td className="py-2 text-right text-[#6b6454]">{Number(inv.vat_amount).toLocaleString()}</td>
-                    <td className="py-2 text-right text-[#d4af5a] font-medium">{Number(inv.total_amount).toLocaleString()}</td>
+                    <td className="py-2">{Number(inv.amount).toLocaleString()}</td>
+                    <td className="py-2 text-[#6b6454]">{Number(inv.vat_amount).toLocaleString()}</td>
+                    <td className="py-2 text-[#d4af5a] font-medium">{Number(inv.total_amount).toLocaleString()}</td>
                     <td className="py-2">
                       <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${STATUS_STYLE[inv.status] ?? ""}`}>
                         {inv.status}

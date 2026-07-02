@@ -136,7 +136,8 @@ export default async function TendersPage() {
           <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3">
             Decided ({decided.length})
           </h2>
-          <table className="w-full text-sm border-collapse">
+          <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse min-w-[700px]">
             <thead>
               <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                 <th className="py-2 font-medium">Tender</th>
@@ -179,6 +180,7 @@ export default async function TendersPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </section>
       )}
     </main>

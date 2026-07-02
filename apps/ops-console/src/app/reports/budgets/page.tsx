@@ -340,15 +340,15 @@ export default async function BudgetTrackingPage({
                   <p className="text-[10px] text-[#6b6454] uppercase">Budget</p>
                 </div>
                 <div className="bg-[#0f1626] rounded-lg p-2.5">
-                  <p className="text-xs font-bold text-amber-400">{fmtAED(v.partsCost)}</p>
+                  <p className="text-xs font-bold text-[#d4af5a]">{fmtAED(v.partsCost)}</p>
                   <p className="text-[10px] text-[#6b6454] uppercase">Parts</p>
                 </div>
                 <div className="bg-[#0f1626] rounded-lg p-2.5">
-                  <p className="text-xs font-bold text-blue-400">{fmtAED(v.laborCost)}</p>
+                  <p className="text-xs font-bold text-[#8fb4e0]">{fmtAED(v.laborCost)}</p>
                   <p className="text-[10px] text-[#6b6454] uppercase">Labor</p>
                 </div>
                 <div className="bg-[#0f1626] rounded-lg p-2.5">
-                  <p className="text-xs font-bold text-purple-400">{fmtAED(v.externalCost)}</p>
+                  <p className="text-xs font-bold text-[#a0977e]">{fmtAED(v.externalCost)}</p>
                   <p className="text-[10px] text-[#6b6454] uppercase">External</p>
                 </div>
                 <div className="bg-[#0f1626] rounded-lg p-2.5">
@@ -373,28 +373,28 @@ export default async function BudgetTrackingPage({
             <thead>
               <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                 <th className="py-2 font-medium">Building</th>
-                <th className="py-2 font-medium text-right">Budget</th>
-                <th className="py-2 font-medium text-right">Parts</th>
-                <th className="py-2 font-medium text-right">Labor</th>
-                <th className="py-2 font-medium text-right">External</th>
-                <th className="py-2 font-medium text-right">Total Spent</th>
-                <th className="py-2 font-medium text-right">Balance</th>
-                <th className="py-2 font-medium text-right">Used</th>
+                <th className="py-2 font-medium">Budget</th>
+                <th className="py-2 font-medium">Parts</th>
+                <th className="py-2 font-medium">Labor</th>
+                <th className="py-2 font-medium">External</th>
+                <th className="py-2 font-medium">Total Spent</th>
+                <th className="py-2 font-medium">Balance</th>
+                <th className="py-2 font-medium">Used</th>
               </tr>
             </thead>
             <tbody>
               {views.map((v) => (
                 <tr key={v.propertyId} className="border-b border-[rgba(184,144,47,0.08)] hover:bg-[#213052]">
                   <td className="py-2 font-medium">{v.propertyName}</td>
-                  <td className="py-2 text-right text-[#d4af5a]">{fmtAED(v.totalBudget)}</td>
-                  <td className="py-2 text-right text-amber-400">{fmtAED(v.partsCost)}</td>
-                  <td className="py-2 text-right text-blue-400">{fmtAED(v.laborCost)}</td>
-                  <td className="py-2 text-right text-purple-400">{fmtAED(v.externalCost)}</td>
-                  <td className="py-2 text-right font-bold">{fmtAED(v.totalSpent)}</td>
-                  <td className={`py-2 text-right font-bold ${v.remaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                  <td className="py-2 text-[#d4af5a]">{fmtAED(v.totalBudget)}</td>
+                  <td className="py-2 text-[#d4af5a]">{fmtAED(v.partsCost)}</td>
+                  <td className="py-2 text-[#8fb4e0]">{fmtAED(v.laborCost)}</td>
+                  <td className="py-2 text-[#a0977e]">{fmtAED(v.externalCost)}</td>
+                  <td className="py-2 font-bold">{fmtAED(v.totalSpent)}</td>
+                  <td className={`py-2 font-bold ${v.remaining < 0 ? "text-red-400" : "text-green-400"}`}>
                     {fmtAED(v.remaining)}
                   </td>
-                  <td className="py-2 text-right">
+                  <td className="py-2">
                     {v.totalBudget > 0 ? (
                       <span className={`font-bold ${statusColor(v.pctUsed, true)}`}>{v.pctUsed}%</span>
                     ) : (
@@ -405,21 +405,21 @@ export default async function BudgetTrackingPage({
               ))}
               <tr className="border-t-2 border-[#b8902f]">
                 <td className="py-3 font-extrabold text-[#b8902f]">TOTAL</td>
-                <td className="py-3 text-right font-extrabold text-[#d4af5a]">{fmtAED(grandBudget)}</td>
-                <td className="py-3 text-right font-extrabold text-amber-400">
+                <td className="py-3 font-extrabold text-[#d4af5a]">{fmtAED(grandBudget)}</td>
+                <td className="py-3 font-extrabold text-[#d4af5a]">
                   {fmtAED(views.reduce((s, v) => s + v.partsCost, 0))}
                 </td>
-                <td className="py-3 text-right font-extrabold text-blue-400">
+                <td className="py-3 font-extrabold text-[#8fb4e0]">
                   {fmtAED(views.reduce((s, v) => s + v.laborCost, 0))}
                 </td>
-                <td className="py-3 text-right font-extrabold text-purple-400">
+                <td className="py-3 font-extrabold text-[#a0977e]">
                   {fmtAED(views.reduce((s, v) => s + v.externalCost, 0))}
                 </td>
-                <td className="py-3 text-right font-extrabold">{fmtAED(grandSpent)}</td>
-                <td className={`py-3 text-right font-extrabold ${grandRemaining < 0 ? "text-red-400" : "text-green-400"}`}>
+                <td className="py-3 font-extrabold">{fmtAED(grandSpent)}</td>
+                <td className={`py-3 font-extrabold ${grandRemaining < 0 ? "text-red-400" : "text-green-400"}`}>
                   {fmtAED(grandRemaining)}
                 </td>
-                <td className="py-3 text-right">
+                <td className="py-3">
                   {grandBudget > 0 ? (
                     <span className={`font-extrabold ${statusColor(grandPct, true)}`}>{grandPct}%</span>
                   ) : (

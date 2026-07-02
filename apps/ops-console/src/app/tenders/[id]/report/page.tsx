@@ -264,15 +264,16 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
         <h2 className="text-xs font-bold text-[#b8902f] tracking-[0.15em] uppercase mb-3 border-b border-[rgba(184,144,47,0.15)] pb-1">
           Comparative Analysis — All Submissions
         </h2>
-        <table className="w-full text-sm border-collapse">
+        <div className="overflow-x-auto">
+        <table className="w-full text-sm border-collapse min-w-[900px]">
           <thead>
             <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
               <th className="py-2 font-medium">Rank</th>
               <th className="py-2 font-medium">Vendor</th>
-              <th className="py-2 font-medium text-right">Bid Amount</th>
-              <th className="py-2 font-medium text-center">Score</th>
-              <th className="py-2 font-medium text-center">Timeline</th>
-              <th className="py-2 font-medium text-center">Mandatory</th>
+              <th className="py-2 font-medium">Bid Amount</th>
+              <th className="py-2 font-medium">Score</th>
+              <th className="py-2 font-medium">Timeline</th>
+              <th className="py-2 font-medium">Mandatory</th>
               <th className="py-2 font-medium">Status</th>
             </tr>
           </thead>
@@ -287,10 +288,10 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                 <tr key={sub.id} className={`border-b border-[rgba(184,144,47,0.08)] ${sub.status === "winner" ? "bg-green-950/20" : ""}`}>
                   <td className="py-2 font-bold text-[#d4af5a]">#{idx + 1}</td>
                   <td className="py-2 font-medium">{sub.vendor_name}</td>
-                  <td className="py-2 text-right text-[#d4af5a] font-medium">
+                  <td className="py-2 text-[#d4af5a] font-medium">
                     {tender.currency} {Number(sub.proposed_amount).toLocaleString()}
                   </td>
-                  <td className="py-2 text-center">
+                  <td className="py-2">
                     {sub.ai_score !== null ? (
                       <span className={`font-bold ${
                         Number(sub.ai_score) >= 80 ? "text-green-400"
@@ -304,10 +305,10 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                       <span className="text-[#6b6454]">—</span>
                     )}
                   </td>
-                  <td className="py-2 text-center text-[#a0977e]">
+                  <td className="py-2 text-[#a0977e]">
                     {sub.proposed_timeline_days ? `${sub.proposed_timeline_days}d` : "—"}
                   </td>
-                  <td className="py-2 text-center">
+                  <td className="py-2">
                     {mandatoryMet ? (
                       <span className="text-green-400 font-bold">Pass</span>
                     ) : (
@@ -324,6 +325,7 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
             })}
           </tbody>
         </table>
+        </div>
       </section>
 
       <section className="mb-8">
@@ -386,10 +388,10 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
               <thead>
                 <tr className="text-left border-b border-[rgba(184,144,47,0.15)] text-[#a0977e]">
                   <th className="py-2 font-medium">Requirement</th>
-                  <th className="py-2 font-medium text-center">Type</th>
-                  <th className="py-2 font-medium text-center">Weight</th>
+                  <th className="py-2 font-medium">Type</th>
+                  <th className="py-2 font-medium">Weight</th>
                   {sorted.map((sub) => (
-                    <th key={sub.id} className="py-2 font-medium text-center">{sub.vendor_name.split(" ")[0]}</th>
+                    <th key={sub.id} className="py-2 font-medium">{sub.vendor_name.split(" ")[0]}</th>
                   ))}
                 </tr>
               </thead>
@@ -397,17 +399,17 @@ export default async function TenderReportPage({ params }: { params: Promise<{ i
                 {requirements.map((req) => (
                   <tr key={req.id} className="border-b border-[rgba(184,144,47,0.08)]">
                     <td className="py-1.5">{req.title}</td>
-                    <td className="py-1.5 text-center">
+                    <td className="py-1.5">
                       <span className={req.is_mandatory ? "text-red-400 font-bold" : "text-[#6b6454]"}>
                         {req.is_mandatory ? "M" : "O"}
                       </span>
                     </td>
-                    <td className="py-1.5 text-center text-[#6b6454]">{req.weight}</td>
+                    <td className="py-1.5 text-[#6b6454]">{req.weight}</td>
                     {sorted.map((sub) => {
                       const resp = sub.responses.find((r) => r.requirement_id === req.id);
                       const hasResponse = resp && (resp.response?.trim() || resp.document_url);
                       return (
-                        <td key={sub.id} className="py-1.5 text-center">
+                        <td key={sub.id} className="py-1.5">
                           {hasResponse ? (
                             resp?.meets_requirement === false ? (
                               <span className="text-red-400 font-bold">✗</span>
