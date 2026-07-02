@@ -7,6 +7,7 @@ const OPS_ALLOWED_ROLES = [
   "property_manager",
   "supervisor",
   "technician",
+  "vendor",
   "storekeeper",
   "security",
   "call_center",

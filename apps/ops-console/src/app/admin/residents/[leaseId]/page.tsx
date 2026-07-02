@@ -52,6 +52,21 @@ export default async function LeaseDetailPage({ params }: { params: Promise<{ le
         deposit {lease.deposit_amount != null ? `${lease.deposit_amount} AED (${lease.deposit_status})` : "—"}
       </p>
 
+      <div className="flex gap-3 mb-6">
+        <Link
+          href={`/admin/residents/${leaseId}/checklist`}
+          className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"
+        >
+          Move Checklists
+        </Link>
+        <Link
+          href="/admin/residents/renewals"
+          className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[rgba(184,144,47,0.15)] text-[#a0977e] hover:bg-[rgba(184,144,47,0.12)]"
+        >
+          Renewal Tracker
+        </Link>
+      </div>
+
       <LeaseManager
         leaseId={leaseId}
         rentAmount={lease.rent_amount as number | null}

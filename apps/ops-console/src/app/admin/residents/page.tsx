@@ -44,6 +44,15 @@ export default async function ResidentsPage() {
         Onboard residents, set rent terms, and manage each lease&apos;s cheque schedule and documents.
       </p>
 
+      <div className="flex gap-3 mb-4">
+        <Link
+          href="/admin/residents/renewals"
+          className="text-xs font-bold px-3 py-1.5 rounded-lg border border-[#b8902f] text-[#b8902f] hover:bg-[rgba(184,144,47,0.12)]"
+        >
+          Lease Renewals
+        </Link>
+      </div>
+
       <CreateResidentForm units={unitOptions} />
 
       <table className="w-full text-sm border-collapse">

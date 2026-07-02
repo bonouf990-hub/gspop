@@ -20,6 +20,7 @@ const CARDS: Card[] = [
   { href: "/invoices", title: "Invoices & Payments", desc: "Track contractor invoices, verify against POs, record payments." },
   { href: "/activity-log", title: "Activity Log", desc: "Full audit trail of all operations across the platform." },
   { href: "/notifications", title: "Notifications", desc: "Alerts and updates for your team." },
+  { href: "/reports/dashboard", title: "Analytics Dashboard", desc: "KPI tiles, occupancy, rent collection, turnaround times, building health." },
   { href: "/reports/maintenance-costs", title: "Maintenance Cost Report", desc: "Per-building and apartment cost breakdown: parts, labor, external." },
   { href: "/reports/budgets", title: "Building Budgets", desc: "Annual maintenance budget per building — track spent vs remaining." },
   { href: "/ai-brain", title: "AI Brain", desc: "Smart triage, budget forecasting, anomaly detection, data queries, predictive maintenance." },
@@ -31,6 +32,8 @@ const CARDS: Card[] = [
   { href: "/admin/notices", title: "Building Notices", desc: "Post announcements to residents.", adminOnly: true },
   { href: "/admin/workflows", title: "Workflow Configuration", desc: "Control permissions, approval chains, and task routing.", adminOnly: true },
   { href: "/admin/team", title: "Team Management", desc: "Create staff, roles, reporting lines.", adminOnly: true },
+  { href: "/vendor-portal", title: "Vendor Portal", desc: "View assignments, contracts, submit invoices." },
+  { href: "/technician", title: "Technician View", desc: "Mobile-friendly job list, GPS check-in, photo upload, timer." },
 ];
 
 export default async function Dashboard() {
