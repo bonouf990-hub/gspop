@@ -103,7 +103,15 @@ export default async function AssetRegisterPage({
             with warranty, condition and maintenance history.
           </p>
         </div>
-        <CreateAssetForm buildings={buildings} />
+        <div className="flex gap-2 items-center flex-wrap">
+          <Link
+            href="/assets/import"
+            className="text-sm font-bold px-4 py-2.5 rounded-lg border border-[#b01b42] text-[#b01b42] hover:bg-[rgba(176,27,66,0.06)]"
+          >
+            Bulk Import
+          </Link>
+          <CreateAssetForm buildings={buildings} />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
